@@ -1,0 +1,272 @@
+/* ==========================================================================
+   VALENQUEST DESIGN SYSTEM - MLP x GACHA HYBRID SPEC
+   ========================================================================== */
+
+:root {
+  /* Paleta Base */
+  --vq-pink-bubble: #FFAFCC;
+  --vq-pink-light: #FFC8DD;
+  --vq-lavender: #CDB4DB;
+  --vq-sky: #A2D2FF;
+  --vq-sky-light: #BDE0FE;
+  --vq-cloud: #FDF7FF;
+  --vq-gold: #FFD166;
+  --vq-mint: #B8F2E6;
+  --vq-border: #4A3E56;
+  --vq-text: #32213F;
+
+  /* Elevaciones e Interacción Gacha */
+  --vq-border-width: 3px;
+  --vq-radius-bubble: 20px;
+  --vq-radius-pill: 50px;
+  --vq-shadow-hard: 0 6px 0 var(--vq-border);
+  --vq-shadow-active: 0 2px 0 var(--vq-border);
+  
+  /* Tipografía */
+  --vq-font-kids: 'Fredoka', 'Quicksand', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--vq-cloud);
+  background-image: 
+    radial-gradient(var(--vq-sky-light) 15%, transparent 16%),
+    radial-gradient(var(--vq-pink-light) 15%, transparent 16%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+  color: var(--vq-text);
+  font-family: var(--vq-font-kids);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tarjeta Principal de Reto (Estilo Chibi Sticker) */
+.vq-card {
+  background: white;
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: var(--vq-shadow-hard);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  max-width: 480px;
+  margin: 20px auto;
+}
+
+/* Medalla o Header Superior */
+.vq-header-badge {
+  background: var(--vq-pink-bubble);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 18px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+/* Área del Problema Numérico / Frase */
+.vq-display-box {
+  background: var(--vq-sky-light);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 16px;
+  margin: 20px 0;
+  padding: 24px;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  text-shadow: 2px 2px 0 white;
+}
+
+/* Barra de Maestría Dinámica (Alimentada por WASM) */
+.vq-meter-track {
+  background: white;
+  border: var(--vq-border-width) solid var(--vq-border);
+  height: 22px;
+  border-radius: var(--vq-radius-pill);
+  position: relative;
+  overflow: hidden;
+}
+
+.vq-meter-fill {
+  background: linear-gradient(90deg, var(--vq-mint), var(--vq-gold));
+  height: 100%;
+  width: 50%;
+  border-right: 2px solid var(--vq-border);
+  transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Botones con efecto de pulsación física */
+.vq-btn {
+  background: var(--vq-gold);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 16px;
+  box-shadow: var(--vq-shadow-hard);
+  color: var(--vq-text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 14px 24px;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.vq-btn:active {
+  transform: translateY(4px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+/* Diálogo estilo Gacha Life */
+.vq-dialogue-bubble {
+  background: white;
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 18px;
+  padding: 14px 20px;
+  position: relative;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  box-shadow: 0 4px 0 var(--vq-border);
+}
+
+.vq-dialogue-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 32px;
+  border-width: 12px 10px 0;
+  border-style: solid;
+  border-color: var(--vq-border) transparent;
+  display: block;
+  width: 0;
+}
+
+/* ==========================================================================
+   Iconografía Vectorial SVG (Stickers & Artefactos)
+   ========================================================================== */
+.vq-icon {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 0 var(--vq-border));
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.vq-icon--sm { width: 1.2em; height: 1.2em; }
+.vq-icon--lg { width: 2.4em; height: 2.4em; }
+.vq-icon--xl { width: 3.5em; height: 3.5em; }
+
+/* ==========================================================================
+   SUITE DE ANIMACIONES SVG NATIVAS (60 FPS / GPU-ACCELERATED)
+   ========================================================================== */
+
+/* 1. Flotación mágica de artefactos (Prisma Numérico) */
+.vq-anim-float {
+  animation: vqFloat 3s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes vqFloat {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-7px) rotate(1.5deg); }
+  100% { transform: translateY(-12px) rotate(-1.5deg); }
+}
+
+/* 2. Balanceo de escritura para la Pluma de la Fluidez */
+.vq-anim-quill {
+  animation: vqQuillSway 2.4s ease-in-out infinite alternate;
+  transform-origin: 20% 85%;
+  will-change: transform;
+}
+
+@keyframes vqQuillSway {
+  0%   { transform: rotate(-3deg) translateY(0); }
+  50%  { transform: rotate(5deg) translateY(-4px); }
+  100% { transform: rotate(-1deg) translateY(-2px); }
+}
+
+/* 3. Giro elástico y brillo estelar */
+.vq-anim-star-spin {
+  animation: vqStarPulse 2s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes vqStarPulse {
+  0%   { transform: scale(1) rotate(-6deg); }
+  100% { transform: scale(1.14) rotate(10deg); }
+}
+
+/* 4. Rebote tierno (Idle Bounce para Mascota Burbuja) */
+.vq-anim-bounce {
+  animation: vqChibiBounce 1.8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes vqChibiBounce {
+  0%, 100% { transform: scale(1, 1) translateY(0); }
+  35%      { transform: scale(1.08, 0.92) translateY(0); }
+  50%      { transform: scale(0.96, 1.05) translateY(-8px); }
+  65%      { transform: scale(1.03, 0.97) translateY(-2px); }
+}
+
+/* 5. Latido de Corazón / Aciertos */
+.vq-anim-heartbeat {
+  animation: vqHeartbeat 1.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes vqHeartbeat {
+  0%, 100% { transform: scale(1); }
+  14%      { transform: scale(1.15); }
+  28%      { transform: scale(1.02); }
+  42%      { transform: scale(1.12); }
+  70%      { transform: scale(1); }
+}
+
+/* 6. Destellos de estrellas y brillos ("Kawaii Sparkles") */
+.vq-sparkle {
+  animation: vqSparkleBlink 1.5s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes vqSparkleBlink {
+  0%   { opacity: 0.3; transform: scale(0.6); }
+  50%  { opacity: 1.0; transform: scale(1.2); }
+  100% { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* 7. Llama fluctuante de racha */
+.vq-anim-flame {
+  animation: vqFlameWiggle 0.8s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes vqFlameWiggle {
+  0%   { transform: scale(1, 1) rotate(-2deg); }
+  100% { transform: scale(1.06, 1.1) rotate(3deg); }
+}
+
+/* Accesibilidad infantil: Respeto estricto a niños con sensibilidad motora */
+@media (prefers-reduced-motion: reduce) {
+  .vq-anim-float,
+  .vq-anim-quill,
+  .vq-anim-star-spin,
+  .vq-anim-bounce,
+  .vq-anim-heartbeat,
+  .vq-sparkle,
+  .vq-anim-flame {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Efecto háptico en hover */
+.vq-btn:hover .vq-icon {
+  transform: translateY(-2px) scale(1.08);
+}
+
+

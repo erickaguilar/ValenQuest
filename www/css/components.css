@@ -1,0 +1,804 @@
+/**
+ * ValenQuest Component Stylesheet
+ * Fully tokenized with --vq-* semantic design tokens.
+ * Adapts automatically to Light and Dark Astral Night themes.
+ */
+
+/* ==========================================================================
+   1. STATS & MASTERY HEADER
+   ========================================================================== */
+.stats-bar {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 16px 20px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tier-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--vq-lavender);
+  border: 2px solid var(--vq-border);
+  color: var(--vq-text);
+  padding: 6px 16px;
+  border-radius: var(--vq-radius-pill);
+  font-weight: 800;
+  font-size: 0.9rem;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vq-gold);
+  border: 2px solid var(--vq-border);
+  color: var(--vq-text);
+  padding: 6px 16px;
+  border-radius: var(--vq-radius-pill);
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.streak-badge.active-flame {
+  animation: vqFlameWiggle 0.9s ease-in-out infinite alternate;
+}
+
+.mastery-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mastery-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.progress-track {
+  width: 100%;
+  height: 18px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(90deg, var(--vq-mint), var(--vq-gold));
+  border-radius: var(--vq-radius-pill);
+  border-right: 2px solid var(--vq-border);
+  transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================================================
+   2. MATH CHALLENGE CARD
+   ========================================================================== */
+.challenge-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 30px 22px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.math-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: clamp(2.4rem, 7.5vw, 3.6rem);
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.math-op {
+  color: var(--vq-pink-bubble);
+  font-weight: 900;
+}
+
+.math-equals {
+  color: var(--vq-text-muted);
+}
+
+.math-input-box {
+  min-width: 90px;
+  height: 72px;
+  background: var(--vq-bg-well);
+  border: 3px dashed var(--vq-pink-bubble);
+  border-radius: var(--vq-radius-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  padding: 0 14px;
+}
+
+.math-input-box.empty {
+  color: var(--vq-text-muted);
+  opacity: 0.6;
+}
+
+/* Speech button in card */
+.speak-hint-btn {
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease;
+}
+
+.speak-hint-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+/* ==========================================================================
+   3. MULTIPLE CHOICE OPTIONS GRID
+   ========================================================================== */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.option-btn {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 18px 12px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-hard);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+.option-btn:hover {
+  background: var(--vq-lavender-light);
+  transform: translateY(-2px);
+}
+
+.option-btn:active {
+  transform: translateY(4px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+/* ==========================================================================
+   4. TACTILE KEYPAD
+   ========================================================================== */
+.keypad-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.key-btn {
+  height: 60px;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-key);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  font-family: inherit;
+}
+
+.key-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.key-btn.key-action-backspace {
+  background: var(--vq-pink-light);
+  color: var(--vq-text);
+}
+
+.key-btn.key-action-submit {
+  grid-column: span 2;
+  background: var(--vq-mint);
+  color: var(--vq-text);
+  box-shadow: 0 4px 0 var(--vq-border);
+  font-size: 1.25rem;
+  gap: 8px;
+}
+
+.key-btn.key-action-submit:active {
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.mode-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--vq-pink-bubble);
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  align-self: center;
+  padding: 6px 12px;
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   5. READING FLUENCY VIEW
+   ========================================================================== */
+.reading-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.story-selector {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.story-chip {
+  padding: 8px 16px;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-weight: 800;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.story-chip.active {
+  background: var(--vq-sky);
+  border-color: var(--vq-border);
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+.story-box {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  line-height: 2.0;
+  font-size: 1.25rem;
+}
+
+.story-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.word-span {
+  display: inline-block;
+  margin: 0 3px;
+  padding: 2px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.word-span:hover {
+  background: var(--vq-sky-light);
+}
+
+.syllable-a {
+  color: var(--vq-text);
+  font-weight: 700;
+}
+
+.syllable-b {
+  color: var(--vq-pink-bubble);
+  font-weight: 900;
+}
+
+.rsvp-box {
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3rem;
+  font-weight: 900;
+  box-shadow: var(--vq-shadow-hard);
+}
+
+.reading-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  background: var(--vq-gold);
+  color: var(--vq-text);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 800;
+  box-shadow: var(--vq-shadow-hard);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.action-btn:active {
+  transform: translateY(3px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+/* ==========================================================================
+   6. JOURNEY INTRODUCTION (LORE ONBOARDING)
+   ========================================================================== */
+.journey-intro-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.journey-hero-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: var(--vq-shadow-hard);
+  padding: 28px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.journey-badge {
+  background: var(--vq-pink-bubble);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 20px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.journey-title {
+  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  margin-top: -6px;
+  line-height: 1.2;
+}
+
+.journey-title span {
+  color: var(--vq-pink-bubble);
+}
+
+.gacha-dialogue {
+  background: var(--vq-bg-dialogue);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 20px;
+  padding: 16px 20px;
+  position: relative;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+  width: 100%;
+  text-align: left;
+}
+
+.gacha-dialogue::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 40px;
+  border-width: 12px 10px 0;
+  border-style: solid;
+  border-color: var(--vq-border) transparent;
+  display: block;
+  width: 0;
+}
+
+.avatar-character {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.avatar-frame {
+  width: 64px;
+  height: 64px;
+  background: var(--vq-pink-light);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.avatar-info {
+  text-align: left;
+}
+
+.avatar-name-label {
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--vq-text);
+}
+
+.avatar-tag {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.artifacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .artifacts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.artifact-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 18px 16px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.artifact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 0 var(--vq-border);
+}
+
+.artifact-card:active {
+  transform: translateY(3px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+.artifact-icon {
+  width: 54px;
+  height: 54px;
+  filter: drop-shadow(0 2px 0 var(--vq-border));
+}
+
+.artifact-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.artifact-desc {
+  font-size: 0.85rem;
+  color: var(--vq-text-muted);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.cta-start-btn {
+  width: 100%;
+  max-width: 360px;
+  background: var(--vq-gold);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 16px 28px;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-hard);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  font-family: inherit;
+}
+
+.cta-start-btn:active {
+  transform: translateY(4px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+/* ==========================================================================
+   7. MODALS & OVERLAYS
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(19, 14, 31, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 32px 24px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: var(--vq-text);
+}
+
+/* ==========================================================================
+   8. HEROINES TRIO & FRIENDSHIP POWERS
+   ========================================================================== */
+.trio-section-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+}
+
+.trio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (max-width: 580px) {
+  .trio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.heroine-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 16px 12px;
+  box-shadow: var(--vq-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+}
+
+.heroine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--vq-shadow-hard);
+}
+
+.heroine-card.active-companion {
+  border-color: var(--vq-pink-bubble);
+  box-shadow: 0 0 0 3px var(--vq-pink-bubble), var(--vq-shadow-hard);
+}
+
+.heroine-svg-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+.heroine-svg-avatar {
+  width: 74px;
+  height: 74px;
+}
+
+.heroine-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.heroine-role {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.heroine-power-tag {
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  margin-top: 4px;
+}
+
+/* In-Game Friendship Powers Bar (Shown in challenge cards) */
+.companion-powers-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.powers-bar-label {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.power-btn {
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.1s ease;
+  font-family: inherit;
+}
+
+.power-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-light);
+}
+
+.power-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.power-btn.power-activated {
+  animation: vqPowerPulse 0.6s ease;
+  border-color: var(--vq-gold);
+  background: var(--vq-gold);
+  color: #32213F;
+}
+
+.companion-powers-bar.powers-gated {
+  opacity: 0.85;
+}
+
+.power-btn:disabled,
+.power-btn.power-gated {
+  opacity: 0.55;
+  filter: grayscale(0.5);
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 0 1px 0 var(--vq-border) !important;
+}
+
+.power-btn.power-gated .power-charge-badge {
+  filter: grayscale(0.5);
+}
+
+.power-charge-badge {
+  background: var(--vq-gold);
+  border: 1.5px solid var(--vq-border);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  line-height: 1;
+}
+

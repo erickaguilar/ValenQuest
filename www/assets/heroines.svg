@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+  <!-- ======================================================================
+       1. HEROÍNA PRINCIPAL: VALEN (Unicornio Astral de Lumiria)
+       ====================================================================== -->
+  <symbol id="vq-heroine-valen" viewBox="0 0 100 100">
+    <g class="vq-anim-float">
+      <!-- Aura de Cristal Rosa -->
+      <circle cx="50" cy="54" r="38" fill="#FFC8DD" opacity="0.35" class="vq-sparkle"/>
+      
+      <!-- Cabeza Chibi Suave -->
+      <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
+      
+      <!-- Melena Rosa y Lavanda estilo MLP -->
+      <path d="M22,38 C14,48 16,66 22,74 C26,80 32,84 32,84 C26,72 26,52 32,42 Z" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M68,36 C78,44 82,62 76,74 C72,80 66,84 66,84 C72,72 72,50 64,40 Z" fill="#CDB4DB" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M30,30 C38,18 62,18 70,30 C64,24 36,24 30,30 Z" fill="#FFAFCC"/>
+
+      <!-- Cuerno de Cristal Mágico (Animado con Destello) -->
+      <polygon points="50,6 43,26 57,26" fill="#FFD166" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
+      <polygon points="50,6 47,26 53,26" fill="#FFFFFF" opacity="0.8" class="vq-anim-horn-glow"/>
+      <!-- Destello en la punta del cuerno -->
+      <polygon points="50,2 52,5 55,6 52,7 50,10 48,7 45,6 48,5" fill="#FFFFFF" class="vq-sparkle"/>
+
+      <!-- Orejas de Unicornio -->
+      <path d="M28,32 L22,18 L36,24 Z" fill="#FDF7FF" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M27,28 L24,20 L33,24 Z" fill="#FFAFCC"/>
+      <path d="M72,32 L78,18 L64,24 Z" fill="#FDF7FF" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M73,28 L76,20 L67,24 Z" fill="#CDB4DB"/>
+
+      <!-- Ojos Chibi Kawaii (Grandes con brillo dual Gacha) -->
+      <ellipse cx="38" cy="54" rx="6" ry="8" fill="#4A3E56"/>
+      <circle cx="36" cy="50" r="2.8" fill="#FFFFFF"/>
+      <circle cx="40" cy="57" r="1.4" fill="#FFFFFF"/>
+      
+      <ellipse cx="62" cy="54" rx="6" ry="8" fill="#4A3E56"/>
+      <circle cx="60" cy="50" r="2.8" fill="#FFFFFF"/>
+      <circle cx="64" cy="57" r="1.4" fill="#FFFFFF"/>
+
+      <!-- Rubor Tierno en las Mejillas -->
+      <ellipse cx="28" cy="62" rx="4" ry="2" fill="#FFAFCC"/>
+      <ellipse cx="72" cy="62" rx="4" ry="2" fill="#FFAFCC"/>
+
+      <!-- Sonrisa Confiada -->
+      <path d="M46,64 Q50,68 54,64" fill="none" stroke="#4A3E56" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </symbol>
+
+  <!-- ======================================================================
+       2. AMIGA 1: MIA (La Alquimista de los Vientos - Pegaso Veloz)
+       ====================================================================== -->
+  <symbol id="vq-heroine-mia" viewBox="0 0 100 100">
+    <g class="vq-anim-quill">
+      <!-- Aura Celeste de Viento -->
+      <circle cx="50" cy="54" r="38" fill="#BDE0FE" opacity="0.35" class="vq-sparkle"/>
+
+      <!-- Alitas de Pegaso Batientes (GPU CSS Animation) -->
+      <path class="vq-anim-wing-left" d="M14,46 C6,40 4,52 8,62 C12,70 20,68 20,68 C16,60 14,54 18,48 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3"/>
+      <path class="vq-anim-wing-right" d="M86,46 C94,40 96,52 92,62 C88,70 80,68 80,68 C84,60 86,54 82,48 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3"/>
+
+      <!-- Cabeza Chibi -->
+      <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
+
+      <!-- Melena Azul Cielo y Brisa -->
+      <path d="M26,34 C16,42 18,58 24,68 C22,54 26,46 32,38 Z" fill="#60A5FA" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M74,34 C84,42 82,58 76,68 C78,54 74,46 68,38 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M30,28 C42,16 58,16 70,28 C64,22 36,22 30,28 Z" fill="#60A5FA"/>
+
+      <!-- Diadema de Pluma de Viento -->
+      <path d="M42,20 C46,12 54,12 58,18 C54,16 46,16 42,20 Z" fill="#FFD166" stroke="#4A3E56" stroke-width="2.5"/>
+
+      <!-- Ojos Curiosos y Enérgicos -->
+      <ellipse cx="38" cy="53" rx="6" ry="7.5" fill="#4A3E56"/>
+      <circle cx="36" cy="49" r="2.8" fill="#FFFFFF"/>
+      <circle cx="40" cy="56" r="1.4" fill="#FFFFFF"/>
+
+      <ellipse cx="62" cy="53" rx="6" ry="7.5" fill="#4A3E56"/>
+      <circle cx="60" cy="49" r="2.8" fill="#FFFFFF"/>
+      <circle cx="64" cy="56" r="1.4" fill="#FFFFFF"/>
+
+      <!-- Rubor y Guiño Alegre -->
+      <ellipse cx="28" cy="61" rx="4" ry="2" fill="#A2D2FF"/>
+      <ellipse cx="72" cy="61" rx="4" ry="2" fill="#A2D2FF"/>
+      <path d="M45,63 Q50,68 55,63" fill="none" stroke="#4A3E56" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </symbol>
+
+  <!-- ======================================================================
+       3. AMIGA 2: ZOE (La Guardiana de la Sabiduría - Hada de la Naturaleza)
+       ====================================================================== -->
+  <symbol id="vq-heroine-zoe" viewBox="0 0 100 100">
+    <g class="vq-anim-bounce">
+      <!-- Aura Esmeralda y Menta -->
+      <circle cx="50" cy="54" r="38" fill="#B8F2E6" opacity="0.35" class="vq-sparkle"/>
+
+      <!-- Alas Translúcidas de Hada (GPU CSS Flutter) -->
+      <ellipse class="vq-anim-fairy-left" cx="18" cy="50" rx="12" ry="6" fill="#E4FBF6" stroke="#4A3E56" stroke-width="2.5" opacity="0.85"/>
+      <ellipse class="vq-anim-fairy-right" cx="82" cy="50" rx="12" ry="6" fill="#E4FBF6" stroke="#4A3E56" stroke-width="2.5" opacity="0.85"/>
+
+      <!-- Cabeza Chibi -->
+      <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
+
+      <!-- Melena Menta y Hojas Verdes -->
+      <path d="M26,38 C20,48 20,64 26,72 C28,58 30,50 34,42 Z" fill="#34D399" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M74,38 C80,48 80,64 74,72 C72,58 70,50 66,42 Z" fill="#B8F2E6" stroke="#4A3E56" stroke-width="3"/>
+      <path d="M32,28 C42,20 58,20 68,28 C62,24 38,24 32,28 Z" fill="#34D399"/>
+
+      <!-- Corona de Estrellas y Hojas Doradas -->
+      <circle class="vq-anim-gem-pulse" cx="50" cy="24" r="4" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
+      <circle cx="42" cy="26" r="3" fill="#B8F2E6" stroke="#4A3E56" stroke-width="1.5"/>
+      <circle cx="58" cy="26" r="3" fill="#B8F2E6" stroke="#4A3E56" stroke-width="1.5"/>
+
+      <!-- Ojos Dulces y Sabios -->
+      <ellipse cx="38" cy="54" rx="5.5" ry="7.5" fill="#4A3E56"/>
+      <circle cx="36" cy="50" r="2.5" fill="#FFFFFF"/>
+      <circle cx="40" cy="57" r="1.3" fill="#FFFFFF"/>
+
+      <ellipse cx="62" cy="54" rx="5.5" ry="7.5" fill="#4A3E56"/>
+      <circle cx="60" cy="50" r="2.5" fill="#FFFFFF"/>
+      <circle cx="64" cy="57" r="1.3" fill="#FFFFFF"/>
+
+      <!-- Rubor de Menta y Sonrisa Serena -->
+      <ellipse cx="28" cy="62" rx="4" ry="2" fill="#B8F2E6"/>
+      <ellipse cx="72" cy="62" rx="4" ry="2" fill="#B8F2E6"/>
+      <path d="M47,63 Q50,66 53,63" fill="none" stroke="#4A3E56" stroke-width="3" stroke-linecap="round"/>
+    </g>
+  </symbol>
+
+</svg>

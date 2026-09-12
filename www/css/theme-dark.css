@@ -1,0 +1,40 @@
+/**
+ * ValenQuest Dark Theme (Modo Noche Astral de Lumiria)
+ * Specific contrast, neon pastel glows and starry night background
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body {
+    background-image: 
+      radial-gradient(#A78BFA 1px, transparent 1px),
+      radial-gradient(#F472B6 1.2px, transparent 1.2px),
+      radial-gradient(#FBBF24 1.5px, transparent 1.5px);
+    background-size: 80px 80px, 120px 120px, 160px 160px;
+    background-position: 0 0, 40px 60px, 100px 30px;
+  }
+}
+
+:root[data-theme="dark"] body {
+  background-image: 
+    radial-gradient(#A78BFA 1px, transparent 1px),
+    radial-gradient(#F472B6 1.2px, transparent 1.2px),
+    radial-gradient(#FBBF24 1.5px, transparent 1.5px);
+  background-size: 80px 80px, 120px 120px, 160px 160px;
+  background-position: 0 0, 40px 60px, 100px 30px;
+}
+
+/* Dark mode glows for stickers and interactive elements */
+:root[data-theme="dark"] .vq-card,
+:root[data-theme="dark"] .challenge-card,
+:root[data-theme="dark"] .journey-hero-card {
+  box-shadow: 0 6px 0 #584470, 0 0 20px rgba(167, 139, 250, 0.12);
+}
+
+:root[data-theme="dark"] .vq-icon {
+  filter: drop-shadow(0 2px 0 #584470);
+}
+
+/* Dark Mode Scrollbars */
+:root[data-theme="dark"] * {
+  scrollbar-color: #584470 #201633;
+}

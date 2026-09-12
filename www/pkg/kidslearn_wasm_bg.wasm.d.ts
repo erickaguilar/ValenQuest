@@ -1,0 +1,36 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export const __wbg_mathsession_free: (a: number, b: number) => void;
+export const __wbg_readingsession_free: (a: number, b: number) => void;
+export const get_engine_version: (a: number) => void;
+export const mathsession_generate_next_challenge: (a: number) => void;
+export const mathsession_get_correct_answer: (a: number) => number;
+export const mathsession_get_highest_streak: (a: number) => number;
+export const mathsession_get_last_correct: (a: number) => number;
+export const mathsession_get_mastery: (a: number) => number;
+export const mathsession_get_mastery_percentage: (a: number) => number;
+export const mathsession_get_operand1: (a: number) => number;
+export const mathsession_get_operand2: (a: number) => number;
+export const mathsession_get_operator: (a: number, b: number) => void;
+export const mathsession_get_options_json: (a: number, b: number) => void;
+export const mathsession_get_state_json: (a: number, b: number) => void;
+export const mathsession_get_streak: (a: number) => number;
+export const mathsession_get_tier: (a: number) => number;
+export const mathsession_get_tier_changed: (a: number) => number;
+export const mathsession_get_tier_name: (a: number, b: number) => void;
+export const mathsession_get_total_answered: (a: number) => number;
+export const mathsession_get_total_correct: (a: number) => number;
+export const mathsession_new: (a: bigint, b: number) => number;
+export const mathsession_reset: (a: number, b: bigint, c: number) => void;
+export const mathsession_submit_answer: (a: number, b: number, c: number) => number;
+export const readingsession_calculate_wpm: (a: number, b: number) => number;
+export const readingsession_get_active_story_syllables: (a: number, b: number) => void;
+export const readingsession_get_stories_json: (a: number, b: number) => void;
+export const readingsession_new: () => number;
+export const readingsession_parse_text_syllables: (a: number, b: number, c: number, d: number) => void;
+export const readingsession_select_story: (a: number, b: number) => number;
+export const __wbindgen_add_to_stack_pointer: (a: number) => number;
+export const __wbindgen_export: (a: number, b: number, c: number) => void;
+export const __wbindgen_export2: (a: number, b: number) => number;
+export const __wbindgen_export3: (a: number, b: number, c: number, d: number) => number;

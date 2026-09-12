@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FFAFCC">
+  <meta name="description" content="ValenQuest - Plataforma educativa interactiva en Rust + WebAssembly para matemáticas adaptativas y fluidez lectora en el reino de Lumiria">
+  <title>ValenQuest | Aventuras en Lumiria</title>
+
+  <!-- Prevención de FOUC de tema oscuro/claro -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('vq-theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+    })();
+  </script>
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- Arquitectura Modular CSS -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Status & Error Alert Banner (Hidden by default) -->
+    <aside id="wasm-status-banner" hidden></aside>
+
+    <!-- App Header -->
+    <header class="app-header" role="banner">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🦄</span>
+        <div>
+          <h1 class="brand-title">ValenQuest</h1>
+          <div class="brand-subtitle">
+            <span id="student-avatar">🌟</span> <span id="student-name">Valen y sus Amigas</span> • <small>Lumiria</small>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <!-- Selector Modo Obscuro (Noche Astral) -->
+        <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
+          🌙
+        </button>
+        <!-- Voz Narradora / TTS -->
+        <button id="btn-toggle-speech" class="icon-btn active" aria-label="Alternar voz del narrador" title="Voz del narrador activa">
+          🗣️
+        </button>
+        <!-- Historia del Reino -->
+        <button id="btn-show-intro" class="icon-btn" aria-label="Historia de Lumiria" title="Ver la historia del viaje">
+          📜
+        </button>
+        <!-- Efectos de Audio Web Audio API -->
+        <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar efectos de sonido" title="Silenciar efectos">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="tablist" aria-label="Secciones de aprendizaje">
+      <button class="tab-btn active" data-tab="intro" role="tab" aria-selected="true" id="tab-intro">
+        <span>✨</span>
+        <span>El Viaje</span>
+      </button>
+      <button class="tab-btn" data-tab="math" role="tab" aria-selected="false" id="tab-math">
+        <span>🧮</span>
+        <span>Matemáticas</span>
+      </button>
+      <button class="tab-btn" data-tab="reading" role="tab" aria-selected="false" id="tab-reading">
+        <span>📖</span>
+        <span>Lectura</span>
+      </button>
+    </nav>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 0: INTRODUCCIÓN DEL VIAJE (LORE & TRÍO DE HEROÍNAS)        -->
+    <!-- =================================================================== -->
+    <section id="intro-section" class="journey-intro-view" role="tabpanel" aria-labelledby="tab-intro">
+      <div class="journey-hero-card">
+        
+        <div class="journey-badge">
+          ✨ Crónicas del Reino de Lumiria
+        </div>
+
+        <h2 class="journey-title">
+          ¡Bienvenida a <span>ValenQuest</span>!
+        </h2>
+
+        <!-- Diálogo Chibi estilo Gacha Life con botón de TTS -->
+        <div class="gacha-dialogue" id="intro-dialogue-bubble">
+          <p id="intro-dialogue-text">
+            «El <strong>Velo de la Duda</strong> ha desordenado los pergaminos de la <em>Gran Biblioteca de las Constelaciones</em>. 
+            ¡Sola sería difícil, pero con la <strong>magia de la amistad</strong> de nuestro trío de heroínas, iluminaremos cada estrella!»
+          </p>
+          <button id="btn-speak-intro" class="speak-hint-btn" type="button" style="margin-top: 10px;" aria-label="Escuchar mensaje">
+            <span>🗣️</span> <span>Escuchar mensaje de Valen</span>
+          </button>
+        </div>
+
+        <!-- Trío de Heroínas con Avatares SVG Animados -->
+        <div class="trio-section-title">
+          <span>🌟</span> <span>Trío de Guardianas Astrales:</span>
+        </div>
+
+        <div class="trio-grid">
+          
+          <!-- Heroína 1: Valen -->
+          <div class="heroine-card active-companion" id="card-heroine-valen">
+            <div class="heroine-svg-wrapper">
+              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Valen">
+                <use href="assets/heroines.svg#vq-heroine-valen"></use>
+              </svg>
+            </div>
+            <div class="heroine-name">Valen 🦄</div>
+            <div class="heroine-role">Guardiana del Prisma</div>
+            <div class="heroine-power-tag" title="Descarta 1 o 2 respuestas incorrectas">
+              🔮 Poder: Prisma Revelador
+            </div>
+          </div>
+
+          <!-- Heroína 2: Mia -->
+          <div class="heroine-card" id="card-heroine-mia">
+            <div class="heroine-svg-wrapper">
+              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Mia">
+                <use href="assets/heroines.svg#vq-heroine-mia"></use>
+              </svg>
+            </div>
+            <div class="heroine-name">Mia 🪽</div>
+            <div class="heroine-role">Alquimista de los Vientos</div>
+            <div class="heroine-power-tag" title="Pausa el tiempo para pensar sin prisa y asegura maestría máxima">
+              ⏳ Poder: Brisa Temporal
+            </div>
+          </div>
+
+          <!-- Heroína 3: Zoe -->
+          <div class="heroine-card" id="card-heroine-zoe">
+            <div class="heroine-svg-wrapper">
+              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Zoe">
+                <use href="assets/heroines.svg#vq-heroine-zoe"></use>
+              </svg>
+            </div>
+            <div class="heroine-name">Zoe 🌿</div>
+            <div class="heroine-role">Guardiana de la Sabiduría</div>
+            <div class="heroine-power-tag" title="Explica el reto paso a paso con voz calmada">
+              🗣️ Poder: Susurro Sabio
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Selección de Artefactos de Aprendizaje con animaciones SVG -->
+        <div class="artifacts-grid">
+          
+          <div class="artifact-card artifact-math" id="btn-intro-goto-math" role="button" tabindex="0">
+            <svg class="artifact-icon vq-anim-float" viewBox="0 0 64 64" aria-hidden="true">
+              <polygon points="32,4 58,18 58,46 32,60 6,46 6,18" fill="#CDB4DB" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+              <polygon points="32,4 32,60 6,46 6,18" fill="#BDE0FE" opacity="0.6"/>
+              <polygon points="32,18 48,27 48,43 32,52 16,43 16,27" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
+              <polygon points="32,4 48,27 32,52 16,27" fill="#FFFFFF" opacity="0.4"/>
+            </svg>
+            <div class="artifact-title">El Prisma Numérico</div>
+            <p class="artifact-desc">
+              Resuelve retos adaptativos de 6 reinos celestiales con la ayuda de tus amigas.
+            </p>
+          </div>
+
+          <div class="artifact-card artifact-reading" id="btn-intro-goto-reading" role="button" tabindex="0">
+            <svg class="artifact-icon vq-anim-quill" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M54,6 C54,6 30,12 18,32 C14,38 12,46 10,58 C14,54 22,50 28,46 C34,42 46,30 52,18 C56,10 54,6 54,6 Z" 
+                    fill="#A2D2FF" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M10,58 L16,52" stroke="#4A3E56" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="48" cy="14" r="3" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
+              <path class="vq-sparkle" d="M42,8 L44,4 L46,8 L50,10 L46,12 L44,16 L42,12 L38,10 Z" fill="#FFD166"/>
+            </svg>
+            <div class="artifact-title">La Pluma de la Fluidez</div>
+            <p class="artifact-desc">
+              Cuentos con silabeo interactivo por voz y velocímetro RSVP.
+            </p>
+          </div>
+
+        </div>
+
+        <button id="btn-start-quest" class="cta-start-btn" type="button">
+          <span>¡Comenzar Aventura en Equipo!</span> <span>✨</span>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: ADAPTIVE MATH (RUST WASM ENGINE)                         -->
+    <!-- =================================================================== -->
+    <main id="math-section" role="tabpanel" aria-labelledby="tab-math" hidden>
+      <!-- Mastery & Streak Bar -->
+      <section class="stats-bar" aria-label="Progreso y maestría">
+        <div class="stats-row">
+          <div class="tier-badge">
+            <span aria-hidden="true">⭐</span>
+            <span id="tier-badge-text">Nivel 1: Jardín de Rocío</span>
+          </div>
+          <div class="streak-badge" id="streak-badge" title="Racha de aciertos">
+            <span aria-hidden="true">🔥</span>
+            <span>Racha: <strong id="streak-count">0</strong></span>
+          </div>
+        </div>
+
+        <div class="mastery-container">
+          <div class="mastery-labels">
+            <span>Maestría Adaptativa (EMA)</span>
+            <span id="mastery-pct">50%</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-fill" id="mastery-bar-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Barra de Poderes de las Amigas (In-Game Companions Bar) -->
+      <aside class="companion-powers-bar" aria-label="Poderes de amistad de las heroínas">
+        <span class="powers-bar-label">✨ Poderes:</span>
+        <button id="btn-power-valen" class="power-btn" type="button" title="Valen: Descartar respuestas incorrectas">
+          <span>🦄 Valen</span> <span class="power-charge-badge" id="badge-valen">2</span>
+        </button>
+        <button id="btn-power-mia" class="power-btn" type="button" title="Mia: Brisa de calma para pensar sin prisa">
+          <span>🪽 Mia</span> <span class="power-charge-badge" id="badge-mia">2</span>
+        </button>
+        <button id="btn-power-zoe" class="power-btn" type="button" title="Zoe: Pista explicada paso a paso con voz">
+          <span>🌿 Zoe</span> <span class="power-charge-badge" id="badge-zoe">2</span>
+        </button>
+      </aside>
+
+      <!-- Challenge Card -->
+      <section class="challenge-card" id="math-challenge-card" aria-live="polite">
+        <div class="math-equation">
+          <span id="math-op1">3</span>
+          <span class="math-op" id="math-operator">+</span>
+          <span id="math-op2">4</span>
+          <span class="math-equals">=</span>
+          <div class="math-input-box empty" id="math-answer-preview">?</div>
+        </div>
+
+        <!-- Botón de accesibilidad TTS para escuchar el reto -->
+        <button id="btn-speak-math" class="speak-hint-btn" type="button" aria-label="Escuchar problema matemático en voz alta">
+          <span>🗣️</span> <span>Escuchar reto</span>
+        </button>
+
+        <!-- Mode A: Multiple Choice Options -->
+        <div class="options-grid" id="options-grid" role="group" aria-label="Opciones de respuesta">
+          <!-- Populated dynamically from Rust WASM generated distractors -->
+        </div>
+
+        <!-- Mode B: Tactile Virtual Keypad -->
+        <div class="keypad-wrapper" id="keypad-wrapper" hidden>
+          <div class="keypad-grid" id="keypad-grid" role="group" aria-label="Teclado numérico">
+            <button class="key-btn" data-val="1">1</button>
+            <button class="key-btn" data-val="2">2</button>
+            <button class="key-btn" data-val="3">3</button>
+            <button class="key-btn" data-val="4">4</button>
+            <button class="key-btn" data-val="5">5</button>
+            <button class="key-btn" data-val="6">6</button>
+            <button class="key-btn" data-val="7">7</button>
+            <button class="key-btn" data-val="8">8</button>
+            <button class="key-btn" data-val="9">9</button>
+            <button class="key-btn key-action-backspace" data-action="backspace" aria-label="Borrar">⌫</button>
+            <button class="key-btn" data-val="0">0</button>
+            <button class="key-btn key-action-submit" data-action="submit" aria-label="Comprobar respuesta">✓ Enviar</button>
+          </div>
+        </div>
+
+        <!-- Toggle between Multiple Choice and Keypad -->
+        <button id="btn-toggle-mode" class="mode-toggle-btn" type="button">
+          🔢 Usar teclado numérico
+        </button>
+      </section>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: READING FLUENCY & SYLLABLE DECODING                      -->
+    <!-- =================================================================== -->
+    <section id="reading-section" class="reading-view" role="tabpanel" aria-labelledby="tab-reading" hidden>
+      <!-- Story selector -->
+      <div class="story-selector" id="story-selector" role="tablist" aria-label="Cuentos infantiles">
+        <!-- Injected via WASM ReadingSession -->
+      </div>
+
+      <!-- Syllabic Decoding Card -->
+      <article class="story-box">
+        <div class="story-title">
+          <span id="reading-story-title">El Pequeño Cohete Curioso</span>
+          <button id="btn-speak-story" class="speak-hint-btn" type="button" aria-label="Escuchar cuento completo">
+            <span>🗣️</span> <span>Leer cuento</span>
+          </button>
+        </div>
+        <div id="reading-story-body">
+          <!-- Syllables formatted with alternating contrast from WASM parser -->
+        </div>
+      </article>
+
+      <!-- RSVP Fast Reading Box -->
+      <div class="rsvp-box" aria-live="polite">
+        <span id="rsvp-current-word">Listo para leer</span>
+      </div>
+
+      <div class="reading-controls">
+        <button id="btn-play-rsvp" class="action-btn" type="button">
+          ▶ Iniciar Lectura RSVP
+        </button>
+
+        <div style="display:flex;align-items:center;gap:8px;">
+          <label for="rsvp-speed" style="font-size:0.85rem;font-weight:700;color:var(--vq-text-muted);">Velocidad:</label>
+          <input type="range" id="rsvp-speed" min="60" max="220" step="10" value="100">
+          <span id="wpm-display" style="font-size:0.85rem;font-weight:900;color:var(--vq-pink-bubble);min-width:65px;">100 PPM</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Level Up Celebration Modal (STRICTLY HIDDEN BY DEFAULT) -->
+    <div id="level-up-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modal-tier-title">
+      <div class="modal-content">
+        <div style="font-size:3.5rem;">🎉 🏆 🌟</div>
+        <h2 id="modal-tier-title" style="font-size:1.5rem;font-weight:900;color:var(--vq-pink-bubble);">
+          ¡Subiste de Nivel!
+        </h2>
+        <p style="color:var(--vq-text-muted);font-weight:600;">
+          ¡Excelente trabajo! Has demostrado gran dominio y el motor adaptativo ha desbloqueado nuevos retos celestiales.
+        </p>
+        <button id="btn-modal-dismiss" class="action-btn" style="justify-content:center;margin-top:8px;">
+          ¡Continuar jugando! 🚀
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      ValenQuest • Reino de Lumiria • Motor Rust + WASM • Cero dependencias externas
+    </footer>
+
+  </div>
+
+  <!-- Vanilla ES Module Entrypoint -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

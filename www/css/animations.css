@@ -1,0 +1,241 @@
+/**
+ * ValenQuest Animation Suite
+ * 60 FPS GPU-accelerated keyframes for SVGs, tactile components, and feedback
+ */
+
+/* ==========================================================================
+   1. SVG ARTIFACT ANIMATIONS
+   ========================================================================== */
+
+/* Levitación Mágica (Prisma Numérico) */
+.vq-anim-float {
+  animation: vqFloat 3s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes vqFloat {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  50%  { transform: translateY(-7px) rotate(1.5deg); }
+  100% { transform: translateY(-12px) rotate(-1.5deg); }
+}
+
+/* Balanceo de Escritura (Pluma de la Fluidez) */
+.vq-anim-quill {
+  animation: vqQuillSway 2.4s ease-in-out infinite alternate;
+  transform-origin: 20% 85%;
+  will-change: transform;
+}
+
+@keyframes vqQuillSway {
+  0%   { transform: rotate(-3deg) translateY(0); }
+  50%  { transform: rotate(5deg) translateY(-4px); }
+  100% { transform: rotate(-1deg) translateY(-2px); }
+}
+
+/* Giro Estelar y Expansión (Estrellas de Maestría) */
+.vq-anim-star-spin {
+  animation: vqStarPulse 2s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes vqStarPulse {
+  0%   { transform: scale(1) rotate(-6deg); }
+  100% { transform: scale(1.14) rotate(10deg); }
+}
+
+/* Rebote Tierno Chibi (Mascotas Burbuja) */
+.vq-anim-bounce {
+  animation: vqChibiBounce 1.8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes vqChibiBounce {
+  0%, 100% { transform: scale(1, 1) translateY(0); }
+  35%      { transform: scale(1.08, 0.92) translateY(0); }
+  50%      { transform: scale(0.96, 1.05) translateY(-8px); }
+  65%      { transform: scale(1.03, 0.97) translateY(-2px); }
+}
+
+/* Latido de Corazón / Aciertos */
+.vq-anim-heartbeat {
+  animation: vqHeartbeat 1.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes vqHeartbeat {
+  0%, 100% { transform: scale(1); }
+  14%      { transform: scale(1.15); }
+  28%      { transform: scale(1.02); }
+  42%      { transform: scale(1.12); }
+  70%      { transform: scale(1); }
+}
+
+/* Destello Kawaii (Puntos de Brillo SVG) */
+.vq-sparkle {
+  animation: vqSparkleBlink 1.5s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+@keyframes vqSparkleBlink {
+  0%   { opacity: 0.25; transform: scale(0.6); }
+  50%  { opacity: 1.0; transform: scale(1.2); }
+  100% { opacity: 0.3; transform: scale(0.7); }
+}
+
+/* Llama de Racha en Combos */
+.vq-anim-flame {
+  animation: vqFlameWiggle 0.8s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes vqFlameWiggle {
+  0%   { transform: scale(1, 1) rotate(-2deg); }
+  100% { transform: scale(1.08, 1.12) rotate(3deg); }
+}
+
+/* Ondas de Habla (TTS activo) */
+.vq-anim-speaking {
+  animation: vqSpeakingPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes vqSpeakingPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 175, 204, 0.7); }
+  100% { box-shadow: 0 0 0 10px rgba(255, 175, 204, 0); }
+}
+
+/* Feedback de Reto Matemático */
+.challenge-card.correct-flash {
+  border-color: var(--vq-mint) !important;
+  animation: correctBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.challenge-card.incorrect-shake {
+  border-color: var(--vq-danger) !important;
+  animation: shake 0.4s ease;
+}
+
+@keyframes correctBounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px) scale(1.02); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(8px); }
+  80% { transform: translateX(-4px); }
+}
+
+/* Modal Popup */
+@keyframes modalPop {
+  0%   { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Activación de Poder de Amistad */
+@keyframes vqPowerPulse {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 209, 102, 0.9); }
+  50%  { transform: scale(1.12); box-shadow: 0 0 20px 8px rgba(255, 209, 102, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 209, 102, 0); }
+}
+
+/* ==========================================================================
+   2. HEROINES VECTOR ANIMATIONS (GPU-ACCELERATED CSS)
+   ========================================================================== */
+
+/* Valen: Brillo del cuerno astral */
+.vq-anim-horn-glow {
+  animation: vqHornGlow 2s ease-in-out infinite alternate;
+  transform-origin: 50px 16px;
+  will-change: opacity, transform;
+}
+
+@keyframes vqHornGlow {
+  0%   { opacity: 0.6; transform: scaleY(0.95); }
+  100% { opacity: 1.0; transform: scaleY(1.05); filter: drop-shadow(0 0 3px #FFD166); }
+}
+
+/* Mia: Aleteo de alas de pegaso (GPU Transform) */
+.vq-anim-wing-left {
+  animation: vqWingFlapLeft 1.2s ease-in-out infinite alternate;
+  transform-origin: 20px 66px;
+  will-change: transform;
+}
+
+@keyframes vqWingFlapLeft {
+  0%   { transform: rotate(0deg) translateY(0); }
+  100% { transform: rotate(-16deg) translateY(-3px); }
+}
+
+.vq-anim-wing-right {
+  animation: vqWingFlapRight 1.2s ease-in-out infinite alternate;
+  transform-origin: 80px 66px;
+  will-change: transform;
+}
+
+@keyframes vqWingFlapRight {
+  0%   { transform: rotate(0deg) translateY(0); }
+  100% { transform: rotate(16deg) translateY(-3px); }
+}
+
+/* Zoe: Aleteo translúcido de hada (GPU Transform) */
+.vq-anim-fairy-left {
+  animation: vqFairyFlutterLeft 0.9s ease-in-out infinite alternate;
+  transform-origin: 24px 52px;
+  will-change: transform;
+}
+
+@keyframes vqFairyFlutterLeft {
+  0%   { transform: rotate(-30deg) scale(1); }
+  100% { transform: rotate(-44deg) scale(1.1, 0.95); }
+}
+
+.vq-anim-fairy-right {
+  animation: vqFairyFlutterRight 0.9s ease-in-out infinite alternate;
+  transform-origin: 76px 52px;
+  will-change: transform;
+}
+
+@keyframes vqFairyFlutterRight {
+  0%   { transform: rotate(30deg) scale(1); }
+  100% { transform: rotate(44deg) scale(1.1, 0.95); }
+}
+
+/* Zoe: Destello de gema en diadema */
+.vq-anim-gem-pulse {
+  animation: vqGemPulse 2.2s ease-in-out infinite alternate;
+  transform-origin: 50px 24px;
+  will-change: transform;
+}
+
+@keyframes vqGemPulse {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.15); filter: drop-shadow(0 0 4px #FFD166); }
+}
+
+/* ==========================================================================
+   3. ACCESIBILIDAD Y REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .vq-anim-float,
+  .vq-anim-quill,
+  .vq-anim-star-spin,
+  .vq-anim-bounce,
+  .vq-anim-heartbeat,
+  .vq-sparkle,
+  .vq-anim-flame,
+  .vq-anim-speaking,
+  .vq-anim-horn-glow,
+  .vq-anim-wing-left,
+  .vq-anim-wing-right,
+  .vq-anim-fairy-left,
+  .vq-anim-fairy-right,
+  .vq-anim-gem-pulse,
+  .challenge-card.correct-flash,
+  .challenge-card.incorrect-shake {
+    animation: none !important;
+    transform: none !important;
+  }
+}

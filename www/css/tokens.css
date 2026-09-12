@@ -1,0 +1,159 @@
+/**
+ * ValenQuest Design Tokens
+ * Light Pastel (MLP Magic) & Dark Astral Night (Lumiria Nocturna)
+ * Follows modern color-scheme and accessibility (WCAG AA/AAA) standards.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* ========================================================================
+     1. VALENQUEST BASE PASTEL TOKENS (LIGHT MODE)
+     ======================================================================== */
+  --vq-pink-bubble: #FFAFCC;
+  --vq-pink-light: #FFC8DD;
+  --vq-lavender: #CDB4DB;
+  --vq-lavender-light: #F0E6F6;
+  --vq-sky: #A2D2FF;
+  --vq-sky-light: #BDE0FE;
+  --vq-cloud: #FDF7FF;
+  --vq-gold: #FFD166;
+  --vq-gold-light: #FFF0C2;
+  --vq-mint: #B8F2E6;
+  --vq-mint-light: #E4FBF6;
+  --vq-danger: #F87171;
+  --vq-danger-light: #FEE2E2;
+
+  /* Ink & Contrast Tokens */
+  --vq-border: #4A3E56;
+  --vq-text: #32213F;
+  --vq-text-muted: #645475;
+  --vq-bg-canvas: #FDF7FF;
+  --vq-bg-card: #FFFFFF;
+  --vq-bg-well: #F4EEF8;
+  --vq-bg-dialogue: #FFFFFF;
+
+  /* Elevations & Shadows */
+  --vq-border-width: 3px;
+  --vq-shadow-hard: 0 6px 0 var(--vq-border);
+  --vq-shadow-active: 0 2px 0 var(--vq-border);
+  --vq-shadow-sm: 0 3px 0 var(--vq-border);
+  --vq-shadow-key: 0 4px 0 #CBD5E1;
+  --vq-shadow-soft: 0 8px 24px rgba(74, 62, 86, 0.08);
+
+  /* Radii */
+  --vq-radius-bubble: 22px;
+  --vq-radius-pill: 50px;
+  --vq-radius-card: 20px;
+  --vq-radius-sm: 10px;
+
+  /* Typography */
+  --vq-font-kids: 'Fredoka', 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vq-font-mono: 'Fira Code', monospace;
+}
+
+/* ==========================================================================
+   2. MODO NOCHE ASTRAL DE LUMIRIA (DARK MODE TOKENS)
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]),
+  html:not([data-theme="light"]),
+  body:not([data-theme="light"]) {
+    --vq-bg-canvas: #130E1F;
+    --vq-bg-card: #201633;
+    --vq-bg-well: #1A122A;
+    --vq-bg-dialogue: #281C3F;
+
+    --vq-border: #8975A3;
+    --vq-text: #F8F5FC;
+    --vq-text-muted: #C0B4D1;
+
+    /* Luminous Astral Accents */
+    --vq-pink-bubble: #F472B6;
+    --vq-pink-light: #831843;
+    --vq-lavender: #A78BFA;
+    --vq-lavender-light: #4C1D95;
+    --vq-sky: #60A5FA;
+    --vq-sky-light: #1E3A8A;
+    --vq-gold: #FBBF24;
+    --vq-gold-light: #78350F;
+    --vq-mint: #34D399;
+    --vq-mint-light: #064E3B;
+
+    --vq-shadow-hard: 0 6px 0 #584470;
+    --vq-shadow-active: 0 2px 0 #584470;
+    --vq-shadow-sm: 0 3px 0 #584470;
+    --vq-shadow-key: 0 4px 0 #43335A;
+    --vq-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Manual Dark Theme override: works unconditionally on html, :root and body */
+:root[data-theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+[data-theme="dark"] {
+  color-scheme: dark !important;
+
+  --vq-bg-canvas: #130E1F !important;
+  --vq-bg-card: #201633 !important;
+  --vq-bg-well: #1A122A !important;
+  --vq-bg-dialogue: #281C3F !important;
+
+  --vq-border: #8975A3 !important;
+  --vq-text: #F8F5FC !important;
+  --vq-text-muted: #C0B4D1 !important;
+
+  --vq-pink-bubble: #F472B6 !important;
+  --vq-pink-light: #831843 !important;
+  --vq-lavender: #A78BFA !important;
+  --vq-lavender-light: #4C1D95 !important;
+  --vq-sky: #60A5FA !important;
+  --vq-sky-light: #1E3A8A !important;
+  --vq-gold: #FBBF24 !important;
+  --vq-gold-light: #78350F !important;
+  --vq-mint: #34D399 !important;
+  --vq-mint-light: #064E3B !important;
+
+  --vq-shadow-hard: 0 6px 0 #584470 !important;
+  --vq-shadow-active: 0 2px 0 #584470 !important;
+  --vq-shadow-sm: 0 3px 0 #584470 !important;
+  --vq-shadow-key: 0 4px 0 #43335A !important;
+  --vq-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Manual Light Theme override: works unconditionally on html, :root and body */
+:root[data-theme="light"],
+html[data-theme="light"],
+body[data-theme="light"],
+[data-theme="light"] {
+  color-scheme: light !important;
+
+  --vq-bg-canvas: #FDF7FF !important;
+  --vq-bg-card: #FFFFFF !important;
+  --vq-bg-well: #F4EEF8 !important;
+  --vq-bg-dialogue: #FFFFFF !important;
+
+  --vq-border: #4A3E56 !important;
+  --vq-text: #32213F !important;
+  --vq-text-muted: #645475 !important;
+
+  --vq-pink-bubble: #FFAFCC !important;
+  --vq-pink-light: #FFC8DD !important;
+  --vq-lavender: #CDB4DB !important;
+  --vq-lavender-light: #F0E6F6 !important;
+  --vq-sky: #A2D2FF !important;
+  --vq-sky-light: #BDE0FE !important;
+  --vq-cloud: #FDF7FF !important;
+  --vq-gold: #FFD166 !important;
+  --vq-gold-light: #FFF0C2 !important;
+  --vq-mint: #B8F2E6 !important;
+  --vq-mint-light: #E4FBF6 !important;
+
+  --vq-shadow-hard: 0 6px 0 var(--vq-border) !important;
+  --vq-shadow-active: 0 2px 0 var(--vq-border) !important;
+  --vq-shadow-sm: 0 3px 0 var(--vq-border) !important;
+  --vq-shadow-key: 0 4px 0 #CBD5E1 !important;
+  --vq-shadow-soft: 0 8px 24px rgba(74, 62, 86, 0.08) !important;
+}
+

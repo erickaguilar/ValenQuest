@@ -1,0 +1,166 @@
+/**
+ * ValenQuest Base Stylesheet
+ * Resets, accessible child ergonomics, responsive canvas, and themes
+ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  font-family: var(--vq-font-kids);
+  background-color: var(--vq-bg-canvas);
+  color: var(--vq-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  /* Polka dot pastel background */
+  background-image: 
+    radial-gradient(var(--vq-sky-light) 14%, transparent 15%),
+    radial-gradient(var(--vq-pink-light) 14%, transparent 15%);
+  background-size: 56px 56px;
+  background-position: 0 0, 28px 28px;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+/* Header */
+.app-header {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 12px 20px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+}
+
+.brand-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: var(--vq-pink-bubble);
+  transform: translateY(-2px);
+}
+
+.icon-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.icon-btn.active {
+  background: var(--vq-gold);
+  border-color: var(--vq-border);
+}
+
+/* Nav Tabs */
+.nav-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--vq-bg-well);
+  border: var(--vq-border-width) solid var(--vq-border);
+  padding: 4px;
+  border-radius: var(--vq-radius-pill);
+  gap: 4px;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.tab-btn {
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  border: 2px solid transparent;
+  background: transparent;
+  border-radius: var(--vq-radius-pill);
+  color: var(--vq-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.tab-btn.active {
+  background: var(--vq-pink-bubble);
+  border-color: var(--vq-border);
+  color: var(--vq-text);
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+  padding: 14px 16px;
+}
