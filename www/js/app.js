@@ -137,7 +137,7 @@ class KidsLearnApp {
 
   updatePowersBadges() {
     const isGated = companions.isPowerGated();
-    ['valen', 'mia', 'zoe'].forEach((id) => {
+    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
       const badge = document.getElementById(`badge-${id}`);
       const btn = document.getElementById(`btn-power-${id}`);
       const charges = companions.getCharges(id);
@@ -300,8 +300,8 @@ class KidsLearnApp {
       }
     });
 
-    // Heroines Trio Selection (Valen, Mia, Zoe)
-    ['valen', 'mia', 'zoe'].forEach((id) => {
+    // Heroines Harmony Quartet Selection (Valen, Mia, Zoe, Lía)
+    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
       const card = document.getElementById(`card-heroine-${id}`);
       if (card) {
         card.addEventListener('click', () => {
@@ -321,8 +321,8 @@ class KidsLearnApp {
       }
     });
 
-    // Companion In-Game Power Buttons (Valen, Mia, Zoe)
-    ['valen', 'mia', 'zoe'].forEach((id) => {
+    // Companion In-Game Power Buttons (Valen, Mia, Zoe, Lía)
+    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
       const btn = document.getElementById(`btn-power-${id}`);
       if (btn) {
         btn.addEventListener('click', () => {
@@ -559,10 +559,13 @@ class KidsLearnApp {
       // Calculation of Stars:
       // Agile performance (<=4000ms): 2 stars; thoughtful/hesitant: 1 star.
       // Streak milestone bonus: Every 3 streak grants +1 bonus star!
+      // Lía's Royal Flare: Multiplies earned stars (2x) when activated!
       const baseStars = elapsedMs <= 4000 ? 2 : 1;
       const isStreakMilestone = currentStreak > 0 && currentStreak % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
-      const earnedStars = baseStars + streakBonus;
+      const multiplier = this.starMultiplier || 1;
+      const earnedStars = (baseStars + streakBonus) * multiplier;
+      this.starMultiplier = 1; // Reset multiplier after successful challenge
 
       const newStarsBalance = await db.addStars(earnedStars);
       this.updateStarsDisplay(newStarsBalance);
@@ -574,6 +577,16 @@ class KidsLearnApp {
         sound.playCorrect();
       }
     } else {
+      // Zoe's Roots Shield protection check
+      if (this.streakShieldActive) {
+        this.streakShieldActive = false;
+        sound.playStreak();
+        speech.speak('¡El Escudo de Raíces de Zoe protegió tu racha! Inténtalo de nuevo.');
+        card.classList.add('shield-protect');
+        setTimeout(() => card.classList.remove('shield-protect'), 800);
+        return; // Don't advance or reset challenge, let student try again!
+      }
+
       card.classList.add('incorrect-shake');
       sound.playIncorrect();
     }

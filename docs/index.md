@@ -10,7 +10,7 @@ Bienvenido al repositorio central de documentación de **ValenQuest (KidsLearn-W
 docs/
 ├── index.md                               # Este documento (Directorio principal)
 ├── mobile-standards-spec.md               # Estándares Mobile-First, ergonomía táctil infantil y PWA
-├── heroines-and-powers-spec.md            # Trío de heroínas, poderes de amistad y ropero mágico
+├── heroines-and-powers-spec.md            # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
 ├── modular-css-darkmode-speech-spec.md    # CSS modular, modo noche astral y síntesis de voz
 ├── valenquest-visual-spec.md              # Sistema visual de diseño, tokens, paleta y estética chibi
 └── gitflow-workflow.md                    # Flujo de trabajo GitFlow, ramas y remotos duales
@@ -32,14 +32,18 @@ docs/
 
 ---
 
-### 2. 🌟 [Trío de Heroínas, Poderes de Amistad y Ropero Mágico](./heroines-and-powers-spec.md)
-* **Alcance:** Gamificación afectiva, andamiaje pedagógico y sistema de recompensas.
+### 2. 🌟 [El Cuarteto de la Armonía: Las 4 Razas de Lumiria, Poderes y Ropero](./heroines-and-powers-spec.md)
+* **Alcance:** Gamificación afectiva, 4 razas canónicas (MLP), andamiaje pedagógico y economía de estrellas.
 * **Temas Clave:**
-  * Lore de las guardianas de Lumiria: **Valen** 🦄 (Luz), **Mia** 🪽 (Viento) y **Zoe** 🌿 (Naturaleza).
-  * Mecánicas de poderes: *Prisma Revelador* (descarte), *Brisa Temporal* (pausa), *Susurro Sabio* (pista fonética).
+  * Las 4 razas de Lumiria: **Valen** 🦄 (Unicornio), **Mia** 🪽 (Pegaso), **Zoe** 🌿 (Poni Terrestre) y **Lía** 👑 (Alicornio Real).
+  * Mecánicas de amistad:
+    * *Prisma Revelador* (Valen: descarte de 1-2 opciones).
+    * *Brisa Temporal* (Mia: pausa de latencia con $P = 1.0$).
+    * *Escudo de Raíces* (Zoe: protección de racha ante error + guía TTS).
+    * *Destello Real* (Lía: $2\times$ estrellas + recarga +1 a sus amigas).
   * Retardo intencional de poderes (**Gating Cognitivo de 1.8s**).
-  * Sistema de persistencia transaccional en `IndexedDB` (`valenquest_db` v2).
-  * Ropero Mágico de cosméticos y previsualización multi-capa SVG en tiempo real.
+  * Persistencia transaccional en `IndexedDB` (`valenquest_db` v2) con sembrado atómico.
+  * Ropero Mágico con 4 heroínas y cosméticos exclusivos de Alicornio (`tiara-solsticio`, `cetro-cometa`, `alas-majestuosas`).
 
 ---
 

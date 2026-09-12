@@ -1,6 +1,6 @@
 /**
  * ValenQuest Companions & Friendship Powers Module
- * Manages the trio of heroines: Valen, Mia, and Zoe.
+ * Manages the Harmony Quartet of heroines: Valen (Unicorn), Mia (Pegasus), Zoe (Earth Pony), and Lía (Alicorn).
  * Coordinates their animated avatars, lore quotes, and friendship powers during quest challenges.
  * Backed by IndexedDB (valenquest_db) for persistent charges, times invoked, and equipped cosmetics.
  */
@@ -13,20 +13,24 @@ export const HEROINES = {
   valen: {
     id: 'valen',
     name: 'Valen',
+    race: 'unicorn',
+    raceName: 'Unicornio',
     title: 'Guardiana del Prisma Astral',
-    element: 'Luz y Armonía',
+    element: 'Luz y Prisma',
     color: 'var(--vq-pink-bubble)',
     symbolId: 'vq-heroine-valen',
     emoji: '🦄',
     powerName: 'Prisma Revelador',
-    powerDescription: 'Refracta la luz para descartar una respuesta incorrecta.',
+    powerDescription: 'Refracta la luz para descartar una o dos respuestas incorrectas.',
     voiceQuote: '¡Mira el reflejo del prisma! He apartado una respuesta que no es.',
   },
   mia: {
     id: 'mia',
     name: 'Mia',
+    race: 'pegasus',
+    raceName: 'Pegaso',
     title: 'Alquimista de los Vientos',
-    element: 'Brisa y Tiempo',
+    element: 'Vuelo y Tiempo',
     color: 'var(--vq-sky)',
     symbolId: 'vq-heroine-mia',
     emoji: '🪽',
@@ -37,14 +41,30 @@ export const HEROINES = {
   zoe: {
     id: 'zoe',
     name: 'Zoe',
-    title: 'Guardiana de la Sabiduría',
-    element: 'Naturaleza y Palabras',
+    race: 'earth_pony',
+    raceName: 'Poni Terrestre',
+    title: 'Ancla de la Naturaleza',
+    element: 'Fuerza y Raíces',
     color: 'var(--vq-mint)',
     symbolId: 'vq-heroine-zoe',
     emoji: '🌿',
-    powerName: 'Susurro Sabio',
-    powerDescription: 'Explica el cálculo o pronuncia la palabra con voz pausada paso a paso.',
-    voiceQuote: 'Escucha el susurro de las estrellas: vamos a resolverlo paso a pasito.',
+    powerName: 'Escudo de Raíces',
+    powerDescription: 'Protege tu racha de aciertos ante un error y te explica el reto con voz tranquila.',
+    voiceQuote: '¡Mis raíces sostienen tu camino! Escucha con calma, lo resolveremos paso a pasito.',
+  },
+  lia: {
+    id: 'lia',
+    name: 'Lía',
+    race: 'alicorn',
+    raceName: 'Alicornio Real',
+    title: 'Princesa Astral de Lumiria',
+    element: 'Realeza y Unión',
+    color: 'var(--vq-alicorn-purple)',
+    symbolId: 'vq-heroine-lia',
+    emoji: '👑',
+    powerName: 'Destello Real',
+    powerDescription: '¡Doble efecto! Duplica las estrellas del reto y recarga +1 carga a tus amigas.',
+    voiceQuote: '¡El Cuarteto de la Armonía une sus poderes! Doble estrella y energía mágica para todas.',
   },
 };
 
@@ -56,6 +76,7 @@ class CompanionSystem {
       valen: 2,
       mia: 2,
       zoe: 2,
+      lia: 2,
     };
     this.states = {};
     this.isGated = false;
@@ -75,7 +96,7 @@ class CompanionSystem {
       const allStates = await db.getAllCompanionsState();
       if (allStates) {
         this.states = allStates;
-        ['valen', 'mia', 'zoe'].forEach((id) => {
+        ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
           if (allStates[id] && typeof allStates[id].charges === 'number') {
             this.charges[id] = allStates[id].charges;
           }
@@ -203,7 +224,7 @@ class CompanionSystem {
 
     switch (heroineId) {
       case 'valen': {
-        // Valen: Discards 1 wrong distractor from DOM
+        // Valen: Discards 1 or 2 wrong distractors from DOM
         effectResult = this.applyValenPower(context);
         break;
       }
@@ -213,8 +234,13 @@ class CompanionSystem {
         break;
       }
       case 'zoe': {
-        // Zoe: Explains problem step by step with TTS and visual highlight
+        // Zoe: Roots Shield protects streak + explains problem with TTS
         effectResult = this.applyZoePower(context);
+        break;
+      }
+      case 'lia': {
+        // Lía: Royal Flare (Double stars + team recharge)
+        effectResult = this.applyLiaPower(context);
         break;
       }
       default:
@@ -276,33 +302,63 @@ class CompanionSystem {
   }
 
   applyZoePower(context) {
-    const { mathSession } = context;
-    if (!mathSession) return { spoken: false };
-
-    const op1 = mathSession.get_operand1();
-    const op = mathSession.get_operator();
-    const op2 = mathSession.get_operand2();
-
-    let hint = '';
-    if (op === '+') {
-      hint = `Tienes ${op1}, y le añades ${op2}. Imagina contar hacia adelante desde ${op1}.`;
-    } else if (op === '-') {
-      hint = `Comienzas con ${op1} y quitas ${op2}. Cuenta hacia atrás para descubrir lo que queda.`;
-    } else if (op === '×') {
-      hint = `Multiplicar es sumar varias veces: son ${op1} grupos de ${op2}.`;
+    const { mathSession, app } = context;
+    if (app) {
+      // Escudo de Raíces: protege la racha ante un tropiezo
+      app.streakShieldActive = true;
     }
 
-    speech.speak(hint, { rate: 0.88, pitch: 1.15 });
+    let hint = '';
+    if (mathSession) {
+      const op1 = mathSession.get_operand1();
+      const op = mathSession.get_operator();
+      const op2 = mathSession.get_operand2();
+
+      if (op === '+') {
+        hint = `Tienes ${op1}, y le añades ${op2}. Imagina contar hacia adelante desde ${op1}.`;
+      } else if (op === '-') {
+        hint = `Comienzas con ${op1} y quitas ${op2}. Cuenta hacia atrás para descubrir lo que queda.`;
+      } else if (op === '×') {
+        hint = `Multiplicar es sumar varias veces: son ${op1} grupos de ${op2}.`;
+      }
+      speech.speak(hint, { rate: 0.88, pitch: 1.15 });
+    }
 
     const card = document.getElementById('math-challenge-card');
     if (card) {
-      card.style.borderColor = 'var(--vq-mint)';
+      card.classList.add('shield-protect');
       setTimeout(() => {
-        card.style.borderColor = '';
+        card.classList.remove('shield-protect');
       }, 2500);
     }
 
-    return { spoken: true, hint };
+    return { spoken: true, shieldActive: true, hint };
+  }
+
+  applyLiaPower(context) {
+    const { app } = context;
+    if (app) {
+      // Duplica las estrellas del reto actual
+      app.starMultiplier = 2;
+    }
+
+    // Recarga +1 carga a las tres amigas (Valen, Mia, Zoe) hasta tope de 3
+    ['valen', 'mia', 'zoe'].forEach((id) => {
+      if (this.charges[id] < 3) {
+        this.charges[id] = Math.min(3, this.charges[id] + 1);
+        db.updateCompanionCharges(id, this.charges[id]).catch(() => {});
+      }
+    });
+
+    const card = document.getElementById('math-challenge-card');
+    if (card) {
+      card.classList.add('royal-boost');
+      setTimeout(() => {
+        card.classList.remove('royal-boost');
+      }, 2500);
+    }
+
+    return { starMultiplier: 2, teamRefilled: true };
   }
 
   /**
@@ -317,9 +373,12 @@ class CompanionSystem {
       'alas-aurora',
       'corona-hojas',
       'amuleto-bosque',
+      'tiara-solsticio',
+      'cetro-cometa',
+      'alas-majestuosas',
     ];
 
-    ['valen', 'mia', 'zoe'].forEach((heroineId) => {
+    ['valen', 'mia', 'zoe', 'lia'].forEach((heroineId) => {
       const card = document.getElementById(`card-heroine-${heroineId}`);
       const equipped = this.getEquipped(heroineId);
 

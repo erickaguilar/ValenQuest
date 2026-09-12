@@ -637,14 +637,23 @@
   align-self: flex-start;
 }
 
+.quartet-grid,
 .trio-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   width: 100%;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 860px) {
+  .quartet-grid,
+  .trio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .quartet-grid,
   .trio-grid {
     grid-template-columns: 1fr;
   }
@@ -663,6 +672,7 @@
   gap: 8px;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   position: relative;
+  cursor: pointer;
 }
 
 @media (hover: hover) {
@@ -675,6 +685,26 @@
 .heroine-card.active-companion {
   border-color: var(--vq-pink-bubble);
   box-shadow: 0 0 0 3px var(--vq-pink-bubble), var(--vq-shadow-hard);
+}
+
+#card-heroine-valen.active-companion {
+  border-color: var(--vq-pink-bubble);
+  box-shadow: 0 0 0 3px var(--vq-pink-bubble), var(--vq-shadow-hard);
+}
+
+#card-heroine-mia.active-companion {
+  border-color: var(--vq-sky);
+  box-shadow: 0 0 0 3px var(--vq-sky), var(--vq-shadow-hard);
+}
+
+#card-heroine-zoe.active-companion {
+  border-color: var(--vq-mint);
+  box-shadow: 0 0 0 3px var(--vq-mint), var(--vq-shadow-hard);
+}
+
+#card-heroine-lia.active-companion {
+  border-color: var(--vq-alicorn-purple);
+  box-shadow: 0 0 0 3px var(--vq-alicorn-purple), 0 0 16px var(--vq-alicorn-aura), var(--vq-shadow-hard);
 }
 
 .heroine-svg-wrapper {
@@ -763,6 +793,15 @@
     transform: translateY(-2px);
     background: var(--vq-pink-light);
   }
+  #btn-power-mia:hover {
+    background: var(--vq-sky-light);
+  }
+  #btn-power-zoe:hover {
+    background: var(--vq-mint-light);
+  }
+  #btn-power-lia:hover {
+    background: var(--vq-alicorn-aura);
+  }
 }
 
 .power-btn:active {
@@ -775,6 +814,30 @@
   border-color: var(--vq-gold);
   background: var(--vq-gold);
   color: #32213F;
+}
+
+#btn-power-lia.power-activated {
+  border-color: var(--vq-alicorn-purple);
+  background: var(--vq-alicorn-purple);
+  color: #FFFFFF;
+}
+
+/* Feedback de Poderes en Tarjeta de Reto */
+.challenge-card.royal-boost {
+  border-color: var(--vq-alicorn-purple) !important;
+  box-shadow: 0 0 30px var(--vq-alicorn-aura), 0 0 15px var(--vq-gold), 0 6px 0 var(--vq-border) !important;
+  animation: royalBoostPulse 1.2s ease-in-out infinite alternate;
+}
+
+.challenge-card.shield-protect {
+  border-color: var(--vq-mint) !important;
+  box-shadow: 0 0 25px rgba(52, 211, 153, 0.6), 0 6px 0 var(--vq-border) !important;
+  animation: vqChibiBounce 0.6s ease;
+}
+
+@keyframes royalBoostPulse {
+  0% { transform: scale(1); filter: brightness(1); }
+  100% { transform: scale(1.02); filter: brightness(1.08); }
 }
 
 .companion-powers-bar.powers-gated {
@@ -1077,12 +1140,19 @@
 /* Wardrobe Heroine Selector Tabs */
 .wardrobe-heroine-tabs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
   background: var(--vq-bg-well);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   padding: 4px;
+}
+
+@media (max-width: 520px) {
+  .wardrobe-heroine-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: var(--vq-radius-card);
+  }
 }
 
 .wardrobe-tab-btn {
@@ -1315,6 +1385,9 @@
   --show-lazo-cielo: none;
   --show-corona-hojas: none;
   --show-amuleto-bosque: none;
+  --show-tiara-solsticio: none;
+  --show-cetro-cometa: none;
+  --show-alas-majestuosas: none;
   --show-default-wings: inline;
 }
 
@@ -1337,6 +1410,16 @@
 .equipped-amuleto-bosque {
   --show-amuleto-bosque: inline !important;
 }
+.equipped-tiara-solsticio {
+  --show-tiara-solsticio: inline !important;
+}
+.equipped-cetro-cometa {
+  --show-cetro-cometa: inline !important;
+}
+.equipped-alas-majestuosas {
+  --show-alas-majestuosas: inline !important;
+  --show-default-wings: none !important;
+}
 
 /* Direct CSS class selectors fallback */
 .vq-cosmetic {
@@ -1358,6 +1441,15 @@
   display: inline !important;
 }
 .equipped-amuleto-bosque .vq-cosmetic-zoe-amuleto-bosque {
+  display: inline !important;
+}
+.equipped-tiara-solsticio .vq-cosmetic-lia-tiara-solsticio {
+  display: inline !important;
+}
+.equipped-cetro-cometa .vq-cosmetic-lia-cetro-cometa {
+  display: inline !important;
+}
+.equipped-alas-majestuosas .vq-cosmetic-lia-alas-majestuosas {
   display: inline !important;
 }
 

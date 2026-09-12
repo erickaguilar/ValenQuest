@@ -24,6 +24,12 @@
   --vq-danger: #F87171;
   --vq-danger-light: #FEE2E2;
 
+  /* 4ª Heroína: Lía la Alicornio Real */
+  --vq-alicorn-purple: #7B2CBF;
+  --vq-alicorn-purple-light: #9D4EDD;
+  --vq-alicorn-gold: #FFD166;
+  --vq-alicorn-aura: rgba(123, 44, 191, 0.25);
+
   /* Ink & Contrast Tokens */
   --vq-border: #4A3E56;
   --vq-text: #32213F;
@@ -79,6 +85,10 @@
     --vq-gold-light: #78350F;
     --vq-mint: #34D399;
     --vq-mint-light: #064E3B;
+    --vq-alicorn-purple: #9D4EDD;
+    --vq-alicorn-purple-light: #C77DFF;
+    --vq-alicorn-gold: #FBBF24;
+    --vq-alicorn-aura: rgba(157, 78, 221, 0.35);
 
     --vq-shadow-hard: 0 6px 0 #584470;
     --vq-shadow-active: 0 2px 0 #584470;
@@ -114,6 +124,10 @@ body[data-theme="dark"],
   --vq-gold-light: #78350F !important;
   --vq-mint: #34D399 !important;
   --vq-mint-light: #064E3B !important;
+  --vq-alicorn-purple: #9D4EDD !important;
+  --vq-alicorn-purple-light: #C77DFF !important;
+  --vq-alicorn-gold: #FBBF24 !important;
+  --vq-alicorn-aura: rgba(157, 78, 221, 0.35) !important;
 
   --vq-shadow-hard: 0 6px 0 #584470 !important;
   --vq-shadow-active: 0 2px 0 #584470 !important;
@@ -149,6 +163,10 @@ body[data-theme="light"],
   --vq-gold-light: #FFF0C2 !important;
   --vq-mint: #B8F2E6 !important;
   --vq-mint-light: #E4FBF6 !important;
+  --vq-alicorn-purple: #7B2CBF !important;
+  --vq-alicorn-purple-light: #9D4EDD !important;
+  --vq-alicorn-gold: #FFD166 !important;
+  --vq-alicorn-aura: rgba(123, 44, 191, 0.25) !important;
 
   --vq-shadow-hard: 0 6px 0 var(--vq-border) !important;
   --vq-shadow-active: 0 2px 0 var(--vq-border) !important;

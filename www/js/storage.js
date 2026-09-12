@@ -77,12 +77,46 @@ export const INITIAL_COSMETICS = [
     description: 'Gema mística que susurra consejos de los antiguos guardianes.',
     svgLayerId: 'cosmetic-zoe-amuleto-bosque',
   },
+  {
+    itemId: 'tiara-solsticio',
+    heroineId: 'lia',
+    slot: 'head',
+    name: 'Tiara del Solsticio',
+    costStars: 0,
+    unlocked: true,
+    icon: '👑',
+    description: 'Corona estelar forjada con rayos de luna y solsticio de Lumiria.',
+    svgLayerId: 'cosmetic-lia-tiara-solsticio',
+  },
+  {
+    itemId: 'cetro-cometa',
+    heroineId: 'lia',
+    slot: 'charm',
+    name: 'Cetro del Cometa',
+    costStars: 20,
+    unlocked: false,
+    icon: '🪄',
+    description: 'Artefacto real que canaliza la resonancia mágica de la amistad.',
+    svgLayerId: 'cosmetic-lia-cetro-cometa',
+  },
+  {
+    itemId: 'alas-majestuosas',
+    heroineId: 'lia',
+    slot: 'wings',
+    name: 'Alas Cósmicas Tornasol',
+    costStars: 30,
+    unlocked: false,
+    icon: '🪽',
+    description: 'Plumas celestiales imbuidas con el fulgor de la realeza alicornio.',
+    svgLayerId: 'cosmetic-lia-alas-majestuosas',
+  },
 ];
 
 export const INITIAL_COMPANIONS = [
   {
     heroineId: 'valen',
     name: 'Valen',
+    race: 'unicorn',
     charges: 2,
     timesInvoked: 0,
     equipped: { head: 'tiara-basica', wings: null, charm: null },
@@ -90,6 +124,7 @@ export const INITIAL_COMPANIONS = [
   {
     heroineId: 'mia',
     name: 'Mia',
+    race: 'pegasus',
     charges: 2,
     timesInvoked: 0,
     equipped: { head: 'lazo-cielo', wings: null, charm: null },
@@ -97,9 +132,18 @@ export const INITIAL_COMPANIONS = [
   {
     heroineId: 'zoe',
     name: 'Zoe',
+    race: 'earth_pony',
     charges: 2,
     timesInvoked: 0,
     equipped: { head: 'corona-hojas', wings: null, charm: null },
+  },
+  {
+    heroineId: 'lia',
+    name: 'Lía',
+    race: 'alicorn',
+    charges: 2,
+    timesInvoked: 0,
+    equipped: { head: 'tiara-solsticio', wings: null, charm: null },
   },
 ];
 
@@ -223,24 +267,28 @@ class StorageService {
         });
       }
 
-      // 2. Seed Companions State if empty
-      const compCount = await new Promise((res) => {
+      // 2. Seed Companions State (Seed defaults and ensure missing heroines like Lía are added)
+      const existingCompKeys = await new Promise((res) => {
         try {
           const tx = this.db.transaction('companions_state', 'readonly');
-          const req = tx.objectStore('companions_state').count();
-          req.onsuccess = () => res(req.result);
-          req.onerror = () => res(0);
+          const req = tx.objectStore('companions_state').getAllKeys();
+          req.onsuccess = () => res(req.result || []);
+          req.onerror = () => res([]);
         } catch (e) {
-          res(0);
+          res([]);
         }
       });
 
-      if (compCount === 0) {
+      const missingComps = INITIAL_COMPANIONS.filter(
+        (comp) => !existingCompKeys.includes(comp.heroineId)
+      );
+
+      if (missingComps.length > 0) {
         await new Promise((res, rej) => {
           try {
             const tx = this.db.transaction('companions_state', 'readwrite');
             const store = tx.objectStore('companions_state');
-            INITIAL_COMPANIONS.forEach((comp) => store.put(comp));
+            missingComps.forEach((comp) => store.put(comp));
             tx.oncomplete = () => res(true);
             tx.onerror = () => rej(tx.error);
           } catch (e) {
@@ -249,24 +297,28 @@ class StorageService {
         });
       }
 
-      // 3. Seed Cosmetics Catalog if empty
-      const catCount = await new Promise((res) => {
+      // 3. Seed Cosmetics Catalog (Seed defaults and ensure missing cosmetics like Lía's items are added)
+      const existingCatKeys = await new Promise((res) => {
         try {
           const tx = this.db.transaction('cosmetics_catalog', 'readonly');
-          const req = tx.objectStore('cosmetics_catalog').count();
-          req.onsuccess = () => res(req.result);
-          req.onerror = () => res(0);
+          const req = tx.objectStore('cosmetics_catalog').getAllKeys();
+          req.onsuccess = () => res(req.result || []);
+          req.onerror = () => res([]);
         } catch (e) {
-          res(0);
+          res([]);
         }
       });
 
-      if (catCount === 0) {
+      const missingCosmetics = INITIAL_COSMETICS.filter(
+        (item) => !existingCatKeys.includes(item.itemId)
+      );
+
+      if (missingCosmetics.length > 0) {
         await new Promise((res, rej) => {
           try {
             const tx = this.db.transaction('cosmetics_catalog', 'readwrite');
             const store = tx.objectStore('cosmetics_catalog');
-            INITIAL_COSMETICS.forEach((item) => store.put(item));
+            missingCosmetics.forEach((item) => store.put(item));
             tx.oncomplete = () => res(true);
             tx.onerror = () => rej(tx.error);
           } catch (e) {

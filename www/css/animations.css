@@ -234,7 +234,9 @@
   .vq-anim-fairy-right,
   .vq-anim-gem-pulse,
   .challenge-card.correct-flash,
-  .challenge-card.incorrect-shake {
+  .challenge-card.incorrect-shake,
+  .challenge-card.royal-boost,
+  .challenge-card.shield-protect {
     animation: none !important;
     transform: none !important;
   }
