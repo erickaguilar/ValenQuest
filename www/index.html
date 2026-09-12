@@ -34,6 +34,136 @@
 </head>
 <body>
 
+  <!-- SVG Sprite de Heroínas y Capas Cosméticas (Local-first & Zero-CORS) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <!-- 1. HEROÍNA PRINCIPAL: VALEN -->
+    <symbol id="vq-heroine-valen" viewBox="0 0 100 100">
+      <g class="vq-anim-float">
+        <circle cx="50" cy="54" r="38" fill="#FFC8DD" opacity="0.35" class="vq-sparkle"/>
+        <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
+        <path d="M22,38 C14,48 16,66 22,74 C26,80 32,84 32,84 C26,72 26,52 32,42 Z" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M68,36 C78,44 82,62 76,74 C72,80 66,84 66,84 C72,72 72,50 64,40 Z" fill="#CDB4DB" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M30,30 C38,18 62,18 70,30 C64,24 36,24 30,30 Z" fill="#FFAFCC"/>
+        <polygon points="50,6 43,26 57,26" fill="#FFD166" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
+        <polygon points="50,6 47,26 53,26" fill="#FFFFFF" opacity="0.8" class="vq-anim-horn-glow"/>
+        <polygon points="50,2 52,5 55,6 52,7 50,10 48,7 45,6 48,5" fill="#FFFFFF" class="vq-sparkle"/>
+
+        <!-- Cosméticos Dinámicos: Tiara de Rocío y Diadema Prisma Estelar -->
+        <g id="cosmetic-valen-tiara-basica" class="vq-cosmetic vq-cosmetic-valen-tiara-basica" style="display: var(--show-tiara-basica, none);">
+          <path d="M38,36 Q50,42 62,36" fill="none" stroke="#BDE0FE" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="44" cy="38" r="2.2" fill="#FFFFFF" stroke="#4A3E56" stroke-width="1"/>
+          <circle cx="50" cy="40" r="3" fill="#BDE0FE" stroke="#4A3E56" stroke-width="1.2"/>
+          <circle cx="56" cy="38" r="2.2" fill="#FFFFFF" stroke="#4A3E56" stroke-width="1"/>
+        </g>
+        <g id="cosmetic-valen-tiara-cristal" class="vq-cosmetic vq-cosmetic-valen-tiara-cristal" style="display: var(--show-tiara-cristal, none);">
+          <polygon points="50,14 46,28 54,28" fill="#FFD166" stroke="#4A3E56" stroke-width="2" stroke-linejoin="round"/>
+          <polygon points="40,19 36,30 44,30" fill="#FFAFCC" stroke="#4A3E56" stroke-width="1.8" stroke-linejoin="round"/>
+          <polygon points="60,19 56,30 64,30" fill="#FFAFCC" stroke="#4A3E56" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M34,31 Q50,38 66,31" fill="none" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="50" cy="20" r="1.8" fill="#FFFFFF" class="vq-sparkle"/>
+          <circle cx="40" cy="24" r="1.4" fill="#FFFFFF"/>
+          <circle cx="60" cy="24" r="1.4" fill="#FFFFFF"/>
+        </g>
+
+        <path d="M28,32 L22,18 L36,24 Z" fill="#FDF7FF" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M27,28 L24,20 L33,24 Z" fill="#FFAFCC"/>
+        <path d="M72,32 L78,18 L64,24 Z" fill="#FDF7FF" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M73,28 L76,20 L67,24 Z" fill="#CDB4DB"/>
+        <ellipse cx="38" cy="54" rx="6" ry="8" fill="#4A3E56"/>
+        <circle cx="36" cy="50" r="2.8" fill="#FFFFFF"/>
+        <circle cx="40" cy="57" r="1.4" fill="#FFFFFF"/>
+        <ellipse cx="62" cy="54" rx="6" ry="8" fill="#4A3E56"/>
+        <circle cx="60" cy="50" r="2.8" fill="#FFFFFF"/>
+        <circle cx="64" cy="57" r="1.4" fill="#FFFFFF"/>
+        <ellipse cx="28" cy="62" rx="4" ry="2" fill="#FFAFCC"/>
+        <ellipse cx="72" cy="62" rx="4" ry="2" fill="#FFAFCC"/>
+        <path d="M46,64 Q50,68 54,64" fill="none" stroke="#4A3E56" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </symbol>
+
+    <!-- 2. AMIGA 1: MIA -->
+    <symbol id="vq-heroine-mia" viewBox="0 0 100 100">
+      <g class="vq-anim-quill">
+        <circle cx="50" cy="54" r="38" fill="#BDE0FE" opacity="0.35" class="vq-sparkle"/>
+        <path class="vq-anim-wing-left" style="display: var(--show-default-wings, inline);" d="M14,46 C6,40 4,52 8,62 C12,70 20,68 20,68 C16,60 14,54 18,48 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3"/>
+        <path class="vq-anim-wing-right" style="display: var(--show-default-wings, inline);" d="M86,46 C94,40 96,52 92,62 C88,70 80,68 80,68 C84,60 86,54 82,48 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3"/>
+
+        <!-- Cosmético: Alas de Fénix Tornasol (Mia) -->
+        <g id="cosmetic-mia-alas-aurora" class="vq-cosmetic vq-cosmetic-mia-alas-aurora" style="display: var(--show-alas-aurora, none);">
+          <path class="vq-anim-wing-left" d="M14,40 C0,30 -2,48 4,64 C10,74 22,70 22,70 C14,58 10,50 16,42 Z" fill="#F472B6" stroke="#4A3E56" stroke-width="3"/>
+          <path class="vq-anim-wing-left" d="M12,46 C4,38 2,52 8,62 C12,68 18,66 18,66 Z" fill="#FBBF24" opacity="0.85"/>
+          <path class="vq-anim-wing-right" d="M86,40 C100,30 102,48 96,64 C90,74 78,70 78,70 C86,58 90,50 84,42 Z" fill="#F472B6" stroke="#4A3E56" stroke-width="3"/>
+          <path class="vq-anim-wing-right" d="M88,46 C96,38 98,52 92,62 C88,68 82,66 82,66 Z" fill="#FBBF24" opacity="0.85"/>
+        </g>
+
+        <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
+        <path d="M26,34 C16,42 18,58 24,68 C22,54 26,46 32,38 Z" fill="#60A5FA" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M74,34 C84,42 82,58 76,68 C78,54 74,46 68,38 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M30,28 C42,16 58,16 70,28 C64,22 36,22 30,28 Z" fill="#60A5FA"/>
+        <path d="M42,20 C46,12 54,12 58,18 C54,16 46,16 42,20 Z" fill="#FFD166" stroke="#4A3E56" stroke-width="2.5"/>
+
+        <!-- Cosmético: Lazo Celeste de Viento (Mia) -->
+        <g id="cosmetic-mia-lazo-cielo" class="vq-cosmetic vq-cosmetic-mia-lazo-cielo" style="display: var(--show-lazo-cielo, none);">
+          <path d="M72,24 C78,16 86,18 84,26 C82,30 76,28 72,24 Z" fill="#60A5FA" stroke="#4A3E56" stroke-width="2"/>
+          <path d="M72,24 C66,16 58,18 60,26 C62,30 68,28 72,24 Z" fill="#93C5FD" stroke="#4A3E56" stroke-width="2"/>
+          <circle cx="72" cy="24" r="3" fill="#FFD166" stroke="#4A3E56" stroke-width="1.5"/>
+          <path d="M70,26 L66,34" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"/>
+          <path d="M74,26 L78,34" stroke="#93C5FD" stroke-width="2" stroke-linecap="round"/>
+        </g>
+
+        <ellipse cx="38" cy="53" rx="6" ry="7.5" fill="#4A3E56"/>
+        <circle cx="36" cy="49" r="2.8" fill="#FFFFFF"/>
+        <circle cx="40" cy="56" r="1.4" fill="#FFFFFF"/>
+        <ellipse cx="62" cy="53" rx="6" ry="7.5" fill="#4A3E56"/>
+        <circle cx="60" cy="49" r="2.8" fill="#FFFFFF"/>
+        <circle cx="64" cy="56" r="1.4" fill="#FFFFFF"/>
+        <ellipse cx="28" cy="61" rx="4" ry="2" fill="#A2D2FF"/>
+        <ellipse cx="72" cy="61" rx="4" ry="2" fill="#A2D2FF"/>
+        <path d="M45,63 Q50,68 55,63" fill="none" stroke="#4A3E56" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </symbol>
+
+    <!-- 3. AMIGA 2: ZOE -->
+    <symbol id="vq-heroine-zoe" viewBox="0 0 100 100">
+      <g class="vq-anim-bounce">
+        <circle cx="50" cy="54" r="38" fill="#B8F2E6" opacity="0.35" class="vq-sparkle"/>
+        <ellipse class="vq-anim-fairy-left" cx="18" cy="50" rx="12" ry="6" fill="#E4FBF6" stroke="#4A3E56" stroke-width="2.5" opacity="0.85"/>
+        <ellipse class="vq-anim-fairy-right" cx="82" cy="50" rx="12" ry="6" fill="#E4FBF6" stroke="#4A3E56" stroke-width="2.5" opacity="0.85"/>
+        <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
+        <path d="M26,38 C20,48 20,64 26,72 C28,58 30,50 34,42 Z" fill="#34D399" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M74,38 C80,48 80,64 74,72 C72,58 70,50 66,42 Z" fill="#B8F2E6" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M32,28 C42,20 58,20 68,28 C62,24 38,24 32,28 Z" fill="#34D399"/>
+        <circle class="vq-anim-gem-pulse" cx="50" cy="24" r="4" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
+        <circle cx="42" cy="26" r="3" fill="#B8F2E6" stroke="#4A3E56" stroke-width="1.5"/>
+        <circle cx="58" cy="26" r="3" fill="#B8F2E6" stroke="#4A3E56" stroke-width="1.5"/>
+
+        <!-- Cosméticos Dinámicos: Corona Floral y Broche Esmeralda -->
+        <g id="cosmetic-zoe-corona-hojas" class="vq-cosmetic vq-cosmetic-zoe-corona-hojas" style="display: var(--show-corona-hojas, none);">
+          <path d="M34,26 Q50,18 66,26" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="36" cy="24" r="3" fill="#FFAFCC" stroke="#4A3E56" stroke-width="1.2"/>
+          <circle cx="50" cy="20" r="3.5" fill="#FFD166" stroke="#4A3E56" stroke-width="1.2"/>
+          <circle cx="64" cy="24" r="3" fill="#FFAFCC" stroke="#4A3E56" stroke-width="1.2"/>
+          <circle cx="43" cy="22" r="2" fill="#A7F3D0"/>
+          <circle cx="57" cy="22" r="2" fill="#A7F3D0"/>
+        </g>
+        <g id="cosmetic-zoe-amuleto-bosque" class="vq-cosmetic vq-cosmetic-zoe-amuleto-bosque" style="display: var(--show-amuleto-bosque, none);">
+          <polygon points="50,70 44,77 50,84 56,77" fill="#34D399" stroke="#4A3E56" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="50" cy="77" r="1.8" fill="#FFFFFF" class="vq-sparkle"/>
+        </g>
+
+        <ellipse cx="38" cy="54" rx="5.5" ry="7.5" fill="#4A3E56"/>
+        <circle cx="36" cy="50" r="2.5" fill="#FFFFFF"/>
+        <circle cx="40" cy="57" r="1.3" fill="#FFFFFF"/>
+        <ellipse cx="62" cy="54" rx="5.5" ry="7.5" fill="#4A3E56"/>
+        <circle cx="60" cy="50" r="2.5" fill="#FFFFFF"/>
+        <circle cx="64" cy="57" r="1.3" fill="#FFFFFF"/>
+        <ellipse cx="28" cy="62" rx="4" ry="2" fill="#B8F2E6"/>
+        <ellipse cx="72" cy="62" rx="4" ry="2" fill="#B8F2E6"/>
+        <path d="M47,63 Q50,66 53,63" fill="none" stroke="#4A3E56" stroke-width="3" stroke-linecap="round"/>
+      </g>
+    </symbol>
+  </svg>
+
   <div class="app-container">
     
     <!-- Status & Error Alert Banner (Hidden by default) -->
@@ -51,6 +181,15 @@
         </div>
       </div>
       <div class="header-actions">
+        <!-- Contador de Estrellas Acumuladas -->
+        <div id="header-stars-badge" class="stars-counter-badge" role="button" tabindex="0" title="Tus estrellas de Lumiria - Clic para abrir el Ropero Mágico" aria-label="Estrellas acumuladas">
+          <span class="star-icon" aria-hidden="true">⭐</span>
+          <span id="player-stars-count">0</span>
+        </div>
+        <!-- Ropero Mágico de Heroínas (Cosméticos) -->
+        <button id="btn-open-wardrobe" class="icon-btn wardrobe-icon-btn" aria-label="Abrir Ropero Mágico" title="Ropero Mágico de Heroínas">
+          👗
+        </button>
         <!-- Botón de Descarga / Instalación PWA -->
         <button id="btn-install-pwa" class="icon-btn pwa-install-icon-btn" aria-label="Descargar e instalar app" title="Descargar e instalar ValenQuest en tu pantalla de inicio" hidden>
           📥
@@ -126,7 +265,7 @@
           <div class="heroine-card active-companion" id="card-heroine-valen">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Valen">
-                <use href="assets/heroines.svg#vq-heroine-valen"></use>
+                <use href="#vq-heroine-valen"></use>
               </svg>
             </div>
             <div class="heroine-name">Valen 🦄</div>
@@ -140,7 +279,7 @@
           <div class="heroine-card" id="card-heroine-mia">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Mia">
-                <use href="assets/heroines.svg#vq-heroine-mia"></use>
+                <use href="#vq-heroine-mia"></use>
               </svg>
             </div>
             <div class="heroine-name">Mia 🪽</div>
@@ -154,7 +293,7 @@
           <div class="heroine-card" id="card-heroine-zoe">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Zoe">
-                <use href="assets/heroines.svg#vq-heroine-zoe"></use>
+                <use href="#vq-heroine-zoe"></use>
               </svg>
             </div>
             <div class="heroine-name">Zoe 🌿</div>
@@ -387,6 +526,50 @@
         <button id="btn-pwa-ios-dismiss" class="action-btn" style="justify-content:center;margin-top:6px;">
           ¡Entendido! 👍
         </button>
+      </div>
+    </div>
+
+    <!-- Modal Ropero Mágico de Heroínas & Cosméticos (STRICTLY HIDDEN BY DEFAULT) -->
+    <div id="wardrobe-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="wardrobe-modal-title">
+      <div class="modal-content wardrobe-modal-content">
+        <div class="wardrobe-modal-header">
+          <div class="wardrobe-title-row">
+            <h2 id="wardrobe-modal-title" class="wardrobe-title">👗 Ropero Mágico</h2>
+            <button id="btn-wardrobe-close" class="modal-close-btn" type="button" aria-label="Cerrar ropero">✕</button>
+          </div>
+          <div class="wardrobe-stars-indicator">
+            <span>Tus Estrellas:</span>
+            <span class="wardrobe-stars-pill">⭐ <strong id="wardrobe-star-balance">0</strong></span>
+          </div>
+        </div>
+
+        <!-- Selector de Heroína con pestañas estilo Gacha -->
+        <div class="wardrobe-heroine-tabs" role="tablist" aria-label="Elegir heroína">
+          <button id="tab-wardrobe-valen" class="wardrobe-tab-btn active" role="tab" aria-selected="true" type="button">
+            <span>🦄</span> <span>Valen</span>
+          </button>
+          <button id="tab-wardrobe-mia" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
+            <span>🪽</span> <span>Mia</span>
+          </button>
+          <button id="tab-wardrobe-zoe" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
+            <span>🌿</span> <span>Zoe</span>
+          </button>
+        </div>
+
+        <!-- Preview en tiempo real del avatar con capas de cosméticos -->
+        <div class="wardrobe-preview-section">
+          <div id="wardrobe-preview-avatar" class="wardrobe-avatar-box">
+            <svg class="wardrobe-preview-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <use id="wardrobe-svg-use" href="#vq-heroine-valen"></use>
+            </svg>
+          </div>
+          <div id="wardrobe-preview-title" class="wardrobe-preview-title">Valen • Guardiana del Prisma</div>
+        </div>
+
+        <!-- Grid de Accesorios y Cosméticos -->
+        <div id="wardrobe-items-grid" class="wardrobe-items-grid">
+          <!-- Inyectado dinámicamente por wardrobe.js -->
+        </div>
       </div>
     </div>
 

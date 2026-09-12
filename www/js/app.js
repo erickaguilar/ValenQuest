@@ -9,6 +9,7 @@ import { sound } from './audio.js';
 import { db } from './storage.js';
 import { speech } from './speech.js';
 import { companions } from './companions.js';
+import { wardrobe } from './wardrobe.js';
 import { pwa } from './pwa.js';
 
 class KidsLearnApp {
@@ -41,6 +42,10 @@ class KidsLearnApp {
       const levelModal = document.getElementById('level-up-modal');
       if (levelModal) levelModal.hidden = true;
 
+      // Load persisted companion states & initialize wardrobe system
+      await companions.loadState();
+      wardrobe.init();
+
       // Synchronize theme icon with current state
       this.syncThemeButton();
 
@@ -54,6 +59,15 @@ class KidsLearnApp {
 
       // Hook companion powers badges updates
       companions.onChange(() => this.updatePowersBadges());
+
+      // Restore active heroine from profile if saved
+      if (profile.selectedCompanion) {
+        await companions.setActive(profile.selectedCompanion);
+        document.querySelectorAll('.heroine-card').forEach((c) => {
+          c.classList.toggle('active-companion', c.id === `card-heroine-${profile.selectedCompanion}`);
+        });
+      }
+      companions.applyEquippedCosmeticsClasses();
 
       // Initialize Rust MathSession with high-entropy seed and saved tier
       const seed = BigInt(Date.now());
@@ -539,9 +553,21 @@ class KidsLearnApp {
 
     if (isCorrect) {
       card.classList.add('correct-flash');
-      companions.rewardStreak(currentStreak);
+      await companions.rewardStreak(currentStreak);
       this.updatePowersBadges();
-      if (currentStreak > 0 && currentStreak % 3 === 0) {
+
+      // Calculation of Stars:
+      // Agile performance (<=4000ms): 2 stars; thoughtful/hesitant: 1 star.
+      // Streak milestone bonus: Every 3 streak grants +1 bonus star!
+      const baseStars = elapsedMs <= 4000 ? 2 : 1;
+      const isStreakMilestone = currentStreak > 0 && currentStreak % 3 === 0;
+      const streakBonus = isStreakMilestone ? 1 : 0;
+      const earnedStars = baseStars + streakBonus;
+
+      const newStarsBalance = await db.addStars(earnedStars);
+      this.updateStarsDisplay(newStarsBalance);
+
+      if (isStreakMilestone) {
         sound.playStreak();
         speech.speakPraise(currentStreak);
       } else {
@@ -592,7 +618,25 @@ class KidsLearnApp {
     const avatar = document.getElementById('student-avatar');
     const name = document.getElementById('student-name');
     if (avatar) avatar.textContent = profile.avatar || '🦄';
-    if (name) name.textContent = profile.name || 'Valen';
+    if (name) name.textContent = profile.name || 'Valen y sus Amigas';
+    this.updateStarsDisplay(profile.stars || 0);
+  }
+
+  updateStarsDisplay(stars) {
+    const countEl = document.getElementById('player-stars-count');
+    if (countEl) {
+      countEl.textContent = stars;
+      const badge = document.getElementById('header-stars-badge');
+      if (badge) {
+        badge.classList.remove('star-updated');
+        void badge.offsetWidth; // Force reflow to restart CSS keyframe
+        badge.classList.add('star-updated');
+      }
+    }
+    const wardrobeBalance = document.getElementById('wardrobe-star-balance');
+    if (wardrobeBalance) {
+      wardrobeBalance.textContent = stars;
+    }
   }
 
   // =========================================================================

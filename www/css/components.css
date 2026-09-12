@@ -934,3 +934,416 @@
   flex-shrink: 0;
 }
 
+/* ==========================================================================
+   10. HEROINES WARDROBE (ROPERO MÁGICO) & COSMETICS
+   ========================================================================== */
+
+/* Header Stars Counter Badge */
+.stars-counter-badge {
+  background: var(--vq-gold);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.stars-counter-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-hard);
+  background: #FFE082;
+}
+
+.stars-counter-badge:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.stars-counter-badge.star-updated {
+  animation: vqStarPulse 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes vqStarPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.22); box-shadow: 0 0 16px var(--vq-gold); }
+  100% { transform: scale(1); }
+}
+
+/* Header Wardrobe Button */
+.wardrobe-icon-btn {
+  background: var(--vq-lavender);
+  border-color: var(--vq-border);
+}
+
+.wardrobe-icon-btn:hover {
+  background: var(--vq-pink-bubble);
+}
+
+/* Wardrobe Modal */
+.wardrobe-modal-content {
+  max-width: 560px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 24px;
+  gap: 16px;
+  scrollbar-width: thin;
+}
+
+.wardrobe-modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 2px dashed var(--vq-border);
+  padding-bottom: 12px;
+}
+
+.wardrobe-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wardrobe-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close-btn {
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background: var(--vq-pink-bubble);
+  transform: scale(1.08);
+}
+
+.wardrobe-stars-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.wardrobe-stars-pill {
+  background: var(--vq-gold);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.95rem;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+/* Wardrobe Heroine Selector Tabs */
+.wardrobe-heroine-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px;
+}
+
+.wardrobe-tab-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--vq-radius-pill);
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: inherit;
+}
+
+.wardrobe-tab-btn.active {
+  background: var(--vq-bg-card);
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+  font-weight: 900;
+  border: 1.5px solid var(--vq-border);
+}
+
+/* Live Avatar Preview Box */
+.wardrobe-preview-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 16px;
+}
+
+.wardrobe-avatar-box {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--vq-bg-card);
+  border: 3px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+  position: relative;
+}
+
+.wardrobe-preview-svg {
+  width: 90px;
+  height: 90px;
+}
+
+.wardrobe-preview-title {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+/* Cosmetics Grid */
+.wardrobe-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.wardrobe-item-card {
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  box-shadow: var(--vq-shadow-sm);
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.wardrobe-item-card.equipped {
+  border-color: var(--vq-pink-bubble);
+  box-shadow: 0 0 0 2px var(--vq-pink-bubble), var(--vq-shadow-sm);
+}
+
+.wardrobe-item-card.locked {
+  opacity: 0.9;
+}
+
+.item-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 4px;
+}
+
+.item-slot-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+  background: var(--vq-bg-well);
+  border: 1px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 2px 8px;
+}
+
+.item-status-pill {
+  font-size: 0.72rem;
+  font-weight: 900;
+  border-radius: var(--vq-radius-pill);
+  padding: 2px 8px;
+  border: 1px solid var(--vq-border);
+}
+
+.item-status-pill.equipped-pill {
+  background: var(--vq-pink-bubble);
+  color: #32213F;
+}
+
+.item-status-pill.cost-pill {
+  background: var(--vq-gold);
+  color: var(--vq-text);
+}
+
+.item-icon-display {
+  font-size: 2.2rem;
+  line-height: 1;
+  margin: 4px 0;
+}
+
+.item-name {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.item-desc {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+  line-height: 1.25;
+  min-height: 2.5em;
+}
+
+.item-card-action {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.wardrobe-action-btn {
+  width: 100%;
+  border-radius: var(--vq-radius-pill);
+  border: 2px solid var(--vq-border);
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.wardrobe-action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--vq-border);
+}
+
+.wardrobe-action-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.wardrobe-action-btn.unlock-btn {
+  background: var(--vq-gold);
+  color: var(--vq-text);
+}
+
+.wardrobe-action-btn.unlock-btn:hover {
+  background: #FFE082;
+}
+
+.wardrobe-action-btn.locked-btn {
+  background: var(--vq-bg-well);
+  color: var(--vq-text-muted);
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.wardrobe-action-btn.equip-btn {
+  background: var(--vq-mint);
+  color: #133E32;
+}
+
+.wardrobe-action-btn.unequip-btn {
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+}
+
+.wardrobe-empty-msg {
+  grid-column: 1 / -1;
+  padding: 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+}
+
+/* ==========================================================================
+   COSMETICS VISIBILITY & CSS CUSTOM VARIABLES TOGGLE
+   ========================================================================== */
+.heroine-card,
+.wardrobe-avatar-box {
+  --show-tiara-basica: none;
+  --show-tiara-cristal: none;
+  --show-alas-aurora: none;
+  --show-lazo-cielo: none;
+  --show-corona-hojas: none;
+  --show-amuleto-bosque: none;
+  --show-default-wings: inline;
+}
+
+.equipped-tiara-basica {
+  --show-tiara-basica: inline !important;
+}
+.equipped-tiara-cristal {
+  --show-tiara-cristal: inline !important;
+}
+.equipped-alas-aurora {
+  --show-alas-aurora: inline !important;
+  --show-default-wings: none !important;
+}
+.equipped-lazo-cielo {
+  --show-lazo-cielo: inline !important;
+}
+.equipped-corona-hojas {
+  --show-corona-hojas: inline !important;
+}
+.equipped-amuleto-bosque {
+  --show-amuleto-bosque: inline !important;
+}
+
+/* Direct CSS class selectors fallback */
+.vq-cosmetic {
+  display: none;
+}
+.equipped-tiara-basica .vq-cosmetic-valen-tiara-basica {
+  display: inline !important;
+}
+.equipped-tiara-cristal .vq-cosmetic-valen-tiara-cristal {
+  display: inline !important;
+}
+.equipped-alas-aurora .vq-cosmetic-mia-alas-aurora {
+  display: inline !important;
+}
+.equipped-lazo-cielo .vq-cosmetic-mia-lazo-cielo {
+  display: inline !important;
+}
+.equipped-corona-hojas .vq-cosmetic-zoe-corona-hojas {
+  display: inline !important;
+}
+.equipped-amuleto-bosque .vq-cosmetic-zoe-amuleto-bosque {
+  display: inline !important;
+}
+

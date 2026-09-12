@@ -2,10 +2,12 @@
  * ValenQuest Companions & Friendship Powers Module
  * Manages the trio of heroines: Valen, Mia, and Zoe.
  * Coordinates their animated avatars, lore quotes, and friendship powers during quest challenges.
+ * Backed by IndexedDB (valenquest_db) for persistent charges, times invoked, and equipped cosmetics.
  */
 
 import { sound } from './audio.js';
 import { speech } from './speech.js';
+import { db } from './storage.js';
 
 export const HEROINES = {
   valen: {
@@ -55,8 +57,38 @@ class CompanionSystem {
       mia: 2,
       zoe: 2,
     };
+    this.states = {};
     this.isGated = false;
     this.onPowerUsedListeners = new Set();
+  }
+
+  /**
+   * Loads persisted charges, timesInvoked and equipped accessories from IndexedDB
+   */
+  async loadState() {
+    try {
+      const profile = await db.getProfile();
+      if (profile && profile.selectedCompanion && HEROINES[profile.selectedCompanion]) {
+        this.activeId = profile.selectedCompanion;
+      }
+
+      const allStates = await db.getAllCompanionsState();
+      if (allStates) {
+        this.states = allStates;
+        ['valen', 'mia', 'zoe'].forEach((id) => {
+          if (allStates[id] && typeof allStates[id].charges === 'number') {
+            this.charges[id] = allStates[id].charges;
+          }
+        });
+      }
+
+      this.applyEquippedCosmeticsClasses();
+      this.notifyListeners();
+      return true;
+    } catch (err) {
+      console.warn('[ValenQuest Companions] Could not load persisted state from DB:', err);
+      return false;
+    }
   }
 
   setGated(gated) {
@@ -72,10 +104,23 @@ class CompanionSystem {
     return HEROINES[this.activeId];
   }
 
-  setActive(id) {
+  async setActive(id) {
     if (HEROINES[id]) {
       this.activeId = id;
       sound.playClick();
+
+      try {
+        const profile = await db.getProfile();
+        if (profile) {
+          profile.selectedCompanion = id;
+          await db.saveProfile(profile);
+        }
+      } catch (err) {
+        console.warn('[ValenQuest Companions] Error saving selectedCompanion:', err);
+      }
+
+      this.applyEquippedCosmeticsClasses();
+      this.notifyListeners();
       return true;
     }
     return false;
@@ -85,16 +130,38 @@ class CompanionSystem {
     return this.charges[id] || 0;
   }
 
+  getEquipped(heroineId) {
+    return this.states[heroineId]?.equipped || { head: null, wings: null, charm: null };
+  }
+
+  /**
+   * Equips or unequips an item and persists state to IndexedDB
+   */
+  async equip(heroineId, slot, itemId) {
+    try {
+      const updatedState = await db.equipCosmetic(heroineId, slot, itemId);
+      this.states[heroineId] = updatedState;
+      this.applyEquippedCosmeticsClasses();
+      this.notifyListeners();
+      return updatedState;
+    } catch (err) {
+      console.error('[ValenQuest Companions] Error equipping item:', err);
+      return null;
+    }
+  }
+
   /**
    * Refills friendship charges upon reaching streak milestones.
+   * Persists new charges atomically to IndexedDB.
    */
-  rewardStreak(streak) {
+  async rewardStreak(streak) {
     if (streak > 0 && streak % 3 === 0) {
-      Object.keys(this.charges).forEach((key) => {
+      for (const key of Object.keys(this.charges)) {
         if (this.charges[key] < 3) {
           this.charges[key] += 1;
+          await db.updateCompanionCharges(key, this.charges[key]).catch(() => {});
         }
-      });
+      }
       sound.playStreak();
       speech.speak('¡La amistad brilla! Tus heroínas han recargado sus poderes mágicos.');
       this.notifyListeners();
@@ -123,6 +190,12 @@ class CompanionSystem {
     }
 
     this.charges[heroineId] -= 1;
+
+    // Persist charge change to IndexedDB
+    db.updateCompanionCharges(heroineId, this.charges[heroineId]).catch((err) => {
+      console.warn('[ValenQuest Companions] Error persisting charge decrement:', err);
+    });
+
     sound.playLevelUp();
     speech.speakDialogue(heroine.voiceQuote);
 
@@ -230,6 +303,46 @@ class CompanionSystem {
     }
 
     return { spoken: true, hint };
+  }
+
+  /**
+   * Applies CSS classes to heroine avatar containers so equipped SVG layers become visible
+   * @param {string|null} overrideHeroineId - Optional heroine ID to display on wardrobe preview avatar
+   */
+  applyEquippedCosmeticsClasses(overrideHeroineId = null) {
+    const allCosmeticIds = [
+      'tiara-basica',
+      'tiara-cristal',
+      'lazo-cielo',
+      'alas-aurora',
+      'corona-hojas',
+      'amuleto-bosque',
+    ];
+
+    ['valen', 'mia', 'zoe'].forEach((heroineId) => {
+      const card = document.getElementById(`card-heroine-${heroineId}`);
+      const equipped = this.getEquipped(heroineId);
+
+      allCosmeticIds.forEach((itemId) => {
+        const className = `equipped-${itemId}`;
+        const isEquipped = Object.values(equipped).includes(itemId);
+        if (card) {
+          card.classList.toggle(className, isEquipped);
+        }
+      });
+    });
+
+    // Also update wardrobe preview container if present
+    const preview = document.getElementById('wardrobe-preview-avatar');
+    if (preview) {
+      const targetHeroine = overrideHeroineId || this.activeId;
+      const targetEquipped = this.getEquipped(targetHeroine);
+      allCosmeticIds.forEach((itemId) => {
+        const className = `equipped-${itemId}`;
+        const isEquipped = Object.values(targetEquipped).includes(itemId);
+        preview.classList.toggle(className, isEquipped);
+      });
+    }
   }
 
   onChange(callback) {
