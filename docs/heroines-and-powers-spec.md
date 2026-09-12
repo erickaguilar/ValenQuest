@@ -6,7 +6,7 @@ Especificación técnica y narrativa del **Cuarteto de la Armonía** de **ValenQ
 
 ## 1. Lore del Cuarteto de la Armonía y las 4 Razas de Lumiria
 
-Al consolidar a **Valen** (Unicornio), **Mia** (Pegaso) y redefinir a **Zoe** como el ancla de la naturaleza (**Poni Terrestre**), el cuarteto se completa orgánicamente con la llegada de la **Alicornio Real: Lía** 👑.
+Al consolidar a **Valen** (Unicornio), **Reni** (Pegaso) y redefinir a **Zoe** como el ancla de la naturaleza (**Poni Terrestre**), el cuarteto se completa orgánicamente con la llegada de la **Alicornio Real: Lía** 👑.
 
 ```text
                   ┌─────────────────────────────────────┐
@@ -15,7 +15,7 @@ Al consolidar a **Valen** (Unicornio), **Mia** (Pegaso) y redefinir a **Zoe** co
                                      │
       ┌───────────────┬──────────────┴──────────────┬───────────────┐
       ▼               ▼                             ▼               ▼
- 🦄 VALEN           🪽 MIA                        🌿 ZOE          👑 LÍA
+ 🦄 VALEN           🪽 RENI                       🌿 ZOE          👑 LÍA
 (Unicornio)        (Pegaso)                  (Poni Terrestre)   (Alicornio)
 Magia & Prisma   Vuelo & Tiempo              Fuerza & Raíces    Realeza & Unión
 ```
@@ -25,16 +25,16 @@ Magia & Prisma   Vuelo & Tiempo              Fuerza & Raíces    Realeza & Unió
 | Heroína | Raza MLP | Rasgos Físicos & Visuales | Talento Especial | Poder de Amistad (Mecánica) |
 | --- | --- | --- | --- | --- |
 | **Valen** | **Unicornio** | Cuerno estelar luminoso, melena rosa (`--vq-pink-bubble`). | Telequinesis prismática y cálculo astral. | **Prisma Revelador:** Descarta 1 o 2 opciones falsas en pantalla mediante refracción de luz. |
-| **Mia** | **Pegaso** | Alas emplumadas batiendo a 60 FPS, coletas cielo (`--vq-sky`). | Vuelo acrobático y dominio del clima. | **Brisa Temporal:** Detiene el cronómetro ($t \le 4000\text{ ms}$) garantizando el factor de maestría $P = 1.0$. |
+| **Reni** | **Pegaso** | Alas emplumadas batiendo a 60 FPS, coletas cielo (`--vq-sky`). | Vuelo acrobático y dominio del clima. | **Brisa Temporal:** Detiene el cronómetro ($t \le 4000\text{ ms}$) garantizando el factor de maestría $P = 1.0$. |
 | **Zoe** | **Poni Terrestre** | Sin alas ni cuerno; cascos firmes de roble, melena menta (`--vq-mint`) y corona floral. | Conexión con la tierra, perseverancia y raíces del lenguaje. | **Escudo de Raíces:** Protege la racha ante un error (no resetea a 0) y activa la explicación guiada por voz (TTS). |
-| **Lía** | **Alicornio** | Alas grandes tornasoladas + cuerno dorado, melena violeta cósmico (`#7B2CBF`). | Realeza mágica y resonancia de la amistad. | **Destello Real (Doble Efecto):** Duplica las estrellas del reto ($2\times$) y recarga instantáneamente +1 carga al resto del equipo (`valen`, `mia`, `zoe`). |
+| **Lía** | **Alicornio** | Alas grandes tornasoladas + cuerno dorado, melena violeta cósmico (`#7B2CBF`). | Realeza mágica y resonancia de la amistad. | **Destello Real (Doble Efecto):** Duplica las estrellas del reto ($2\times$) y recarga instantáneamente +1 carga al resto del equipo (`valen`, `reni`, `zoe`). |
 
 ### 1.2. Integración en la Narrativa de los 10 Niveles
 
 En la historia de Lumiria, los cuatro templos cardinales solo pueden desbloquearse cuando las cuatro razas colaboran:
 
 * **Ponis Terrestres (Zoe):** Sostienen los cimientos de los templos subterráneos (*Caverna de Ámbar*, *Muralla de Nácar*), donde la perseverancia y la paciencia son indispensables.
-* **Pegasos (Mia):** Despejan tormentas y corrientes de aire en las alturas (*Vértice de Algodón*, *Cúspide de la Aurora*) para retos de agilidad mental.
+* **Pegasos (Reni):** Despejan tormentas y corrientes de aire en las alturas (*Vértice de Algodón*, *Cúspide de la Aurora*) para retos de agilidad mental.
 * **Unicornios (Valen):** Canalizan la energía pura del Prisma para desintegrar candados numéricos complejos (*Palacio Prisma*, *Reloj de las Arenas*).
 * **Alicornios (Lía):** Como princesa astral, Lía aparece como mentora en los templos culminantes y se une al equipo activo para enfrentar a la *Emperatriz Eclipse* en el Nivel 10.
 
@@ -47,7 +47,7 @@ En cumplimiento con el principio **Zero External Assets & Zero Dependencies**, t
 ### 2.1. Técnicas de Animación Vectorial Integradas
 1. **SMIL Nativo (`<animateTransform>` y `<animate>`):**
    * **Cuerno de Valen:** Modula su luminosidad y radio de destello estelar con un pulso sinusoidal continuo.
-   * **Alas de Mia:** Baten con balanceo de $\pm 8^\circ$ mediante `<animateTransform type="rotate">` sobre un pivote orgánico.
+   * **Alas de Reni:** Baten con balanceo de $\pm 8^\circ$ mediante `<animateTransform type="rotate">` sobre un pivote orgánico.
    * **Corona floral de Zoe:** Destello cálido en sus gemas y balanceo sutil de hojas.
 2. **CSS Keyframes Complementarios ([`animations.css`](file:///home/erickaguilar/Documentos/ValenQuest/www/css/animations.css)):**
    * `.vq-anim-bounce`: Rebote tierno chibi de respiración (60 FPS, acelerado por GPU).
@@ -79,7 +79,7 @@ Los poderes no son trampas que anulen el aprendizaje; son **andamios pedagógico
   4. Si el estudiante estaba usando el teclado numérico (`keypad`), cambia dinámicamente a modo opciones para que la ayuda sea perceptible.
 * **Efecto sonoro:** Arpegio ascendente de cristal + voz TTS: *"¡Mira el reflejo del prisma! He apartado una respuesta que no es."*
 
-#### 🪽 Poder de Mia: *Brisa Temporal*
+#### 🪽 Poder de Reni: *Brisa Temporal*
 * **Problema pedagógico que resuelve:** Prisa excesiva o frustración por el reloj en niños que temen equivocarse.
 * **Mecanismo e Integración con Rust EMA:**
   El motor en Rust [`src/engine/math_fsm.rs`](file:///home/erickaguilar/Documentos/ValenQuest/src/engine/math_fsm.rs) premia la agilidad mental asignando el valor de rendimiento $P$ según el tiempo de respuesta:
@@ -109,7 +109,7 @@ Los poderes no son trampas que anulen el aprendizaje; son **andamios pedagógico
 * **Problema pedagógico que resuelve:** Agotamiento de recursos en retos exigentes y necesidad de impulso multiplicador para desbloquear cosméticos en el Ropero Mágico.
 * **Mecanismo:**
   1. **Multiplicador Astral ($2\times$):** Asigna `app.starMultiplier = 2`, duplicando todas las estrellas base y bonos de racha obtenidos en el reto resuelto.
-  2. **Resonancia de la Amistad (Recarga en Equipo):** Itera sobre las 3 amigas (`valen`, `mia`, `zoe`) y les otorga instantáneamente **+1 carga de poder** (hasta el tope de 3 cargas).
+  2. **Resonancia de la Amistad (Recarga en Equipo):** Itera sobre las 3 amigas (`valen`, `reni`, `zoe`) y les otorga instantáneamente **+1 carga de poder** (hasta el tope de 3 cargas).
   3. **Feedback Visual:** Baña la tarjeta con un halo violeta cósmico y destello dorado (`.royal-boost`), acompañado de la fanfarria mágica y la locución: *"¡El Cuarteto de la Armonía une sus poderes! Doble estrella y energía mágica para todas."*
 
 ### 3.2. Sistema de Cargas y Racha de Amistad
@@ -135,7 +135,7 @@ www/js/
 ```
 
 ### 4.1. Módulo `companions.js`
-Expone la instancia singleton `companions`, que emite eventos de cambio (`onChange`) para actualizar los contadores (`#badge-valen`, `#badge-mia`, `#badge-zoe`, `#badge-lia`) sin necesidad de acoplamiento rígido con el renderizador de retos.
+Expone la instancia singleton `companions`, que emite eventos de cambio (`onChange`) para actualizar los contadores (`#badge-valen`, `#badge-reni`, `#badge-zoe`, `#badge-lia`) sin necesidad de acoplamiento rígido con el renderizador de retos.
 
 ---
 
@@ -179,7 +179,7 @@ body[data-theme="dark"],
 * **Protección Anti-Garbage Collector:** Se almacena la referencia activa de la instancia `SpeechSynthesisUtterance` para prevenir que WebKit en iOS corte el habla en medio de una frase.
 
 ### 6.3. Rendimiento Vectorial: Animaciones GPU puras con CSS
-Para asegurar 60 FPS estables en dispositivos móviles y tabletas económicas, los aleteos de alas de Mia, Zoe y el resplandor de Valen se migraron de SMIL a clases CSS puras (`transform: rotate()`, `transform-origin`, `will-change: transform`). Esto delega el renderizado al compositor de la GPU sin bloquear el hilo principal de JavaScript ni WebAssembly.
+Para asegurar 60 FPS estables en dispositivos móviles y tabletas económicas, los aleteos de alas de Reni y el resplandor de Valen se migraron de SMIL a clases CSS puras (`transform: rotate()`, `transform-origin`, `will-change: transform`). Esto delega el renderizado al compositor de la GPU sin bloquear el hilo principal de JavaScript ni WebAssembly.
 
 ---
 
@@ -188,7 +188,7 @@ Para asegurar 60 FPS estables en dispositivos móviles y tabletas económicas, l
 | Heroína | Raza MLP | Reto Matemático (Fase 1) | Reto de Fluidez Lectora (Fase 2) |
 |---|---|---|---|
 | **Valen** 🦄 | **Unicornio** | **Prisma Revelador:** Descarta 1-2 respuestas incorrectas. | **Luz Silábica:** Resalta la sílaba tónica o divide la palabra con guiones de colores de alta legibilidad. |
-| **Mia** 🪽 | **Pegaso** | **Brisa Temporal:** Resetea el reloj para asegurar $P = 1.0$. | **Brisa Calma:** Reduce temporalmente la velocidad RSVP (Palabras por Minuto) para asimilar el texto sin agobio. |
+| **Reni** 🪽 | **Pegaso** | **Brisa Temporal:** Resetea el reloj para asegurar $P = 1.0$. | **Brisa Calma:** Reduce temporalmente la velocidad RSVP (Palabras por Minuto) para asimilar el texto sin agobio. |
 | **Zoe** 🌿 | **Poni Terrestre** | **Escudo de Raíces:** Protege la racha ante error y explica paso a paso. | **Eco Amigo:** Lee en voz alta la oración completa con entonación natural antes de evaluar la comprensión lectora. |
 | **Lía** 👑 | **Alicornio** | **Destello Real:** Duplica estrellas ($2\times$) y recarga +1 a sus amigas. | **Corona de Comprensión:** Destaca las palabras clave e ideas principales del cuento con halo dorado celestial. |
 

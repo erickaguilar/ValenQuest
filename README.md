@@ -2,7 +2,7 @@
 
 > Plataforma educativa web local-first (PWA) para educación primaria (matemáticas adaptativas y fluidez lectora), ambientada en el universo de **Lumiria** con estética pastel mágica (*My Little Pony* + *Gacha Club*). Impulsada por un núcleo en **Rust + WebAssembly** y una presentación ultra-ligera en **Vanilla JavaScript (ES Modules) + HTML5/CSS3**.
 > 
-> Acompaña a la heroína **Valen** y a sus dos mejores amigas, **Mia** y **Zoe**, usando sus **Poderes de Amistad** para restaurar las constelaciones de la Gran Biblioteca de Lumiria.
+> Acompaña a la heroína **Valen** (Unicornio) y a su equipo del Cuarteto de la Armonía, **Reni** (Pegaso), **Zoe** (Poni Terrestre) y la princesa **Lía** (Alicornio), usando sus **Poderes de Amistad** para restaurar las constelaciones de la Gran Biblioteca de Lumiria.
 
 ---
 

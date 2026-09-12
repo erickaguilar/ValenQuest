@@ -55,7 +55,7 @@ class WardrobeManager {
     }
 
     // Heroine selection tabs inside wardrobe
-    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const tab = document.getElementById(`tab-wardrobe-${id}`);
       if (tab) {
         tab.addEventListener('click', () => {
@@ -104,7 +104,7 @@ class WardrobeManager {
     if (headerStars) headerStars.textContent = currentStars;
 
     // Update heroine tabs
-    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const tab = document.getElementById(`tab-wardrobe-${id}`);
       if (tab) {
         const isActive = id === this.activeHeroineId;

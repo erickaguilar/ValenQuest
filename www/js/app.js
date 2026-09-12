@@ -137,7 +137,7 @@ class KidsLearnApp {
 
   updatePowersBadges() {
     const isGated = companions.isPowerGated();
-    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const badge = document.getElementById(`badge-${id}`);
       const btn = document.getElementById(`btn-power-${id}`);
       const charges = companions.getCharges(id);
@@ -300,8 +300,8 @@ class KidsLearnApp {
       }
     });
 
-    // Heroines Harmony Quartet Selection (Valen, Mia, Zoe, Lía)
-    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
+    // Heroines Harmony Quartet Selection (Valen, Reni, Zoe, Lía)
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const card = document.getElementById(`card-heroine-${id}`);
       if (card) {
         card.addEventListener('click', () => {
@@ -321,8 +321,8 @@ class KidsLearnApp {
       }
     });
 
-    // Companion In-Game Power Buttons (Valen, Mia, Zoe, Lía)
-    ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
+    // Companion In-Game Power Buttons (Valen, Reni, Zoe, Lía)
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const btn = document.getElementById(`btn-power-${id}`);
       if (btn) {
         btn.addEventListener('click', () => {

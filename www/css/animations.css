@@ -157,7 +157,7 @@
   100% { opacity: 1.0; transform: scaleY(1.05); filter: drop-shadow(0 0 3px #FFD166); }
 }
 
-/* Mia: Aleteo de alas de pegaso (GPU Transform) */
+/* Reni: Aleteo de alas de pegaso (GPU Transform) */
 .vq-anim-wing-left {
   animation: vqWingFlapLeft 1.2s ease-in-out infinite alternate;
   transform-origin: 20px 66px;

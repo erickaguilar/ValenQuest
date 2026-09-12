@@ -1,6 +1,6 @@
 /**
  * ValenQuest Companions & Friendship Powers Module
- * Manages the Harmony Quartet of heroines: Valen (Unicorn), Mia (Pegasus), Zoe (Earth Pony), and Lía (Alicorn).
+ * Manages the Harmony Quartet of heroines: Valen (Unicorn), Reni (Pegasus), Zoe (Earth Pony), and Lía (Alicorn).
  * Coordinates their animated avatars, lore quotes, and friendship powers during quest challenges.
  * Backed by IndexedDB (valenquest_db) for persistent charges, times invoked, and equipped cosmetics.
  */
@@ -24,19 +24,19 @@ export const HEROINES = {
     powerDescription: 'Refracta la luz para descartar una o dos respuestas incorrectas.',
     voiceQuote: '¡Mira el reflejo del prisma! He apartado una respuesta que no es.',
   },
-  mia: {
-    id: 'mia',
-    name: 'Mia',
+  reni: {
+    id: 'reni',
+    name: 'Reni',
     race: 'pegasus',
     raceName: 'Pegaso',
     title: 'Alquimista de los Vientos',
     element: 'Vuelo y Tiempo',
     color: 'var(--vq-sky)',
-    symbolId: 'vq-heroine-mia',
+    symbolId: 'vq-heroine-reni',
     emoji: '🪽',
     powerName: 'Brisa Temporal',
     powerDescription: 'Detiene el tiempo y te da calma para asegurar máxima maestría (P = 1.0).',
-    voiceQuote: '¡Respira hondo! La brisa detiene el tiempo para que pienses tranquila.',
+    voiceQuote: '¡Reni despeja el viento para darte tiempo! Piensa con calma.',
   },
   zoe: {
     id: 'zoe',
@@ -74,7 +74,7 @@ class CompanionSystem {
     // Power charges for each heroine (refill with streaks)
     this.charges = {
       valen: 2,
-      mia: 2,
+      reni: 2,
       zoe: 2,
       lia: 2,
     };
@@ -96,7 +96,7 @@ class CompanionSystem {
       const allStates = await db.getAllCompanionsState();
       if (allStates) {
         this.states = allStates;
-        ['valen', 'mia', 'zoe', 'lia'].forEach((id) => {
+        ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
           if (allStates[id] && typeof allStates[id].charges === 'number') {
             this.charges[id] = allStates[id].charges;
           }
@@ -191,7 +191,7 @@ class CompanionSystem {
 
   /**
    * Activates the selected heroine power.
-   * @param {string} heroineId - 'valen' | 'mia' | 'zoe'
+   * @param {string} heroineId - 'valen' | 'reni' | 'zoe' | 'lia'
    * @param {Object} context - Game context ({ mathSession, app })
    */
   activatePower(heroineId, context) {
@@ -228,9 +228,9 @@ class CompanionSystem {
         effectResult = this.applyValenPower(context);
         break;
       }
-      case 'mia': {
-        // Mia: Freezes time and resets challenge timer
-        effectResult = this.applyMiaPower(context);
+      case 'reni': {
+        // Reni: Freezes time and resets challenge timer
+        effectResult = this.applyReniPower(context);
         break;
       }
       case 'zoe': {
@@ -285,7 +285,7 @@ class CompanionSystem {
     return { discarded: discardedCount };
   }
 
-  applyMiaPower(context) {
+  applyReniPower(context) {
     const { app } = context;
     if (app) {
       // Reset challenge start time to now, guaranteeing elapsed_ms is minimal for P = 1.0
@@ -342,8 +342,8 @@ class CompanionSystem {
       app.starMultiplier = 2;
     }
 
-    // Recarga +1 carga a las tres amigas (Valen, Mia, Zoe) hasta tope de 3
-    ['valen', 'mia', 'zoe'].forEach((id) => {
+    // Recarga +1 carga a las tres amigas (Valen, Reni, Zoe) hasta tope de 3
+    ['valen', 'reni', 'zoe'].forEach((id) => {
       if (this.charges[id] < 3) {
         this.charges[id] = Math.min(3, this.charges[id] + 1);
         db.updateCompanionCharges(id, this.charges[id]).catch(() => {});
@@ -378,7 +378,7 @@ class CompanionSystem {
       'alas-majestuosas',
     ];
 
-    ['valen', 'mia', 'zoe', 'lia'].forEach((heroineId) => {
+    ['valen', 'reni', 'zoe', 'lia'].forEach((heroineId) => {
       const card = document.getElementById(`card-heroine-${heroineId}`);
       const equipped = this.getEquipped(heroineId);
 

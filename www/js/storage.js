@@ -8,7 +8,7 @@
  */
 
 const DB_NAME = 'valenquest_db';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 export const INITIAL_COSMETICS = [
   {
@@ -35,25 +35,25 @@ export const INITIAL_COSMETICS = [
   },
   {
     itemId: 'lazo-cielo',
-    heroineId: 'mia',
+    heroineId: 'reni',
     slot: 'head',
     name: 'Lazo Celeste de Viento',
     costStars: 0,
     unlocked: true,
     icon: '🎀',
     description: 'Cinta etérea hilada con la brisa suave de las nubes.',
-    svgLayerId: 'cosmetic-mia-lazo-cielo',
+    svgLayerId: 'cosmetic-reni-lazo-cielo',
   },
   {
     itemId: 'alas-aurora',
-    heroineId: 'mia',
+    heroineId: 'reni',
     slot: 'wings',
     name: 'Alas de Fénix Tornasol',
     costStars: 25,
     unlocked: false,
     icon: '🪽',
     description: 'Plumas tornasoladas con el resplandor de la aurora boreal.',
-    svgLayerId: 'cosmetic-mia-alas-aurora',
+    svgLayerId: 'cosmetic-reni-alas-aurora',
   },
   {
     itemId: 'corona-hojas',
@@ -122,8 +122,8 @@ export const INITIAL_COMPANIONS = [
     equipped: { head: 'tiara-basica', wings: null, charm: null },
   },
   {
-    heroineId: 'mia',
-    name: 'Mia',
+    heroineId: 'reni',
+    name: 'Reni',
     race: 'pegasus',
     charges: 2,
     timesInvoked: 0,
@@ -266,6 +266,79 @@ class StorageService {
           }
         });
       }
+
+      // 1b. Migration: Mia -> Reni (Profile selected companion)
+      if (profExists) {
+        await new Promise((res) => {
+          try {
+            const tx = this.db.transaction('player_profile', 'readwrite');
+            const store = tx.objectStore('player_profile');
+            const req = store.get('active');
+            req.onsuccess = () => {
+              const prof = req.result;
+              if (prof && prof.selectedCompanion === 'mia') {
+                prof.selectedCompanion = 'reni';
+                store.put(prof);
+              }
+            };
+            tx.oncomplete = () => res(true);
+            tx.onerror = () => res(false);
+          } catch (e) {
+            res(false);
+          }
+        });
+      }
+
+      // 1c. Migration: Mia -> Reni (Companions state)
+      await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('companions_state', 'readwrite');
+          const store = tx.objectStore('companions_state');
+          const req = store.get('mia');
+          req.onsuccess = () => {
+            const miaData = req.result;
+            if (miaData) {
+              const reniData = {
+                ...miaData,
+                heroineId: 'reni',
+                name: 'Reni',
+                race: 'pegasus',
+              };
+              store.put(reniData);
+              store.delete('mia');
+            }
+          };
+          tx.oncomplete = () => res(true);
+          tx.onerror = () => res(false);
+        } catch (e) {
+          res(false);
+        }
+      });
+
+      // 1d. Migration: Mia -> Reni (Cosmetics catalog)
+      await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('cosmetics_catalog', 'readwrite');
+          const store = tx.objectStore('cosmetics_catalog');
+          const req = store.getAll();
+          req.onsuccess = () => {
+            const items = req.result || [];
+            items.forEach((item) => {
+              if (item.heroineId === 'mia') {
+                item.heroineId = 'reni';
+                if (item.svgLayerId) {
+                  item.svgLayerId = item.svgLayerId.replace('cosmetic-mia-', 'cosmetic-reni-');
+                }
+                store.put(item);
+              }
+            });
+          };
+          tx.oncomplete = () => res(true);
+          tx.onerror = () => res(false);
+        } catch (e) {
+          res(false);
+        }
+      });
 
       // 2. Seed Companions State (Seed defaults and ensure missing heroines like Lía are added)
       const existingCompKeys = await new Promise((res) => {

@@ -692,7 +692,7 @@
   box-shadow: 0 0 0 3px var(--vq-pink-bubble), var(--vq-shadow-hard);
 }
 
-#card-heroine-mia.active-companion {
+#card-heroine-reni.active-companion {
   border-color: var(--vq-sky);
   box-shadow: 0 0 0 3px var(--vq-sky), var(--vq-shadow-hard);
 }
@@ -793,7 +793,7 @@
     transform: translateY(-2px);
     background: var(--vq-pink-light);
   }
-  #btn-power-mia:hover {
+  #btn-power-reni:hover {
     background: var(--vq-sky-light);
   }
   #btn-power-zoe:hover {
@@ -1431,9 +1431,11 @@
 .equipped-tiara-cristal .vq-cosmetic-valen-tiara-cristal {
   display: inline !important;
 }
+.equipped-alas-aurora .vq-cosmetic-reni-alas-aurora,
 .equipped-alas-aurora .vq-cosmetic-mia-alas-aurora {
   display: inline !important;
 }
+.equipped-lazo-cielo .vq-cosmetic-reni-lazo-cielo,
 .equipped-lazo-cielo .vq-cosmetic-mia-lazo-cielo {
   display: inline !important;
 }
