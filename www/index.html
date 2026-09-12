@@ -19,6 +19,11 @@
   </script>
   
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ValenQuest">
 
   <!-- Arquitectura Modular CSS -->
   <link rel="stylesheet" href="css/tokens.css">
@@ -46,6 +51,10 @@
         </div>
       </div>
       <div class="header-actions">
+        <!-- Botón de Descarga / Instalación PWA -->
+        <button id="btn-install-pwa" class="icon-btn pwa-install-icon-btn" aria-label="Descargar e instalar app" title="Descargar e instalar ValenQuest en tu pantalla de inicio" hidden>
+          📥
+        </button>
         <!-- Selector Modo Obscuro (Noche Astral) -->
         <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
           🌙
@@ -187,6 +196,18 @@
             </p>
           </div>
 
+        <!-- Banner de Descarga / Instalación PWA (Móvil, Tablet y Desktop) -->
+        <div id="pwa-install-banner" class="pwa-install-banner" hidden>
+          <div class="pwa-banner-left">
+            <span class="pwa-banner-icon" aria-hidden="true">📲</span>
+            <div class="pwa-banner-info">
+              <strong class="pwa-banner-title">¡Descarga e instala ValenQuest!</strong>
+              <span class="pwa-banner-subtitle">Juega en pantalla completa y 100% sin conexión a internet.</span>
+            </div>
+          </div>
+          <button id="btn-banner-install" class="pwa-banner-btn" type="button">
+            <span>📥 Descargar App</span>
+          </button>
         </div>
 
         <button id="btn-start-quest" class="cta-start-btn" type="button">
@@ -335,6 +356,36 @@
         </p>
         <button id="btn-modal-dismiss" class="action-btn" style="justify-content:center;margin-top:8px;">
           ¡Continuar jugando! 🚀
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal de Instrucciones de Instalación para iOS / iPad (Safari) -->
+    <div id="pwa-ios-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="ios-modal-title">
+      <div class="modal-content">
+        <div style="font-size:3rem;">📲 ✨</div>
+        <h2 id="ios-modal-title" style="font-size:1.4rem;font-weight:900;color:var(--vq-pink-bubble);">
+          Instalar en tu iPad o iPhone
+        </h2>
+        <p style="color:var(--vq-text-muted);font-size:0.9rem;font-weight:600;">
+          Sigue estos 3 pasos en Safari para jugar en pantalla completa y sin conexión:
+        </p>
+        <div class="ios-steps-list">
+          <div class="ios-step-item">
+            <span class="ios-step-num">1</span>
+            <span>Toca el botón <strong>Compartir</strong> ⎋ <small>(icono con la flecha hacia arriba)</small>.</span>
+          </div>
+          <div class="ios-step-item">
+            <span class="ios-step-num">2</span>
+            <span>Baja un poco y selecciona <strong>"Añadir a la pantalla de inicio"</strong> ➕.</span>
+          </div>
+          <div class="ios-step-item">
+            <span class="ios-step-num">3</span>
+            <span>Toca <strong>Añadir</strong> arriba a la derecha. ¡Listo para jugar! 🦄</span>
+          </div>
+        </div>
+        <button id="btn-pwa-ios-dismiss" class="action-btn" style="justify-content:center;margin-top:6px;">
+          ¡Entendido! 👍
         </button>
       </div>
     </div>

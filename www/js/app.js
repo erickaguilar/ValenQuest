@@ -9,6 +9,7 @@ import { sound } from './audio.js';
 import { db } from './storage.js';
 import { speech } from './speech.js';
 import { companions } from './companions.js';
+import { pwa } from './pwa.js';
 
 class KidsLearnApp {
   constructor() {
@@ -69,6 +70,9 @@ class KidsLearnApp {
 
       // Ensure intro tab is active initially
       this.switchTab('intro');
+
+      // Initialize PWA installation and Service Worker engine
+      pwa.init();
 
       console.log('🚀 [ValenQuest] Application ready with Heroines Trio & Friendship Powers!');
     } catch (err) {
