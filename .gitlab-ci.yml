@@ -1,0 +1,10 @@
+image: rust:latest
+
+stages:
+  - test
+
+test_engine:
+  stage: test
+  script:
+    - rustup target add wasm32-unknown-unknown
+    - cargo test --verbose
