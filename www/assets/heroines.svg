@@ -1,12 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 
   <!-- ======================================================================
-       1. HEROÍNA PRINCIPAL: VALEN (Unicornio Astral de Lumiria)
+       1. HEROÍNA PRINCIPAL: VALEN (Princesa Astral de Lumiria - Alicornio Líder)
        ====================================================================== -->
   <symbol id="vq-heroine-valen" viewBox="0 0 100 100">
     <g class="vq-anim-float">
-      <!-- Aura de Cristal Rosa -->
+      <!-- Aura de Cristal Rosa y Oro -->
       <circle cx="50" cy="54" r="38" fill="#FFC8DD" opacity="0.35" class="vq-sparkle"/>
+
+      <!-- Alas Celestiales de Alicornio (GPU CSS Animation) -->
+      <g class="vq-anim-wing-left" style="display: var(--show-default-wings, inline);">
+        <path d="M16,42 C0,28 -4,46 4,64 C12,74 24,70 24,70 C16,56 12,48 18,40 Z" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M14,48 C6,40 4,54 10,64 C14,70 20,68 20,68 Z" fill="#FFD166" opacity="0.9"/>
+      </g>
+      <g class="vq-anim-wing-right" style="display: var(--show-default-wings, inline);">
+        <path d="M84,42 C100,28 104,46 96,64 C88,74 76,70 76,70 C84,56 88,48 82,40 Z" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3"/>
+        <path d="M86,48 C94,40 96,54 90,64 C86,70 80,68 80,68 Z" fill="#FFD166" opacity="0.9"/>
+      </g>
+
+      <!-- Cosmético: Alas Cósmicas Tornasol (Valen Alicornio) -->
+      <g id="cosmetic-valen-alas-majestuosas" class="vq-cosmetic vq-cosmetic-valen-alas-majestuosas" style="display: var(--show-alas-majestuosas, none);">
+        <path class="vq-anim-wing-left" d="M12,36 C-4,20 -6,44 2,66 C10,78 26,72 26,72 C16,58 10,46 16,38 Z" fill="#F472B6" stroke="#4A3E56" stroke-width="3"/>
+        <path class="vq-anim-wing-left" d="M10,44 C0,34 0,52 8,64 C14,72 22,70 22,70 Z" fill="#FFD166" opacity="0.95"/>
+        <path class="vq-anim-wing-right" d="M88,36 C104,20 106,44 98,66 C90,78 74,72 74,72 C84,58 90,46 84,38 Z" fill="#F472B6" stroke="#4A3E56" stroke-width="3"/>
+        <path class="vq-anim-wing-right" d="M90,44 C100,34 100,52 92,64 C86,72 78,70 78,70 Z" fill="#FFD166" opacity="0.95"/>
+      </g>
       
       <!-- Cabeza Chibi Suave -->
       <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
@@ -179,30 +197,12 @@
   </symbol>
 
   <!-- ======================================================================
-       4. HEROÍNA 4: LÍA (Princesa Astral de Lumiria - Alicornio Real)
+       4. HEROÍNA 4: LÍA (Maga del Cristal Cósmico - Unicornio)
        ====================================================================== -->
   <symbol id="vq-heroine-lia" viewBox="0 0 100 100">
     <g class="vq-anim-float">
       <!-- Resplandor Astral Cósmico Púrpura y Oro -->
       <circle cx="50" cy="54" r="39" fill="#9D4EDD" opacity="0.30" class="vq-sparkle"/>
-
-      <!-- Alas Reales Majestuosas Batientes (Alas de Alicornio) -->
-      <g class="vq-anim-wing-left" style="display: var(--show-default-wings, inline);">
-        <path d="M16,42 C0,28 -4,46 4,64 C12,74 24,70 24,70 C16,56 12,48 18,40 Z" fill="#9D4EDD" stroke="#4A3E56" stroke-width="3"/>
-        <path d="M14,48 C6,40 4,54 10,64 C14,70 20,68 20,68 Z" fill="#FFD166" opacity="0.9"/>
-      </g>
-      <g class="vq-anim-wing-right" style="display: var(--show-default-wings, inline);">
-        <path d="M84,42 C100,28 104,46 96,64 C88,74 76,70 76,70 C84,56 88,48 82,40 Z" fill="#9D4EDD" stroke="#4A3E56" stroke-width="3"/>
-        <path d="M86,48 C94,40 96,54 90,64 C86,70 80,68 80,68 Z" fill="#FFD166" opacity="0.9"/>
-      </g>
-
-      <!-- Cosmético: Alas Cósmicas Tornasol (Lía) -->
-      <g id="cosmetic-lia-alas-majestuosas" class="vq-cosmetic vq-cosmetic-lia-alas-majestuosas" style="display: var(--show-alas-majestuosas, none);">
-        <path class="vq-anim-wing-left" d="M12,36 C-4,20 -6,44 2,66 C10,78 26,72 26,72 C16,58 10,46 16,38 Z" fill="#7B2CBF" stroke="#4A3E56" stroke-width="3"/>
-        <path class="vq-anim-wing-left" d="M10,44 C0,34 0,52 8,64 C14,72 22,70 22,70 Z" fill="#FFD166" opacity="0.95"/>
-        <path class="vq-anim-wing-right" d="M88,36 C104,20 106,44 98,66 C90,78 74,72 74,72 C84,58 90,46 84,38 Z" fill="#7B2CBF" stroke="#4A3E56" stroke-width="3"/>
-        <path class="vq-anim-wing-right" d="M90,44 C100,34 100,52 92,64 C86,72 78,70 78,70 Z" fill="#FFD166" opacity="0.95"/>
-      </g>
 
       <!-- Cabeza Chibi Suave -->
       <circle cx="50" cy="54" r="32" fill="#FDF7FF" stroke="#4A3E56" stroke-width="4"/>
@@ -212,13 +212,15 @@
       <path d="M68,34 C80,42 84,62 78,74 C74,80 66,84 66,84 C74,70 74,48 64,38 Z" fill="#9D4EDD" stroke="#4A3E56" stroke-width="3"/>
       <path d="M28,28 C38,16 62,16 72,28 C64,22 36,22 28,28 Z" fill="#7B2CBF"/>
 
-      <!-- Cuerno Real Dorado con Fulgor Astral -->
+      <!-- Aura Telequinética Violeta Cósmico y Cuerno de Cristal -->
+      <circle cx="50" cy="14" r="14" fill="#9D4EDD" opacity="0.45" class="vq-sparkle"/>
+      <circle cx="50" cy="14" r="8" fill="#FFD166" opacity="0.35" class="vq-sparkle"/>
       <polygon points="50,4 42,24 58,24" fill="#FFD166" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
       <polygon points="50,4 46,24 54,24" fill="#FFFFFF" opacity="0.85" class="vq-anim-horn-glow"/>
-      <!-- Estrella Real en la cúspide del cuerno -->
+      <!-- Estrella de Cristal en la cúspide del cuerno -->
       <polygon points="50,1 52,4 56,5 53,6 50,9 47,6 44,5 48,4" fill="#FFD166" stroke="#4A3E56" stroke-width="1.2" class="vq-sparkle"/>
 
-      <!-- Orejas Reales de Alicornio -->
+      <!-- Orejas de Unicornio -->
       <path d="M26,30 L20,16 L34,22 Z" fill="#FDF7FF" stroke="#4A3E56" stroke-width="3"/>
       <path d="M25,26 L22,18 L31,22 Z" fill="#9D4EDD"/>
       <path d="M74,30 L80,16 L66,22 Z" fill="#FDF7FF" stroke="#4A3E56" stroke-width="3"/>

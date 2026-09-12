@@ -8,7 +8,7 @@
  */
 
 const DB_NAME = 'valenquest_db';
-const DB_VERSION = 3;
+const DB_VERSION = 4;
 
 export const INITIAL_COSMETICS = [
   {
@@ -32,6 +32,17 @@ export const INITIAL_COSMETICS = [
     icon: '💎',
     description: 'Forjada con tres puntas de cristal que refractan destellos arcoíris.',
     svgLayerId: 'cosmetic-valen-tiara-cristal',
+  },
+  {
+    itemId: 'alas-majestuosas',
+    heroineId: 'valen',
+    slot: 'wings',
+    name: 'Alas Cósmicas Tornasol',
+    costStars: 30,
+    unlocked: false,
+    icon: '🪽',
+    description: 'Plumas celestiales imbuidas con el fulgor de la realeza alicornio.',
+    svgLayerId: 'cosmetic-valen-alas-majestuosas',
   },
   {
     itemId: 'lazo-cielo',
@@ -99,24 +110,14 @@ export const INITIAL_COSMETICS = [
     description: 'Artefacto real que canaliza la resonancia mágica de la amistad.',
     svgLayerId: 'cosmetic-lia-cetro-cometa',
   },
-  {
-    itemId: 'alas-majestuosas',
-    heroineId: 'lia',
-    slot: 'wings',
-    name: 'Alas Cósmicas Tornasol',
-    costStars: 30,
-    unlocked: false,
-    icon: '🪽',
-    description: 'Plumas celestiales imbuidas con el fulgor de la realeza alicornio.',
-    svgLayerId: 'cosmetic-lia-alas-majestuosas',
-  },
 ];
 
 export const INITIAL_COMPANIONS = [
   {
     heroineId: 'valen',
     name: 'Valen',
-    race: 'unicorn',
+    race: 'alicorn',
+    isLeader: true,
     charges: 2,
     timesInvoked: 0,
     equipped: { head: 'tiara-basica', wings: null, charm: null },
@@ -140,7 +141,7 @@ export const INITIAL_COMPANIONS = [
   {
     heroineId: 'lia',
     name: 'Lía',
-    race: 'alicorn',
+    race: 'unicorn',
     charges: 2,
     timesInvoked: 0,
     equipped: { head: 'tiara-solsticio', wings: null, charm: null },
@@ -332,6 +333,57 @@ class StorageService {
                 store.put(item);
               }
             });
+          };
+          tx.oncomplete = () => res(true);
+          tx.onerror = () => res(false);
+        } catch (e) {
+          res(false);
+        }
+      });
+
+      // 1e. Migration: Valen -> Alicorn & Lía -> Unicorn
+      await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('companions_state', 'readwrite');
+          const store = tx.objectStore('companions_state');
+          const valenReq = store.get('valen');
+          valenReq.onsuccess = () => {
+            if (valenReq.result) {
+              const valenData = valenReq.result;
+              valenData.race = 'alicorn';
+              valenData.isLeader = true;
+              store.put(valenData);
+            }
+          };
+          const liaReq = store.get('lia');
+          liaReq.onsuccess = () => {
+            if (liaReq.result) {
+              const liaData = liaReq.result;
+              liaData.race = 'unicorn';
+              liaData.isLeader = false;
+              store.put(liaData);
+            }
+          };
+          tx.oncomplete = () => res(true);
+          tx.onerror = () => res(false);
+        } catch (e) {
+          res(false);
+        }
+      });
+
+      // 1f. Migration: alas-majestuosas reassigned to Valen
+      await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('cosmetics_catalog', 'readwrite');
+          const store = tx.objectStore('cosmetics_catalog');
+          const req = store.get('alas-majestuosas');
+          req.onsuccess = () => {
+            if (req.result) {
+              const item = req.result;
+              item.heroineId = 'valen';
+              item.svgLayerId = 'cosmetic-valen-alas-majestuosas';
+              store.put(item);
+            }
           };
           tx.oncomplete = () => res(true);
           tx.onerror = () => res(false);

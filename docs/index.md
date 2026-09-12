@@ -35,14 +35,14 @@ docs/
 ### 2. 🌟 [El Cuarteto de la Armonía: Las 4 Razas de Lumiria, Poderes y Ropero](./heroines-and-powers-spec.md)
 * **Alcance:** Gamificación afectiva, 4 razas canónicas (MLP), andamiaje pedagógico y economía de estrellas.
 * **Temas Clave:**
-  * Las 4 razas de Lumiria: **Valen** 🦄 (Unicornio), **Reni** 🪽 (Pegaso), **Zoe** 🌿 (Poni Terrestre) y **Lía** 👑 (Alicornio Real).
+  * Las 4 razas de Lumiria: **Valen** 👑 (Alicornio Líder), **Reni** 🪽 (Pegaso), **Zoe** 🌿 (Poni Terrestre) y **Lía** 🦄 (Unicornio).
   * Mecánicas de amistad:
-    * *Prisma Revelador* (Valen: descarte de 1-2 opciones).
+    * *Prisma Real* (Valen: descarte de 2 opciones + $2\times$ estrellas).
     * *Brisa Temporal* (Reni: pausa de latencia con $P = 1.0$).
     * *Escudo de Raíces* (Zoe: protección de racha ante error + guía TTS).
-    * *Destello Real* (Lía: $2\times$ estrellas + recarga +1 a sus amigas).
+    * *Foco de Cristal* (Lía: resalta la pista clave del reto).
   * Retardo intencional de poderes (**Gating Cognitivo de 1.8s**).
-  * Persistencia transaccional en `IndexedDB` (`valenquest_db` v3) con sembrado atómico y migración.
+  * Persistencia transaccional en `IndexedDB` (`valenquest_db` v4) con sembrado atómico y migración de razas.
   * Ropero Mágico con 4 heroínas y cosméticos exclusivos de Alicornio (`tiara-solsticio`, `cetro-cometa`, `alas-majestuosas`).
 
 ---

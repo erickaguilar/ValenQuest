@@ -6,28 +6,28 @@ Especificación técnica y narrativa del **Cuarteto de la Armonía** de **ValenQ
 
 ## 1. Lore del Cuarteto de la Armonía y las 4 Razas de Lumiria
 
-Al consolidar a **Valen** (Unicornio), **Reni** (Pegaso) y redefinir a **Zoe** como el ancla de la naturaleza (**Poni Terrestre**), el cuarteto se completa orgánicamente con la llegada de la **Alicornio Real: Lía** 👑.
+Al ascender a **Valen como Alicornio**, se consolida como la princesa y heroína central de Lumiria (reuniendo la magia del cuerno estelar y la agilidad de las alas celestiales), mientras que **Lía** asume el rol canónico de **Unicornio** del cristal y la telequinesis:
 
 ```text
-                  ┌─────────────────────────────────────┐
-                  │      EL CUARTETO DE LA ARMONÍA      │
-                  └──────────────────┬──────────────────┘
-                                     │
-      ┌───────────────┬──────────────┴──────────────┬───────────────┐
-      ▼               ▼                             ▼               ▼
- 🦄 VALEN           🪽 RENI                       🌿 ZOE          👑 LÍA
-(Unicornio)        (Pegaso)                  (Poni Terrestre)   (Alicornio)
-Magia & Prisma   Vuelo & Tiempo              Fuerza & Raíces    Realeza & Unión
+                  ┌─────────────────────────────────────────┐
+                  │        EL CUARTETO DE LA ARMONÍA        │
+                  └────────────────────┬────────────────────┘
+                                       │
+      ┌────────────────┬───────────────┴───────────────┬────────────────┐
+      ▼                ▼                               ▼                ▼
+   👑 VALEN          🪽 RENI                         🌿 ZOE           🦄 LÍA
+  (Alicornio)       (Pegaso)                    (Poni Terrestre)   (Unicornio)
+Heroína Central   Viento y Tiempo               Fuerza y Lectura  Cristal y Magia
 ```
 
 ### 1.1. Perfiles de Personaje y Razas Canónicas
 
 | Heroína | Raza MLP | Rasgos Físicos & Visuales | Talento Especial | Poder de Amistad (Mecánica) |
 | --- | --- | --- | --- | --- |
-| **Valen** | **Unicornio** | Cuerno estelar luminoso, melena rosa (`--vq-pink-bubble`). | Telequinesis prismática y cálculo astral. | **Prisma Revelador:** Descarta 1 o 2 opciones falsas en pantalla mediante refracción de luz. |
-| **Reni** | **Pegaso** | Alas emplumadas batiendo a 60 FPS, coletas cielo (`--vq-sky`). | Vuelo acrobático y dominio del clima. | **Brisa Temporal:** Detiene el cronómetro ($t \le 4000\text{ ms}$) garantizando el factor de maestría $P = 1.0$. |
-| **Zoe** | **Poni Terrestre** | Sin alas ni cuerno; cascos firmes de roble, melena menta (`--vq-mint`) y corona floral. | Conexión con la tierra, perseverancia y raíces del lenguaje. | **Escudo de Raíces:** Protege la racha ante un error (no resetea a 0) y activa la explicación guiada por voz (TTS). |
-| **Lía** | **Alicornio** | Alas grandes tornasoladas + cuerno dorado, melena violeta cósmico (`#7B2CBF`). | Realeza mágica y resonancia de la amistad. | **Destello Real (Doble Efecto):** Duplica las estrellas del reto ($2\times$) y recarga instantáneamente +1 carga al resto del equipo (`valen`, `reni`, `zoe`). |
+| **Valen** 👑 | **Alicornio** *(Líder)* | Cuerno dorado brillante + alas emplumadas rosas (`--vq-pink-bubble`) con halo astral. | Conduce la aventura en todos los niveles; canaliza la magia suprema. | **Prisma Real:** Descarta 2 opciones incorrectas y otorga un multiplicador de estrellas ($2\times$) al acertar. |
+| **Reni** 🪽 | **Pegaso** | Alas emplumadas batiendo a 60 FPS, coletas cielo (`--vq-sky`). | Vuelo acrobático y dominio del clima. | **Brisa Temporal:** Detiene el cronómetro ($t \le 4000\text{ ms}$) garantizando el factor de maestría $P = 1.0$. |
+| **Zoe** 🌿 | **Poni Terrestre** | Sin alas ni cuerno; cascos firmes de roble, melena menta (`--vq-mint`) y corona floral. | Conexión con la tierra, perseverancia y raíces del lenguaje. | **Escudo de Raíces:** Protege la racha ante un error (no resetea a 0) y activa la explicación guiada por voz (TTS). |
+| **Lía** 🦄 | **Unicornio** | Cuerno místico violeta cósmico (`#7B2CBF`), destellos de gemas y aura telequinética. | Telequinesis y geometría mental. | **Foco de Cristal:** Resalta la pista clave del problema (el acarreo en matemáticas o la descomposición) con guía sonora. |
 
 ### 1.2. Integración en la Narrativa de los 10 Niveles
 
@@ -35,8 +35,8 @@ En la historia de Lumiria, los cuatro templos cardinales solo pueden desbloquear
 
 * **Ponis Terrestres (Zoe):** Sostienen los cimientos de los templos subterráneos (*Caverna de Ámbar*, *Muralla de Nácar*), donde la perseverancia y la paciencia son indispensables.
 * **Pegasos (Reni):** Despejan tormentas y corrientes de aire en las alturas (*Vértice de Algodón*, *Cúspide de la Aurora*) para retos de agilidad mental.
-* **Unicornios (Valen):** Canalizan la energía pura del Prisma para desintegrar candados numéricos complejos (*Palacio Prisma*, *Reloj de las Arenas*).
-* **Alicornios (Lía):** Como princesa astral, Lía aparece como mentora en los templos culminantes y se une al equipo activo para enfrentar a la *Emperatriz Eclipse* en el Nivel 10.
+* **Unicornios (Lía):** Canalizan la energía pura del Cristal Cósmico y la telequinesis para enfocar y resolver enigmas geométricos (*Palacio Prisma*, *Reloj de las Arenas*).
+* **Alicornios (Valen):** Como princesa astral y líder de Lumiria, Valen guía a sus tres amigas y canaliza el Prisma Real para restaurar la luz estelar y enfrentar a la *Emperatriz Eclipse* en el Nivel 10.
 
 ---
 
@@ -70,14 +70,15 @@ Los poderes no son trampas que anulen el aprendizaje; son **andamios pedagógico
 
 ### 3.1. Detalle Técnico de Cada Poder
 
-#### 🦄 Poder de Valen: *Prisma Revelador*
-* **Problema pedagógico que resuelve:** Sobrecarga cognitiva cuando un niño enfrenta 4 alternativas y se siente abrumado.
+#### 👑 Poder de Valen: *Prisma Real*
+* **Problema pedagógico que resuelve:** Sobrecarga cognitiva y necesidad de motivación multiplicativa ante retos complejos.
 * **Mecanismo:**
   1. Consulta a Rust WASM el valor correcto mediante `mathSession.get_correct_answer()`.
   2. Localiza los botones del DOM en `#options-grid`.
   3. Deshabilita y tacha visualmente hasta 2 distractores incorrectos (`opacity: 0.3`, `text-decoration: line-through`).
   4. Si el estudiante estaba usando el teclado numérico (`keypad`), cambia dinámicamente a modo opciones para que la ayuda sea perceptible.
-* **Efecto sonoro:** Arpegio ascendente de cristal + voz TTS: *"¡Mira el reflejo del prisma! He apartado una respuesta que no es."*
+  5. Activa el multiplicador astral `app.starMultiplier = 2`, duplicando todas las estrellas base y bonos de racha al acertar el reto.
+* **Efecto visual y sonoro:** Fanfarria mágica + halo `.royal-boost` y locución: *"¡El Prisma Real de Lumiria refracta la verdad y duplica tus estrellas!"*
 
 #### 🪽 Poder de Reni: *Brisa Temporal*
 * **Problema pedagógico que resuelve:** Prisa excesiva o frustración por el reloj en niños que temen equivocarse.
@@ -105,15 +106,18 @@ Los poderes no son trampas que anulen el aprendizaje; son **andamios pedagógico
      * **Resta ($-$):** *"Comienzas con 14 y quitas 6. Cuenta hacia atrás para descubrir lo que queda."*
      * **Multiplicación ($\times$):** *"Multiplicar es sumar varias veces: son 4 grupos de 3."*
 
-#### 👑 Poder de Lía: *Destello Real (Doble Efecto)*
-* **Problema pedagógico que resuelve:** Agotamiento de recursos en retos exigentes y necesidad de impulso multiplicador para desbloquear cosméticos en el Ropero Mágico.
+#### 🦄 Poder de Lía: *Foco de Cristal*
+* **Problema pedagógico que resuelve:** Dificultad para identificar el núcleo del problema (el acarreo en sumas, la descomposición en restas o las agrupaciones en multiplicaciones).
 * **Mecanismo:**
-  1. **Multiplicador Astral ($2\times$):** Asigna `app.starMultiplier = 2`, duplicando todas las estrellas base y bonos de racha obtenidos en el reto resuelto.
-  2. **Resonancia de la Amistad (Recarga en Equipo):** Itera sobre las 3 amigas (`valen`, `reni`, `zoe`) y les otorga instantáneamente **+1 carga de poder** (hasta el tope de 3 cargas).
-  3. **Feedback Visual:** Baña la tarjeta con un halo violeta cósmico y destello dorado (`.royal-boost`), acompañado de la fanfarria mágica y la locución: *"¡El Cuarteto de la Armonía une sus poderes! Doble estrella y energía mágica para todas."*
+  1. Analiza los operandos activos de `mathSession` e identifica el paso matemático clave:
+     * **Acarreo en suma:** Advierte cuando la suma de unidades supera la decena ($a + b \ge 10$) y guía la descomposición.
+     * **Descomposición en resta:** Detecta si la unidad del minuendo es menor a la del sustraendo y guía el préstamo de la decena.
+     * **Multiplicación conceptual:** Recuerda la adición iterada de grupos.
+  2. Activa el halo `.crystal-focus` en la tarjeta de reto con destellos dorados y violetas.
+  3. Guía por voz TTS con tono calmado: *"¡Mi cuerno de cristal enfoca el camino! Observa la pista luminosa."*
 
 ### 3.2. Sistema de Cargas y Racha de Amistad
-* Cada heroína inicia con **2 cargas** de poder en `valenquest_db` (v2).
+* Cada heroína inicia con **2 cargas** de poder en `valenquest_db` (v4).
 * **Recarga por Racha:** Por cada **3 aciertos consecutivos** validados por Rust (`currentStreak % 3 === 0`), todas las heroínas del cuarteto recuperan **+1 carga** (hasta un máximo de 3).
 * Esto enseña a los niños la disciplina del esfuerzo constante: usar un poder para desbloquearse, pero esforzarse para recargarlo.
 
@@ -187,8 +191,8 @@ Para asegurar 60 FPS estables en dispositivos móviles y tabletas económicas, l
 
 | Heroína | Raza MLP | Reto Matemático (Fase 1) | Reto de Fluidez Lectora (Fase 2) |
 |---|---|---|---|
-| **Valen** 🦄 | **Unicornio** | **Prisma Revelador:** Descarta 1-2 respuestas incorrectas. | **Luz Silábica:** Resalta la sílaba tónica o divide la palabra con guiones de colores de alta legibilidad. |
+| **Valen** 👑 | **Alicornio** | **Prisma Real:** Descarta 2 opciones incorrectas y duplica estrellas ($2\times$). | **Corona de Comprensión:** Destaca las palabras clave e ideas principales del cuento con halo dorado celestial. |
 | **Reni** 🪽 | **Pegaso** | **Brisa Temporal:** Resetea el reloj para asegurar $P = 1.0$. | **Brisa Calma:** Reduce temporalmente la velocidad RSVP (Palabras por Minuto) para asimilar el texto sin agobio. |
 | **Zoe** 🌿 | **Poni Terrestre** | **Escudo de Raíces:** Protege la racha ante error y explica paso a paso. | **Eco Amigo:** Lee en voz alta la oración completa con entonación natural antes de evaluar la comprensión lectora. |
-| **Lía** 👑 | **Alicornio** | **Destello Real:** Duplica estrellas ($2\times$) y recarga +1 a sus amigas. | **Corona de Comprensión:** Destaca las palabras clave e ideas principales del cuento con halo dorado celestial. |
+| **Lía** 🦄 | **Unicornio** | **Foco de Cristal:** Resalta la pista clave del reto (acarreo o descomposición). | **Luz Silábica:** Resalta la sílaba tónica o divide la palabra con guiones de colores de alta legibilidad. |
 

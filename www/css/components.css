@@ -824,9 +824,15 @@
 
 /* Feedback de Poderes en Tarjeta de Reto */
 .challenge-card.royal-boost {
-  border-color: var(--vq-alicorn-purple) !important;
-  box-shadow: 0 0 30px var(--vq-alicorn-aura), 0 0 15px var(--vq-gold), 0 6px 0 var(--vq-border) !important;
+  border-color: var(--vq-pink-bubble) !important;
+  box-shadow: 0 0 30px rgba(255, 175, 204, 0.7), 0 0 15px var(--vq-gold), 0 6px 0 var(--vq-border) !important;
   animation: royalBoostPulse 1.2s ease-in-out infinite alternate;
+}
+
+.challenge-card.crystal-focus {
+  border-color: var(--vq-alicorn-purple) !important;
+  box-shadow: 0 0 25px var(--vq-alicorn-aura), 0 0 15px #FFD166, 0 6px 0 var(--vq-border) !important;
+  animation: crystalFocusGlow 1s ease-in-out infinite alternate;
 }
 
 .challenge-card.shield-protect {
@@ -838,6 +844,11 @@
 @keyframes royalBoostPulse {
   0% { transform: scale(1); filter: brightness(1); }
   100% { transform: scale(1.02); filter: brightness(1.08); }
+}
+
+@keyframes crystalFocusGlow {
+  0% { transform: scale(1); filter: drop-shadow(0 0 4px var(--vq-alicorn-purple)); }
+  100% { transform: scale(1.02); filter: drop-shadow(0 0 10px var(--vq-gold)); }
 }
 
 .companion-powers-bar.powers-gated {
@@ -1451,6 +1462,7 @@
 .equipped-cetro-cometa .vq-cosmetic-lia-cetro-cometa {
   display: inline !important;
 }
+.equipped-alas-majestuosas .vq-cosmetic-valen-alas-majestuosas,
 .equipped-alas-majestuosas .vq-cosmetic-lia-alas-majestuosas {
   display: inline !important;
 }

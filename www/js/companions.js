@@ -13,16 +13,17 @@ export const HEROINES = {
   valen: {
     id: 'valen',
     name: 'Valen',
-    race: 'unicorn',
-    raceName: 'Unicornio',
-    title: 'Guardiana del Prisma Astral',
-    element: 'Luz y Prisma',
+    race: 'alicorn',
+    raceName: 'Alicornio',
+    isLeader: true,
+    title: 'Princesa Astral de Lumiria',
+    element: 'Magia y Realeza',
     color: 'var(--vq-pink-bubble)',
     symbolId: 'vq-heroine-valen',
-    emoji: '🦄',
-    powerName: 'Prisma Revelador',
-    powerDescription: 'Refracta la luz para descartar una o dos respuestas incorrectas.',
-    voiceQuote: '¡Mira el reflejo del prisma! He apartado una respuesta que no es.',
+    emoji: '👑',
+    powerName: 'Prisma Real',
+    powerDescription: 'Descarta 2 opciones incorrectas y otorga un multiplicador de estrellas (2x) al acertar.',
+    voiceQuote: '¡El Prisma Real de Lumiria refracta la verdad y duplica tus estrellas!',
   },
   reni: {
     id: 'reni',
@@ -55,16 +56,16 @@ export const HEROINES = {
   lia: {
     id: 'lia',
     name: 'Lía',
-    race: 'alicorn',
-    raceName: 'Alicornio Real',
-    title: 'Princesa Astral de Lumiria',
-    element: 'Realeza y Unión',
+    race: 'unicorn',
+    raceName: 'Unicornio',
+    title: 'Maga del Cristal Cósmico',
+    element: 'Cristal y Magia',
     color: 'var(--vq-alicorn-purple)',
     symbolId: 'vq-heroine-lia',
-    emoji: '👑',
-    powerName: 'Destello Real',
-    powerDescription: '¡Doble efecto! Duplica las estrellas del reto y recarga +1 carga a tus amigas.',
-    voiceQuote: '¡El Cuarteto de la Armonía une sus poderes! Doble estrella y energía mágica para todas.',
+    emoji: '🦄',
+    powerName: 'Foco de Cristal',
+    powerDescription: 'Resalta la pista clave del problema (el acarreo o la descomposición) con telequinesis.',
+    voiceQuote: '¡Mi cuerno de cristal enfoca el camino! Observa la pista luminosa.',
   },
 };
 
@@ -253,7 +254,20 @@ class CompanionSystem {
 
   applyValenPower(context) {
     const { mathSession, app } = context;
-    if (!mathSession) return { discarded: 0 };
+    if (app) {
+      // Prisma Real: Duplica estrellas (2x) al acertar
+      app.starMultiplier = 2;
+    }
+
+    const card = document.getElementById('math-challenge-card');
+    if (card) {
+      card.classList.add('royal-boost');
+      setTimeout(() => {
+        card.classList.remove('royal-boost');
+      }, 2500);
+    }
+
+    if (!mathSession) return { discarded: 0, starMultiplier: 2 };
 
     // If student was on keypad mode, switch to choice mode so discarded options are visible
     if (app && app.inputMode === 'keypad') {
@@ -282,7 +296,7 @@ class CompanionSystem {
       }
     }
 
-    return { discarded: discardedCount };
+    return { discarded: discardedCount, starMultiplier: 2 };
   }
 
   applyReniPower(context) {
@@ -336,29 +350,45 @@ class CompanionSystem {
   }
 
   applyLiaPower(context) {
-    const { app } = context;
-    if (app) {
-      // Duplica las estrellas del reto actual
-      app.starMultiplier = 2;
-    }
+    const { mathSession } = context;
+    let clue = '';
 
-    // Recarga +1 carga a las tres amigas (Valen, Reni, Zoe) hasta tope de 3
-    ['valen', 'reni', 'zoe'].forEach((id) => {
-      if (this.charges[id] < 3) {
-        this.charges[id] = Math.min(3, this.charges[id] + 1);
-        db.updateCompanionCharges(id, this.charges[id]).catch(() => {});
+    if (mathSession) {
+      const op1 = mathSession.get_operand1();
+      const op = mathSession.get_operator();
+      const op2 = mathSession.get_operand2();
+      const ans = mathSession.get_correct_answer();
+
+      if (op === '+') {
+        if (op1 + op2 >= 10) {
+          const unit1 = op1 % 10;
+          const unit2 = op2 % 10;
+          clue = `¡Foco de Cristal! ${op1} más ${op2} cruza la decena: suma primero las unidades ${unit1} + ${unit2} = ${unit1 + unit2}.`;
+        } else {
+          clue = `¡Foco de Cristal! Suma directa: reúne ${op1} y ${op2} para obtener ${ans}.`;
+        }
+      } else if (op === '-') {
+        if (op1 >= 10 && (op1 % 10) < (op2 % 10)) {
+          clue = `¡Foco de Cristal! Descompón la decena de ${op1} para restar ${op2} con facilidad.`;
+        } else {
+          clue = `¡Foco de Cristal! A ${op1} le quitas ${op2}, te quedan ${ans}.`;
+        }
+      } else if (op === '×') {
+        clue = `¡Foco de Cristal! Multiplicar ${op1} × ${op2}: suma ${op1} veces el número ${op2}.`;
       }
-    });
+
+      speech.speak(clue, { rate: 0.9, pitch: 1.15 });
+    }
 
     const card = document.getElementById('math-challenge-card');
     if (card) {
-      card.classList.add('royal-boost');
+      card.classList.add('crystal-focus');
       setTimeout(() => {
-        card.classList.remove('royal-boost');
+        card.classList.remove('crystal-focus');
       }, 2500);
     }
 
-    return { starMultiplier: 2, teamRefilled: true };
+    return { crystalFocus: true, clue };
   }
 
   /**
