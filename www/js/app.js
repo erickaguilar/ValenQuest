@@ -34,6 +34,10 @@ class KidsLearnApp {
   async init() {
     console.log('🌟 [ValenQuest] Initializing application in Lumiria...');
 
+    // 1. Bind event listeners immediately so all buttons respond with zero delay
+    this.setupEventListeners();
+    this.syncThemeButton();
+
     try {
       this.wasm = await loadWasm();
       const profile = await db.getProfile();
@@ -45,9 +49,6 @@ class KidsLearnApp {
       // Load persisted companion states & initialize wardrobe system
       await companions.loadState();
       wardrobe.init();
-
-      // Synchronize theme icon with current state
-      this.syncThemeButton();
 
       // Hook speech synthesis speaking state to visual indicator
       speech.onSpeakingChange((speaking) => {
@@ -76,7 +77,6 @@ class KidsLearnApp {
       // Initialize Rust ReadingSession
       this.readingSession = new this.wasm.ReadingSession();
 
-      this.setupEventListeners();
       this.updatePowersBadges();
       this.renderProfileHeader(profile);
       this.renderMathChallenge();

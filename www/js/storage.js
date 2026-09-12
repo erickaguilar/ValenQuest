@@ -113,6 +113,7 @@ class StorageService {
    * Initializes or upgrades IndexedDB to v2 schema with transactional seeding
    */
   async init() {
+    if (this.db) return this.db;
     if (this.initPromise) return this.initPromise;
 
     this.initPromise = new Promise((resolve, reject) => {
@@ -153,18 +154,18 @@ class StorageService {
 
       request.onsuccess = async (event) => {
         this.db = event.target.result;
+        resolve(this.db);
         try {
-          // Perform automatic first-time seeding
+          // Perform automatic first-time seeding asynchronously
           await this.ensureSeedData();
-          resolve(this.db);
         } catch (seedErr) {
           console.warn('[ValenQuest Storage] Seed verification warning:', seedErr);
-          resolve(this.db);
         }
       };
 
       request.onerror = (event) => {
         console.error('Fatal error opening IndexedDB:', event.target.error);
+        this.initPromise = null;
         reject(event.target.error);
       };
     });
@@ -173,56 +174,108 @@ class StorageService {
   }
 
   /**
-   * Seeds default profile, companions and cosmetics if table is empty
+   * Seeds default profile, companions and cosmetics safely without transaction yielding
    */
   async ensureSeedData() {
-    // 1. Seed Profile
-    const profile = await this.getProfile();
-    if (!profile) {
-      const initialProfile = {
-        id: 'active',
-        name: 'Valen',
-        avatar: '🦄',
-        stars: 5, // 5 starter stars for instant celebration!
-        selectedCompanion: 'valen',
-        theme: localStorage.getItem('vq-theme') || 'light',
-        mathTier: 1,
-        readingTier: 1,
-        totalMathSolved: 0,
-        totalMathCorrect: 0,
-        bestStreak: 0,
-        currentStreak: 0,
-        lastPlayed: new Date().toISOString(),
-      };
-      await this.saveProfile(initialProfile);
-    }
+    if (!this.db || this._isSeeding) return;
+    this._isSeeding = true;
 
-    // 2. Seed Companions State
-    const companionsTx = this.db.transaction('companions_state', 'readwrite');
-    const compStore = companionsTx.objectStore('companions_state');
-    for (const comp of INITIAL_COMPANIONS) {
-      const existing = await new Promise((res) => {
-        const req = compStore.get(comp.heroineId);
-        req.onsuccess = () => res(req.result);
-        req.onerror = () => res(null);
+    try {
+      // 1. Seed Profile if not present
+      const profExists = await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('player_profile', 'readonly');
+          const req = tx.objectStore('player_profile').get('active');
+          req.onsuccess = () => res(!!req.result);
+          req.onerror = () => res(false);
+        } catch (e) {
+          res(false);
+        }
       });
-      if (!existing) {
-        compStore.put(comp);
-      }
-    }
 
-    // 3. Seed Cosmetics Catalog
-    const catalogTx = this.db.transaction('cosmetics_catalog', 'readwrite');
-    const catStore = catalogTx.objectStore('cosmetics_catalog');
-    for (const item of INITIAL_COSMETICS) {
-      const existing = await new Promise((res) => {
-        const req = catStore.get(item.itemId);
-        req.onsuccess = () => res(req.result);
-        req.onerror = () => res(null);
-      });
-      if (!existing) {
-        catStore.put(item);
+      if (!profExists) {
+        await new Promise((res, rej) => {
+          try {
+            const tx = this.db.transaction('player_profile', 'readwrite');
+            const store = tx.objectStore('player_profile');
+            const initialProfile = {
+              id: 'active',
+              name: 'Valen',
+              avatar: '🦄',
+              stars: 5, // 5 starter stars for instant celebration!
+              selectedCompanion: 'valen',
+              theme: (typeof localStorage !== 'undefined' && localStorage.getItem('vq-theme')) || 'light',
+              currentTier: 1,
+              mathTier: 1,
+              readingTier: 1,
+              totalMathSolved: 0,
+              totalMathCorrect: 0,
+              bestStreak: 0,
+              currentStreak: 0,
+              lastPlayed: new Date().toISOString(),
+            };
+            store.put(initialProfile);
+            tx.oncomplete = () => res(true);
+            tx.onerror = () => rej(tx.error);
+          } catch (e) {
+            rej(e);
+          }
+        });
       }
+
+      // 2. Seed Companions State if empty
+      const compCount = await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('companions_state', 'readonly');
+          const req = tx.objectStore('companions_state').count();
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => res(0);
+        } catch (e) {
+          res(0);
+        }
+      });
+
+      if (compCount === 0) {
+        await new Promise((res, rej) => {
+          try {
+            const tx = this.db.transaction('companions_state', 'readwrite');
+            const store = tx.objectStore('companions_state');
+            INITIAL_COMPANIONS.forEach((comp) => store.put(comp));
+            tx.oncomplete = () => res(true);
+            tx.onerror = () => rej(tx.error);
+          } catch (e) {
+            rej(e);
+          }
+        });
+      }
+
+      // 3. Seed Cosmetics Catalog if empty
+      const catCount = await new Promise((res) => {
+        try {
+          const tx = this.db.transaction('cosmetics_catalog', 'readonly');
+          const req = tx.objectStore('cosmetics_catalog').count();
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => res(0);
+        } catch (e) {
+          res(0);
+        }
+      });
+
+      if (catCount === 0) {
+        await new Promise((res, rej) => {
+          try {
+            const tx = this.db.transaction('cosmetics_catalog', 'readwrite');
+            const store = tx.objectStore('cosmetics_catalog');
+            INITIAL_COSMETICS.forEach((item) => store.put(item));
+            tx.oncomplete = () => res(true);
+            tx.onerror = () => rej(tx.error);
+          } catch (e) {
+            rej(e);
+          }
+        });
+      }
+    } finally {
+      this._isSeeding = false;
     }
   }
 
@@ -231,19 +284,44 @@ class StorageService {
   // =========================================================================
   async getProfile() {
     await this.init();
-    return new Promise((resolve, reject) => {
-      const tx = this.db.transaction('player_profile', 'readonly');
-      const store = tx.objectStore('player_profile');
-      const req = store.get('active');
+    return new Promise((resolve) => {
+      try {
+        const tx = this.db.transaction('player_profile', 'readonly');
+        const store = tx.objectStore('player_profile');
+        const req = store.get('active');
 
-      req.onsuccess = () => {
-        if (req.result) {
-          resolve(req.result);
-        } else {
-          resolve(null);
-        }
-      };
-      req.onerror = () => reject(req.error);
+        req.onsuccess = () => {
+          if (req.result) {
+            resolve(req.result);
+          } else {
+            resolve({
+              id: 'active',
+              name: 'Valen',
+              avatar: '🦄',
+              stars: 5,
+              currentTier: 1,
+              selectedCompanion: 'valen',
+            });
+          }
+        };
+        req.onerror = () => resolve({
+          id: 'active',
+          name: 'Valen',
+          avatar: '🦄',
+          stars: 5,
+          currentTier: 1,
+          selectedCompanion: 'valen',
+        });
+      } catch (err) {
+        resolve({
+          id: 'active',
+          name: 'Valen',
+          avatar: '🦄',
+          stars: 5,
+          currentTier: 1,
+          selectedCompanion: 'valen',
+        });
+      }
     });
   }
 

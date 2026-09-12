@@ -8,6 +8,25 @@ class SoundEngine {
   constructor() {
     this.ctx = null;
     this.muted = false;
+    this.initWarmUp();
+  }
+
+  /**
+   * Pre-emptively unlocks Web Audio pipeline upon first touch interaction on mobile
+   */
+  initWarmUp() {
+    if (typeof window === 'undefined') return;
+    const unlockHandler = () => {
+      this.ensureContext();
+      window.removeEventListener('pointerdown', unlockHandler);
+      window.removeEventListener('touchstart', unlockHandler);
+      window.removeEventListener('click', unlockHandler);
+      window.removeEventListener('keydown', unlockHandler);
+    };
+    window.addEventListener('pointerdown', unlockHandler, { once: true, passive: true });
+    window.addEventListener('touchstart', unlockHandler, { once: true, passive: true });
+    window.addEventListener('click', unlockHandler, { once: true, passive: true });
+    window.addEventListener('keydown', unlockHandler, { once: true, passive: true });
   }
 
   /**

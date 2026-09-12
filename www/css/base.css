@@ -14,16 +14,27 @@
   display: none !important;
 }
 
+html {
+  height: 100%;
+  overscroll-behavior-y: contain;
+}
+
 body {
   font-family: var(--vq-font-kids);
   background-color: var(--vq-bg-canvas);
   color: var(--vq-text);
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   line-height: 1.5;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: contain;
   transition: background-color 0.3s ease, color 0.3s ease;
 
   /* Polka dot pastel background */
@@ -39,10 +50,31 @@ body {
   max-width: 680px;
   margin: 0 auto;
   padding: 16px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   gap: 16px;
   flex: 1;
+}
+
+/* Mobile Touch Ergonomics: Zero 300ms tap delay & no double-tap zoom */
+button,
+[role="button"],
+.tab-btn,
+.key-btn,
+.option-btn,
+.icon-btn,
+.power-btn,
+.wardrobe-action-btn,
+.wardrobe-tab-btn,
+.story-chip {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* Header */
@@ -105,9 +137,11 @@ body {
   transition: transform 0.1s ease, background 0.15s ease;
 }
 
-.icon-btn:hover {
-  background: var(--vq-pink-bubble);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .icon-btn:hover {
+    background: var(--vq-pink-bubble);
+    transform: translateY(-2px);
+  }
 }
 
 .icon-btn:active {
