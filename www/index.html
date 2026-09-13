@@ -602,6 +602,88 @@
       </div>
     </section>
 
+    <!-- =================================================================== -->
+    <!-- DESAFÍO DE PORTAL (ENCUENTROS DE AMISTAD - FIN DE NIVEL)            -->
+    <!-- =================================================================== -->
+    <div id="portal-challenge-modal" class="modal-backdrop portal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="portal-modal-title">
+      <div class="modal-content portal-modal-content">
+        <!-- Banner del Templo y Página del Grimorio -->
+        <div class="portal-header">
+          <div class="portal-badge-row">
+            <span class="portal-page-pill" id="portal-page-pill">📖 Página 1 de 10</span>
+            <span class="portal-act-pill" id="portal-act-pill">Acto I</span>
+          </div>
+          <h2 id="portal-modal-title" class="portal-title">Manantial de Rocío</h2>
+          <p class="portal-subtitle" id="portal-subtitle">Desafío de Portal • Encuentro de Amistad</p>
+        </div>
+
+        <!-- Guardián Astral en Escena (Transición Corrompido -> Purificado) -->
+        <div class="portal-guardian-stage">
+          <div class="guardian-avatar-wrapper" id="portal-guardian-wrapper">
+            <div class="guardian-shadow-aura" id="guardian-shadow-aura"></div>
+            <div class="guardian-purified-glow" id="guardian-purified-glow" hidden></div>
+            <div class="guardian-emoji-display" id="portal-guardian-emoji">🫧</div>
+          </div>
+          <div class="guardian-meta">
+            <h3 class="guardian-name" id="portal-guardian-name">Poni Burbuja</h3>
+            <span class="guardian-status-badge corrupted" id="portal-guardian-status">Sombra del Eclipse</span>
+          </div>
+        </div>
+
+        <!-- Fase 1: Micro-cuento Narrativo (4 líneas con resaltado de voz TTS) -->
+        <div class="portal-story-card">
+          <div class="story-card-header">
+            <span class="story-icon">📜</span>
+            <span class="story-label">Micro-cuento del Guardián</span>
+            <button id="btn-portal-speak-story" class="portal-tts-btn" type="button" aria-label="Escuchar micro-cuento con voz">
+              <span>🗣️</span> <span>Escuchar</span>
+            </button>
+          </div>
+          <div class="portal-story-lines" id="portal-story-lines">
+            <p class="portal-line" data-line="0">Cargando cuento...</p>
+            <p class="portal-line" data-line="1"></p>
+            <p class="portal-line" data-line="2"></p>
+            <p class="portal-line" data-line="3"></p>
+          </div>
+        </div>
+
+        <!-- Fase 2: Reto Dual Lógico-Matemático -->
+        <div class="portal-riddle-card" id="portal-riddle-card">
+          <div class="riddle-header">
+            <span>✨</span> <strong>El Reto Dual del Guardián</strong>
+          </div>
+          <p class="riddle-prompt" id="portal-riddle-prompt">
+            Cargando acertijo...
+          </p>
+          <div class="portal-options-grid" id="portal-options-grid">
+            <!-- 4 fichas interactivas táctiles -->
+          </div>
+          <p class="portal-riddle-hint" id="portal-riddle-hint" hidden></p>
+        </div>
+
+        <!-- Fase 3: Celebración, Purificación y Recompensa Cosmética -->
+        <div class="portal-reward-card" id="portal-reward-card" hidden>
+          <div class="reward-celebration-title">🎉 ¡Guardián Purificado! 🌟</div>
+          <div class="reward-badge-unlocked">
+            <div class="reward-cosmetic-icon" id="portal-reward-icon">👑</div>
+            <div class="reward-cosmetic-info">
+              <div class="reward-cosmetic-name" id="portal-reward-name">Tiara de Rocío Astral</div>
+              <div class="reward-cosmetic-desc" id="portal-reward-desc">Desbloqueado en tu Ropero Mágico</div>
+            </div>
+          </div>
+          <div class="portal-actions-row">
+            <button id="btn-portal-equip-now" class="action-btn equip-action-btn" type="button">
+              ✨ Equipar Accesorio
+            </button>
+            <button id="btn-portal-continue" class="action-btn continue-action-btn" type="button">
+              Avanzar al Siguiente Templo 🚀
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Level Up Celebration Modal (STRICTLY HIDDEN BY DEFAULT) -->
     <div id="level-up-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modal-tier-title">
       <div class="modal-content">

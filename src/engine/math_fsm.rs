@@ -1,38 +1,51 @@
 //! Math FSM and Adaptive EMA Engine
-//! Implements a 6-tier curricular progression state machine with Exponential
-//! Moving Average (EMA) mastery calculation and distractor generation.
+//! Implements a 10-tier curricular progression state machine corresponding to
+//! "La Leyenda de las Diez Lunas de Lumiria" with Exponential Moving Average (EMA)
+//! mastery calculation, procedural problem generation, and distractor synthesis.
 
 use wasm_bindgen::prelude::*;
 use serde::Serialize;
 use crate::engine::prng::Xorshift64;
 
-/// 6 Curricular Tiers for Primary Education Math
+/// 10 Curricular Tiers matching the 10 Astral Temples of Lumiria
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CurricularTier {
-    /// Tier 1: Sumas sin acarreo (1..9, total <= 10)
-    Tier1SumNoCarry = 1,
-    /// Tier 2: Sumas con acarreo (total hasta 25)
-    Tier2SumCarry = 2,
-    /// Tier 3: Restas sin llevada (resultado >= 0, minuendo <= 20)
-    Tier3SubNoBorrow = 3,
-    /// Tier 4: Restas con llevada (minuendo 11..30)
+    /// Nivel 1: Manantial de Rocío (Sumas simples directas a + b <= 10)
+    Tier1SumDirect = 1,
+    /// Nivel 2: Bosque Susurrante (Suma y resta hasta 20 sin acarreos)
+    Tier2SumSub20 = 2,
+    /// Nivel 3: Vértice de Algodón (Suma de dos cifras con acarreo forzado)
+    Tier3SumCarry = 3,
+    /// Nivel 4: Caverna de Ámbar (Resta con transformación / desagrupación)
     Tier4SubBorrow = 4,
-    /// Tier 5: Multiplicaciones introductorias (tablas del 1 al 5)
+    /// Nivel 5: Palacio Prisma (Tablas 2, 3, 5 y 10)
     Tier5MultIntro = 5,
-    /// Tier 6: Multiplicaciones completas de un dígito (tablas del 6 al 9)
+    /// Nivel 6: Reloj de las Arenas (Tablas 4, 6, 7, 8, 9, dobles y mitades)
     Tier6MultAdvanced = 6,
+    /// Nivel 7: Mar de Coral Profundo (Reparto equitativo / división exacta)
+    Tier7DivisionExact = 7,
+    /// Nivel 8: Muralla de Nácar (Fracciones visuales: medios, cuartos, octavos)
+    Tier8FractionsVisual = 8,
+    /// Nivel 9: Cúspide de la Aurora (Operaciones combinadas con paréntesis)
+    Tier9OrderOfOperations = 9,
+    /// Nivel 10: Trono de las Estrellas (Acertijo numérico final y alta fluidez)
+    Tier10HighFluencyRiddles = 10,
 }
 
 impl CurricularTier {
     pub fn from_u8(val: u8) -> Self {
         match val {
-            1 => CurricularTier::Tier1SumNoCarry,
-            2 => CurricularTier::Tier2SumCarry,
-            3 => CurricularTier::Tier3SubNoBorrow,
+            1 => CurricularTier::Tier1SumDirect,
+            2 => CurricularTier::Tier2SumSub20,
+            3 => CurricularTier::Tier3SumCarry,
             4 => CurricularTier::Tier4SubBorrow,
             5 => CurricularTier::Tier5MultIntro,
             6 => CurricularTier::Tier6MultAdvanced,
-            _ => CurricularTier::Tier1SumNoCarry,
+            7 => CurricularTier::Tier7DivisionExact,
+            8 => CurricularTier::Tier8FractionsVisual,
+            9 => CurricularTier::Tier9OrderOfOperations,
+            10 => CurricularTier::Tier10HighFluencyRiddles,
+            _ => CurricularTier::Tier1SumDirect,
         }
     }
 
@@ -42,34 +55,46 @@ impl CurricularTier {
 
     pub fn name(self) -> &'static str {
         match self {
-            CurricularTier::Tier1SumNoCarry => "Nivel 1: Sumas Básicas",
-            CurricularTier::Tier2SumCarry => "Nivel 2: Sumas con Acarreo",
-            CurricularTier::Tier3SubNoBorrow => "Nivel 3: Restas Simples",
-            CurricularTier::Tier4SubBorrow => "Nivel 4: Restas con Llevada",
-            CurricularTier::Tier5MultIntro => "Nivel 5: Tablas del 1 al 5",
-            CurricularTier::Tier6MultAdvanced => "Nivel 6: Multiplicación Maestra",
+            CurricularTier::Tier1SumDirect => "Nivel 1: Manantial de Rocío",
+            CurricularTier::Tier2SumSub20 => "Nivel 2: Bosque Susurrante",
+            CurricularTier::Tier3SumCarry => "Nivel 3: Vértice de Algodón",
+            CurricularTier::Tier4SubBorrow => "Nivel 4: Caverna de Ámbar",
+            CurricularTier::Tier5MultIntro => "Nivel 5: Palacio Prisma",
+            CurricularTier::Tier6MultAdvanced => "Nivel 6: Reloj de las Arenas",
+            CurricularTier::Tier7DivisionExact => "Nivel 7: Mar de Coral Profundo",
+            CurricularTier::Tier8FractionsVisual => "Nivel 8: Muralla de Nácar",
+            CurricularTier::Tier9OrderOfOperations => "Nivel 9: Cúspide de la Aurora",
+            CurricularTier::Tier10HighFluencyRiddles => "Nivel 10: Trono de las Estrellas",
         }
     }
 
     pub fn next(self) -> Self {
         match self {
-            CurricularTier::Tier1SumNoCarry => CurricularTier::Tier2SumCarry,
-            CurricularTier::Tier2SumCarry => CurricularTier::Tier3SubNoBorrow,
-            CurricularTier::Tier3SubNoBorrow => CurricularTier::Tier4SubBorrow,
+            CurricularTier::Tier1SumDirect => CurricularTier::Tier2SumSub20,
+            CurricularTier::Tier2SumSub20 => CurricularTier::Tier3SumCarry,
+            CurricularTier::Tier3SumCarry => CurricularTier::Tier4SubBorrow,
             CurricularTier::Tier4SubBorrow => CurricularTier::Tier5MultIntro,
             CurricularTier::Tier5MultIntro => CurricularTier::Tier6MultAdvanced,
-            CurricularTier::Tier6MultAdvanced => CurricularTier::Tier6MultAdvanced,
+            CurricularTier::Tier6MultAdvanced => CurricularTier::Tier7DivisionExact,
+            CurricularTier::Tier7DivisionExact => CurricularTier::Tier8FractionsVisual,
+            CurricularTier::Tier8FractionsVisual => CurricularTier::Tier9OrderOfOperations,
+            CurricularTier::Tier9OrderOfOperations => CurricularTier::Tier10HighFluencyRiddles,
+            CurricularTier::Tier10HighFluencyRiddles => CurricularTier::Tier10HighFluencyRiddles,
         }
     }
 
     pub fn prev(self) -> Self {
         match self {
-            CurricularTier::Tier1SumNoCarry => CurricularTier::Tier1SumNoCarry,
-            CurricularTier::Tier2SumCarry => CurricularTier::Tier1SumNoCarry,
-            CurricularTier::Tier3SubNoBorrow => CurricularTier::Tier2SumCarry,
-            CurricularTier::Tier4SubBorrow => CurricularTier::Tier3SubNoBorrow,
+            CurricularTier::Tier1SumDirect => CurricularTier::Tier1SumDirect,
+            CurricularTier::Tier2SumSub20 => CurricularTier::Tier1SumDirect,
+            CurricularTier::Tier3SumCarry => CurricularTier::Tier2SumSub20,
+            CurricularTier::Tier4SubBorrow => CurricularTier::Tier3SumCarry,
             CurricularTier::Tier5MultIntro => CurricularTier::Tier4SubBorrow,
             CurricularTier::Tier6MultAdvanced => CurricularTier::Tier5MultIntro,
+            CurricularTier::Tier7DivisionExact => CurricularTier::Tier6MultAdvanced,
+            CurricularTier::Tier8FractionsVisual => CurricularTier::Tier7DivisionExact,
+            CurricularTier::Tier9OrderOfOperations => CurricularTier::Tier8FractionsVisual,
+            CurricularTier::Tier10HighFluencyRiddles => CurricularTier::Tier9OrderOfOperations,
         }
     }
 }
@@ -82,6 +107,7 @@ pub struct MathChallengeState {
     pub operand1: u32,
     pub operand2: u32,
     pub operator: String,
+    pub expression: String,
     pub answer: u32,
     pub options: Vec<u32>,
     pub mastery: f32,
@@ -92,6 +118,7 @@ pub struct MathChallengeState {
     pub total_correct: u32,
     pub last_was_correct: bool,
     pub tier_changed: i8, // 1 = level up, -1 = level down, 0 = unchanged
+    pub portal_ready: bool,
 }
 
 /// Main adaptive math game session
@@ -107,11 +134,13 @@ pub struct MathSession {
     total_correct: u32,
     current_op1: u32,
     current_op2: u32,
-    current_operator: char,
+    current_operator: String,
+    current_expression: String,
     current_answer: u32,
     current_options: Vec<u32>,
     last_was_correct: bool,
     tier_changed: i8,
+    portal_ready: bool,
 }
 
 #[wasm_bindgen]
@@ -130,11 +159,13 @@ impl MathSession {
             total_correct: 0,
             current_op1: 1,
             current_op2: 1,
-            current_operator: '+',
+            current_operator: "+".to_string(),
+            current_expression: String::new(),
             current_answer: 2,
             current_options: vec![2, 3, 4, 5],
             last_was_correct: true,
             tier_changed: 0,
+            portal_ready: false,
         };
         session.generate_next_challenge();
         session
@@ -152,85 +183,245 @@ impl MathSession {
         self.total_correct = 0;
         self.last_was_correct = true;
         self.tier_changed = 0;
+        self.portal_ready = false;
         self.generate_next_challenge();
+    }
+
+    /// Manually sets/forces the current tier (e.g. from saved profile)
+    pub fn force_tier(&mut self, tier: u8) {
+        self.tier = CurricularTier::from_u8(tier);
+        self.tier_changed = 0;
+        self.portal_ready = false;
+        self.generate_next_challenge();
+    }
+
+    /// Advances to the next curricular tier (called upon beating the Portal Challenge)
+    pub fn advance_tier(&mut self) -> u8 {
+        self.tier = self.tier.next();
+        self.tier_changed = 1;
+        self.portal_ready = false;
+        self.mastery = 0.65;
+        self.streak = 0;
+        self.generate_next_challenge();
+        self.tier.to_u8()
+    }
+
+    /// Clears the portal ready state
+    pub fn clear_portal_ready(&mut self) {
+        self.portal_ready = false;
     }
 
     /// Generates a new challenge appropriate for the current tier
     pub fn generate_next_challenge(&mut self) {
         self.tier_changed = 0;
+        self.current_expression.clear();
 
         match self.tier {
-            CurricularTier::Tier1SumNoCarry => {
-                // Sum without carry: a + b <= 10, a >= 1, b >= 1
-                let op1 = self.prng.gen_range(1, 8);
+            // Nivel 1: Manantial de Rocío (Sumas simples directas a + b <= 10)
+            CurricularTier::Tier1SumDirect => {
+                let op1 = self.prng.gen_range(1, 7);
                 let max_op2 = 10 - op1;
                 let op2 = self.prng.gen_range(1, max_op2.max(1));
                 self.current_op1 = op1;
                 self.current_op2 = op2;
-                self.current_operator = '+';
+                self.current_operator = "+".to_string();
                 self.current_answer = op1 + op2;
             }
-            CurricularTier::Tier2SumCarry => {
-                // Sum with carry: sum > 10, up to 25
-                let op1 = self.prng.gen_range(4, 14);
-                let min_op2 = (11u32).saturating_sub(op1).max(2);
-                let op2 = self.prng.gen_range(min_op2, 12);
-                self.current_op1 = op1;
-                self.current_op2 = op2;
-                self.current_operator = '+';
-                self.current_answer = op1 + op2;
-            }
-            CurricularTier::Tier3SubNoBorrow => {
-                // Subtraction without borrow: strictly positive result >= 1
-                // e.g. 18 - 5 = 13 (8 >= 5), or 9 - 4 = 5
+
+            // Nivel 2: Bosque Susurrante (Suma y resta hasta 20 sin acarreos)
+            CurricularTier::Tier2SumSub20 => {
                 let mode = self.prng.gen_range(0, 1);
                 if mode == 0 {
-                    // Single digit: a in 2..=10, b in 1..=(a - 1)
-                    let op1 = self.prng.gen_range(2, 10);
-                    let op2 = self.prng.gen_range(1, op1 - 1);
+                    // Suma hasta 20 sin acarreo (ej. 12 + 5 = 17)
+                    let op1 = self.prng.gen_range(10, 15);
+                    let max_op2 = 19 - op1;
+                    let op2 = self.prng.gen_range(1, max_op2.max(1));
                     self.current_op1 = op1;
                     self.current_op2 = op2;
+                    self.current_operator = "+".to_string();
+                    self.current_answer = op1 + op2;
                 } else {
-                    // Tens without borrow: e.g. 17 - 4 = 13, 19 - 6 = 13
-                    let tens_digit = 10;
-                    let unit1 = self.prng.gen_range(2, 9);
-                    let unit2 = self.prng.gen_range(1, unit1 - 1);
-                    self.current_op1 = tens_digit + unit1;
-                    self.current_op2 = unit2;
+                    // Resta sin llevada (ej. 17 - 4 = 13)
+                    let op1 = self.prng.gen_range(11, 19);
+                    let max_sub = (op1 % 10).max(1);
+                    let op2 = self.prng.gen_range(1, max_sub);
+                    self.current_op1 = op1;
+                    self.current_op2 = op2;
+                    self.current_operator = "-".to_string();
+                    self.current_answer = op1 - op2;
                 }
-                self.current_operator = '-';
-                self.current_answer = self.current_op1 - self.current_op2;
             }
-            CurricularTier::Tier4SubBorrow => {
-                // Subtraction with borrow: minuendo 11..30, units borrow needed
-                // e.g. 23 - 7 (3 < 7), 14 - 8 (4 < 8)
-                let unit1 = self.prng.gen_range(0, 5); // 0..=5
-                let unit2 = self.prng.gen_range(unit1 + 2, 9); // unit2 > unit1
+
+            // Nivel 3: Vértice de Algodón (Suma de dos cifras con acarreo forzado)
+            CurricularTier::Tier3SumCarry => {
+                // op1: 14..=28 with unit 4..=9
                 let tens = self.prng.gen_range(1, 2) * 10;
+                let unit1 = self.prng.gen_range(4, 9);
                 let op1 = tens + unit1;
-                let op2 = unit2;
+                // op2 forces carry: unit1 + op2 >= 10
+                let min_op2 = (10u32).saturating_sub(unit1).max(2);
+                let op2 = self.prng.gen_range(min_op2 + 1, 9);
                 self.current_op1 = op1;
                 self.current_op2 = op2;
-                self.current_operator = '-';
-                self.current_answer = op1.saturating_sub(op2);
+                self.current_operator = "+".to_string();
+                self.current_answer = op1 + op2;
             }
+
+            // Nivel 4: Caverna de Ámbar (Resta con transformación / desagrupar decenas)
+            CurricularTier::Tier4SubBorrow => {
+                // Minuendo con unidad menor que sustraendo (ej. 23 - 7, 32 - 8)
+                let tens = self.prng.gen_range(2, 3) * 10;
+                let unit1 = self.prng.gen_range(1, 5);
+                let op1 = tens + unit1;
+                let op2 = self.prng.gen_range(unit1 + 2, 9);
+                self.current_op1 = op1;
+                self.current_op2 = op2;
+                self.current_operator = "-".to_string();
+                self.current_answer = op1 - op2;
+            }
+
+            // Nivel 5: Palacio Prisma (Tablas 2, 3, 5 y 10)
             CurricularTier::Tier5MultIntro => {
-                // Intro multiplication: tables 1 through 5
-                let op1 = self.prng.gen_range(1, 5);
+                let tables = [2, 3, 5, 10];
+                let idx = self.prng.gen_range(0, 3) as usize;
+                let op1 = tables[idx];
                 let op2 = self.prng.gen_range(1, 10);
                 self.current_op1 = op1;
                 self.current_op2 = op2;
-                self.current_operator = '×';
+                self.current_operator = "×".to_string();
                 self.current_answer = op1 * op2;
             }
+
+            // Nivel 6: Reloj de las Arenas (Tablas 4, 6, 7, 8, 9, dobles y mitades)
             CurricularTier::Tier6MultAdvanced => {
-                // Complete single-digit multiplication: tables 6 through 9 (or up to 10)
-                let op1 = self.prng.gen_range(6, 9);
-                let op2 = self.prng.gen_range(2, 10);
-                self.current_op1 = op1;
-                self.current_op2 = op2;
-                self.current_operator = '×';
-                self.current_answer = op1 * op2;
+                let mode = self.prng.gen_range(0, 2);
+                if mode == 0 {
+                    // Mitades de números pares
+                    let q = self.prng.gen_range(4, 15);
+                    self.current_op1 = q * 2;
+                    self.current_op2 = 2;
+                    self.current_operator = "÷".to_string();
+                    self.current_expression = format!("Mitad de {}", self.current_op1);
+                    self.current_answer = q;
+                } else {
+                    // Tablas 4, 6, 7, 8, 9
+                    let tables = [4, 6, 7, 8, 9];
+                    let idx = self.prng.gen_range(0, 4) as usize;
+                    let op1 = tables[idx];
+                    let op2 = self.prng.gen_range(2, 10);
+                    self.current_op1 = op1;
+                    self.current_op2 = op2;
+                    self.current_operator = "×".to_string();
+                    self.current_answer = op1 * op2;
+                }
+            }
+
+            // Nivel 7: Mar de Coral Profundo (Reparto equitativo / división exacta)
+            CurricularTier::Tier7DivisionExact => {
+                let divisor = self.prng.gen_range(2, 9);
+                let quotient = self.prng.gen_range(2, 10);
+                let dividend = divisor * quotient;
+                self.current_op1 = dividend;
+                self.current_op2 = divisor;
+                self.current_operator = "÷".to_string();
+                self.current_answer = quotient;
+            }
+
+            // Nivel 8: Muralla de Nácar (Fracciones visuales: medios, cuartos, octavos)
+            CurricularTier::Tier8FractionsVisual => {
+                let den_idx = self.prng.gen_range(0, 2);
+                let den = match den_idx {
+                    0 => 2u32, // Medios
+                    1 => 4u32, // Cuartos
+                    _ => 8u32, // Octavos
+                };
+                let factor = self.prng.gen_range(2, 6);
+                let total = den * factor;
+                self.current_op1 = 1;
+                self.current_op2 = total;
+                self.current_operator = "de".to_string();
+                self.current_expression = format!("1/{} de {} gemas", den, total);
+                self.current_answer = total / den;
+            }
+
+            // Nivel 9: Cúspide de la Aurora (Operaciones combinadas con paréntesis)
+            CurricularTier::Tier9OrderOfOperations => {
+                let mode = self.prng.gen_range(0, 2);
+                match mode {
+                    0 => {
+                        // (a × b) + c
+                        let a = self.prng.gen_range(2, 5);
+                        let b = self.prng.gen_range(2, 5);
+                        let c = self.prng.gen_range(2, 10);
+                        self.current_op1 = a * b;
+                        self.current_op2 = c;
+                        self.current_operator = "+".to_string();
+                        self.current_expression = format!("({} × {}) + {}", a, b, c);
+                        self.current_answer = (a * b) + c;
+                    }
+                    1 => {
+                        // (a × b) - c
+                        let a = self.prng.gen_range(3, 6);
+                        let b = self.prng.gen_range(2, 5);
+                        let mult = a * b;
+                        let c = self.prng.gen_range(1, mult.saturating_sub(2).max(1));
+                        self.current_op1 = mult;
+                        self.current_op2 = c;
+                        self.current_operator = "-".to_string();
+                        self.current_expression = format!("({} × {}) - {}", a, b, c);
+                        self.current_answer = mult - c;
+                    }
+                    _ => {
+                        // a + (b × c)
+                        let a = self.prng.gen_range(3, 12);
+                        let b = self.prng.gen_range(2, 4);
+                        let c = self.prng.gen_range(2, 5);
+                        self.current_op1 = a;
+                        self.current_op2 = b * c;
+                        self.current_operator = "+".to_string();
+                        self.current_expression = format!("{} + ({} × {})", a, b, c);
+                        self.current_answer = a + (b * c);
+                    }
+                }
+            }
+
+            // Nivel 10: Trono de las Estrellas (Acertijo numérico final y alta fluidez)
+            CurricularTier::Tier10HighFluencyRiddles => {
+                let mode = self.prng.gen_range(0, 2);
+                if mode == 0 {
+                    // Doble de a + triple de b
+                    let a = self.prng.gen_range(4, 9);
+                    let b = self.prng.gen_range(2, 5);
+                    self.current_op1 = a * 2;
+                    self.current_op2 = b * 3;
+                    self.current_operator = "+".to_string();
+                    self.current_expression = format!("(Doble de {}) + (Triple de {})", a, b);
+                    self.current_answer = (a * 2) + (b * 3);
+                } else if mode == 1 {
+                    // (a × b) + (c × d)
+                    let a = self.prng.gen_range(2, 4);
+                    let b = self.prng.gen_range(3, 5);
+                    let c = self.prng.gen_range(2, 4);
+                    let d = self.prng.gen_range(2, 5);
+                    let p1 = a * b;
+                    let p2 = c * d;
+                    self.current_op1 = p1;
+                    self.current_op2 = p2;
+                    self.current_operator = "+".to_string();
+                    self.current_expression = format!("({} × {}) + ({} × {})", a, b, c, d);
+                    self.current_answer = p1 + p2;
+                } else {
+                    // (a × b) - Mitad de c
+                    let a = self.prng.gen_range(3, 6);
+                    let b = self.prng.gen_range(3, 6);
+                    let half_q = self.prng.gen_range(2, 5);
+                    let c = half_q * 2;
+                    self.current_op1 = a * b;
+                    self.current_op2 = half_q;
+                    self.current_operator = "-".to_string();
+                    self.current_expression = format!("({} × {}) - (Mitad de {})", a, b, c);
+                    self.current_answer = (a * b) - half_q;
+                }
             }
         }
 
@@ -240,15 +431,15 @@ impl MathSession {
     /// Generates 3 plausible distractors + correct answer, shuffled
     fn generate_distractors(&mut self) {
         let answer = self.current_answer;
-        let mut candidates = Vec::with_capacity(6);
+        let mut candidates = Vec::with_capacity(8);
 
-        // Plausible distractor 1: off-by-one (answer + 1 or answer - 1)
+        // Plausible distractor 1: off-by-one
         if answer > 1 {
             candidates.push(answer - 1);
         }
         candidates.push(answer + 1);
 
-        // Plausible distractor 2: off-by-ten or off-by-two
+        // Plausible distractor 2: off-by-two or off-by-ten
         if answer > 2 {
             candidates.push(answer - 2);
         }
@@ -258,27 +449,27 @@ impl MathSession {
         }
         candidates.push(answer + 10);
 
-        // Plausible distractor 3: alternate operator effect
-        if self.current_operator == '+' {
-            if self.current_op1 >= self.current_op2 && self.current_op1 - self.current_op2 > 0 {
-                candidates.push(self.current_op1 - self.current_op2);
-            }
-            let mult = self.current_op1 * self.current_op2;
-            if mult > 0 && mult < 100 {
-                candidates.push(mult);
-            }
-        } else if self.current_operator == '-' {
+        // Plausible distractor 3: proportional/operator related
+        if answer > 4 && answer % 2 == 0 {
+            candidates.push(answer / 2);
+        }
+        if answer < 50 {
+            candidates.push(answer * 2);
+        }
+
+        // Operator effect
+        if self.current_operator == "+" && self.current_op1 > self.current_op2 {
+            candidates.push(self.current_op1 - self.current_op2);
+        } else if self.current_operator == "-" {
             candidates.push(self.current_op1 + self.current_op2);
-        } else if self.current_operator == '×' {
-            candidates.push(self.current_op1 + self.current_op2);
-            // Neighboring multiple
+        } else if self.current_operator == "×" && self.current_op1 > 0 {
+            candidates.push(answer + self.current_op1);
             if answer > self.current_op1 {
                 candidates.push(answer - self.current_op1);
             }
-            candidates.push(answer + self.current_op1);
         }
 
-        // Filter: must be positive, distinct from answer, and unique
+        // Filter: strictly positive, distinct from answer, unique
         let mut distractors: Vec<u32> = Vec::with_capacity(3);
         self.prng.shuffle(&mut candidates);
 
@@ -320,7 +511,6 @@ impl MathSession {
         self.last_was_correct = is_correct;
 
         // Calculate Performance Metric P in [0.0, 1.0]
-        // Factoring both correctness and response latency for pedagogy
         let p: f32 = if is_correct {
             self.total_correct += 1;
             self.streak += 1;
@@ -347,25 +537,25 @@ impl MathSession {
 
         // FSM Tier Progression / Regression Rules
         self.tier_changed = 0;
-        let old_tier = self.tier;
 
         // Advancement condition: High mastery (>= 0.82) with sustained streak (>= 3)
-        if self.mastery >= 0.82 && self.streak >= 3 && self.tier != CurricularTier::Tier6MultAdvanced {
+        if self.mastery >= 0.82 && self.streak >= 3 && self.tier != CurricularTier::Tier10HighFluencyRiddles {
             self.tier = self.tier.next();
             self.tier_changed = 1;
+            self.portal_ready = true;
             // Calibrate baseline mastery for the new challenging tier
             self.mastery = 0.65;
         }
-        // Regression condition: Low mastery (< 0.38) and multiple errors, not already on Tier 1
-        else if self.mastery < 0.38 && self.consecutive_errors >= 2 && self.tier != CurricularTier::Tier1SumNoCarry {
+        // Regression condition: Low mastery (< 0.38) and multiple errors, not on Tier 1
+        else if self.mastery < 0.38 && self.consecutive_errors >= 2 && self.tier != CurricularTier::Tier1SumDirect {
             self.tier = self.tier.prev();
             self.tier_changed = -1;
+            self.portal_ready = false;
             // Provide supportive baseline to rebuild confidence
             self.mastery = 0.55;
             self.consecutive_errors = 0;
         }
 
-        let _ = old_tier;
         is_correct
     }
 
@@ -414,7 +604,11 @@ impl MathSession {
     }
 
     pub fn get_operator(&self) -> String {
-        self.current_operator.to_string()
+        self.current_operator.clone()
+    }
+
+    pub fn get_expression(&self) -> String {
+        self.current_expression.clone()
     }
 
     pub fn get_correct_answer(&self) -> u32 {
@@ -429,6 +623,10 @@ impl MathSession {
         self.tier_changed
     }
 
+    pub fn is_portal_ready(&self) -> bool {
+        self.portal_ready
+    }
+
     /// Returns the 4 choice options as a JSON array string "[a, b, c, d]"
     pub fn get_options_json(&self) -> String {
         serde_json::to_string(&self.current_options).unwrap_or_else(|_| "[]".to_string())
@@ -441,7 +639,8 @@ impl MathSession {
             tier_name: self.tier.name().to_string(),
             operand1: self.current_op1,
             operand2: self.current_op2,
-            operator: self.current_operator.to_string(),
+            operator: self.current_operator.clone(),
+            expression: self.current_expression.clone(),
             answer: self.current_answer,
             options: self.current_options.clone(),
             mastery: self.mastery,
@@ -452,6 +651,7 @@ impl MathSession {
             total_correct: self.total_correct,
             last_was_correct: self.last_was_correct,
             tier_changed: self.tier_changed,
+            portal_ready: self.portal_ready,
         };
         serde_json::to_string(&state).unwrap_or_else(|_| "{}".to_string())
     }
@@ -480,48 +680,22 @@ mod tests {
     }
 
     #[test]
-    fn test_all_tiers_generate_valid_ranges() {
-        for t in 1..=6 {
+    fn test_all_10_tiers_generate_valid_ranges() {
+        for t in 1..=10 {
             let mut session = MathSession::new(12345 + t as u64, t);
-            for _ in 0..50 {
+            for _ in 0..30 {
                 session.generate_next_challenge();
-                let op1 = session.get_operand1();
-                let op2 = session.get_operand2();
-                let op = session.get_operator();
                 let ans = session.get_correct_answer();
+                assert!(ans > 0, "Answer must be strictly positive in tier {}", t);
 
-                match t {
-                    1 => {
-                        assert_eq!(op, "+");
-                        assert!(op1 + op2 <= 10);
-                        assert_eq!(ans, op1 + op2);
-                    }
-                    2 => {
-                        assert_eq!(op, "+");
-                        assert_eq!(ans, op1 + op2);
-                    }
-                    3 => {
-                        assert_eq!(op, "-");
-                        assert!(op1 >= op2);
-                        assert_eq!(ans, op1 - op2);
-                    }
-                    4 => {
-                        assert_eq!(op, "-");
-                        assert!(op1 >= op2);
-                        assert_eq!(ans, op1 - op2);
-                    }
-                    5 | 6 => {
-                        assert_eq!(op, "×");
-                        assert_eq!(ans, op1 * op2);
-                    }
-                    _ => {}
-                }
-
-                // Verify options contain answer and has 4 unique elements
+                // Verify options contain answer and has 4 unique positive elements
                 let opts_json = session.get_options_json();
                 let opts: Vec<u32> = serde_json::from_str(&opts_json).unwrap();
-                assert_eq!(opts.len(), 4);
-                assert!(opts.contains(&ans));
+                assert_eq!(opts.len(), 4, "Tier {} must provide 4 options", t);
+                assert!(opts.contains(&ans), "Tier {} options must contain the correct answer", t);
+                for &opt in &opts {
+                    assert!(opt > 0, "All options in tier {} must be positive", t);
+                }
             }
         }
     }
@@ -541,5 +715,15 @@ mod tests {
             }
         }
         assert!(session.get_tier() >= 2);
+        assert!(session.is_portal_ready());
+    }
+
+    #[test]
+    fn test_advance_tier_method() {
+        let mut session = MathSession::new(101, 1);
+        assert_eq!(session.get_tier(), 1);
+        let next_tier = session.advance_tier();
+        assert_eq!(next_tier, 2);
+        assert_eq!(session.get_tier(), 2);
     }
 }

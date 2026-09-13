@@ -8,10 +8,23 @@ export class MathSession {
     free(): void;
     [Symbol.dispose](): void;
     /**
+     * Advances to the next curricular tier (called upon beating the Portal Challenge)
+     */
+    advance_tier(): number;
+    /**
+     * Clears the portal ready state
+     */
+    clear_portal_ready(): void;
+    /**
+     * Manually sets/forces the current tier (e.g. from saved profile)
+     */
+    force_tier(tier: number): void;
+    /**
      * Generates a new challenge appropriate for the current tier
      */
     generate_next_challenge(): void;
     get_correct_answer(): number;
+    get_expression(): string;
     get_highest_streak(): number;
     get_last_correct(): boolean;
     get_mastery(): number;
@@ -33,6 +46,7 @@ export class MathSession {
     get_tier_name(): string;
     get_total_answered(): number;
     get_total_correct(): number;
+    is_portal_ready(): boolean;
     /**
      * Creates a new math session with deterministic PRNG seed and initial tier
      */
@@ -89,8 +103,12 @@ export interface InitOutput {
     readonly __wbg_mathsession_free: (a: number, b: number) => void;
     readonly __wbg_readingsession_free: (a: number, b: number) => void;
     readonly get_engine_version: (a: number) => void;
+    readonly mathsession_advance_tier: (a: number) => number;
+    readonly mathsession_clear_portal_ready: (a: number) => void;
+    readonly mathsession_force_tier: (a: number, b: number) => void;
     readonly mathsession_generate_next_challenge: (a: number) => void;
     readonly mathsession_get_correct_answer: (a: number) => number;
+    readonly mathsession_get_expression: (a: number, b: number) => void;
     readonly mathsession_get_highest_streak: (a: number) => number;
     readonly mathsession_get_last_correct: (a: number) => number;
     readonly mathsession_get_mastery: (a: number) => number;
@@ -106,6 +124,7 @@ export interface InitOutput {
     readonly mathsession_get_tier_name: (a: number, b: number) => void;
     readonly mathsession_get_total_answered: (a: number) => number;
     readonly mathsession_get_total_correct: (a: number) => number;
+    readonly mathsession_is_portal_ready: (a: number) => number;
     readonly mathsession_new: (a: bigint, b: number) => number;
     readonly mathsession_reset: (a: number, b: bigint, c: number) => void;
     readonly mathsession_submit_answer: (a: number, b: number, c: number) => number;

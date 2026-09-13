@@ -1628,3 +1628,362 @@
   }
 }
 
+/* ==========================================================================
+   DESAFÍO DE PORTAL (ENCUENTROS DE AMISTAD - 10 TEMPLOS ASTRALES)
+   ========================================================================== */
+
+.portal-backdrop {
+  z-index: 1100;
+  background: rgba(15, 10, 26, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.portal-modal-content {
+  max-width: 520px;
+  width: 100%;
+  max-height: 92dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 28px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+.portal-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.portal-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.portal-page-pill {
+  background: var(--vq-gold);
+  color: var(--vq-text);
+  font-size: 0.82rem;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: var(--vq-radius-pill);
+  border: 2px solid var(--vq-border);
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+.portal-act-pill {
+  background: var(--vq-pink-bubble);
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--vq-radius-pill);
+  border: 2px solid var(--vq-border);
+}
+
+.portal-title {
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+}
+
+.portal-subtitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+  margin: 0;
+}
+
+/* Escenario del Guardián */
+.portal-guardian-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--vq-bg-inner, rgba(255, 200, 221, 0.15));
+  border-radius: 20px;
+  border: 2px dashed var(--vq-border);
+}
+
+.guardian-avatar-wrapper {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--vq-bg-card);
+  border: 3px solid var(--vq-border);
+  box-shadow: 0 4px 0 var(--vq-border);
+}
+
+.guardian-emoji-display {
+  font-size: 3.2rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.guardian-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.guardian-name {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+}
+
+.guardian-status-badge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--vq-radius-pill);
+  border: 1.5px solid var(--vq-border);
+}
+
+.guardian-status-badge.corrupted {
+  background: #3D314A;
+  color: #E2D9F3;
+}
+
+.guardian-status-badge.purified {
+  background: #A7C957;
+  color: #1A3008;
+}
+
+/* Fase 1: Micro-cuento */
+.portal-story-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+.story-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.story-label {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.portal-tts-btn {
+  background: var(--vq-lavender);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  touch-action: manipulation;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.1s ease;
+}
+
+.portal-tts-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.portal-story-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.portal-line {
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--vq-text);
+  font-weight: 600;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+/* Fase 2: Reto Dual */
+.portal-riddle-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+.riddle-header {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.riddle-prompt {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--vq-text);
+}
+
+.portal-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.portal-option-btn {
+  min-height: 52px;
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 16px;
+  background: var(--vq-bg-card);
+  color: var(--vq-text);
+  font-size: 1.35rem;
+  font-weight: 900;
+  box-shadow: var(--vq-shadow-hard);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+  font-family: inherit;
+}
+
+.portal-option-btn:hover {
+  background: var(--vq-pink-light);
+}
+
+.portal-option-btn:active {
+  transform: translateY(3px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+.portal-option-btn.correct {
+  background: #A7C957 !important;
+  color: #1A3008 !important;
+  border-color: #386641 !important;
+}
+
+.portal-option-btn.incorrect {
+  background: #F28482 !important;
+  color: #FFFFFF !important;
+  animation: vqShake 0.4s ease-in-out;
+}
+
+/* Fase 3: Celebración y Recompensa */
+.portal-reward-card {
+  background: var(--vq-gold-light, #FFF3CD);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  box-shadow: var(--vq-shadow-hard);
+  animation: vqScalePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.reward-celebration-title {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #854D0E;
+}
+
+.reward-badge-unlocked {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: 16px;
+  padding: 12px 16px;
+  width: 100%;
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+.reward-cosmetic-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.reward-cosmetic-info {
+  text-align: left;
+}
+
+.reward-cosmetic-name {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.reward-cosmetic-desc {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--vq-text-muted);
+}
+
+.portal-actions-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.equip-action-btn {
+  background: var(--vq-pink-bubble);
+  color: #FFFFFF;
+  font-weight: 900;
+  font-size: 1rem;
+  padding: 12px;
+  justify-content: center;
+}
+
+.continue-action-btn {
+  background: var(--vq-gold);
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 1.05rem;
+  padding: 14px;
+  justify-content: center;
+}
+

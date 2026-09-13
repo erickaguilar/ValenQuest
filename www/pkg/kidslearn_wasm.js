@@ -15,6 +15,27 @@ export class MathSession {
         wasm.__wbg_mathsession_free(ptr, 0);
     }
     /**
+     * Advances to the next curricular tier (called upon beating the Portal Challenge)
+     * @returns {number}
+     */
+    advance_tier() {
+        const ret = wasm.mathsession_advance_tier(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+     * Clears the portal ready state
+     */
+    clear_portal_ready() {
+        wasm.mathsession_clear_portal_ready(this.__wbg_ptr);
+    }
+    /**
+     * Manually sets/forces the current tier (e.g. from saved profile)
+     * @param {number} tier
+     */
+    force_tier(tier) {
+        wasm.mathsession_force_tier(this.__wbg_ptr, tier);
+    }
+    /**
      * Generates a new challenge appropriate for the current tier
      */
     generate_next_challenge() {
@@ -26,6 +47,25 @@ export class MathSession {
     get_correct_answer() {
         const ret = wasm.mathsession_get_correct_answer(this.__wbg_ptr);
         return ret >>> 0;
+    }
+    /**
+     * @returns {string}
+     */
+    get_expression() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.mathsession_get_expression(retptr, this.__wbg_ptr);
+            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
+            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
+            deferred1_0 = r0;
+            deferred1_1 = r1;
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
+        }
     }
     /**
      * @returns {number}
@@ -181,6 +221,13 @@ export class MathSession {
     get_total_correct() {
         const ret = wasm.mathsession_get_total_correct(this.__wbg_ptr);
         return ret >>> 0;
+    }
+    /**
+     * @returns {boolean}
+     */
+    is_portal_ready() {
+        const ret = wasm.mathsession_is_portal_ready(this.__wbg_ptr);
+        return ret !== 0;
     }
     /**
      * Creates a new math session with deterministic PRNG seed and initial tier

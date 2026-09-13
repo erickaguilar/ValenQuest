@@ -1,6 +1,8 @@
-# KidsLearn-WASM 🚀
+# ValenQuest 🦄✨ (KidsLearn-WASM)
 
-> Plataforma educativa web local-first (PWA) para educación primaria (matemáticas adaptativas y fluidez lectora), impulsada por un núcleo de alto rendimiento en **Rust + WebAssembly** y una capa de presentación ultra-ligera en **Vanilla JavaScript (ES Modules) + HTML5/CSS3**.
+> Plataforma educativa web local-first (PWA) para educación primaria (matemáticas adaptativas y fluidez lectora), ambientada en el universo de **Lumiria** con estética pastel mágica (*My Little Pony* + *Gacha Club*). Impulsada por un núcleo en **Rust + WebAssembly** y una presentación ultra-ligera en **Vanilla JavaScript (ES Modules) + HTML5/CSS3**.
+> 
+> Acompaña a la heroína y princesa **Valen** (Alicornio) y a su equipo del Cuarteto de la Armonía, **Reni** (Pegaso), **Zoe** (Poni Terrestre) y **Lía** (Unicornio), usando sus **Poderes de Amistad** para restaurar las constelaciones de la Gran Biblioteca de Lumiria.
 
 ---
 
@@ -33,15 +35,23 @@ Donde:
   - **Acierto pausado** ($> 8000\text{ ms}$): $P = 0.70$.
   - **Fallo**: $P = 0.0$.
 
-### 2. Tiers Curriculares de Matemáticas (FSM)
-1. **Tier 1 - Sumas Básicas:** Operandos del 1 al 8, sumas menores o iguales a 10 ($a + b \le 10$).
-2. **Tier 2 - Sumas con Acarreo:** Sumas que cruzan la decena ($11 \le a + b \le 25$).
-3. **Tier 3 - Restas Simples:** Restas sin llevada con minuendo hasta 20 ($a > b$, resultado natural $\ge 1$).
-4. **Tier 4 - Restas con Llevada:** Minuendos con decenas que requieren descomposición ($23 - 7$, $14 - 8$).
-5. **Tier 5 - Tablas del 1 al 5:** Introducción conceptual a la multiplicación.
-6. **Tier 6 - Multiplicación Maestra:** Tablas del 6 al 9 (hasta $10 \times 10$).
+### 2. Progresión Curricular: Las Diez Lunas de Lumiria (10 Niveles & Templos)
+La aventura se estructura en tres actos que abarcan la educación primaria y culminan en **Desafíos de Portal** al alcanzar el 100% de maestría ($M_k \ge 0.95$):
+1. **Acto I (Niveles 1-3):**
+   - **Nivel 1 - Manantial de Rocío:** Sumas directas ($a + b \le 10$) | Sílabas directas | *Poni Burbuja* 🫧 | Tiara de Rocío Astral
+   - **Nivel 2 - Bosque Susurrante:** Operaciones hasta 20 sin acarreo | Sílabas trabadas | *Hada Ciervo* 🦌 | Lazo de Viento Celeste
+   - **Nivel 3 - Vértice de Algodón:** Sumas con acarreo forzado | Sintaxis de oración | *Pegaso Melódico* 🪽 | Alas de Pluma Dulce
+2. **Acto II (Niveles 4-7):**
+   - **Nivel 4 - Caverna de Ámbar:** Restas con transformación (desagrupación) | Idea principal | *Búho de Piedra* 🦉 | Corona Floral Silvestre
+   - **Nivel 5 - Palacio Prisma:** Tablas del 2, 3, 5 y 10 | Sinónimos en contexto | *León de Espejos* 🦁 | Cetro Estelar Radiante
+   - **Nivel 6 - Reloj de las Arenas:** Tablas complejas y dobles/mitades | Secuencia temporal | *Esfinge de Cristal* ⏳ | Reloj de Bolsillo Astral
+   - **Nivel 7 - Mar de Coral Profundo:** Reparto equitativo (división exacta) | Causa y efecto | *Sirena Dragón* 🧜‍♀️ | Aura de Burbujas Iridiscentes
+3. **Acto III (Niveles 8-10):**
+   - **Nivel 8 - Muralla de Nácar:** Fracciones visuales (medios, cuartos, octavos) | Hechos vs. Opiniones | *Gólem de Cuarzo* 🛡️ | Armadura de Pétalos de Seda
+   - **Nivel 9 - Cúspide de la Aurora:** Operaciones combinadas con paréntesis | Inferencia moral | *Fénix Boreal* 🦅 | Alas Tornasol de Aurora
+   - **Nivel 10 - Trono de las Estrellas:** Alta fluidez mental ($t \le 3500\text{ ms}$) | Reconstrucción del poema | *Emperatriz Eclipse Purificada* 👑✨ | Corona Suprema
 
-*Criterio de Promoción:* $M_k \ge 0.82$ y racha consecutiva $\ge 3$.  
+*Criterio de Desafío de Portal:* $M_k \ge 0.95$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual).  
 *Criterio de Refuerzo:* $M_k < 0.38$ y 2 fallos consecutivos (retrocede un nivel para afianzar confianza).
 
 ---
@@ -99,9 +109,10 @@ cargo test && wasm-pack build --target web --out-dir www/pkg --release
 ### 2. Levantar el Servidor Local
 Para cargar módulos ES y archivos `.wasm` sin restricciones CORS del navegador:
 ```bash
-python3 -m http.server 8080 --directory www
+python3 -m http.server 8090 --directory www
 ```
-Abre en tu navegador: [http://localhost:8080](http://localhost:8080).
+Abre en tu navegador: [http://localhost:8090](http://localhost:8090).
+
 
 ---
 

@@ -215,6 +215,79 @@
   100% { transform: scale(1.15); filter: drop-shadow(0 0 4px #FFD166); }
 }
 
+/* Guardián Astral: Aura sombría corrompida */
+.vq-anim-corrupted {
+  animation: vqGuardianCorrupted 2.6s ease-in-out infinite alternate;
+}
+
+@keyframes vqGuardianCorrupted {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(74, 62, 86, 0.8)) brightness(0.7) contrast(1.1);
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 16px rgba(109, 40, 217, 0.9)) brightness(0.6) contrast(1.2);
+    transform: translateY(-4px) scale(0.97);
+  }
+}
+
+/* Guardián Astral: Purificado y triunfante */
+.vq-anim-purified {
+  animation: vqGuardianPurified 1.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, vqFloat 3s ease-in-out 1.6s infinite alternate;
+}
+
+@keyframes vqGuardianPurified {
+  0% {
+    transform: scale(0.8) rotate(-6deg);
+    filter: brightness(1.5) drop-shadow(0 0 30px #FFD700);
+  }
+  50% {
+    transform: scale(1.25) rotate(4deg);
+    filter: brightness(1.8) drop-shadow(0 0 40px #FFF) drop-shadow(0 0 60px #FFD166);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 18px rgba(255, 209, 102, 0.85));
+  }
+}
+
+/* Chispas y destellos dorados en pantalla */
+.gold-sparks-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1200;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.4) 0, transparent 8px),
+    radial-gradient(circle at 80% 20%, rgba(255, 209, 102, 0.5) 0, transparent 12px),
+    radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.6) 0, transparent 10px),
+    radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.4) 0, transparent 9px),
+    radial-gradient(circle at 50% 50%, rgba(255, 240, 160, 0.5) 0, transparent 14px);
+  animation: vqGoldSparkleBurst 1.2s ease-out forwards;
+}
+
+@keyframes vqGoldSparkleBurst {
+  0% { opacity: 0; transform: scale(0.6); }
+  40% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 0; transform: scale(1.2); }
+}
+
+/* Resaltado de línea en lectura por voz TTS */
+.portal-line.speaking {
+  animation: vqSpeakingLine 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes vqSpeakingLine {
+  0% {
+    background-color: rgba(255, 209, 102, 0.28);
+    transform: translateX(4px);
+  }
+  100% {
+    background-color: rgba(255, 209, 102, 0.55);
+    transform: translateX(6px);
+  }
+}
+
 /* ==========================================================================
    3. ACCESIBILIDAD Y REDUCED MOTION
    ========================================================================== */
@@ -233,6 +306,10 @@
   .vq-anim-fairy-left,
   .vq-anim-fairy-right,
   .vq-anim-gem-pulse,
+  .vq-anim-corrupted,
+  .vq-anim-purified,
+  .gold-sparks-overlay,
+  .portal-line.speaking,
   .challenge-card.correct-flash,
   .challenge-card.incorrect-shake,
   .challenge-card.royal-boost,

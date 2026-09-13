@@ -110,6 +110,117 @@ export const INITIAL_COSMETICS = [
     description: 'Artefacto real que canaliza la resonancia mágica de la amistad.',
     svgLayerId: 'cosmetic-lia-cetro-cometa',
   },
+  // --- Recompensas Astrales de los 10 Templos (Desafíos de Portal) ---
+  {
+    itemId: 'tiara-rocio-astral',
+    heroineId: 'valen',
+    slot: 'head',
+    name: 'Tiara de Rocío Astral',
+    costStars: 0,
+    unlocked: false,
+    icon: '👑',
+    description: 'Forjada con las gotas puras del Manantial de Rocío (Templo 1).',
+    svgLayerId: 'cosmetic-valen-tiara-basica',
+  },
+  {
+    itemId: 'lazo-viento-celeste',
+    heroineId: 'reni',
+    slot: 'head',
+    name: 'Lazo de Viento Celeste',
+    costStars: 0,
+    unlocked: false,
+    icon: '🎀',
+    description: 'Cinta etérea bendecida por los vientos del Bosque Susurrante (Templo 2).',
+    svgLayerId: 'cosmetic-reni-lazo-cielo',
+  },
+  {
+    itemId: 'alas-pluma-dulce',
+    heroineId: 'reni',
+    slot: 'wings',
+    name: 'Alas de Pluma Dulce',
+    costStars: 0,
+    unlocked: false,
+    icon: '🪽',
+    description: 'Plumas esponjosas con el aroma y melodía del Vértice de Algodón (Templo 3).',
+    svgLayerId: 'cosmetic-reni-alas-aurora',
+  },
+  {
+    itemId: 'corona-floral-silvestre',
+    heroineId: 'zoe',
+    slot: 'head',
+    name: 'Corona Floral Silvestre',
+    costStars: 0,
+    unlocked: false,
+    icon: '🌸',
+    description: 'Pétalos sagrados nacidos en la Caverna de Ámbar (Templo 4).',
+    svgLayerId: 'cosmetic-zoe-corona-hojas',
+  },
+  {
+    itemId: 'cetro-estelar-radiante',
+    heroineId: 'lia',
+    slot: 'charm',
+    name: 'Cetro Estelar Radiante',
+    costStars: 0,
+    unlocked: false,
+    icon: '🪄',
+    description: 'Canaliza la resonancia prismática del Palacio Prisma (Templo 5).',
+    svgLayerId: 'cosmetic-lia-cetro-cometa',
+  },
+  {
+    itemId: 'reloj-bolsillo-astral',
+    heroineId: 'lia',
+    slot: 'charm',
+    name: 'Reloj de Bolsillo Astral',
+    costStars: 0,
+    unlocked: false,
+    icon: '⏱️',
+    description: 'Cronómetro místico que mide las eras del Reloj de las Arenas (Templo 6).',
+    svgLayerId: 'cosmetic-lia-cetro-cometa',
+  },
+  {
+    itemId: 'aura-burbujas-iridiscentes',
+    heroineId: 'valen',
+    slot: 'wings',
+    name: 'Aura de Burbujas Iridiscentes',
+    costStars: 0,
+    unlocked: false,
+    icon: '🫧',
+    description: 'Burbujas bioluminiscentes del Mar de Coral Profundo (Templo 7).',
+    svgLayerId: 'cosmetic-valen-alas-majestuosas',
+  },
+  {
+    itemId: 'armadura-petalos-seda',
+    heroineId: 'zoe',
+    slot: 'charm',
+    name: 'Armadura de Pétalos de Seda',
+    costStars: 0,
+    unlocked: false,
+    icon: '🥋',
+    description: 'Manto protector tejido con resina de cuarzo de la Muralla de Nácar (Templo 8).',
+    svgLayerId: 'cosmetic-zoe-amuleto-bosque',
+  },
+  {
+    itemId: 'alas-tornasol-aurora',
+    heroineId: 'reni',
+    slot: 'wings',
+    name: 'Alas Tornasol de Aurora',
+    costStars: 0,
+    unlocked: false,
+    icon: '🪽',
+    description: 'Alas de fuego boreal de la Cúspide de la Aurora (Templo 9).',
+    svgLayerId: 'cosmetic-reni-alas-aurora',
+  },
+  {
+    itemId: 'corona-suprema-soberana',
+    heroineId: 'valen',
+    slot: 'head',
+    name: 'Corona Suprema de Soberana Astral',
+    costStars: 0,
+    unlocked: false,
+    icon: '👑',
+    description: 'La máxima diadema de realeza otorgada por la Emperatriz Purificada (Templo 10).',
+    svgLayerId: 'cosmetic-valen-tiara-cristal',
+  },
 ];
 
 export const INITIAL_COMPANIONS = [
@@ -661,6 +772,37 @@ class StorageService {
           remainingStars: profile.stars,
         });
       };
+    });
+  }
+
+  /**
+   * Grants a cosmetic reward without star deduction (e.g. upon completing a Portal Challenge)
+   */
+  async grantCosmeticReward(itemId) {
+    await this.init();
+    const catalog = await this.getCosmeticsCatalog();
+    let item = catalog.find((i) => i.itemId === itemId);
+
+    if (!item) {
+      const fallback = INITIAL_COSMETICS.find((i) => i.itemId === itemId);
+      if (fallback) item = { ...fallback };
+    }
+
+    if (!item) return { success: false, reason: 'Artículo no encontrado' };
+
+    item.unlocked = true;
+
+    const tx = this.db.transaction('cosmetics_catalog', 'readwrite');
+    tx.objectStore('cosmetics_catalog').put(item);
+
+    return new Promise((resolve) => {
+      tx.oncomplete = () => {
+        resolve({
+          success: true,
+          item,
+        });
+      };
+      tx.onerror = () => resolve({ success: false, reason: 'Error al persistir recompensa cosmética' });
     });
   }
 

@@ -11,6 +11,7 @@ import { speech } from './speech.js';
 import { companions } from './companions.js';
 import { wardrobe } from './wardrobe.js';
 import { pwa } from './pwa.js';
+import { getLevelData, TEN_MOONS_LEVELS } from './levels-data.js';
 
 class KidsLearnApp {
   constructor() {
@@ -29,6 +30,11 @@ class KidsLearnApp {
     this.rsvpWords = [];
     this.rsvpWpm = 100;
     this.powerGatingTimer = null;
+
+    // Desafío de Portal (Encuentros de Amistad - Las Diez Lunas)
+    this.isPortalActive = false;
+    this.currentPortalLevel = 1;
+    this.isSpeakingPortalStory = false;
   }
 
   async init() {
@@ -42,9 +48,11 @@ class KidsLearnApp {
       this.wasm = await loadWasm();
       const profile = await db.getProfile();
 
-      // Guarantee Level Up modal is strictly hidden on boot
+      // Guarantee Level Up and Portal modals are strictly hidden on boot
       const levelModal = document.getElementById('level-up-modal');
       if (levelModal) levelModal.hidden = true;
+      const portalModal = document.getElementById('portal-challenge-modal');
+      if (portalModal) portalModal.hidden = true;
 
       // Load persisted companion states & initialize wardrobe system
       await companions.loadState();
@@ -275,10 +283,16 @@ class KidsLearnApp {
     if (btnSpeakMath) {
       btnSpeakMath.addEventListener('click', () => {
         sound.playClick();
-        const op1 = this.mathSession.get_operand1();
-        const op = this.mathSession.get_operator();
-        const op2 = this.mathSession.get_operand2();
-        speech.speakMath(op1, op, op2);
+        if (!this.mathSession) return;
+        const expr = this.mathSession.get_expression();
+        if (expr && expr.length > 0) {
+          speech.speak(`¿Cuánto es ${expr}?`);
+        } else {
+          const op1 = this.mathSession.get_operand1();
+          const op = this.mathSession.get_operator();
+          const op2 = this.mathSession.get_operand2();
+          speech.speakMath(op1, op, op2);
+        }
       });
     }
 
@@ -411,6 +425,56 @@ class KidsLearnApp {
       });
     }
 
+    // Desafío de Portal Action Buttons
+    const btnPortalContinue = document.getElementById('btn-portal-continue');
+    if (btnPortalContinue) {
+      btnPortalContinue.addEventListener('click', () => {
+        sound.playClick();
+        document.getElementById('portal-challenge-modal').hidden = true;
+        this.isPortalActive = false;
+        this.renderMathChallenge();
+      });
+    }
+
+    const btnPortalEquip = document.getElementById('btn-portal-equip-now');
+    if (btnPortalEquip) {
+      btnPortalEquip.addEventListener('click', async () => {
+        sound.playClick();
+        const lvlData = getLevelData(this.currentPortalLevel);
+        if (lvlData && lvlData.reward) {
+          await companions.equip(lvlData.reward.heroineId, lvlData.reward.slot, lvlData.reward.itemId);
+          companions.applyEquippedCosmeticsClasses();
+        }
+        document.getElementById('portal-challenge-modal').hidden = true;
+        this.isPortalActive = false;
+        this.renderMathChallenge();
+        speech.speak(`¡${lvlData.reward.name} equipado! ¡Continuemos restaurando Lumiria!`);
+      });
+    }
+
+    const btnPortalSpeak = document.getElementById('btn-portal-speak-story');
+    if (btnPortalSpeak) {
+      btnPortalSpeak.addEventListener('click', () => {
+        sound.playClick();
+        const lvlData = getLevelData(this.currentPortalLevel);
+        if (lvlData) {
+          this.speakPortalStory(lvlData.microCuento);
+        }
+      });
+    }
+
+    // Tapping tier badge opens the Astral Temple Portal Challenge
+    const tierBadge = document.querySelector('.tier-badge');
+    if (tierBadge) {
+      tierBadge.style.cursor = 'pointer';
+      tierBadge.setAttribute('title', 'Toca para abrir el Desafío de Portal del Templo');
+      tierBadge.addEventListener('click', () => {
+        sound.playClick();
+        const currentTier = this.mathSession ? this.mathSession.get_tier() : 1;
+        this.openPortalChallenge(currentTier);
+      });
+    }
+
     // Reading controls
     const btnPlayRsvp = document.getElementById('btn-play-rsvp');
     if (btnPlayRsvp) {
@@ -469,15 +533,22 @@ class KidsLearnApp {
     const op1 = this.mathSession.get_operand1();
     const op2 = this.mathSession.get_operand2();
     const op = this.mathSession.get_operator();
+    const expr = this.mathSession.get_expression ? this.mathSession.get_expression() : '';
     const tier = this.mathSession.get_tier();
     const tierName = this.mathSession.get_tier_name();
     const streak = this.mathSession.get_streak();
     const masteryPct = this.mathSession.get_mastery_percentage();
 
     // Update DOM indicators
-    document.getElementById('math-op1').textContent = op1;
-    document.getElementById('math-op2').textContent = op2;
-    document.getElementById('math-operator').textContent = op;
+    if (expr && expr.length > 0) {
+      document.getElementById('math-op1').textContent = expr;
+      document.getElementById('math-op2').textContent = '';
+      document.getElementById('math-operator').textContent = '';
+    } else {
+      document.getElementById('math-op1').textContent = op1;
+      document.getElementById('math-op2').textContent = op2;
+      document.getElementById('math-operator').textContent = op;
+    }
 
     document.getElementById('tier-badge-text').textContent = tierName;
     document.getElementById('streak-count').textContent = streak;
@@ -595,12 +666,11 @@ class KidsLearnApp {
       card.classList.remove('correct-flash', 'incorrect-shake');
     }, 450);
 
-    // Check for Tier Level Up
-    if (tierChanged === 1) {
+    // Check for Tier Level Up or Desafío de Portal
+    if (tierChanged === 1 || (this.mathSession && this.mathSession.is_portal_ready())) {
       sound.playLevelUp();
-      const tierName = this.mathSession.get_tier_name();
-      this.showLevelUpModal(tierName);
-      speech.speak(`¡Felicidades Valen! Has subido a ${tierName}`);
+      const completedLevel = Math.max(1, this.mathSession.get_tier() - 1);
+      this.openPortalChallenge(completedLevel);
     }
 
     // Persist session metrics to IndexedDB
@@ -613,9 +683,191 @@ class KidsLearnApp {
       mastery: this.mathSession.get_mastery(),
     });
 
-    // Generate next challenge in Rust and re-render
-    this.mathSession.generate_next_challenge();
-    this.renderMathChallenge();
+    // Generate next challenge in Rust and re-render only if portal is not active
+    if (!this.isPortalActive) {
+      this.mathSession.generate_next_challenge();
+      this.renderMathChallenge();
+    }
+  }
+
+  /**
+   * Opens the Friendship Portal Challenge for an Astral Temple
+   */
+  openPortalChallenge(levelId) {
+    const levelData = getLevelData(levelId);
+    this.currentPortalLevel = levelData.id;
+    this.isPortalActive = true;
+
+    // Header
+    const pagePill = document.getElementById('portal-page-pill');
+    const actPill = document.getElementById('portal-act-pill');
+    const title = document.getElementById('portal-modal-title');
+    const subtitle = document.getElementById('portal-subtitle');
+
+    if (pagePill) pagePill.textContent = `📖 Página ${levelData.pageNumber} de 10`;
+    if (actPill) actPill.textContent = levelData.actTitle.split(':')[0];
+    if (title) title.textContent = levelData.name;
+    if (subtitle) subtitle.textContent = `${levelData.templeTitle} • Desafío de Portal`;
+
+    // Guardian Stage (Corrupted by default)
+    const wrapper = document.getElementById('portal-guardian-wrapper');
+    const emoji = document.getElementById('portal-guardian-emoji');
+    const guardianName = document.getElementById('portal-guardian-name');
+    const statusBadge = document.getElementById('portal-guardian-status');
+
+    if (wrapper) {
+      wrapper.className = 'guardian-avatar-wrapper vq-anim-corrupted';
+    }
+    if (emoji) emoji.textContent = levelData.guardian.emoji;
+    if (guardianName) guardianName.textContent = levelData.guardian.name;
+    if (statusBadge) {
+      statusBadge.className = 'guardian-status-badge corrupted';
+      statusBadge.textContent = 'Sombra del Eclipse';
+    }
+
+    // Story Lines
+    const linesContainer = document.getElementById('portal-story-lines');
+    if (linesContainer) {
+      linesContainer.innerHTML = '';
+      levelData.microCuento.forEach((line, idx) => {
+        const p = document.createElement('p');
+        p.className = 'portal-line';
+        p.dataset.line = idx;
+        p.textContent = line;
+        linesContainer.appendChild(p);
+      });
+    }
+
+    // Riddle
+    const riddlePrompt = document.getElementById('portal-riddle-prompt');
+    if (riddlePrompt) riddlePrompt.textContent = levelData.portalRiddle.prompt;
+
+    const optGrid = document.getElementById('portal-options-grid');
+    if (optGrid) {
+      optGrid.innerHTML = '';
+      levelData.portalRiddle.options.forEach((optVal) => {
+        const btn = document.createElement('button');
+        btn.className = 'portal-option-btn';
+        btn.textContent = optVal;
+        btn.setAttribute('aria-label', `Opción ${optVal}`);
+        btn.addEventListener('click', () => this.handlePortalRiddleAnswer(optVal, levelData, btn));
+        optGrid.appendChild(btn);
+      });
+    }
+
+    // Card Visibility
+    const riddleCard = document.getElementById('portal-riddle-card');
+    const rewardCard = document.getElementById('portal-reward-card');
+    if (riddleCard) riddleCard.hidden = false;
+    if (rewardCard) rewardCard.hidden = true;
+
+    // Show modal
+    const modal = document.getElementById('portal-challenge-modal');
+    if (modal) modal.hidden = false;
+
+    // Auto-read story with TTS after brief opening pause
+    setTimeout(() => {
+      this.speakPortalStory(levelData.microCuento);
+    }, 450);
+  }
+
+  /**
+   * Narrates micro-story line-by-line with visual karaoke highlighting
+   */
+  async speakPortalStory(lines) {
+    if (!lines || lines.length === 0 || this.isSpeakingPortalStory) return;
+    this.isSpeakingPortalStory = true;
+
+    // Clear highlights
+    document.querySelectorAll('.portal-line').forEach((el) => el.classList.remove('speaking'));
+
+    for (let i = 0; i < lines.length; i++) {
+      if (!this.isPortalActive) break;
+
+      const lineEl = document.querySelector(`.portal-line[data-line="${i}"]`);
+      if (lineEl) {
+        document.querySelectorAll('.portal-line').forEach((el) => el.classList.remove('speaking'));
+        lineEl.classList.add('speaking');
+      }
+
+      await new Promise((resolve) => {
+        speech.speak(lines[i]);
+        const approxDurationMs = Math.max(1800, lines[i].split(' ').length * 370);
+        setTimeout(resolve, approxDurationMs);
+      });
+    }
+
+    document.querySelectorAll('.portal-line').forEach((el) => el.classList.remove('speaking'));
+    this.isSpeakingPortalStory = false;
+  }
+
+  /**
+   * Evaluates portal riddle answer, executes purification and cosmetic rewards
+   */
+  async handlePortalRiddleAnswer(userAnswer, levelData, buttonEl) {
+    const isCorrect = userAnswer === levelData.portalRiddle.correctAnswer;
+
+    if (isCorrect) {
+      sound.playCorrect();
+      buttonEl.classList.add('correct');
+
+      // 1. Guardian visual purification
+      const wrapper = document.getElementById('portal-guardian-wrapper');
+      const statusBadge = document.getElementById('portal-guardian-status');
+
+      if (wrapper) {
+        wrapper.classList.remove('vq-anim-corrupted');
+        wrapper.classList.add('vq-anim-purified');
+      }
+      if (statusBadge) {
+        statusBadge.classList.remove('corrupted');
+        statusBadge.classList.add('purified');
+        statusBadge.textContent = '¡Guardián Purificado! ✨';
+      }
+
+      // 2. Gold sparks celebration burst
+      const sparks = document.createElement('div');
+      sparks.className = 'gold-sparks-overlay';
+      document.body.appendChild(sparks);
+      setTimeout(() => sparks.remove(), 1400);
+
+      // 3. Audio celebration
+      sound.playLevelUp();
+
+      // 4. Persistence: unlock cosmetic reward in IndexedDB without spending stars
+      await db.grantCosmeticReward(levelData.reward.itemId);
+
+      // 5. Update WASM engine & profile tier
+      if (this.mathSession) {
+        this.mathSession.clear_portal_ready();
+      }
+      const newTier = this.mathSession ? this.mathSession.get_tier() : 1;
+      await db.updateProfile({ currentTier: newTier, mathTier: newTier });
+
+      // 6. Display reward card
+      setTimeout(() => {
+        const riddleCard = document.getElementById('portal-riddle-card');
+        const rewardCard = document.getElementById('portal-reward-card');
+        if (riddleCard) riddleCard.hidden = true;
+        if (rewardCard) {
+          rewardCard.hidden = false;
+          const rewardIcon = document.getElementById('portal-reward-icon');
+          const rewardName = document.getElementById('portal-reward-name');
+          const rewardDesc = document.getElementById('portal-reward-desc');
+          if (rewardIcon) rewardIcon.textContent = levelData.reward.icon;
+          if (rewardName) rewardName.textContent = levelData.reward.name;
+          if (rewardDesc) rewardDesc.textContent = `${levelData.reward.description} • ¡Desbloqueado en tu Ropero!`;
+        }
+      }, 500);
+
+      // 7. Voice praise
+      speech.speak(`¡Felicidades Valen! Has purificado al ${levelData.guardian.name} y desbloqueado ${levelData.reward.name}.`);
+    } else {
+      sound.playIncorrect();
+      buttonEl.classList.add('incorrect');
+      setTimeout(() => buttonEl.classList.remove('incorrect'), 600);
+      speech.speak(`Piénsalo bien. Recuerda: ${levelData.portalRiddle.explanation}`);
+    }
   }
 
   showLevelUpModal(tierName) {
@@ -767,5 +1019,6 @@ class KidsLearnApp {
 // Instantiate and boot on DOM content ready
 window.addEventListener('DOMContentLoaded', () => {
   const app = new KidsLearnApp();
+  window.valenApp = app;
   app.init();
 });

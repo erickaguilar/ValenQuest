@@ -9,6 +9,7 @@ Bienvenido al repositorio central de documentación de **ValenQuest (KidsLearn-W
 ```text
 docs/
 ├── index.md                               # Este documento (Directorio principal)
+├── ten-moons-progression-spec.md          # Las Diez Lunas de Lumiria, 3 actos, matriz de 10 niveles y portales
 ├── mobile-standards-spec.md               # Estándares Mobile-First, ergonomía táctil infantil y PWA
 ├── heroines-and-powers-spec.md            # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
 ├── modular-css-darkmode-speech-spec.md    # CSS modular, modo noche astral y síntesis de voz
@@ -20,7 +21,18 @@ docs/
 
 ## 📚 Módulos y Especificaciones
 
-### 1. 📱 [Estándares Mobile-First y Ergonomía Táctil Infantil](./mobile-standards-spec.md)
+### 1. 🌙 [La Leyenda de las Diez Lunas de Lumiria: Progresión Curricular y Portales](./ten-moons-progression-spec.md)
+* **Alcance:** Estructura narrativa en 3 actos, matriz curricular de 10 niveles y mecánica de fin de nivel (Desafíos de Portal).
+* **Temas Clave:**
+  * Narrativa de la Gran Crónica: El Rescate del Grimorio de Cristal contra la Emperatriz Eclipse.
+  * Los 3 Actos: *El Despertar de los Elementos* (1-3), *Los Secretos de Cristal* (4-7) y *La Purificación del Eclipse* (8-10).
+  * Matriz dual de 10 niveles: retos matemáticos procedurales (Rust WASM) + comprensión lectora (español).
+  * Los 10 Guardianes Astrales y sus 10 desbloqueos coleccionables en el Ropero de IndexedDB.
+  * Mecánica del Desafío de Portal al 100% de maestría: Micro-cuento con TTS interactivo, acertijo lógico-matemático integrado y purificación pastel con chispas doradas.
+
+---
+
+### 2. 📱 [Estándares Mobile-First y Ergonomía Táctil Infantil](./mobile-standards-spec.md)
 * **Alcance:** Optimización para smartphones y tabletas (iOS Safari / Android Chrome).
 * **Temas Clave:**
   * Ergonomía táctil para niñas y niños de 5 a 9 años (zonas de impacto WCAG 2.2 AAA de 48-60px).
@@ -32,7 +44,7 @@ docs/
 
 ---
 
-### 2. 🌟 [El Cuarteto de la Armonía: Las 4 Razas de Lumiria, Poderes y Ropero](./heroines-and-powers-spec.md)
+### 3. 🌟 [El Cuarteto de la Armonía: Las 4 Razas de Lumiria, Poderes y Ropero](./heroines-and-powers-spec.md)
 * **Alcance:** Gamificación afectiva, 4 razas canónicas (MLP), andamiaje pedagógico y economía de estrellas.
 * **Temas Clave:**
   * Las 4 razas de Lumiria: **Valen** 👑 (Alicornio Líder), **Reni** 🪽 (Pegaso), **Zoe** 🌿 (Poni Terrestre) y **Lía** 🦄 (Unicornio).
@@ -47,7 +59,7 @@ docs/
 
 ---
 
-### 3. 🎨 [Arquitectura CSS Modular, Modo Noche Astral y TTS](./modular-css-darkmode-speech-spec.md)
+### 4. 🎨 [Arquitectura CSS Modular, Modo Noche Astral y TTS](./modular-css-darkmode-speech-spec.md)
 * **Alcance:** Estructura de estilos Zero-Framework y accesibilidad auditiva.
 * **Temas Clave:**
   * Separación en cinco capas (`tokens.css`, `base.css`, `animations.css`, `components.css`, `theme-dark.css`).
@@ -57,7 +69,7 @@ docs/
 
 ---
 
-### 4. 🦄 [Especificación de Diseño Visual y Estética Chibi](./valenquest-visual-spec.md)
+### 5. 🦄 [Especificación de Diseño Visual y Estética Chibi](./valenquest-visual-spec.md)
 * **Alcance:** Identidad de marca, tokens semánticos, iconografía SVG y tipografía.
 * **Temas Clave:**
   * Filosofía de diseño inspirada en *My Little Pony*, *Gacha Life* y libros de cuentos infantiles.
@@ -67,7 +79,7 @@ docs/
 
 ---
 
-### 5. 🔀 [Estrategia de Ramas GitFlow y Remotos](./gitflow-workflow.md)
+### 6. 🔀 [Estrategia de Ramas GitFlow y Remotos](./gitflow-workflow.md)
 * **Alcance:** Gestión de versiones, despliegue continuo y control de código.
 * **Temas Clave:**
   * Estructura de ramas: `main` (producción Vercel) y `develop` (desarrollo activo).
