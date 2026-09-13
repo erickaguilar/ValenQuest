@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FFAFCC">
+  <title>ValenQuest | Prototipo Palacio Prisma (Nivel 5)</title>
+  
+  <style>
+    /* ==========================================================================
+       1. PALETA OFICIAL PASTEL DE LUMIRIA & TOKENS DE DISEÑO
+       ========================================================================== */
+    :root {
+      --vq-pink-bubble: #FFAFCC;
+      --vq-pink-light: #FFC8DD;
+      --vq-lavender: #CDB4DB;
+      --vq-lavender-light: #F0E6F6;
+      --vq-sky: #A2D2FF;
+      --vq-sky-light: #BDE0FE;
+      --vq-cloud: #FDF7FF;
+      --vq-gold: #FFD166;
+      --vq-gold-light: #FFF0C2;
+      --vq-mint: #B8F2E6;
+      --vq-mint-light: #E4FBF6;
+      --vq-danger: #F87171;
+      
+      --vq-border: #4A3E56;
+      --vq-text: #32213F;
+      --vq-text-muted: #645475;
+      --vq-bg-canvas: #FDF7FF;
+      --vq-bg-card: #FFFFFF;
+      --vq-border-width: 3px;
+      --vq-radius-bubble: 22px;
+      --vq-radius-pill: 50px;
+      
+      --vq-shadow-hard: 0 5px 0 var(--vq-border);
+      --vq-shadow-active: 0 2px 0 var(--vq-border);
+      --vq-font-kids: 'Fredoka', 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --vq-bg-canvas: #130E1F;
+        --vq-bg-card: #201633;
+        --vq-border: #8975A3;
+        --vq-text: #F8F5FC;
+        --vq-text-muted: #C0B4D1;
+        --vq-pink-bubble: #F472B6;
+        --vq-lavender: #A78BFA;
+        --vq-gold: #FBBF24;
+        --vq-mint: #34D399;
+        --vq-shadow-hard: 0 5px 0 #584470;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: var(--vq-font-kids);
+      background-color: var(--vq-bg-canvas);
+      color: var(--vq-text);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    /* Contenedor Principal de la Escena */
+    .palacio-container {
+      width: 100%;
+      max-width: 520px;
+      background: var(--vq-bg-card);
+      border: var(--vq-border-width) solid var(--vq-border);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--vq-shadow-hard);
+      position: relative;
+      transition: filter 0.45s ease, transform 0.25s ease;
+    }
+
+    /* Efecto: El Sueño del Olvido (Desaturación y bruma sombría al fallar) */
+    .palacio-container.oblivion-mist {
+      filter: grayscale(0.7) blur(1px) contrast(0.9) brightness(0.85);
+      transform: scale(0.985);
+      border-color: #6D28D9;
+      box-shadow: 0 0 25px rgba(109, 40, 217, 0.4);
+    }
+
+    /* Efecto: Resplandor de la Armonía (Saturación y destello radiante al acertar) */
+    .palacio-container.harmony-radiance {
+      filter: saturate(1.35) brightness(1.05) drop-shadow(0 0 20px rgba(255, 209, 102, 0.8));
+      transform: scale(1.01);
+    }
+
+    /* Barra Superior de Estado y Templo */
+    .palacio-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .temple-pill-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-temple {
+      background: var(--vq-gold);
+      color: var(--vq-text);
+      font-size: 0.8rem;
+      font-weight: 900;
+      padding: 3px 12px;
+      border-radius: var(--vq-radius-pill);
+      border: 2px solid var(--vq-border);
+    }
+
+    .pill-phase {
+      background: var(--vq-lavender);
+      color: var(--vq-text);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: var(--vq-radius-pill);
+      border: 2px solid var(--vq-border);
+    }
+
+    .temple-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--vq-text);
+    }
+
+    /* Escenario del Guardián: León de Espejos */
+    .guardian-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--vq-lavender-light, rgba(205, 180, 219, 0.2));
+      border: 2px solid var(--vq-border);
+      border-radius: 20px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 0 var(--vq-border);
+    }
+
+    .guardian-avatar {
+      font-size: 2.8rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: var(--vq-bg-card);
+      border-radius: 50%;
+      border: 2px solid var(--vq-border);
+      box-shadow: 0 3px 0 var(--vq-border);
+      transition: transform 0.3s ease;
+    }
+
+    .guardian-dialogue {
+      flex: 1;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      font-weight: 700;
+      color: var(--vq-text);
+    }
+
+    /* ==========================================================================
+       2. FASE 1: COMPRENSIÓN LECTORA (VOCABULARIO EN CONTEXTO)
+       ========================================================================== */
+    .phase-section {
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .phase-section.hidden {
+      display: none;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    .story-bubble {
+      background: var(--vq-cloud);
+      border: 2px solid var(--vq-border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .story-text {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      font-weight: 600;
+      color: var(--vq-text);
+    }
+
+    .story-text mark {
+      background: #FEF08A;
+      color: #854D0E;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-weight: 900;
+      border: 1px dashed #CA8A04;
+    }
+
+    .tts-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--vq-sky);
+      border: 2px solid var(--vq-border);
+      border-radius: var(--vq-radius-pill);
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--vq-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 0 var(--vq-border);
+    }
+
+    .tts-btn:active {
+      transform: translateY(2px);
+      box-shadow: none;
+    }
+
+    .riddle-question {
+      font-size: 1.02rem;
+      font-weight: 900;
+      color: var(--vq-pink-bubble);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .options-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-synonym {
+      min-height: 52px;
+      background: var(--vq-bg-card);
+      border: var(--vq-border-width) solid var(--vq-border);
+      border-radius: 16px;
+      padding: 12px 18px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--vq-text);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--vq-shadow-hard);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease;
+      touch-action: manipulation;
+    }
+
+    .btn-synonym:hover {
+      background: var(--vq-pink-light);
+    }
+
+    .btn-synonym:active {
+      transform: translateY(3px);
+      box-shadow: var(--vq-shadow-active);
+    }
+
+    .btn-synonym.correct {
+      background: #A7C957 !important;
+      color: #1A3008 !important;
+      border-color: #386641 !important;
+    }
+
+    .btn-synonym.incorrect {
+      background: #F87171 !important;
+      color: #FFFFFF !important;
+      animation: shake 0.4s ease;
+    }
+
+    /* ==========================================================================
+       3. FASE 2: MATEMÁTICAS VISUALES (REFRACCIÓN CON CUADRÍCULA DE GEMAS)
+       ========================================================================== */
+    .prism-arena {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .prism-source {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--vq-gold-light);
+      border: 2px solid var(--vq-border);
+      border-radius: 16px;
+      padding: 8px 16px;
+      font-weight: 900;
+      color: #854D0E;
+    }
+
+    /* Cuadrícula de Gemas Concretas: 6 filas de 5 gemas = 30 */
+    .gems-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      background: var(--vq-cloud);
+      border: 2px dashed var(--vq-border);
+      border-radius: 20px;
+      padding: 16px;
+      width: 100%;
+    }
+
+    .gem-item {
+      height: 44px;
+      background: var(--vq-bg-card);
+      border: 2px solid var(--vq-border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      box-shadow: 0 2px 0 var(--vq-border);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease;
+    }
+
+    .gem-item.lit {
+      background: #FEF08A;
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 6px #F59E0B);
+    }
+
+    .math-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-math-opt {
+      min-height: 54px;
+      background: var(--vq-bg-card);
+      border: var(--vq-border-width) solid var(--vq-border);
+      border-radius: 16px;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--vq-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--vq-shadow-hard);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s ease;
+      touch-action: manipulation;
+    }
+
+    .btn-math-opt:hover {
+      background: var(--vq-sky-light);
+    }
+
+    .btn-math-opt:active {
+      transform: translateY(3px);
+      box-shadow: var(--vq-shadow-active);
+    }
+
+    .btn-math-opt.correct {
+      background: #A7C957 !important;
+      color: #1A3008 !important;
+      border-color: #386641 !important;
+    }
+
+    .btn-math-opt.incorrect {
+      background: #F87171 !important;
+      color: #FFFFFF !important;
+      animation: shake 0.4s ease;
+    }
+
+    /* ==========================================================================
+       4. CELEBRACIÓN Y RECOMPENSA FINAL
+       ========================================================================== */
+    .celebration-box {
+      background: var(--vq-mint-light);
+      border: var(--vq-border-width) solid var(--vq-border);
+      border-radius: 22px;
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--vq-shadow-hard);
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .reward-card-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--vq-bg-card);
+      border: 2px solid var(--vq-border);
+      border-radius: 16px;
+      padding: 10px 16px;
+      width: 100%;
+    }
+
+    .btn-restart {
+      background: var(--vq-gold);
+      border: var(--vq-border-width) solid var(--vq-border);
+      border-radius: var(--vq-radius-pill);
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--vq-text);
+      cursor: pointer;
+      box-shadow: var(--vq-shadow-hard);
+      margin-top: 8px;
+    }
+
+    .btn-restart:active {
+      transform: translateY(3px);
+      box-shadow: var(--vq-shadow-active);
+    }
+
+    /* Destellos de chispas doradas */
+    .gold-sparks-fx {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.5) 0, transparent 10px),
+        radial-gradient(circle at 70% 40%, rgba(255, 209, 102, 0.6) 0, transparent 14px),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.7) 0, transparent 12px);
+      animation: sparkleFade 1.2s ease-out forwards;
+      z-index: 100;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes sparkleFade {
+      0% { opacity: 0; transform: scale(0.8); }
+      40% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.15); }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="palacio-container" id="palacio-scene" aria-live="polite">
+    
+    <!-- Encabezado del Templo -->
+    <header class="palacio-header">
+      <div class="temple-pill-row">
+        <span class="pill-temple">🏛️ Templo 5 • Acto II</span>
+        <span class="pill-phase" id="pill-phase-indicator">Fase 1: Lectura</span>
+      </div>
+      <h1 class="temple-title">Palacio Prisma</h1>
+    </header>
+
+    <!-- Guardián: León de Espejos con Estado Dinámico -->
+    <section class="guardian-card" id="guardian-card">
+      <div class="guardian-avatar" id="guardian-avatar" aria-hidden="true">🦁</div>
+      <div class="guardian-dialogue" id="guardian-speech">
+        «Bienvenida al Palacio Prisma. Mis espejos están cubiertos por la sombra del Eclipse... ¿Me ayudas a interpretarlos?»
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- FASE 1: COMPRENSIÓN LECTORA (VOCABULARIO & SINÓNIMO)                -->
+    <!-- =================================================================== -->
+    <section class="phase-section" id="section-phase-1" aria-label="Fase 1 de Lectura">
+      <article class="story-bubble">
+        <button class="tts-btn" id="btn-speak-story" type="button" aria-label="Escuchar fábula">
+          <span>🗣️</span> <span>Escuchar</span>
+        </button>
+        <p class="story-text" id="story-paragraph">
+          «El león guardaba un cetro <mark>radiante</mark> en lo alto de la torre de espejos, pues solo la luz más pura podía abrir el cofre sagrado de cristal.»
+        </p>
+      </article>
+
+      <div class="riddle-question">
+        <span>📖</span> <span>¿Qué significa la palabra <strong>"radiante"</strong> en esta historia?</span>
+      </div>
+
+      <div class="options-stack" id="synonym-options-stack">
+        <button class="btn-synonym" data-correct="true" type="button">
+          <span>A. Brillante y luminoso</span>
+          <span>✨</span>
+        </button>
+        <button class="btn-synonym" data-correct="false" type="button">
+          <span>B. Ruidoso y estruendoso</span>
+          <span>🔊</span>
+        </button>
+        <button class="btn-synonym" data-correct="false" type="button">
+          <span>C. Frío y congelado</span>
+          <span>❄️</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- FASE 2: MATEMÁTICAS VISUALES (REFRACCIÓN CON GEMAS)                -->
+    <!-- =================================================================== -->
+    <section class="phase-section hidden" id="section-phase-2" aria-label="Fase 2 de Matemáticas Visuales">
+      <div class="prism-arena">
+        <div class="prism-source">
+          <span>💎</span>
+          <span>Prisma Real de Valen: 5 haces de luz hacia 6 espejos</span>
+        </div>
+
+        <!-- Matriz Concreta de 6 filas × 5 gemas = 30 -->
+        <div class="gems-grid" id="gems-grid" aria-label="Cuadrícula visual de 30 gemas refractadas">
+          <!-- Inyectadas dinámicamente -->
+        </div>
+      </div>
+
+      <div class="riddle-question">
+        <span>🧮</span> <span>¿Cuántas gemas de luz se han refractado en total? (5 × 6)</span>
+      </div>
+
+      <div class="math-options-grid" id="math-options-grid">
+        <button class="btn-math-opt" data-val="25" type="button">25</button>
+        <button class="btn-math-opt" data-val="28" type="button">28</button>
+        <button class="btn-math-opt" data-val="30" data-correct="true" type="button">30 ✨</button>
+        <button class="btn-math-opt" data-val="35" type="button">35</button>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- FASE 3: CELEBRACIÓN Y RECOMPENSA                                   -->
+    <!-- =================================================================== -->
+    <section class="celebration-box hidden" id="section-celebration">
+      <div style="font-size:2.8rem;">🎉 🦁 🪄</div>
+      <h2 style="font-size:1.35rem;font-weight:900;color:#1A3008;">
+        ¡Palacio Prisma Purificado!
+      </h2>
+      <p style="font-size:0.92rem;font-weight:600;color:#386641;">
+        Has conectado la sabiduría de las palabras con el poder de las cifras.
+      </p>
+
+      <div class="reward-card-row">
+        <span style="font-size:2.2rem;">🪄</span>
+        <div style="text-align:left;">
+          <strong style="font-size:1rem;color:var(--vq-text);">Cetro Estelar Radiante</strong>
+          <div style="font-size:0.8rem;color:var(--vq-text-muted);">Recompensa coleccionable para Lía</div>
+        </div>
+      </div>
+
+      <button class="btn-restart" id="btn-restart-quest" type="button">
+        🔄 Reintentar Prototipo
+      </button>
+    </section>
+
+  </main>
+
+  <script>
+    /**
+     * ValenQuest - Prototipo Bifásico Palacio Prisma (Nivel 5)
+     * Estructura: Lectura Contextual -> Transición Causal (400ms) -> Matemáticas Concretas
+     */
+    const scene = document.getElementById('palacio-scene');
+    const phaseIndicator = document.getElementById('pill-phase-indicator');
+    const guardianSpeech = document.getElementById('guardian-speech');
+    const guardianAvatar = document.getElementById('guardian-avatar');
+
+    const phase1Sec = document.getElementById('section-phase-1');
+    const phase2Sec = document.getElementById('section-phase-2');
+    const celebrationSec = document.getElementById('section-celebration');
+    const gemsGrid = document.getElementById('gems-grid');
+
+    // 1. Iniciar Cuadrícula de 30 gemas (6 filas x 5 columnas)
+    function initGemsGrid() {
+      gemsGrid.innerHTML = '';
+      for (let i = 0; i < 30; i++) {
+        const gem = document.createElement('div');
+        gem.className = 'gem-item';
+        gem.textContent = '💎';
+        gem.setAttribute('title', `Gema ${i + 1}`);
+        gemsGrid.appendChild(gem);
+      }
+    }
+    initGemsGrid();
+
+    // 2. Feedback Sensorial: El Sueño del Olvido (Desaturación) vs Armonía (Saturación)
+    function triggerOblivionMist() {
+      scene.classList.remove('harmony-radiance');
+      scene.classList.add('oblivion-mist');
+      playTone(180, 0.2, 'sawtooth');
+      setTimeout(() => {
+        scene.classList.remove('oblivion-mist');
+      }, 900);
+    }
+
+    function triggerHarmonyRadiance() {
+      scene.classList.remove('oblivion-mist');
+      scene.classList.add('harmony-radiance');
+      spawnSparksFx();
+      playChime();
+      setTimeout(() => {
+        scene.classList.remove('harmony-radiance');
+      }, 1400);
+    }
+
+    function spawnSparksFx() {
+      const fx = document.createElement('div');
+      fx.className = 'gold-sparks-fx';
+      document.body.appendChild(fx);
+      setTimeout(() => fx.remove(), 1200);
+    }
+
+    // Audio procedural con Web Audio API (Zero-dependency)
+    function playTone(freq, duration, type = 'sine') {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playChime() {
+      playTone(523.25, 0.25); // Do
+      setTimeout(() => playTone(659.25, 0.25), 100); // Mi
+      setTimeout(() => playTone(783.99, 0.35), 200); // Sol
+      setTimeout(() => playTone(1046.50, 0.45), 300); // Do agudo
+    }
+
+    // 3. Fase 1: Selección de Sinónimo
+    const synonymButtons = document.querySelectorAll('.btn-synonym');
+    synonymButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isCorrect = btn.dataset.correct === 'true';
+
+        // WASM_HOOK: SyllableParser / ReadingSession evaluation
+        if (isCorrect) {
+          btn.classList.add('correct');
+          triggerHarmonyRadiance();
+          guardianAvatar.textContent = '✨';
+          guardianSpeech.textContent = '«¡Exacto! El cetro es brillante y luminoso. Ahora acompáñame a encender los espejos del salón.»';
+
+          // Transición narrativa causal hacia Fase 2 (400ms)
+          setTimeout(() => {
+            phase1Sec.classList.add('hidden');
+            phase2Sec.classList.remove('hidden');
+            phaseIndicator.textContent = 'Fase 2: Matemáticas';
+            phaseIndicator.style.background = 'var(--vq-sky)';
+            guardianAvatar.textContent = '🦁';
+
+            // Animación secuencial de iluminación de las 30 gemas (5 en 5)
+            const gems = document.querySelectorAll('.gem-item');
+            gems.forEach((gem, idx) => {
+              setTimeout(() => {
+                gem.classList.add('lit');
+                if (idx % 5 === 0) playTone(300 + idx * 15, 0.08);
+              }, idx * 35);
+            });
+          }, 650);
+
+        } else {
+          btn.classList.add('incorrect');
+          triggerOblivionMist();
+          guardianSpeech.textContent = '«La niebla del Olvido confunde el significado... Lee con calma: ¿qué cualidad permite iluminar la torre?»';
+          setTimeout(() => btn.classList.remove('incorrect'), 600);
+        }
+      });
+    });
+
+    // Botón de Voz TTS para la fábula
+    document.getElementById('btn-speak-story').addEventListener('click', () => {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(
+          'El león guardaba un cetro radiante en lo alto de la torre de espejos, pues solo la luz más pura podía abrir el cofre sagrado de cristal.'
+        );
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+    });
+
+    // 4. Fase 2: Matemáticas Visuales de Refracción (5 x 6 = 30)
+    const mathButtons = document.querySelectorAll('.btn-math-opt');
+    mathButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isCorrect = btn.dataset.correct === 'true';
+
+        // WASM_HOOK: MathSession.submit_answer(30, latencyMs)
+        // WASM_HOOK: StorageService.grantCosmeticReward('cetro-estelar-radiante')
+        if (isCorrect) {
+          btn.classList.add('correct');
+          triggerHarmonyRadiance();
+          guardianAvatar.textContent = '👑';
+          guardianSpeech.textContent = '«¡La luz ha regresado! Las 30 gemas resuenan en armonía. Has disipado el Sueño del Olvido.»';
+
+          setTimeout(() => {
+            phase2Sec.classList.add('hidden');
+            celebrationSec.classList.remove('hidden');
+            phaseIndicator.textContent = '¡Completado! ⭐';
+            phaseIndicator.style.background = 'var(--vq-mint)';
+          }, 700);
+
+        } else {
+          btn.classList.add('incorrect');
+          triggerOblivionMist();
+          guardianSpeech.textContent = '«Cuenta las filas de gemas: son 6 filas con 5 gemas cada una: 5, 10, 15, 20... ¡Inténtalo de nuevo!»';
+          setTimeout(() => btn.classList.remove('incorrect'), 600);
+        }
+      });
+    });
+
+    // 5. Botón de Reinicio
+    document.getElementById('btn-restart-quest').addEventListener('click', () => {
+      document.querySelectorAll('.btn-synonym, .btn-math-opt').forEach(b => b.classList.remove('correct', 'incorrect'));
+      document.querySelectorAll('.gem-item').forEach(g => g.classList.remove('lit'));
+      celebrationSec.classList.add('hidden');
+      phase2Sec.classList.add('hidden');
+      phase1Sec.classList.remove('hidden');
+      phaseIndicator.textContent = 'Fase 1: Lectura';
+      phaseIndicator.style.background = 'var(--vq-lavender)';
+      guardianAvatar.textContent = '🦁';
+      guardianSpeech.textContent = '«Bienvenida al Palacio Prisma. Mis espejos están cubiertos por la sombra del Eclipse... ¿Me ayudas a interpretarlos?»';
+    });
+  </script>
+</body>
+</html>

@@ -123,6 +123,16 @@ Al pulsar la opción correcta:
 4. **Ascenso Curricular WASM:** El motor Rust ejecuta `advance_tier()`, avanzando al siguiente templo astral y actualizando el perfil activo.
 5. **Auto-equipamiento Opcional:** Una tarjeta de victoria ofrece equipar el nuevo accesorio de inmediato o continuar la aventura en el siguiente templo.
 
+### 4.3. Flujo Bifásico Progresivo y Mitigación de Carga Cognitiva (Teoría de Sweller)
+Para niveles de alta complejidad conceptual como el **Nivel 5 (Palacio Prisma)**, donde convergen vocabulario en contexto y multiplicación matricial ($5 \times 6 = 30$), el portal implementa un **diseño bifásico secuencial**:
+* **Fase 1 (Lectura Contextual):** Presenta únicamente la fábula y el reto de vocabulario/sinónimo (*radiante* $\rightarrow$ *brillante*). La matemática permanece oculta para evitar el *Split-Attention Effect*.
+* **Transición Causal (400–650 ms):** Al acertar la comprensión, el diálogo del guardián conecta la lectura con la necesidad aritmética: *"¡Exacto! El cetro es brillante... ahora acompáñame a encender los espejos del salón"*.
+* **Fase 2 (Matemáticas Visuales):** Se ilumina secuencialmente la matriz concreta de gemas ($6 \text{ filas} \times 5 \text{ columnas} = 30 \text{ gemas}$) facilitando el andamiaje visual antes de solicitar el cálculo numérico.
+* **Feedback Sensorial:**
+  * **"El Sueño del Olvido"** (`.oblivion-mist`): En caso de error o vacilación, la escena se desatura un 70% con un tinte violáceo sutil y tono grave, sin frustrar al jugador.
+  * **"El Resplandor de la Armonía"** (`.harmony-radiance`): En caso de acierto, la escena vibra con saturación pastel al 135%, acorde pentatónico mayor y lluvia de chispas doradas.
+* **Prototipo de Referencia:** Ver [`www/palacio-prisma.html`](../www/palacio-prisma.html).
+
 ---
 
 ## 5. Integración Técnica

@@ -104,6 +104,7 @@ ValenQuest/
 │   ├── js/               # Módulos Vanilla ES (Audio, Speech, Storage, Wardrobe, Companions, PWA)
 │   ├── pkg/              # Binarios WebAssembly compilados con wasm-pack
 │   ├── sw.js             # Service Worker para ejecución 100% offline
+│   ├── palacio-prisma.html # Prototipo interactivo bifásico del Nivel 5 (Sweller CLT)
 │   └── index.html        # Shell de la aplicación PWA
 └── docs/                 # Índice y especificaciones técnicas del proyecto
 ```
