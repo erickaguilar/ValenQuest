@@ -24,6 +24,7 @@ class KidsLearnApp {
     this.currentTab = 'intro';
     this.inputMode = 'choice'; // 'choice' or 'keypad'
     this.keypadBuffer = '';
+    this.isSubmittingAnswer = false;
     this.challengeStartTime = 0;
     this.rsvpTimer = null;
     this.rsvpIndex = 0;
@@ -482,6 +483,18 @@ class KidsLearnApp {
       });
     }
 
+    // Tapping the math answer preview box toggles input mode
+    const previewBox = document.getElementById('math-answer-preview');
+    if (previewBox) {
+      previewBox.style.cursor = 'pointer';
+      previewBox.setAttribute('title', 'Toca para alternar modo de entrada');
+      previewBox.addEventListener('click', () => {
+        sound.playClick();
+        const modeBtn = document.getElementById('btn-toggle-mode');
+        if (modeBtn) modeBtn.click();
+      });
+    }
+
     // Reading controls
     const btnPlayRsvp = document.getElementById('btn-play-rsvp');
     if (btnPlayRsvp) {
@@ -563,6 +576,7 @@ class KidsLearnApp {
   // =========================================================================
   renderMathChallenge() {
     this.challengeStartTime = performance.now();
+    this.isSubmittingAnswer = false;
     this.keypadBuffer = '';
     this.updateKeypadDisplay();
 
@@ -619,6 +633,29 @@ class KidsLearnApp {
         btn.className = 'option-btn';
         btn.textContent = optVal;
         btn.setAttribute('aria-label', `Opción ${optVal}`);
+
+        // Live preview on hover / pointerenter / focus
+        btn.addEventListener('pointerenter', () => {
+          if (!btn.disabled && !this.isSubmittingAnswer) {
+            this.previewAnswer(optVal);
+          }
+        });
+        btn.addEventListener('pointerleave', () => {
+          if (!this.isSubmittingAnswer) {
+            this.clearAnswerPreview();
+          }
+        });
+        btn.addEventListener('focus', () => {
+          if (!btn.disabled && !this.isSubmittingAnswer) {
+            this.previewAnswer(optVal);
+          }
+        });
+        btn.addEventListener('blur', () => {
+          if (!this.isSubmittingAnswer) {
+            this.clearAnswerPreview();
+          }
+        });
+
         btn.addEventListener('click', () => {
           this.submitAnswer(optVal);
         });
@@ -632,12 +669,37 @@ class KidsLearnApp {
 
   updateKeypadDisplay() {
     const display = document.getElementById('math-answer-preview');
+    if (!display) return;
     if (this.keypadBuffer.length > 0) {
       display.textContent = this.keypadBuffer;
-      display.classList.remove('empty');
+      display.classList.remove('empty', 'preview', 'correct', 'incorrect');
     } else {
       display.textContent = '?';
       display.classList.add('empty');
+      display.classList.remove('preview', 'correct', 'incorrect');
+    }
+  }
+
+  previewAnswer(val) {
+    if (this.isSubmittingAnswer) return;
+    const display = document.getElementById('math-answer-preview');
+    if (!display) return;
+    display.textContent = val;
+    display.classList.remove('empty');
+    display.classList.add('preview');
+  }
+
+  clearAnswerPreview() {
+    if (this.isSubmittingAnswer) return;
+    const display = document.getElementById('math-answer-preview');
+    if (!display) return;
+    if (this.inputMode === 'keypad' && this.keypadBuffer.length > 0) {
+      display.textContent = this.keypadBuffer;
+      display.classList.remove('empty', 'preview');
+    } else {
+      display.textContent = '?';
+      display.classList.add('empty');
+      display.classList.remove('preview', 'correct', 'incorrect');
     }
   }
 
@@ -653,6 +715,15 @@ class KidsLearnApp {
    * Dispatches user answer and elapsed latency to Rust WASM engine
    */
   async submitAnswer(userAnswer) {
+    if (this.isSubmittingAnswer) return;
+    this.isSubmittingAnswer = true;
+
+    const display = document.getElementById('math-answer-preview');
+    if (display) {
+      display.textContent = userAnswer;
+      display.classList.remove('empty', 'preview');
+    }
+
     const elapsedMs = Math.round(performance.now() - this.challengeStartTime);
 
     // Call Rust WASM: updates EMA mastery, streaks, and FSM tier transitions
@@ -663,6 +734,9 @@ class KidsLearnApp {
     const card = document.getElementById('math-challenge-card');
 
     if (isCorrect) {
+      if (display) {
+        display.classList.add('correct');
+      }
       card.classList.add('correct-flash');
       await companions.rewardStreak(currentStreak);
       this.updatePowersBadges();
@@ -688,13 +762,23 @@ class KidsLearnApp {
         sound.playCorrect();
       }
     } else {
+      if (display) {
+        display.classList.add('incorrect');
+      }
       // Zoe's Roots Shield protection check
       if (this.streakShieldActive) {
         this.streakShieldActive = false;
         sound.playStreak();
         speech.speak('¡El Escudo de Raíces de Zoe protegió tu racha! Inténtalo de nuevo.');
         card.classList.add('shield-protect');
-        setTimeout(() => card.classList.remove('shield-protect'), 800);
+        setTimeout(() => {
+          card.classList.remove('shield-protect');
+          if (display) {
+            display.classList.remove('incorrect');
+            this.clearAnswerPreview();
+          }
+          this.isSubmittingAnswer = false;
+        }, 800);
         return; // Don't advance or reset challenge, let student try again!
       }
 
@@ -702,9 +786,13 @@ class KidsLearnApp {
       sound.playIncorrect();
     }
 
-    setTimeout(() => {
-      card.classList.remove('correct-flash', 'incorrect-shake');
-    }, 450);
+    // Brief cognitive pause (550ms) to allow the child to see and absorb their answer
+    await new Promise((resolve) => setTimeout(resolve, 550));
+
+    card.classList.remove('correct-flash', 'incorrect-shake');
+    if (display) {
+      display.classList.remove('correct', 'incorrect');
+    }
 
     // Check for Tier Level Up or Desafío de Portal
     if (tierChanged === 1 || (this.mathSession && this.mathSession.is_portal_ready())) {
@@ -722,6 +810,8 @@ class KidsLearnApp {
       highestStreak: this.mathSession.get_highest_streak(),
       mastery: this.mathSession.get_mastery(),
     });
+
+    this.isSubmittingAnswer = false;
 
     // Generate next challenge in Rust and re-render only if portal is not active
     if (!this.isPortalActive) {
