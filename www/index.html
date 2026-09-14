@@ -779,13 +779,10 @@
           <p id="intro-dialogue-text">
             «¡Las páginas doradas de <strong>El Gran Libro de Lumiria</strong> han despertado! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las constelaciones. ¡Abre el Gran Libro para revivir la leyenda o inicia tu aventura!»
           </p>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+          <div style="margin-top: 10px;">
             <button id="btn-speak-intro" class="speak-hint-btn" type="button" aria-label="Escuchar mensaje de Valen">
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar mensaje de Valen</span>
             </button>
-            <a href="story.html" class="speak-hint-btn" style="text-decoration: none; background: linear-gradient(135deg, #FFD166, #FFAFCC); color: #4A3E56; font-weight: 900;" aria-label="Abrir y leer el Gran Libro de las Princesas">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>📖 Leer El Gran Libro</span>
-            </a>
           </div>
         </div>
 
@@ -884,6 +881,8 @@
             </p>
           </div>
 
+        </div> <!-- /.artifacts-grid -->
+
         <!-- Banner de Descarga / Instalación PWA (Móvil, Tablet y Desktop) -->
         <div id="pwa-install-banner" class="pwa-install-banner" hidden>
           <div class="pwa-banner-left">
@@ -898,11 +897,20 @@
           </button>
         </div>
 
-        <button id="btn-start-quest" class="cta-start-btn" type="button">
-          <span>¡Comenzar Aventura en Equipo!</span> <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-        </button>
+        <!-- Botón Heroico CTA: Comenzar la Aventura Estelar -->
+        <div class="cta-start-wrapper">
+          <button id="btn-start-quest" class="cta-start-btn" type="button" aria-label="Comenzar la aventura mágica en equipo">
+            <span class="cta-start-icon-left" aria-hidden="true">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+            </span>
+            <span class="cta-start-text">¡Comenzar Aventura en Equipo!</span>
+            <span class="cta-start-icon-right" aria-hidden="true">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
+            </span>
+          </button>
+        </div>
 
-      </div>
+      </div> <!-- /.journey-hero-card -->
     </section>
 
     <!-- =================================================================== -->
