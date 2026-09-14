@@ -2,20 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFAFCC">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#201633">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="description" content="ValenQuest - Plataforma educativa interactiva en Rust + WebAssembly para matemáticas adaptativas y fluidez lectora en el reino de Lumiria">
-  <title>ValenQuest | Aventuras en Lumiria</title>
-
-  <!-- Prevención de FOUC de tema oscuro/claro -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <title>ValenQuest — El Gran Libro de las Princesas y el Reino de Lumiria</title>
+  
   <script>
     (function() {
-      const savedTheme = localStorage.getItem('vq-theme');
+      const savedTheme = localStorage.getItem("vq-theme");
       if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.documentElement.setAttribute("data-theme", savedTheme);
       }
     })();
   </script>
@@ -33,10 +27,11 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/theme-dark.css">
+  <link rel="stylesheet" href="css/storybook.css">
 </head>
 <body>
 
-  <!-- SVG Sprite de Heroínas y Capas Cosméticas (Local-first & Zero-CORS) -->
+  <!-- SVG Sprite de Iconos y Heroínas (Local-first & Zero-CORS) -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <!-- BIBLIOTECA DE ICONOS SVG VALENQUEST (VQ CHIBI SYSTEM) -->
 <!-- ======================================================================
@@ -672,634 +667,115 @@
     </symbol>
   </svg>
 
-  <div class="app-container">
+  <div class="storybook-app">
     
-    <!-- Status & Error Alert Banner (Hidden by default) -->
-    <aside id="wasm-status-banner" hidden></aside>
+    <!-- Barra Superior de Navegación del Lector -->
+    <header class="storybook-top-nav" role="banner">
+      <a href="index.html" class="back-to-quest-btn" aria-label="Volver a la pantalla principal">
+        <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+        <span>← Volver a ValenQuest</span>
+      </a>
 
-    <!-- App Header (Optimizado Mobile-First) -->
-    <header class="app-header" role="banner">
-      <!-- Fila Superior: Identidad, Heroína Activa y Contador de Estrellas -->
-      <div class="header-main-row">
-        <div class="brand">
-          <span class="brand-icon" aria-hidden="true">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-          </span>
-          <div class="brand-info">
-            <h1 class="brand-title">ValenQuest</h1>
-            <div class="brand-subtitle" title="Heroína activa">
-              <span id="student-avatar" aria-hidden="true"><svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></span>
-              <span id="student-name">Valen</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contador de Estrellas y Acceso al Ropero Mágico -->
-        <div id="header-stars-badge" class="stars-counter-badge" role="button" tabindex="0" title="Tus estrellas de Lumiria — ¡Toca para abrir el Ropero Mágico!" aria-label="Estrellas acumuladas. Toca para abrir el Ropero Mágico">
-          <span class="star-icon" aria-hidden="true"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg></span>
-          <span id="player-stars-count">0</span>
-        </div>
-      </div>
-
-      <!-- Dock de Acciones y Herramientas Mágicas -->
-      <div class="header-actions" aria-label="Herramientas y ajustes mágicos">
-        <!-- Selector Modo Oscuro (Noche Astral) -->
-        <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
-        </button>
-        <!-- Voz Narradora / TTS -->
-        <button id="btn-toggle-speech" class="icon-btn active" aria-label="Alternar voz del narrador" title="Voz del narrador activa">
+      <div class="storybook-nav-actions">
+        <!-- Narración en Voz Alta -->
+        <button type="button" id="btn-read-aloud" class="back-to-quest-btn" aria-label="Escuchar relato en voz alta">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg>
+          <span>Escuchar Historia</span>
         </button>
-        <!-- Historia del Reino (Redirección al Gran Libro de las Princesas) -->
-        <a href="story.html" id="btn-show-intro" class="icon-btn" aria-label="Historia de Lumiria" title="Ver el Gran Libro de las Princesas">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
-        </a>
-        <!-- Efectos de Audio Web Audio API -->
-        <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar efectos de sonido" title="Silenciar efectos">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
-        </button>
-        <!-- Botón de Descarga / Instalación PWA (oculto por defecto) -->
-        <button id="btn-install-pwa" class="icon-btn pwa-install-icon-btn" aria-label="Descargar e instalar app" title="Descargar e instalar ValenQuest en tu pantalla de inicio" hidden>
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg>
+
+        <!-- Selector Modo Noche / Día -->
+        <button type="button" id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
         </button>
       </div>
     </header>
 
-    <!-- Navigation Tabs -->
-    <nav class="nav-tabs" role="tablist" aria-label="Secciones de aprendizaje">
-      <button class="tab-btn active" data-tab="intro" role="tab" aria-selected="true" id="tab-intro">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-journey"></use></svg>
-        <span>El Viaje</span>
-      </button>
-      <button class="tab-btn" data-tab="math" role="tab" aria-selected="false" id="tab-math">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-        <span>Matemáticas</span>
-      </button>
-      <button class="tab-btn" data-tab="reading" role="tab" aria-selected="false" id="tab-reading">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
-        <span>Lectura</span>
-      </button>
-    </nav>
-
-    <!-- =================================================================== -->
-    <!-- SECTION 0: INTRODUCCIÓN DEL VIAJE (LORE & TRÍO DE HEROÍNAS)        -->
-    <!-- =================================================================== -->
-    <section id="intro-section" class="journey-intro-view" role="tabpanel" aria-labelledby="tab-intro">
-      <div class="journey-hero-card">
+    <!-- Marco Hardcover del Libro de Princesas -->
+    <main class="fairytale-book" id="fairytale-book" role="main">
+      <div class="book-outer-frame">
         
-        <div class="journey-badge">
-          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Crónicas del Reino de Lumiria</span>
-        </div>
+        <!-- Cintas Marcadoras de Capítulos (Bookmarks) -->
+        <nav class="chapter-ribbons-bar" id="chapter-ribbons" aria-label="Capítulos de la historia"></nav>
 
-        <h2 class="journey-title">
-          ¡Bienvenida a <span>ValenQuest</span>!
-        </h2>
-
-        <!-- Diálogo Chibi estilo Gacha Life con botón de TTS -->
-        <div class="gacha-dialogue" id="intro-dialogue-bubble">
-          <p id="intro-dialogue-text">
-            «El <strong>Velo de la Duda</strong> ha desordenado los pergaminos de la <em>Gran Biblioteca de las Constelaciones</em>. 
-            ¡Sola sería difícil, pero con el <strong>Cuarteto de la Armonía</strong> y la unión de las cuatro razas de Lumiria, iluminaremos cada estrella!»
-          </p>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
-            <button id="btn-speak-intro" class="speak-hint-btn" type="button" aria-label="Escuchar mensaje">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar mensaje de Valen</span>
-            </button>
-            <a href="story.html" class="speak-hint-btn" style="text-decoration: none; background: linear-gradient(135deg, #FFD166, #FFAFCC);" aria-label="Abrir el Gran Libro de las Princesas">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>📖 Abrir Gran Libro de Princesas</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- El Cuarteto de la Armonía con Avatares SVG Animados -->
-        <div class="trio-section-title">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg> <span>El Cuarteto de la Armonía de Lumiria (Las 4 Razas):</span>
-        </div>
-
-        <div class="quartet-grid trio-grid">
+        <!-- pliego del libro (Spread) -->
+        <div class="book-spread">
           
-          <!-- Heroína 1: Valen (Alicornio - Líder) -->
-          <div class="heroine-card active-companion" id="card-heroine-valen">
-            <div class="heroine-svg-wrapper">
-              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Valen">
-                <use href="#vq-heroine-valen"></use>
-              </svg>
+          <!-- Página Izquierda: Espejo Mágico & Escenario Ilustrado -->
+          <section class="page-stage" aria-label="Ilustración mágica del capítulo">
+            <div class="magic-mirror-frame">
+              <canvas id="mirror-canvas"></canvas>
+              <div id="stage-character" class="stage-character-wrapper">
+                <!-- SVG Inyectado dinámicamente -->
+              </div>
             </div>
-            <div class="heroine-name">Valen <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></div>
-            <div class="heroine-role">Alicornio • Líder de Lumiria</div>
-            <div class="heroine-power-tag" title="Descarta 2 opciones incorrectas y duplica estrellas (2x)">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Prisma Real</span>
-            </div>
-          </div>
 
-          <!-- Heroína 2: Reni (Pegaso) -->
-          <div class="heroine-card" id="card-heroine-reni">
-            <div class="heroine-svg-wrapper">
-              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Reni">
-                <use href="#vq-heroine-reni"></use>
-              </svg>
-            </div>
-            <div class="heroine-name">Reni <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-wing"></use></svg></div>
-            <div class="heroine-role">Pegaso • Vuelo y Tiempo</div>
-            <div class="heroine-power-tag" title="Pausa el tiempo para pensar sin prisa y asegura maestría máxima">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Brisa Temporal</span>
-            </div>
-          </div>
+            <div id="stage-character-name" class="stage-character-badge">Lumiria</div>
+            <div id="stage-character-sub" class="stage-character-sub">La Gran Alianza</div>
 
-          <!-- Heroína 3: Zoe (Poni Terrestre) -->
-          <div class="heroine-card" id="card-heroine-zoe">
-            <div class="heroine-svg-wrapper">
-              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Zoe">
-                <use href="#vq-heroine-zoe"></use>
-              </svg>
+            <div class="stage-media-bar">
+              <button type="button" id="btn-toggle-anim" class="stage-media-btn" title="Alternar animación del espejo mágico">
+                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+                <span>Animación Activa</span>
+              </button>
             </div>
-            <div class="heroine-name">Zoe <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg></div>
-            <div class="heroine-role">Poni Terrestre • Raíces</div>
-            <div class="heroine-power-tag" title="Protege tu racha ante errores y explica el reto paso a paso">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>Escudo de Raíces</span>
-            </div>
-          </div>
+          </section>
 
-          <!-- Heroína 4: Lía (Unicornio) -->
-          <div class="heroine-card" id="card-heroine-lia">
-            <div class="heroine-svg-wrapper">
-              <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Lía">
-                <use href="#vq-heroine-lia"></use>
-              </svg>
+          <!-- Página Derecha: Pergamino Manuscrito de Historia -->
+          <article class="page-manuscript" aria-label="Texto del capítulo">
+            <div>
+              <header class="chapter-header">
+                <span id="chapter-num" class="chapter-number">Capítulo I</span>
+                <h1 id="chapter-title" class="chapter-title">El Reino de Lumiria y el Velo de la Duda</h1>
+              </header>
+
+              <div id="chapter-body" class="chapter-body">
+                <!-- Texto inyectado dinámicamente -->
+              </div>
             </div>
-            <div class="heroine-name">Lía <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg></div>
-            <div class="heroine-role">Unicornio • Cristal y Magia</div>
-            <div class="heroine-power-tag" title="Resalta la pista clave del reto (el acarreo o la descomposición)">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Foco de Cristal</span>
-            </div>
-          </div>
+
+            <!-- Cita de Sabiduría de la Heroína -->
+            <blockquote class="heroine-lore-quote">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg>
+              <span id="chapter-quote">Cargando crónica...</span>
+            </blockquote>
+
+            <!-- Navegación Inferior de Páginas -->
+            <footer class="book-bottom-nav">
+              <button type="button" id="btn-prev-page" class="book-nav-btn" aria-label="Página anterior">
+                <span>← Anterior</span>
+              </button>
+
+              <span id="page-indicator" class="page-indicator-pill">1 / 6</span>
+
+              <button type="button" id="btn-next-page" class="book-nav-btn" aria-label="Página siguiente">
+                <span>Siguiente →</span>
+              </button>
+
+              <!-- Botón CTA en el capítulo final -->
+              <div id="cta-container" style="display: none; width: 100%; text-align: center; margin-top: 10px;">
+                <a href="index.html" class="start-quest-cta-btn">
+                  <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+                  <span>¡Comenzar mi Aventura en Lumiria!</span>
+                </a>
+              </div>
+            </footer>
+          </article>
 
         </div>
-
-        <!-- Selección de Artefactos de Aprendizaje con animaciones SVG -->
-        <div class="artifacts-grid">
-          
-          <div class="artifact-card artifact-math" id="btn-intro-goto-math" role="button" tabindex="0">
-            <svg class="artifact-icon vq-anim-float" viewBox="0 0 64 64" aria-hidden="true">
-              <polygon points="32,4 58,18 58,46 32,60 6,46 6,18" fill="#CDB4DB" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
-              <polygon points="32,4 32,60 6,46 6,18" fill="#BDE0FE" opacity="0.6"/>
-              <polygon points="32,18 48,27 48,43 32,52 16,43 16,27" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
-              <polygon points="32,4 48,27 32,52 16,27" fill="#FFFFFF" opacity="0.4"/>
-            </svg>
-            <div class="artifact-title">El Prisma Numérico</div>
-            <p class="artifact-desc">
-              Resuelve retos adaptativos de 6 reinos celestiales con la ayuda de tus amigas.
-            </p>
-          </div>
-
-          <div class="artifact-card artifact-reading" id="btn-intro-goto-reading" role="button" tabindex="0">
-            <svg class="artifact-icon vq-anim-quill" viewBox="0 0 64 64" aria-hidden="true">
-              <path d="M54,6 C54,6 30,12 18,32 C14,38 12,46 10,58 C14,54 22,50 28,46 C34,42 46,30 52,18 C56,10 54,6 54,6 Z" 
-                    fill="#A2D2FF" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
-              <path d="M10,58 L16,52" stroke="#4A3E56" stroke-width="4" stroke-linecap="round"/>
-              <circle cx="48" cy="14" r="3" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
-              <path class="vq-sparkle" d="M42,8 L44,4 L46,8 L50,10 L46,12 L44,16 L42,12 L38,10 Z" fill="#FFD166"/>
-            </svg>
-            <div class="artifact-title">La Pluma de la Fluidez</div>
-            <p class="artifact-desc">
-              Cuentos con silabeo interactivo por voz y velocímetro RSVP.
-            </p>
-          </div>
-
-        <!-- Banner de Descarga / Instalación PWA (Móvil, Tablet y Desktop) -->
-        <div id="pwa-install-banner" class="pwa-install-banner" hidden>
-          <div class="pwa-banner-left">
-            <span class="pwa-banner-icon" aria-hidden="true"><svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#vq-icon-download"></use></svg></span>
-            <div class="pwa-banner-info">
-              <strong class="pwa-banner-title">¡Descarga e instala ValenQuest!</strong>
-              <span class="pwa-banner-subtitle">Juega en pantalla completa y 100% sin conexión a internet.</span>
-            </div>
-          </div>
-          <button id="btn-banner-install" class="pwa-banner-btn" type="button">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg> <span>Descargar App</span>
-          </button>
-        </div>
-
-        <button id="btn-start-quest" class="cta-start-btn" type="button">
-          <span>¡Comenzar Aventura en Equipo!</span> <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-        </button>
 
       </div>
-    </section>
-
-    <!-- =================================================================== -->
-    <!-- SECTION 1: ADAPTIVE MATH (RUST WASM ENGINE)                         -->
-    <!-- =================================================================== -->
-    <main id="math-section" role="tabpanel" aria-labelledby="tab-math" hidden>
-      <!-- Mastery & Streak Bar -->
-      <section class="stats-bar" aria-label="Progreso y maestría">
-        <div class="stats-row">
-          <div class="tier-badge">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-            <span id="tier-badge-text">Nivel 1: Jardín de Rocío</span>
-          </div>
-          <div class="streak-badge" id="streak-badge" title="Racha de aciertos">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-flame"></use></svg>
-            <span>Racha: <strong id="streak-count">0</strong></span>
-          </div>
-        </div>
-
-        <div class="mastery-container">
-          <div class="mastery-labels">
-            <span>Maestría Adaptativa (EMA)</span>
-            <span id="mastery-pct">50%</span>
-          </div>
-          <div class="progress-track" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-fill" id="mastery-bar-fill"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Barra de Poderes de las Amigas (In-Game Companions Bar) -->
-      <aside class="companion-powers-bar" aria-label="Poderes de amistad del Cuarteto de la Armonía">
-        <span class="powers-bar-label"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Poderes:</span></span>
-        <button id="btn-power-valen" class="power-btn" type="button" title="Valen (Alicornio): Prisma Real - Descartar 2 opciones y duplicar estrellas (2x)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>Valen</span> <span class="power-charge-badge" id="badge-valen">2</span>
-        </button>
-        <button id="btn-power-reni" class="power-btn" type="button" title="Reni (Pegaso): Brisa Temporal - Detener tiempo para pensar sin prisa">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Reni</span> <span class="power-charge-badge" id="badge-reni">2</span>
-        </button>
-        <button id="btn-power-zoe" class="power-btn" type="button" title="Zoe (Poni Terrestre): Escudo de Raíces - Proteger racha y explicar con voz">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Zoe</span> <span class="power-charge-badge" id="badge-zoe">2</span>
-        </button>
-        <button id="btn-power-lia" class="power-btn" type="button" title="Lía (Unicornio): Foco de Cristal - Resaltar pista clave del reto">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Lía</span> <span class="power-charge-badge" id="badge-lia">2</span>
-        </button>
-      </aside>
-
-      <!-- Challenge Card -->
-      <section class="challenge-card" id="math-challenge-card" aria-live="polite">
-        <div class="math-equation">
-          <span id="math-op1">3</span>
-          <span class="math-op" id="math-operator">+</span>
-          <span id="math-op2">4</span>
-          <span class="math-equals">=</span>
-          <div class="math-input-box empty" id="math-answer-preview">?</div>
-        </div>
-
-        <!-- Botón de accesibilidad TTS para escuchar el reto -->
-        <button id="btn-speak-math" class="speak-hint-btn" type="button" aria-label="Escuchar problema matemático en voz alta">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar reto</span>
-        </button>
-
-        <!-- Mode A: Multiple Choice Options -->
-        <div class="options-grid" id="options-grid" role="group" aria-label="Opciones de respuesta">
-          <!-- Populated dynamically from Rust WASM generated distractors -->
-        </div>
-
-        <!-- Mode B: Tactile Virtual Keypad -->
-        <div class="keypad-wrapper" id="keypad-wrapper" hidden>
-          <div class="keypad-grid" id="keypad-grid" role="group" aria-label="Teclado numérico">
-            <button class="key-btn" data-val="1">1</button>
-            <button class="key-btn" data-val="2">2</button>
-            <button class="key-btn" data-val="3">3</button>
-            <button class="key-btn" data-val="4">4</button>
-            <button class="key-btn" data-val="5">5</button>
-            <button class="key-btn" data-val="6">6</button>
-            <button class="key-btn" data-val="7">7</button>
-            <button class="key-btn" data-val="8">8</button>
-            <button class="key-btn" data-val="9">9</button>
-            <button class="key-btn key-action-backspace" data-action="backspace" aria-label="Borrar">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-backspace"></use></svg>
-            </button>
-            <button class="key-btn" data-val="0">0</button>
-            <button class="key-btn key-action-submit" data-action="submit" aria-label="Comprobar respuesta">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-check"></use></svg> <span>Enviar</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Toggle between Multiple Choice and Keypad -->
-        <button id="btn-toggle-mode" class="mode-toggle-btn" type="button">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar teclado numérico</span>
-        </button>
-      </section>
     </main>
 
-    <!-- =================================================================== -->
-    <!-- SECTION 2: READING FLUENCY & SYLLABLE DECODING                      -->
-    <!-- =================================================================== -->
-    <section id="reading-section" class="reading-view" role="tabpanel" aria-labelledby="tab-reading" hidden>
-      <!-- Story selector -->
-      <div class="story-selector" id="story-selector" role="tablist" aria-label="Cuentos infantiles">
-        <!-- Injected via WASM ReadingSession -->
-      </div>
-
-      <!-- Syllabic Decoding Card -->
-      <article class="story-box">
-        <div class="story-title">
-          <span id="reading-story-title">El Pequeño Cohete Curioso</span>
-          <button id="btn-speak-story" class="speak-hint-btn" type="button" aria-label="Escuchar cuento completo">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Leer cuento</span>
-          </button>
-        </div>
-        <div id="reading-story-body">
-          <!-- Syllables formatted with alternating contrast from WASM parser -->
-        </div>
-      </article>
-
-      <!-- RSVP Fast Reading Box -->
-      <div class="rsvp-box" aria-live="polite">
-        <span id="rsvp-current-word">Listo para leer</span>
-      </div>
-
-      <div class="reading-controls">
-        <button id="btn-play-rsvp" class="action-btn" type="button">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-play"></use></svg> <span>Iniciar Lectura RSVP</span>
-        </button>
-
-        <div style="display:flex;align-items:center;gap:8px;">
-          <label for="rsvp-speed" style="font-size:0.85rem;font-weight:700;color:var(--vq-text-muted);">Velocidad:</label>
-          <input type="range" id="rsvp-speed" min="60" max="220" step="10" value="100">
-          <span id="wpm-display" style="font-size:0.85rem;font-weight:900;color:var(--vq-pink-bubble);min-width:65px;">100 PPM</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- =================================================================== -->
-    <!-- DESAFÍO DE PORTAL (ENCUENTROS DE AMISTAD - FIN DE NIVEL)            -->
-    <!-- =================================================================== -->
-    <div id="portal-challenge-modal" class="modal-backdrop portal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="portal-modal-title">
-      <div class="modal-content portal-modal-content">
-        <!-- Banner del Templo y Página del Grimorio -->
-        <div class="portal-header">
-          <div class="portal-badge-row">
-            <span class="portal-page-pill" id="portal-page-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-reading"></use></svg> <span>Página 1 de 10</span></span>
-            <span class="portal-act-pill" id="portal-act-pill">Acto I</span>
-          </div>
-          <h2 id="portal-modal-title" class="portal-title">Manantial de Rocío</h2>
-          <p class="portal-subtitle" id="portal-subtitle">Desafío de Portal • Encuentro de Amistad</p>
-        </div>
-
-        <!-- Guardián Astral en Escena (Transición Corrompido -> Purificado) -->
-        <div class="portal-guardian-stage">
-          <div class="guardian-avatar-wrapper" id="portal-guardian-wrapper">
-            <div class="guardian-shadow-aura" id="guardian-shadow-aura"></div>
-            <div class="guardian-purified-glow" id="guardian-purified-glow" hidden></div>
-            <div class="guardian-emoji-display" id="portal-guardian-emoji">🫧</div>
-          </div>
-          <div class="guardian-meta">
-            <h3 class="guardian-name" id="portal-guardian-name">Poni Burbuja</h3>
-            <span class="guardian-status-badge corrupted" id="portal-guardian-status">Sombra del Eclipse</span>
-          </div>
-        </div>
-
-        <!-- Fase 1: Micro-cuento Narrativo (4 líneas con resaltado de voz TTS) -->
-        <div class="portal-story-card">
-          <div class="story-card-header">
-            <span class="story-icon"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg></span>
-            <span class="story-label">Micro-cuento del Guardián</span>
-            <button id="btn-portal-speak-story" class="portal-tts-btn" type="button" aria-label="Escuchar micro-cuento con voz">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar</span>
-            </button>
-          </div>
-          <div class="portal-story-lines" id="portal-story-lines">
-            <p class="portal-line" data-line="0">Cargando cuento...</p>
-            <p class="portal-line" data-line="1"></p>
-            <p class="portal-line" data-line="2"></p>
-            <p class="portal-line" data-line="3"></p>
-          </div>
-        </div>
-
-        <!-- Fase 2: Reto Dual Lógico-Matemático -->
-        <div class="portal-riddle-card" id="portal-riddle-card">
-          <div class="riddle-header">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <strong>El Reto Dual del Guardián</strong>
-          </div>
-          <p class="riddle-prompt" id="portal-riddle-prompt">
-            Cargando acertijo...
-          </p>
-          <div class="portal-options-grid" id="portal-options-grid">
-            <!-- 4 fichas interactivas táctiles -->
-          </div>
-          <p class="portal-riddle-hint" id="portal-riddle-hint" hidden></p>
-        </div>
-
-        <!-- Fase 3: Celebración, Purificación y Recompensa Cosmética -->
-        <div class="portal-reward-card" id="portal-reward-card" hidden>
-          <div class="reward-celebration-title"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-party"></use></svg> ¡Guardián Purificado! <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg></div>
-          <div class="reward-badge-unlocked">
-            <div class="reward-cosmetic-icon" id="portal-reward-icon"><svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></div>
-            <div class="reward-cosmetic-info">
-              <div class="reward-cosmetic-name" id="portal-reward-name">Tiara de Rocío Astral</div>
-              <div class="reward-cosmetic-desc" id="portal-reward-desc">Desbloqueado en tu Ropero Mágico</div>
-            </div>
-          </div>
-          <div class="portal-actions-row">
-            <button id="btn-portal-equip-now" class="action-btn equip-action-btn" type="button">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Equipar Accesorio</span>
-            </button>
-            <button id="btn-portal-continue" class="action-btn continue-action-btn" type="button">
-              <span>Avanzar al Siguiente Templo</span> <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Level Up Celebration Modal (STRICTLY HIDDEN BY DEFAULT) -->
-    <div id="level-up-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modal-tier-title">
-      <div class="modal-content">
-        <div style="display:flex;justify-content:center;gap:14px;margin-bottom:12px;">
-          <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-party"></use></svg>
-          <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-trophy"></use></svg>
-          <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-        </div>
-        <h2 id="modal-tier-title" style="font-size:1.5rem;font-weight:900;color:var(--vq-pink-bubble);">
-          ¡Subiste de Nivel!
-        </h2>
-        <p style="color:var(--vq-text-muted);font-weight:600;">
-          ¡Excelente trabajo! Has demostrado gran dominio y el motor adaptativo ha desbloqueado nuevos retos celestiales.
-        </p>
-        <button id="btn-modal-dismiss" class="action-btn" style="justify-content:center;margin-top:8px;">
-          <span>¡Continuar jugando!</span> <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Modal de Instrucciones de Instalación para iOS / iPad (Safari) -->
-    <div id="pwa-ios-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="ios-modal-title">
-      <div class="modal-content">
-        <div style="display:flex;justify-content:center;gap:14px;margin-bottom:12px;">
-          <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-download"></use></svg>
-          <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-        </div>
-        <h2 id="ios-modal-title" style="font-size:1.4rem;font-weight:900;color:var(--vq-pink-bubble);">
-          Instalar en tu iPad o iPhone
-        </h2>
-        <p style="color:var(--vq-text-muted);font-size:0.9rem;font-weight:600;">
-          Sigue estos 3 pasos en Safari para jugar en pantalla completa y sin conexión:
-        </p>
-        <div class="ios-steps-list">
-          <div class="ios-step-item">
-            <span class="ios-step-num">1</span>
-            <span>Toca el botón <strong>Compartir</strong> ⎋ <small>(icono con la flecha hacia arriba)</small>.</span>
-          </div>
-          <div class="ios-step-item">
-            <span class="ios-step-num">2</span>
-            <span>Baja un poco y selecciona <strong>"Añadir a la pantalla de inicio"</strong> ➕.</span>
-          </div>
-          <div class="ios-step-item">
-            <span class="ios-step-num">3</span>
-            <span>Toca <strong>Añadir</strong> arriba a la derecha. ¡Listo para jugar! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg></span>
-          </div>
-        </div>
-        <button id="btn-pwa-ios-dismiss" class="action-btn" style="justify-content:center;margin-top:6px;">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-check"></use></svg> <span>¡Entendido!</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Modal Ropero Mágico de Heroínas & Cosméticos (STRICTLY HIDDEN BY DEFAULT) -->
-    <div id="wardrobe-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="wardrobe-modal-title">
-      <div class="modal-content wardrobe-modal-content">
-        <div class="wardrobe-modal-header">
-          <div class="wardrobe-title-row">
-            <h2 id="wardrobe-modal-title" class="wardrobe-title"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg> <span>Ropero Mágico</span></h2>
-            <button id="btn-wardrobe-close" class="modal-close-btn" type="button" aria-label="Cerrar ropero"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-close"></use></svg></button>
-          </div>
-          <div class="wardrobe-stars-indicator">
-            <span>Tus Estrellas:</span>
-            <span class="wardrobe-stars-pill"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg> <strong id="wardrobe-star-balance">0</strong></span>
-          </div>
-        </div>
-
-        <!-- Selector de Heroína con pestañas estilo Gacha -->
-        <div class="wardrobe-heroine-tabs" role="tablist" aria-label="Elegir heroína">
-          <button id="tab-wardrobe-valen" class="wardrobe-tab-btn active" role="tab" aria-selected="true" type="button">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>Valen</span>
-          </button>
-          <button id="tab-wardrobe-reni" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Reni</span>
-          </button>
-          <button id="tab-wardrobe-zoe" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Zoe</span>
-          </button>
-          <button id="tab-wardrobe-lia" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Lía</span>
-          </button>
-        </div>
-
-        <!-- Preview en tiempo real del avatar con capas de cosméticos -->
-        <div class="wardrobe-preview-section">
-          <div id="wardrobe-preview-avatar" class="wardrobe-avatar-box">
-            <svg class="wardrobe-preview-svg" viewBox="0 0 100 100" aria-hidden="true">
-              <use id="wardrobe-svg-use" href="#vq-heroine-valen"></use>
-            </svg>
-          </div>
-          <div id="wardrobe-preview-title" class="wardrobe-preview-title">Valen • Guardiana del Prisma</div>
-        </div>
-
-        <!-- Grid de Accesorios y Cosméticos -->
-        <div id="wardrobe-items-grid" class="wardrobe-items-grid">
-          <!-- Inyectado dinámicamente por wardrobe.js -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer Mejorado: Reino de Lumiria & Cuarteto de la Armonía -->
-    <footer class="app-footer" role="contentinfo">
-      <!-- Fila Superior: Marca y Misión Pedagógica -->
-      <div class="footer-top">
-        <div class="footer-brand">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-          <span>ValenQuest: Aventuras en Lumiria</span>
-        </div>
-        <p class="footer-motto">
-          Plataforma educativa interactiva local-first para educación primaria. Diseñada para potenciar el pensamiento matemático y la fluidez lectora en un entorno seguro, accesible y libre de sobrecarga cognitiva.
-        </p>
-      </div>
-
-      <!-- Badges de Principios Arquitectónicos -->
-      <div class="footer-badges-grid" aria-label="Garantías arquitectónicas">
-        <span class="footer-badge-pill" title="Núcleo de cálculo determinista en Rust compilado a WebAssembly">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-          <span>Rust + WebAssembly</span>
-        </span>
-        <span class="footer-badge-pill" title="Media Móvil Exponencial ponderada por latencia cognitiva">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-          <span>Algoritmo EMA Adaptativo</span>
-        </span>
-        <span class="footer-badge-pill" title="Sin rastreadores, sin analíticas en la nube, privacidad 100% infantil">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>
-          <span>Privacidad Infantil Garantizada</span>
-        </span>
-        <span class="footer-badge-pill" title="Segmentación fonotáctica según directrices de la RAE">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
-          <span>Silabeo RAE & RSVP</span>
-        </span>
-      </div>
-
-      <!-- El Cuarteto de la Armonía (Acceso Rápido) -->
-      <div class="footer-quartet-row" aria-label="Heroínas de Lumiria">
-        <span class="footer-quartet-label">
-          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-          <span>El Cuarteto de la Armonía:</span>
-        </span>
-        <button type="button" class="footer-heroine-tag" data-heroine="valen" title="Valen: Princesa Astral (Alicornio)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
-          <span>Valen</span>
-        </button>
-        <button type="button" class="footer-heroine-tag" data-heroine="reni" title="Reni: Alquimista de los Vientos (Pegaso)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg>
-          <span>Reni</span>
-        </button>
-        <button type="button" class="footer-heroine-tag" data-heroine="zoe" title="Zoe: Ancla de la Naturaleza (Poni Terrestre)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
-          <span>Zoe</span>
-        </button>
-        <button type="button" class="footer-heroine-tag" data-heroine="lia" title="Lía: Maga del Cristal Cósmico (Unicornio)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg>
-          <span>Lía</span>
-        </button>
-      </div>
-
-      <!-- Navegación y Acciones Rápidas -->
-      <div class="footer-nav-row" aria-label="Enlaces rápidos">
-        <button type="button" class="footer-nav-btn" data-goto-tab="intro">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-journey"></use></svg>
-          <span>El Viaje</span>
-        </button>
-        <button type="button" class="footer-nav-btn" data-goto-tab="math">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-          <span>Matemáticas</span>
-        </button>
-        <button type="button" class="footer-nav-btn" data-goto-tab="reading">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
-          <span>Lectura</span>
-        </button>
-        <button type="button" class="footer-nav-btn" id="footer-open-wardrobe">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
-          <span>Ropero Mágico</span>
-        </button>
-        <a href="story.html" class="footer-nav-btn" style="text-decoration: none;">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
-          <span>Libro de Princesas</span>
-        </a>
-      </div>
-
-      <!-- Pie de página final -->
-      <div class="footer-bottom">
-        <div class="footer-status-pill">
-          <span class="footer-status-dot" aria-hidden="true"></span>
-          <span>100% Offline-First • Progressive Web App</span>
-        </div>
-        <p>
-          ValenQuest • Reino de Lumiria © 2026 • Código abierto con licencias MIT & Apache-2.0
-        </p>
-      </div>
+    <!-- Pie Informativo de Lectura -->
+    <footer class="footer-bottom" style="text-align: center; margin-top: 8px;">
+      <p style="font-size: 0.8rem; color: var(--vq-text-muted);">
+        ValenQuest • Las Crónicas de Lumiria © 2026 • Modo Cuento Infantil Offline
+      </p>
     </footer>
 
   </div>
 
-  <!-- Vanilla ES Module Entrypoint -->
-  <script type="module" src="js/app.js"></script>
+  <!-- Motor Interactivo del Storybook -->
+  <script type="module" src="js/storybook.js"></script>
 </body>
 </html>

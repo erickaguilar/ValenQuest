@@ -195,10 +195,6 @@ class KidsLearnApp {
     });
 
     // Intro Navigation buttons
-    const btnShowIntro = document.getElementById('btn-show-intro');
-    if (btnShowIntro) {
-      btnShowIntro.addEventListener('click', () => this.switchTab('intro'));
-    }
 
     const btnStartQuest = document.getElementById('btn-start-quest');
     if (btnStartQuest) {
