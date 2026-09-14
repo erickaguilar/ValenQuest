@@ -20,6 +20,7 @@ export const HEROINES = {
     element: 'Magia y Realeza',
     color: 'var(--vq-pink-bubble)',
     symbolId: 'vq-heroine-valen',
+    iconSymbol: 'vq-icon-crown',
     emoji: '👑',
     powerName: 'Prisma Real',
     powerDescription: 'Descarta 2 opciones incorrectas y otorga un multiplicador de estrellas (2x) al acertar.',
@@ -34,6 +35,7 @@ export const HEROINES = {
     element: 'Vuelo y Tiempo',
     color: 'var(--vq-sky)',
     symbolId: 'vq-heroine-reni',
+    iconSymbol: 'vq-icon-wing',
     emoji: '🪽',
     powerName: 'Brisa Temporal',
     powerDescription: 'Detiene el tiempo y te da calma para asegurar máxima maestría (P = 1.0).',
@@ -48,6 +50,7 @@ export const HEROINES = {
     element: 'Fuerza y Raíces',
     color: 'var(--vq-mint)',
     symbolId: 'vq-heroine-zoe',
+    iconSymbol: 'vq-icon-leaf',
     emoji: '🌿',
     powerName: 'Escudo de Raíces',
     powerDescription: 'Protege tu racha de aciertos ante un error y te explica el reto con voz tranquila.',
@@ -62,6 +65,7 @@ export const HEROINES = {
     element: 'Cristal y Magia',
     color: 'var(--vq-alicorn-purple)',
     symbolId: 'vq-heroine-lia',
+    iconSymbol: 'vq-icon-crystal',
     emoji: '🦄',
     powerName: 'Foco de Cristal',
     powerDescription: 'Resalta la pista clave del problema (el acarreo o la descomposición) con telequinesis.',
@@ -274,7 +278,7 @@ class CompanionSystem {
       app.inputMode = 'choice';
       const modeToggle = document.getElementById('btn-toggle-mode');
       if (modeToggle) {
-        modeToggle.textContent = '🔢 Usar teclado numérico';
+        modeToggle.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar teclado numérico</span>';
       }
       app.renderInputArea();
     }

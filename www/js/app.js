@@ -176,7 +176,9 @@ class KidsLearnApp {
     document.body.setAttribute('data-theme', currentTheme);
 
     if (themeBtn) {
-      themeBtn.textContent = isDark ? '☀️' : '🌙';
+      themeBtn.innerHTML = isDark
+        ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sun"></use></svg>'
+        : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>';
       themeBtn.title = isDark ? 'Cambiar a Modo Día Pastel' : 'Cambiar a Modo Noche Astral';
     }
   }
@@ -231,7 +233,9 @@ class KidsLearnApp {
     if (muteBtn) {
       muteBtn.addEventListener('click', () => {
         const isMuted = sound.toggleMute();
-        muteBtn.textContent = isMuted ? '🔇' : '🔊';
+        muteBtn.innerHTML = isMuted
+          ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg>'
+          : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>';
         muteBtn.title = isMuted ? 'Activar sonido' : 'Silenciar sonido';
       });
     }
@@ -329,7 +333,7 @@ class KidsLearnApp {
           speech.speakDialogue(`¡Hola, soy ${hero.name}! ${hero.title}. ${hero.voiceQuote}`);
           const avatar = document.getElementById('student-avatar');
           const name = document.getElementById('student-name');
-          if (avatar) avatar.textContent = hero.emoji;
+          if (avatar) avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero.iconSymbol || 'vq-icon-star'}"></use></svg>`;
           if (name) name.textContent = `${hero.name} (${hero.title})`;
         });
       }
@@ -359,10 +363,10 @@ class KidsLearnApp {
       modeToggle.addEventListener('click', () => {
         sound.playClick();
         this.inputMode = this.inputMode === 'choice' ? 'keypad' : 'choice';
-        modeToggle.textContent =
+        modeToggle.innerHTML =
           this.inputMode === 'choice'
-            ? '🔢 Usar teclado numérico'
-            : '🔘 Usar opciones múltiples';
+            ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar teclado numérico</span>'
+            : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg> <span>Usar opciones múltiples</span>';
         this.renderInputArea();
       });
     }
@@ -704,7 +708,7 @@ class KidsLearnApp {
     const title = document.getElementById('portal-modal-title');
     const subtitle = document.getElementById('portal-subtitle');
 
-    if (pagePill) pagePill.textContent = `📖 Página ${levelData.pageNumber} de 10`;
+    if (pagePill) pagePill.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-reading"></use></svg> Página ${levelData.pageNumber} de 10`;
     if (actPill) actPill.textContent = levelData.actTitle.split(':')[0];
     if (title) title.textContent = levelData.name;
     if (subtitle) subtitle.textContent = `${levelData.templeTitle} • Desafío de Portal`;
@@ -729,7 +733,7 @@ class KidsLearnApp {
     const linesContainer = document.getElementById('portal-story-lines');
     if (linesContainer) {
       linesContainer.innerHTML = '';
-      levelData.microCuento.forEach((line, idx) => {
+      levelData.storyLines.forEach((line, idx) => {
         const p = document.createElement('p');
         p.className = 'portal-line';
         p.dataset.line = idx;
@@ -742,17 +746,23 @@ class KidsLearnApp {
     const riddlePrompt = document.getElementById('portal-riddle-prompt');
     if (riddlePrompt) riddlePrompt.textContent = levelData.portalRiddle.prompt;
 
-    const optGrid = document.getElementById('portal-options-grid');
-    if (optGrid) {
-      optGrid.innerHTML = '';
+    const optionsGrid = document.getElementById('portal-options-grid');
+    if (optionsGrid) {
+      optionsGrid.innerHTML = '';
       levelData.portalRiddle.options.forEach((optVal) => {
         const btn = document.createElement('button');
         btn.className = 'portal-option-btn';
+        btn.type = 'button';
         btn.textContent = optVal;
-        btn.setAttribute('aria-label', `Opción ${optVal}`);
-        btn.addEventListener('click', () => this.handlePortalRiddleAnswer(optVal, levelData, btn));
-        optGrid.appendChild(btn);
+        btn.addEventListener('click', (e) => this.handlePortalAnswer(optVal, e.currentTarget, levelData));
+        optionsGrid.appendChild(btn);
       });
+    }
+
+    // Speak Button
+    const btnSpeak = document.getElementById('btn-portal-speak-story');
+    if (btnSpeak) {
+      btnSpeak.onclick = () => this.speakPortalStory(levelData);
     }
 
     // Card Visibility
@@ -767,14 +777,15 @@ class KidsLearnApp {
 
     // Auto-read story with TTS after brief opening pause
     setTimeout(() => {
-      this.speakPortalStory(levelData.microCuento);
+      this.speakPortalStory(levelData);
     }, 450);
   }
 
   /**
    * Narrates micro-story line-by-line with visual karaoke highlighting
    */
-  async speakPortalStory(lines) {
+  async speakPortalStory(input) {
+    const lines = Array.isArray(input) ? input : (input && (input.storyLines || input.microCuento));
     if (!lines || lines.length === 0 || this.isSpeakingPortalStory) return;
     this.isSpeakingPortalStory = true;
 
@@ -802,16 +813,21 @@ class KidsLearnApp {
   }
 
   /**
-   * Evaluates portal riddle answer, executes purification and cosmetic rewards
+   * Evaluates the student's answer in the Portal Challenge
    */
-  async handlePortalRiddleAnswer(userAnswer, levelData, buttonEl) {
-    const isCorrect = userAnswer === levelData.portalRiddle.correctAnswer;
+  async handlePortalAnswer(selectedVal, buttonEl, levelData) {
+    if (this.isSpeakingPortalStory) {
+      speech.stop();
+      this.isSpeakingPortalStory = false;
+    }
+
+    const isCorrect = selectedVal === levelData.portalRiddle.correctAnswer;
 
     if (isCorrect) {
       sound.playCorrect();
       buttonEl.classList.add('correct');
 
-      // 1. Guardian visual purification
+      // 1. Purify Guardian visually
       const wrapper = document.getElementById('portal-guardian-wrapper');
       const statusBadge = document.getElementById('portal-guardian-status');
 
@@ -822,7 +838,7 @@ class KidsLearnApp {
       if (statusBadge) {
         statusBadge.classList.remove('corrupted');
         statusBadge.classList.add('purified');
-        statusBadge.textContent = '¡Guardián Purificado! ✨';
+        statusBadge.innerHTML = '¡Guardián Purificado! <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>';
       }
 
       // 2. Gold sparks celebration burst
@@ -854,7 +870,8 @@ class KidsLearnApp {
           const rewardIcon = document.getElementById('portal-reward-icon');
           const rewardName = document.getElementById('portal-reward-name');
           const rewardDesc = document.getElementById('portal-reward-desc');
-          if (rewardIcon) rewardIcon.textContent = levelData.reward.icon;
+          let rewardSymbol = levelData.reward.iconSymbol || (levelData.reward.itemId.includes('alas') ? 'vq-icon-wing' : levelData.reward.itemId.includes('cetro') ? 'vq-icon-magic-wand' : 'vq-icon-crown');
+          if (rewardIcon) rewardIcon.innerHTML = `<svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#${rewardSymbol}"></use></svg>`;
           if (rewardName) rewardName.textContent = levelData.reward.name;
           if (rewardDesc) rewardDesc.textContent = `${levelData.reward.description} • ¡Desbloqueado en tu Ropero!`;
         }
@@ -874,7 +891,7 @@ class KidsLearnApp {
     const modal = document.getElementById('level-up-modal');
     const title = document.getElementById('modal-tier-title');
     if (modal && title) {
-      title.textContent = `¡Has alcanzado ${tierName}! 🌟`;
+      title.innerHTML = `¡Has alcanzado ${tierName}! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
       modal.hidden = false;
     }
   }
@@ -882,7 +899,7 @@ class KidsLearnApp {
   renderProfileHeader(profile) {
     const avatar = document.getElementById('student-avatar');
     const name = document.getElementById('student-name');
-    if (avatar) avatar.textContent = profile.avatar || '🦄';
+    if (avatar) avatar.innerHTML = '<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>';
     if (name) name.textContent = profile.name || 'Valen y sus Amigas';
     this.updateStarsDisplay(profile.stars || 0);
   }
@@ -989,7 +1006,7 @@ class KidsLearnApp {
     if (this.rsvpWords.length === 0) return;
     this.rsvpIndex = 0;
     const btn = document.getElementById('btn-play-rsvp');
-    if (btn) btn.textContent = '⏸ Pausar Lectura';
+    if (btn) btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Pausar Lectura</span>';
 
     const intervalMs = Math.round((60 / this.rsvpWpm) * 1000);
     const display = document.getElementById('rsvp-current-word');
@@ -1000,7 +1017,7 @@ class KidsLearnApp {
         this.rsvpIndex++;
       } else {
         this.stopRsvp();
-        display.textContent = '¡Completado! 🎉';
+        display.innerHTML = '¡Completado! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-party"></use></svg>';
         sound.playLevelUp();
       }
     }, intervalMs);
@@ -1012,7 +1029,7 @@ class KidsLearnApp {
       this.rsvpTimer = null;
     }
     const btn = document.getElementById('btn-play-rsvp');
-    if (btn) btn.textContent = '▶ Iniciar Lectura RSVP';
+    if (btn) btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-play"></use></svg> <span>Iniciar Lectura RSVP</span>';
   }
 }
 

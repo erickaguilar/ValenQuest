@@ -166,13 +166,23 @@ class WardrobeManager {
       else if (item.slot === 'wings') slotLabel = 'Alas';
       else if (item.slot === 'charm') slotLabel = 'Broche / Amuleto';
 
+      let iconSymbol = item.iconSymbol;
+      if (!iconSymbol) {
+        if (item.slot === 'wings') iconSymbol = 'vq-icon-wing';
+        else if (item.slot === 'head') iconSymbol = 'vq-icon-crown';
+        else if (item.itemId && item.itemId.includes('cetro')) iconSymbol = 'vq-icon-magic-wand';
+        else iconSymbol = 'vq-icon-shield';
+      }
+
       card.innerHTML = `
         <div class="item-card-header">
           <span class="item-slot-badge">${slotLabel}</span>
-          ${isEquipped ? '<span class="item-status-pill equipped-pill">✨ Equipado</span>' : ''}
-          ${!item.unlocked ? `<span class="item-status-pill cost-pill">⭐ ${item.costStars}</span>` : ''}
+          ${isEquipped ? '<span class="item-status-pill equipped-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> Equipado</span>' : ''}
+          ${!item.unlocked ? `<span class="item-status-pill cost-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> ${item.costStars}</span>` : ''}
         </div>
-        <div class="item-icon-display">${item.icon || '✨'}</div>
+        <div class="item-icon-display">
+          <svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#${iconSymbol}"></use></svg>
+        </div>
         <div class="item-name">${item.name}</div>
         <div class="item-desc">${item.description}</div>
         <div class="item-card-action"></div>
@@ -184,14 +194,14 @@ class WardrobeManager {
         if (canAfford) {
           const btnUnlock = document.createElement('button');
           btnUnlock.className = 'wardrobe-action-btn unlock-btn';
-          btnUnlock.innerHTML = `<span>Desbloquear por ${item.costStars} ⭐</span>`;
+          btnUnlock.innerHTML = `<span>Desbloquear por ${item.costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
           btnUnlock.addEventListener('click', () => this.handleUnlock(item));
           actionArea.appendChild(btnUnlock);
         } else {
           const btnLocked = document.createElement('button');
           btnLocked.className = 'wardrobe-action-btn locked-btn';
           btnLocked.disabled = true;
-          btnLocked.innerHTML = `<span>🔒 Necesitas ${item.costStars} ⭐</span>`;
+          btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${item.costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
           actionArea.appendChild(btnLocked);
         }
       } else {
@@ -199,7 +209,7 @@ class WardrobeManager {
         btnToggle.className = `wardrobe-action-btn ${isEquipped ? 'unequip-btn' : 'equip-btn'}`;
         btnToggle.innerHTML = isEquipped
           ? '<span>Quitar Accesorio</span>'
-          : '<span>✨ Equipar</span>';
+          : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Equipar</span>';
 
         btnToggle.addEventListener('click', () => this.handleEquipToggle(item));
         actionArea.appendChild(btnToggle);
