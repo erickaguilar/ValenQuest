@@ -14,7 +14,8 @@ docs/
 ├── heroines-and-powers-spec.md            # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
 ├── modular-css-darkmode-speech-spec.md    # CSS modular, modo noche astral y síntesis de voz
 ├── valenquest-visual-spec.md              # Sistema visual de diseño, tokens, paleta y estética chibi
-└── gitflow-workflow.md                    # Flujo de trabajo GitFlow, ramas y remotos duales
+├── gitflow-workflow.md                    # Flujo de trabajo GitFlow, ramas y remotos duales
+└── opportunities-and-roadmap-spec.md      # Oportunidades, sugerencias y hoja de ruta de evolución técnica
 ```
 
 ---
@@ -88,6 +89,17 @@ docs/
     * `gitlab`: [GitLab Repository](https://gitlab.com/erick.aguilar/ValenQuest.git)
     * `all`: Remote consolidado para empuje dual sincronizado (`git push all <rama>`).
   * Estándar de commits convencionales (`feat:`, `fix:`, `docs:`, `perf:`).
+
+---
+
+### 7. 🚀 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
+* **Alcance:** Diagnóstico integral de madurez, mitigación de sobrecarga cognitiva, panel docente y resiliencia.
+* **Temas Clave:**
+  * Integración de portales bifásicos basados en la Teoría de Carga Cognitiva de Sweller (CLT).
+  * Panel de acompañamiento familiar y docente local-first (cero telemetría externa).
+  * Modo "Karaoke Visual Asistido" para resiliencia ante contingencias de `Web Speech API`.
+  * Expansión del motor fonotáctico RAE en Rust con métricas de legibilidad y autoría de cuentos en JSON.
+  * Matriz de priorización cuatrimestral por horizontes de implementación.
 
 ---
 
