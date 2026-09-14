@@ -1580,35 +1580,54 @@
   }
 
   .app-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    padding: 10px 14px;
+    padding: 8px 12px;
+    gap: 8px;
+    border-radius: var(--vq-radius-card);
   }
 
   .brand {
-    width: 100%;
-    justify-content: flex-start;
+    gap: 8px;
   }
 
-  .header-actions {
-    width: 100%;
-    justify-content: space-between;
-    gap: 4px;
-    flex-wrap: wrap;
+  .brand-icon {
+    width: 36px;
+    height: 36px;
   }
 
-  .icon-btn {
-    width: 40px;
-    height: 40px;
+  .brand-icon .vq-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .brand-title {
     font-size: 1.15rem;
-    flex-shrink: 0;
+  }
+
+  .brand-subtitle {
+    max-width: 135px;
+    font-size: 0.7rem;
+    padding: 1px 6px;
   }
 
   .stars-counter-badge {
     padding: 4px 10px;
     font-size: 0.88rem;
-    flex-shrink: 0;
+  }
+
+  .header-actions {
+    padding: 3px 5px;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    height: 36px;
+    min-height: 36px;
+    max-width: 46px;
+  }
+
+  .icon-btn .vq-icon {
+    width: 20px;
+    height: 20px;
   }
 
   .challenge-card {

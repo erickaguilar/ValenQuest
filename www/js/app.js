@@ -555,7 +555,8 @@ class KidsLearnApp {
         avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero.iconSymbol || 'vq-icon-star'}"></use></svg>`;
       }
       if (name) {
-        name.textContent = `${hero.name} (${hero.title})`;
+        name.textContent = hero.name;
+        name.title = `${hero.name} (${hero.title})`;
       }
     }
   }
@@ -938,8 +939,12 @@ class KidsLearnApp {
   renderProfileHeader(profile) {
     const avatar = document.getElementById('student-avatar');
     const name = document.getElementById('student-name');
-    if (avatar) avatar.innerHTML = '<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>';
-    if (name) name.textContent = profile.name || 'Valen y sus Amigas';
+    const hero = companions.getActive();
+    if (avatar) avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero?.iconSymbol || 'vq-icon-crown'}"></use></svg>`;
+    if (name) {
+      name.textContent = hero?.name || profile.name || 'Valen';
+      if (hero) name.title = `${hero.name} (${hero.title})`;
+    }
     this.updateStarsDisplay(profile.stars || 0);
   }
 

@@ -677,32 +677,37 @@
     <!-- Status & Error Alert Banner (Hidden by default) -->
     <aside id="wasm-status-banner" hidden></aside>
 
-    <!-- App Header -->
+    <!-- App Header (Optimizado Mobile-First) -->
     <header class="app-header" role="banner">
-      <div class="brand">
-        <span class="brand-icon" aria-hidden="true"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg></span>
-        <div>
-          <h1 class="brand-title">ValenQuest</h1>
-          <div class="brand-subtitle">
-            <span id="student-avatar"><svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-star"></use></svg></span> <span id="student-name">Valen y sus Amigas</span> • <small>Lumiria</small>
+      <!-- Fila Superior: Identidad, Heroína Activa y Contador de Estrellas -->
+      <div class="header-main-row">
+        <div class="brand">
+          <span class="brand-icon" aria-hidden="true">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          </span>
+          <div class="brand-info">
+            <h1 class="brand-title">ValenQuest</h1>
+            <div class="brand-subtitle" title="Heroína activa">
+              <span id="student-avatar" aria-hidden="true"><svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></span>
+              <span id="student-name">Valen</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="header-actions">
-        <!-- Contador de Estrellas Acumuladas -->
-        <div id="header-stars-badge" class="stars-counter-badge" role="button" tabindex="0" title="Tus estrellas de Lumiria - Clic para abrir el Ropero Mágico" aria-label="Estrellas acumuladas">
+
+        <!-- Contador de Estrellas Acumuladas (Acceso Directo al Ropero Mágico) -->
+        <div id="header-stars-badge" class="stars-counter-badge" role="button" tabindex="0" title="Tus estrellas de Lumiria - Clic para abrir el Ropero Mágico" aria-label="Estrellas acumuladas. Clic para abrir el ropero">
           <span class="star-icon" aria-hidden="true"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg></span>
           <span id="player-stars-count">0</span>
         </div>
+      </div>
+
+      <!-- Dock de Acciones y Herramientas Mágicas -->
+      <div class="header-actions" aria-label="Herramientas y ajustes mágicos">
         <!-- Ropero Mágico de Heroínas (Cosméticos) -->
         <button id="btn-open-wardrobe" class="icon-btn wardrobe-icon-btn" aria-label="Abrir Ropero Mágico" title="Ropero Mágico de Heroínas">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
         </button>
-        <!-- Botón de Descarga / Instalación PWA -->
-        <button id="btn-install-pwa" class="icon-btn pwa-install-icon-btn" aria-label="Descargar e instalar app" title="Descargar e instalar ValenQuest en tu pantalla de inicio" hidden>
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg>
-        </button>
-        <!-- Selector Modo Obscuro (Noche Astral) -->
+        <!-- Selector Modo Oscuro (Noche Astral) -->
         <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
         </button>
@@ -717,6 +722,10 @@
         <!-- Efectos de Audio Web Audio API -->
         <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar efectos de sonido" title="Silenciar efectos">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
+        </button>
+        <!-- Botón de Descarga / Instalación PWA (oculto por defecto) -->
+        <button id="btn-install-pwa" class="icon-btn pwa-install-icon-btn" aria-label="Descargar e instalar app" title="Descargar e instalar ValenQuest en tu pantalla de inicio" hidden>
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg>
         </button>
       </div>
     </header>
