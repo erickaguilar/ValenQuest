@@ -19,6 +19,43 @@ html {
   overscroll-behavior-y: contain;
 }
 
+/* ==========================================================================
+   GLOBAL SCROLLBAR SYSTEM (CHIBI BUBBLE SCROLLER)
+   ========================================================================== */
+html,
+body,
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Custom Chibi Scrollbar for WebKit / Blink (Safari, Chrome, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: var(--vq-radius-pill);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--vq-radius-pill);
+  border: 2px solid var(--scrollbar-border);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 body {
   font-family: var(--vq-font-kids);
   background-color: var(--vq-bg-canvas);
@@ -193,11 +230,245 @@ button,
   box-shadow: 0 3px 0 var(--vq-border);
 }
 
-/* Footer */
+/* ==========================================================================
+   FOOTER MEJORADO (VALENQUEST ASTRAL FOOTER)
+   ========================================================================== */
 .app-footer {
+  margin-top: 36px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: var(--vq-shadow-hard);
+  padding: 24px 20px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--vq-text);
   text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.footer-brand .vq-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-motto {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--vq-text-muted);
+  max-width: 500px;
+  line-height: 1.4;
+  margin: 0 auto;
+}
+
+/* Badges de Arquitectura y Pedagogía */
+.footer-badges-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.footer-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  box-shadow: 0 2px 0 var(--vq-border);
+  user-select: none;
+}
+
+.footer-badge-pill .vq-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Cuarteto de la Armonía en el Footer */
+.footer-quartet-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 2px dashed var(--vq-border);
+  border-bottom: 2px dashed var(--vq-border);
+}
+
+.footer-quartet-label {
   font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer-heroine-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 10px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.footer-heroine-tag:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-bubble);
+}
+
+.footer-heroine-tag:focus-visible,
+.footer-nav-btn:focus-visible {
+  outline: 2px solid var(--vq-pink-bubble);
+  outline-offset: 2px;
+}
+
+.footer-heroine-tag.active-heroine {
+  font-weight: 900;
+  transform: translateY(-1px);
+}
+
+.footer-heroine-tag[data-heroine="valen"].active-heroine {
+  background: var(--vq-pink-bubble);
+  border-color: var(--vq-border);
+  box-shadow: 0 0 0 2px var(--vq-pink-bubble), 0 2px 0 var(--vq-border);
+}
+
+.footer-heroine-tag[data-heroine="reni"].active-heroine {
+  background: var(--vq-sky);
+  border-color: var(--vq-border);
+  box-shadow: 0 0 0 2px var(--vq-sky), 0 2px 0 var(--vq-border);
+}
+
+.footer-heroine-tag[data-heroine="zoe"].active-heroine {
+  background: var(--vq-mint);
+  border-color: var(--vq-border);
+  box-shadow: 0 0 0 2px var(--vq-mint), 0 2px 0 var(--vq-border);
+}
+
+.footer-heroine-tag[data-heroine="lia"].active-heroine {
+  background: var(--vq-alicorn-purple-light);
+  border-color: var(--vq-border);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 2px var(--vq-alicorn-purple), 0 2px 0 var(--vq-border);
+}
+
+.footer-heroine-tag .vq-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Enlaces rápidos y acciones */
+.footer-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-nav-btn {
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: var(--vq-radius-pill);
+  transition: color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+
+.footer-nav-btn:hover {
+  color: var(--vq-text);
+  background: var(--vq-bg-well);
+  transform: translateY(-1px);
+}
+
+.footer-nav-btn .vq-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Nota final y copyright */
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--vq-text-muted);
-  padding: 14px 16px;
+}
+
+.footer-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #047857;
+  background: #ECFDF5;
+  border: 1.5px solid #10B981;
+  border-radius: var(--vq-radius-pill);
+  padding: 3px 12px;
+}
+
+:root[data-theme="dark"] .footer-status-pill {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border-color: #059669;
+}
+
+.footer-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  animation: vqPulseStatus 2s infinite ease-in-out;
+}
+
+@keyframes vqPulseStatus {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
 }

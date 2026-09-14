@@ -1194,9 +1194,93 @@
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="app-footer">
-      ValenQuest • Reino de Lumiria • Motor Rust + WASM • Cero dependencias externas
+    <!-- Footer Mejorado: Reino de Lumiria & Cuarteto de la Armonía -->
+    <footer class="app-footer" role="contentinfo">
+      <!-- Fila Superior: Marca y Misión Pedagógica -->
+      <div class="footer-top">
+        <div class="footer-brand">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>ValenQuest: Aventuras en Lumiria</span>
+        </div>
+        <p class="footer-motto">
+          Plataforma educativa interactiva local-first para educación primaria. Diseñada para potenciar el pensamiento matemático y la fluidez lectora en un entorno seguro, accesible y libre de sobrecarga cognitiva.
+        </p>
+      </div>
+
+      <!-- Badges de Principios Arquitectónicos -->
+      <div class="footer-badges-grid" aria-label="Garantías arquitectónicas">
+        <span class="footer-badge-pill" title="Núcleo de cálculo determinista en Rust compilado a WebAssembly">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
+          <span>Rust + WebAssembly</span>
+        </span>
+        <span class="footer-badge-pill" title="Media Móvil Exponencial ponderada por latencia cognitiva">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+          <span>Algoritmo EMA Adaptativo</span>
+        </span>
+        <span class="footer-badge-pill" title="Sin rastreadores, sin analíticas en la nube, privacidad 100% infantil">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>
+          <span>Privacidad Infantil Garantizada</span>
+        </span>
+        <span class="footer-badge-pill" title="Segmentación fonotáctica según directrices de la RAE">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
+          <span>Silabeo RAE & RSVP</span>
+        </span>
+      </div>
+
+      <!-- El Cuarteto de la Armonía (Acceso Rápido) -->
+      <div class="footer-quartet-row" aria-label="Heroínas de Lumiria">
+        <span class="footer-quartet-label">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
+          <span>El Cuarteto de la Armonía:</span>
+        </span>
+        <button type="button" class="footer-heroine-tag" data-heroine="valen" title="Valen: Princesa Astral (Alicornio)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
+          <span>Valen</span>
+        </button>
+        <button type="button" class="footer-heroine-tag" data-heroine="reni" title="Reni: Alquimista de los Vientos (Pegaso)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg>
+          <span>Reni</span>
+        </button>
+        <button type="button" class="footer-heroine-tag" data-heroine="zoe" title="Zoe: Ancla de la Naturaleza (Poni Terrestre)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
+          <span>Zoe</span>
+        </button>
+        <button type="button" class="footer-heroine-tag" data-heroine="lia" title="Lía: Maga del Cristal Cósmico (Unicornio)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg>
+          <span>Lía</span>
+        </button>
+      </div>
+
+      <!-- Navegación y Acciones Rápidas -->
+      <div class="footer-nav-row" aria-label="Enlaces rápidos">
+        <button type="button" class="footer-nav-btn" data-goto-tab="intro">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-journey"></use></svg>
+          <span>El Viaje</span>
+        </button>
+        <button type="button" class="footer-nav-btn" data-goto-tab="math">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
+          <span>Matemáticas</span>
+        </button>
+        <button type="button" class="footer-nav-btn" data-goto-tab="reading">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
+          <span>Lectura</span>
+        </button>
+        <button type="button" class="footer-nav-btn" id="footer-open-wardrobe">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
+          <span>Ropero Mágico</span>
+        </button>
+      </div>
+
+      <!-- Pie de página final -->
+      <div class="footer-bottom">
+        <div class="footer-status-pill">
+          <span class="footer-status-dot" aria-hidden="true"></span>
+          <span>100% Offline-First • Progressive Web App</span>
+        </div>
+        <p>
+          ValenQuest • Reino de Lumiria © 2026 • Código abierto con licencias MIT & Apache-2.0
+        </p>
+      </div>
     </footer>
 
   </div>

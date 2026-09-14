@@ -56,6 +56,12 @@
   /* Typography */
   --vq-font-kids: 'Fredoka', 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --vq-font-mono: 'Fira Code', monospace;
+
+  /* Scrollbars (Light Mode) */
+  --scrollbar-track: var(--vq-bg-well);
+  --scrollbar-thumb: var(--vq-pink-bubble);
+  --scrollbar-thumb-hover: #F472B6;
+  --scrollbar-border: var(--vq-border);
 }
 
 /* ==========================================================================
@@ -95,6 +101,12 @@
     --vq-shadow-sm: 0 3px 0 #584470;
     --vq-shadow-key: 0 4px 0 #43335A;
     --vq-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    /* Scrollbars (Dark Mode) */
+    --scrollbar-track: #1A122A;
+    --scrollbar-thumb: #8975A3;
+    --scrollbar-thumb-hover: #A78BFA;
+    --scrollbar-border: #584470;
   }
 }
 
@@ -114,6 +126,7 @@ body[data-theme="dark"],
   --vq-text: #F8F5FC !important;
   --vq-text-muted: #C0B4D1 !important;
 
+  /* Luminous Astral Accents */
   --vq-pink-bubble: #F472B6 !important;
   --vq-pink-light: #831843 !important;
   --vq-lavender: #A78BFA !important;
@@ -134,6 +147,12 @@ body[data-theme="dark"],
   --vq-shadow-sm: 0 3px 0 #584470 !important;
   --vq-shadow-key: 0 4px 0 #43335A !important;
   --vq-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+
+  /* Scrollbars (Manual Dark) */
+  --scrollbar-track: #1A122A !important;
+  --scrollbar-thumb: #8975A3 !important;
+  --scrollbar-thumb-hover: #A78BFA !important;
+  --scrollbar-border: #584470 !important;
 }
 
 /* Manual Light Theme override: works unconditionally on html, :root and body */

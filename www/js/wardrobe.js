@@ -37,6 +37,14 @@ class WardrobeManager {
       });
     }
 
+    const footerWardrobeBtn = document.getElementById('footer-open-wardrobe');
+    if (footerWardrobeBtn) {
+      footerWardrobeBtn.addEventListener('click', () => {
+        sound.playClick();
+        this.open();
+      });
+    }
+
     const btnClose = document.getElementById('btn-wardrobe-close');
     if (btnClose) {
       btnClose.addEventListener('click', () => {

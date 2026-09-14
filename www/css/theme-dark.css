@@ -35,6 +35,8 @@
 }
 
 /* Dark Mode Scrollbars */
-:root[data-theme="dark"] * {
-  scrollbar-color: #584470 #201633;
+:root[data-theme="dark"] *,
+:root[data-theme="dark"] {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
+

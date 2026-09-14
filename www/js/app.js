@@ -69,13 +69,10 @@ class KidsLearnApp {
       // Hook companion powers badges updates
       companions.onChange(() => this.updatePowersBadges());
 
-      // Restore active heroine from profile if saved
-      if (profile.selectedCompanion) {
-        await companions.setActive(profile.selectedCompanion);
-        document.querySelectorAll('.heroine-card').forEach((c) => {
-          c.classList.toggle('active-companion', c.id === `card-heroine-${profile.selectedCompanion}`);
-        });
-      }
+      // Restore active heroine from profile or fallback
+      const activeCompanionId = profile.selectedCompanion || companions.activeId || 'valen';
+      await companions.setActive(activeCompanionId);
+      this.syncActiveCompanionUI(activeCompanionId);
       companions.applyEquippedCosmeticsClasses();
 
       // Initialize Rust MathSession with high-entropy seed and saved tier
@@ -318,25 +315,35 @@ class KidsLearnApp {
       }
     });
 
-    // Heroines Harmony Quartet Selection (Valen, Reni, Zoe, Lía)
+    // Heroines Harmony Quartet Selection (Intro cards)
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const card = document.getElementById(`card-heroine-${id}`);
       if (card) {
         card.addEventListener('click', () => {
-          companions.setActive(id);
-          document
-            .querySelectorAll('.heroine-card')
-            .forEach((c) => c.classList.remove('active-companion'));
-          card.classList.add('active-companion');
-          const hero = companions.getActive();
-          sound.playClick();
-          speech.speakDialogue(`¡Hola, soy ${hero.name}! ${hero.title}. ${hero.voiceQuote}`);
-          const avatar = document.getElementById('student-avatar');
-          const name = document.getElementById('student-name');
-          if (avatar) avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero.iconSymbol || 'vq-icon-star'}"></use></svg>`;
-          if (name) name.textContent = `${hero.name} (${hero.title})`;
+          this.selectCompanion(id, true);
         });
       }
+    });
+
+    // Heroines Harmony Quartet Selection (Footer tags)
+    document.querySelectorAll('.footer-heroine-tag').forEach((tag) => {
+      tag.addEventListener('click', (e) => {
+        const heroId = e.currentTarget.dataset.heroine;
+        if (heroId) {
+          this.selectCompanion(heroId, true);
+        }
+      });
+    });
+
+    // Footer Navigation buttons [data-goto-tab]
+    document.querySelectorAll('[data-goto-tab]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const tab = e.currentTarget.dataset.gotoTab;
+        if (tab) {
+          this.switchTab(tab);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
     });
 
     // Companion In-Game Power Buttons (Valen, Reni, Zoe, Lía)
@@ -518,6 +525,38 @@ class KidsLearnApp {
 
     if (tab === 'reading' && this.rsvpTimer) {
       this.stopRsvp();
+    }
+  }
+
+  selectCompanion(id, speak = true) {
+    companions.setActive(id);
+    this.syncActiveCompanionUI(id);
+    const hero = companions.getActive();
+    if (hero) {
+      sound.playClick();
+      if (speak) {
+        speech.speakDialogue(`¡Hola, soy ${hero.name}! ${hero.title}. ${hero.voiceQuote}`);
+      }
+    }
+  }
+
+  syncActiveCompanionUI(id) {
+    document.querySelectorAll('.heroine-card').forEach((c) => {
+      c.classList.toggle('active-companion', c.id === `card-heroine-${id}`);
+    });
+    document.querySelectorAll('.footer-heroine-tag').forEach((tag) => {
+      tag.classList.toggle('active-heroine', tag.dataset.heroine === id);
+    });
+    const hero = companions.getActive();
+    if (hero) {
+      const avatar = document.getElementById('student-avatar');
+      const name = document.getElementById('student-name');
+      if (avatar) {
+        avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero.iconSymbol || 'vq-icon-star'}"></use></svg>`;
+      }
+      if (name) {
+        name.textContent = `${hero.name} (${hero.title})`;
+      }
     }
   }
 
