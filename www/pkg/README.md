@@ -1,5 +1,10 @@
 # ValenQuest 🦄✨ (KidsLearn-WASM)
 
+[![Version](https://img.shields.io/badge/version-1.0.0-f472b6.svg)](VERSION)
+[![Rust](https://img.shields.io/badge/rust-2021_edition-orange.svg)](Cargo.toml)
+[![WASM](https://img.shields.io/badge/wasm-wasm--pack-6366f1.svg)](www/pkg/)
+[![License](https://img.shields.io/badge/license-MIT%20%7C%20Apache--2.0-blue.svg)](LICENSE.md)
+
 > Plataforma educativa web local-first (PWA) para educación primaria (matemáticas adaptativas y fluidez lectora), ambientada en el universo de **Lumiria** con estética pastel mágica (*My Little Pony* + *Gacha Club*). Impulsada por un núcleo en **Rust + WebAssembly** y una presentación ultra-ligera en **Vanilla JavaScript (ES Modules) + HTML5/CSS3**.
 > 
 > Acompaña a la heroína y princesa **Valen** (Alicornio) y a su equipo del Cuarteto de la Armonía, **Reni** (Pegaso), **Zoe** (Poni Terrestre) y **Lía** (Unicornio), usando sus **Poderes de Amistad** para restaurar las constelaciones de la Gran Biblioteca de Lumiria.

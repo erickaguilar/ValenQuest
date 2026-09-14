@@ -1,0 +1,44 @@
+# Registro de Cambios (Changelog) - ValenQuest 🦄✨
+
+Todas las modificaciones notables de este proyecto serán documentadas en este archivo.
+
+El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/),
+y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/lang/es/).
+
+---
+
+## [1.0.0] - 2026-09-13
+
+### 🚀 Novedades Principales
+
+#### 🧠 Núcleo Lógico en Rust + WebAssembly (`kidslearn-wasm`)
+- **Algoritmo Adaptativo EMA:** Implementación de Media Móvil Exponencial ($M_k = 0.75 M_{k-1} + 0.25 P$) con ponderación dinámica por latencia de respuesta cognitiva.
+- **Las Diez Lunas de Lumiria (10 Tiers Curriculares):**
+  - **Acto I (Niveles 1-3):** Manantial de Rocío (sumas $\le 10$), Bosque Susurrante (hasta 20 sin acarreo), Vértice de Algodón (con acarreo).
+  - **Acto II (Niveles 4-7):** Caverna de Ámbar (restas con desagrupación), Palacio Prisma (tablas del 2, 3, 5 y 10), Reloj de las Arenas (tablas compuestas y mitades/dobles), Mar de Coral Profundo (reparto exacto).
+  - **Acto III (Niveles 8-10):** Muralla de Nácar (fracciones visuales), Cúspide de la Aurora (operaciones combinadas con paréntesis), Trono de las Estrellas (fluidez mental con límite temporal y reconstrucción final).
+- **Generador PRNG Determinista:** Xorshift64* con fallback seguro contra semillas nulas para generación reproducible de desafíos.
+- **Distractores Pedagógicos Verosímiles:** Algoritmo de alternativas numéricas plausibles que previene la adivinanza por descarte.
+- **Motor de Fluidez Lectora y Silabeo RAE:**
+  - Segmentación fonotáctica en español respetando diptongos, triptongos e hiatos forzados.
+  - Presentación serial visual rápida (RSVP) con velocímetro WPM configurable.
+
+#### 📖 El Gran Libro de Lumiria (Cuentacuentos Interactivo)
+- **Nueva página de historia (`story.html`):** Experiencia de lectura de cuentos de hadas con modo libro de dos páginas y pergamino continuo responsive.
+- **10 Capítulos Canónicos:** Crónicas ilustradas de cada templo y sus guardianes estelares.
+- **Caja de Música Procedural:** Melodía infantil generada con Web Audio API en tiempo real sin dependencias de audio externas.
+- **Controles de Lectura:** Ajuste de tamaño tipográfico, salto por capítulos y narración por voz con Web Speech API.
+
+#### 👗 Ropero Mágico y Compañeras de la Armonía
+- **Cuarteto de la Armonía:** Valen (Alicornio), Reni (Pegaso), Zoe (Poni Terrestre) y Lía (Unicornio), cada una con talentos mágicos y habilidades exclusivas.
+- **Vestidor Interactivo:** Desbloqueo y equipamiento de tiaras, alas, auras y lazos mediante maestría y estrellas acumuladas.
+
+#### 🎨 Interfaz de Usuario y Experiencia Móvil
+- **Vista Previa de Respuesta en Vivo (`#math-answer-preview`):** Indicador dinámico en tiempo real del número seleccionado o ingresado en teclado numérico, con envoltura matemática responsive.
+- **Footer Móvil Compacto:** Rediseño optimizado para pantallas pequeñas (~110px de altura), unificando accesos rápidos y eliminando duplicidades del header.
+- **Sintetizador Procedural de Audio:** Efectos de pulsación háptica, acierto armónico, error constructivo, racha estelar y fanfarria triunfal sin archivos `.mp3` pesados.
+
+#### 📦 PWA & Modo Offline Total
+- **Service Worker (`valenquest-v1.0.0`):** Almacenamiento en caché estricto y seguro para juego 100% desconectado de internet.
+- **Persistencia Local con IndexedDB:** Historial de partidas, progreso curricular y perfiles almacenados en el navegador del usuario sin telemetría externa.
+- **Arquitectura Zero-Framework:** Vanilla JavaScript con módulos ES nativos y CSS moderno con tokens temáticos claros y oscuros.

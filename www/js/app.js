@@ -13,6 +13,8 @@ import { wardrobe } from './wardrobe.js';
 import { pwa } from './pwa.js';
 import { getLevelData, TEN_MOONS_LEVELS } from './levels-data.js';
 
+export const APP_VERSION = '1.0.0';
+
 class KidsLearnApp {
   constructor() {
     this.wasm = null;
@@ -39,7 +41,7 @@ class KidsLearnApp {
   }
 
   async init() {
-    console.log('🌟 [ValenQuest] Initializing application in Lumiria...');
+    console.log(`🌟 [ValenQuest] Initializing application v${APP_VERSION} in Lumiria...`);
 
     // 1. Bind event listeners immediately so all buttons respond with zero delay
     this.setupEventListeners();
