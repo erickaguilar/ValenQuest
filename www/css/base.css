@@ -439,7 +439,14 @@ button,
 .footer-badge-item {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+}
+
+.footer-badge-item .vq-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .footer-dot-sep {
@@ -483,6 +490,8 @@ button,
 .footer-link .vq-icon {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .footer-bottom {

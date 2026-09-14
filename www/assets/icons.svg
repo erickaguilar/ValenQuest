@@ -302,6 +302,24 @@
     <circle cx="28" cy="24" r="1.5" fill="#FFD166"/>
   </symbol>
 
+  <!-- Rayo Astral / WASM Turbo -->
+  <symbol id="vq-icon-bolt" viewBox="0 0 64 64">
+    <polygon points="36,4 14,34 30,34 26,60 50,26 34,26" 
+             fill="#FFD166" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+    <polygon points="34,10 22,32 30,32 28,48 44,28 34,28" fill="#FFF275" opacity="0.85"/>
+    <circle cx="28" cy="20" r="2" fill="#FFFFFF"/>
+    <circle cx="34" cy="38" r="1.5" fill="#FFFFFF"/>
+  </symbol>
+
+  <!-- Flecha Astral hacia Arriba (Scroll to Top) -->
+  <symbol id="vq-icon-arrow-up" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="26" fill="#BDE0FE" stroke="#4A3E56" stroke-width="4"/>
+    <path d="M32,14 L18,28 L26,28 L26,48 L38,48 L38,28 L46,28 Z" 
+          fill="#FDF7FF" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+    <circle cx="28" cy="22" r="1.5" fill="#FFFFFF"/>
+    <circle cx="34" cy="36" r="1.5" fill="#FFAFCC"/>
+  </symbol>
+
   <!-- Candado de Luz (Tier o Accesorio Bloqueado) -->
   <symbol id="vq-icon-lock" viewBox="0 0 64 64">
     <path d="M20,26 V18 C20,11 25,6 32,6 C39,6 44,11 44,18 V26" 

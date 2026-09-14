@@ -36,6 +36,7 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 #### 🎨 Interfaz de Usuario y Experiencia Móvil
 - **Vista Previa de Respuesta en Vivo (`#math-answer-preview`):** Indicador dinámico en tiempo real del número seleccionado o ingresado en teclado numérico, con envoltura matemática responsive.
 - **Footer Móvil Compacto:** Rediseño optimizado para pantallas pequeñas (~110px de altura), unificando accesos rápidos y eliminando duplicidades del header.
+- **Iconografía Vectorial Pastel en Footer:** Sustitución de emojis de texto por símbolos SVG nativos del sistema de diseño (`#vq-icon-bolt`, `#vq-icon-lock`, `#vq-icon-reading`, `#vq-icon-arrow-up`).
 - **Sintetizador Procedural de Audio:** Efectos de pulsación háptica, acierto armónico, error constructivo, racha estelar y fanfarria triunfal sin archivos `.mp3` pesados.
 
 #### 📦 PWA & Modo Offline Total
