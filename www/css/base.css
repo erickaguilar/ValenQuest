@@ -374,19 +374,20 @@ button,
 }
 
 /* ==========================================================================
-   FOOTER MEJORADO (VALENQUEST ASTRAL FOOTER)
+   FOOTER COMPACTO (VALENQUEST SLIM FOOTER)
    ========================================================================== */
 .app-footer {
-  margin-top: 36px;
+  margin-top: 24px;
   background: var(--vq-bg-card);
   border: var(--vq-border-width) solid var(--vq-border);
   border-radius: var(--vq-radius-bubble);
   box-shadow: var(--vq-shadow-hard);
-  padding: 24px 20px;
-  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding: 16px 14px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 10px;
   color: var(--vq-text);
   text-align: center;
   transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -397,221 +398,110 @@ button,
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .footer-brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 1.15rem;
+  gap: 6px;
+  font-size: 0.95rem;
   font-weight: 900;
   color: var(--vq-text);
 }
 
 .footer-brand .vq-icon {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
 }
 
 .footer-motto {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--vq-text-muted);
-  max-width: 500px;
-  line-height: 1.4;
+  max-width: 440px;
+  line-height: 1.3;
   margin: 0 auto;
 }
 
-/* Badges de Arquitectura y Pedagogía */
-.footer-badges-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-
-.footer-badge-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--vq-bg-well);
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 5px 12px;
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--vq-text);
-  box-shadow: 0 2px 0 var(--vq-border);
-  user-select: none;
-}
-
-.footer-badge-pill .vq-icon {
-  width: 14px;
-  height: 14px;
-}
-
-/* Cuarteto de la Armonía en el Footer */
-.footer-quartet-row {
+/* Badges de Arquitectura en línea compacta */
+.footer-badges-compact {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  padding: 12px 0;
-  border-top: 2px dashed var(--vq-border);
-  border-bottom: 2px dashed var(--vq-border);
-}
-
-.footer-quartet-label {
-  font-size: 0.8rem;
-  font-weight: 800;
+  gap: 6px 8px;
+  font-size: 0.74rem;
+  font-weight: 700;
   color: var(--vq-text-muted);
+}
+
+.footer-badge-item {
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-.footer-heroine-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--vq-bg-well);
-  border: 1.5px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 4px 10px;
-  font-size: 0.76rem;
-  font-weight: 800;
-  color: var(--vq-text);
-  cursor: pointer;
-  box-shadow: 0 2px 0 var(--vq-border);
-  transition: transform 0.1s ease, background 0.15s ease;
-}
-
-.footer-heroine-tag:hover {
-  transform: translateY(-2px);
-  background: var(--vq-pink-bubble);
-}
-
-.footer-heroine-tag:focus-visible,
-.footer-nav-btn:focus-visible {
-  outline: 2px solid var(--vq-pink-bubble);
-  outline-offset: 2px;
-}
-
-.footer-heroine-tag.active-heroine {
+.footer-dot-sep {
+  color: var(--vq-pink-bubble);
+  opacity: 0.7;
   font-weight: 900;
-  transform: translateY(-1px);
+  user-select: none;
 }
 
-.footer-heroine-tag[data-heroine="valen"].active-heroine {
-  background: var(--vq-pink-bubble);
-  border-color: var(--vq-border);
-  box-shadow: 0 0 0 2px var(--vq-pink-bubble), 0 2px 0 var(--vq-border);
-}
-
-.footer-heroine-tag[data-heroine="reni"].active-heroine {
-  background: var(--vq-sky);
-  border-color: var(--vq-border);
-  box-shadow: 0 0 0 2px var(--vq-sky), 0 2px 0 var(--vq-border);
-}
-
-.footer-heroine-tag[data-heroine="zoe"].active-heroine {
-  background: var(--vq-mint);
-  border-color: var(--vq-border);
-  box-shadow: 0 0 0 2px var(--vq-mint), 0 2px 0 var(--vq-border);
-}
-
-.footer-heroine-tag[data-heroine="lia"].active-heroine {
-  background: var(--vq-alicorn-purple-light);
-  border-color: var(--vq-border);
-  color: #FFFFFF;
-  box-shadow: 0 0 0 2px var(--vq-alicorn-purple), 0 2px 0 var(--vq-border);
-}
-
-.footer-heroine-tag .vq-icon {
-  width: 14px;
-  height: 14px;
-}
-
-/* Enlaces rápidos y acciones */
-.footer-nav-row {
+/* Enlaces útiles */
+.footer-links-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 6px 10px;
 }
 
-.footer-nav-btn {
+.footer-link {
   background: none;
   border: none;
-  padding: 6px 10px;
+  padding: 4px 8px;
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  color: var(--vq-text-muted);
+  color: var(--vq-text);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   border-radius: var(--vq-radius-pill);
-  transition: color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+  transition: color 0.15s ease, transform 0.1s ease;
   text-decoration: none;
 }
 
-.footer-nav-btn:hover {
-  color: var(--vq-text);
-  background: var(--vq-bg-well);
+.footer-link:hover {
+  color: var(--vq-pink-bubble);
   transform: translateY(-1px);
 }
 
-.footer-nav-btn .vq-icon {
-  width: 15px;
-  height: 15px;
+.footer-link .vq-icon {
+  width: 14px;
+  height: 14px;
 }
 
-/* Nota final y copyright */
 .footer-bottom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 8px;
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 600;
   color: var(--vq-text-muted);
 }
 
-.footer-status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
+.footer-bottom p {
+  margin: 0;
+}
+
+.footer-license-link {
+  color: var(--vq-text);
   font-weight: 800;
-  color: #047857;
-  background: #ECFDF5;
-  border: 1.5px solid #10B981;
-  border-radius: var(--vq-radius-pill);
-  padding: 3px 12px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-:root[data-theme="dark"] .footer-status-pill {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34D399;
-  border-color: #059669;
-}
-
-.footer-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 6px #10B981;
-  animation: vqPulseStatus 2s infinite ease-in-out;
-}
-
-@keyframes vqPulseStatus {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+.footer-license-link:hover {
+  color: var(--vq-pink-bubble);
 }

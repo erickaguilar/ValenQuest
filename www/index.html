@@ -749,25 +749,24 @@
       <div class="journey-hero-card">
         
         <div class="journey-badge">
-          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Crónicas del Reino de Lumiria</span>
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>El Gran Libro de Lumiria</span>
         </div>
 
         <h2 class="journey-title">
-          ¡Bienvenida a <span>ValenQuest</span>!
+          ¡Bienvenida al <span>Gran Libro de Lumiria</span>!
         </h2>
 
         <!-- Diálogo Chibi estilo Gacha Life con botón de TTS -->
         <div class="gacha-dialogue" id="intro-dialogue-bubble">
           <p id="intro-dialogue-text">
-            «El <strong>Velo de la Duda</strong> ha desordenado los pergaminos de la <em>Gran Biblioteca de las Constelaciones</em>. 
-            ¡Sola sería difícil, pero con el <strong>Cuarteto de la Armonía</strong> y la unión de las cuatro razas de Lumiria, iluminaremos cada estrella!»
+            «¡Las páginas doradas de <strong>El Gran Libro de Lumiria</strong> han despertado! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las constelaciones. ¡Abre el Gran Libro para revivir la leyenda o inicia tu aventura!»
           </p>
           <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
-            <button id="btn-speak-intro" class="speak-hint-btn" type="button" aria-label="Escuchar mensaje">
+            <button id="btn-speak-intro" class="speak-hint-btn" type="button" aria-label="Escuchar mensaje de Valen">
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar mensaje de Valen</span>
             </button>
-            <a href="story.html" class="speak-hint-btn" style="text-decoration: none; background: linear-gradient(135deg, #FFD166, #FFAFCC);" aria-label="Abrir el Gran Libro de las Princesas">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>📖 Abrir Gran Libro de Princesas</span>
+            <a href="story.html" class="speak-hint-btn" style="text-decoration: none; background: linear-gradient(135deg, #FFD166, #FFAFCC); color: #4A3E56; font-weight: 900;" aria-label="Abrir y leer el Gran Libro de las Princesas">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>📖 Leer El Gran Libro</span>
             </a>
           </div>
         </div>
@@ -1204,96 +1203,42 @@
       </div>
     </div>
 
-    <!-- Footer Mejorado: Reino de Lumiria & Cuarteto de la Armonía -->
+    <!-- Footer Compacto y Sin Duplicados: Reino de Lumiria -->
     <footer class="app-footer" role="contentinfo">
-      <!-- Fila Superior: Marca y Misión Pedagógica -->
       <div class="footer-top">
         <div class="footer-brand">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-          <span>ValenQuest: Aventuras en Lumiria</span>
+          <span>ValenQuest: Lumiria</span>
         </div>
         <p class="footer-motto">
-          Plataforma educativa interactiva local-first para educación primaria. Diseñada para potenciar el pensamiento matemático y la fluidez lectora en un entorno seguro, accesible y libre de sobrecarga cognitiva.
+          Aventuras pedagógicas de matemáticas y fluidez lectora para educación primaria.
         </p>
       </div>
 
-      <!-- Badges de Principios Arquitectónicos -->
-      <div class="footer-badges-grid" aria-label="Garantías arquitectónicas">
-        <span class="footer-badge-pill" title="Núcleo de cálculo determinista en Rust compilado a WebAssembly">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-          <span>Rust + WebAssembly</span>
-        </span>
-        <span class="footer-badge-pill" title="Media Móvil Exponencial ponderada por latencia cognitiva">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-          <span>Algoritmo EMA Adaptativo</span>
-        </span>
-        <span class="footer-badge-pill" title="Sin rastreadores, sin analíticas en la nube, privacidad 100% infantil">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>
-          <span>Privacidad Infantil Garantizada</span>
-        </span>
-        <span class="footer-badge-pill" title="Segmentación fonotáctica según directrices de la RAE">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
-          <span>Silabeo RAE & RSVP</span>
-        </span>
+      <!-- Garantías compactas en una sola línea -->
+      <div class="footer-badges-compact" aria-label="Garantías del sistema">
+        <span class="footer-badge-item">⚡ Rust + WASM</span>
+        <span class="footer-dot-sep" aria-hidden="true">•</span>
+        <span class="footer-badge-item">🔒 100% Offline &amp; Privado</span>
+        <span class="footer-dot-sep" aria-hidden="true">•</span>
+        <span class="footer-badge-item">📖 Fluidez RAE</span>
       </div>
 
-      <!-- El Cuarteto de la Armonía (Acceso Rápido) -->
-      <div class="footer-quartet-row" aria-label="Heroínas de Lumiria">
-        <span class="footer-quartet-label">
-          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-          <span>El Cuarteto de la Armonía:</span>
-        </span>
-        <button type="button" class="footer-heroine-tag" data-heroine="valen" title="Valen: Princesa Astral (Alicornio)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
-          <span>Valen</span>
-        </button>
-        <button type="button" class="footer-heroine-tag" data-heroine="reni" title="Reni: Alquimista de los Vientos (Pegaso)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg>
-          <span>Reni</span>
-        </button>
-        <button type="button" class="footer-heroine-tag" data-heroine="zoe" title="Zoe: Ancla de la Naturaleza (Poni Terrestre)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
-          <span>Zoe</span>
-        </button>
-        <button type="button" class="footer-heroine-tag" data-heroine="lia" title="Lía: Maga del Cristal Cósmico (Unicornio)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg>
-          <span>Lía</span>
-        </button>
-      </div>
-
-      <!-- Navegación y Acciones Rápidas -->
-      <div class="footer-nav-row" aria-label="Enlaces rápidos">
-        <button type="button" class="footer-nav-btn" data-goto-tab="intro">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-journey"></use></svg>
-          <span>El Viaje</span>
-        </button>
-        <button type="button" class="footer-nav-btn" data-goto-tab="math">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-          <span>Matemáticas</span>
-        </button>
-        <button type="button" class="footer-nav-btn" data-goto-tab="reading">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
-          <span>Lectura</span>
-        </button>
-        <button type="button" class="footer-nav-btn" id="footer-open-wardrobe">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
-          <span>Ropero Mágico</span>
-        </button>
-        <a href="story.html" class="footer-nav-btn" style="text-decoration: none;">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
-          <span>Libro de Princesas</span>
+      <!-- Enlaces útiles no duplicados -->
+      <div class="footer-links-row" aria-label="Enlaces rápidos">
+        <a href="story.html" class="footer-link">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+          <span>El Gran Libro</span>
         </a>
+        <span class="footer-dot-sep" aria-hidden="true">•</span>
+        <button type="button" class="footer-link" id="btn-footer-scroll-top" title="Volver al inicio">
+          <span>⬆ Subir</span>
+        </button>
       </div>
 
-      <!-- Pie de página final -->
+      <!-- Pie de página final con licencias duales -->
       <div class="footer-bottom">
-        <div class="footer-status-pill">
-          <span class="footer-status-dot" aria-hidden="true"></span>
-          <span>100% Offline-First • Progressive Web App</span>
-        </div>
-        <p>
-          ValenQuest • Reino de Lumiria © 2026 • Código abierto con licencias MIT & Apache-2.0
-        </p>
+        <p>ValenQuest © 2026 • Licencias código abierto <a href="LICENSE.md" target="_blank" class="footer-license-link">MIT &amp; Apache-2.0</a></p>
       </div>
     </footer>
 

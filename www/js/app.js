@@ -271,7 +271,7 @@ class KidsLearnApp {
       btnSpeakIntro.addEventListener('click', () => {
         sound.playClick();
         const text =
-          'El Velo de la Duda ha desordenado los pergaminos de la Gran Biblioteca de las Constelaciones y borró las fórmulas de cristal. ¡Tú eres la heroína elegida para empuñar los artefactos celestiales y restaurar la luz estelar!';
+          '¡Las páginas doradas de El Gran Libro de Lumiria han despertado! El Velo de la Duda de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el Cuarteto de la Armonía y el poder de la amistad, resolveremos cada enigma para encender todas las constelaciones. ¡Abre el Gran Libro para revivir la leyenda o inicia tu aventura!';
         speech.speakDialogue(text);
       });
     }
@@ -322,26 +322,14 @@ class KidsLearnApp {
       }
     });
 
-    // Heroines Harmony Quartet Selection (Footer tags)
-    document.querySelectorAll('.footer-heroine-tag').forEach((tag) => {
-      tag.addEventListener('click', (e) => {
-        const heroId = e.currentTarget.dataset.heroine;
-        if (heroId) {
-          this.selectCompanion(heroId, true);
-        }
+    // Footer Scroll to Top
+    const btnFooterScrollTop = document.getElementById('btn-footer-scroll-top');
+    if (btnFooterScrollTop) {
+      btnFooterScrollTop.addEventListener('click', () => {
+        sound.playClick();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
-    });
-
-    // Footer Navigation buttons [data-goto-tab]
-    document.querySelectorAll('[data-goto-tab]').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const tab = e.currentTarget.dataset.gotoTab;
-        if (tab) {
-          this.switchTab(tab);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
-    });
+    }
 
     // Companion In-Game Power Buttons (Valen, Reni, Zoe, Lía)
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
@@ -552,9 +540,6 @@ class KidsLearnApp {
   syncActiveCompanionUI(id) {
     document.querySelectorAll('.heroine-card').forEach((c) => {
       c.classList.toggle('active-companion', c.id === `card-heroine-${id}`);
-    });
-    document.querySelectorAll('.footer-heroine-tag').forEach((tag) => {
-      tag.classList.toggle('active-heroine', tag.dataset.heroine === id);
     });
     const hero = companions.getActive();
     if (hero) {
