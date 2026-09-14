@@ -130,10 +130,10 @@ class CompanionSystem {
     return HEROINES[this.activeId];
   }
 
-  async setActive(id) {
+  async setActive(id, playSound = true) {
     if (HEROINES[id]) {
       this.activeId = id;
-      sound.playClick();
+      if (playSound) sound.playClick();
 
       try {
         const profile = await db.getProfile();

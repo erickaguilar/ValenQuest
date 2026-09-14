@@ -69,9 +69,9 @@ class KidsLearnApp {
       // Hook companion powers badges updates
       companions.onChange(() => this.updatePowersBadges());
 
-      // Restore active heroine from profile or fallback
+      // Restore active heroine from profile or fallback (silent during init)
       const activeCompanionId = profile.selectedCompanion || companions.activeId || 'valen';
-      await companions.setActive(activeCompanionId);
+      await companions.setActive(activeCompanionId, false);
       this.syncActiveCompanionUI(activeCompanionId);
       companions.applyEquippedCosmeticsClasses();
 
@@ -87,8 +87,8 @@ class KidsLearnApp {
       this.renderMathChallenge();
       this.renderReadingCatalog();
 
-      // Ensure intro tab is active initially
-      this.switchTab('intro');
+      // Ensure intro tab is active initially (silent during init)
+      this.switchTab('intro', false);
 
       // Initialize PWA installation and Service Worker engine
       pwa.init();
@@ -501,8 +501,8 @@ class KidsLearnApp {
     }
   }
 
-  switchTab(tab) {
-    sound.playClick();
+  switchTab(tab, playSound = true) {
+    if (playSound) sound.playClick();
     this.currentTab = tab;
 
     document.querySelectorAll('.tab-btn').forEach((btn) => {
@@ -769,7 +769,8 @@ class KidsLearnApp {
     const linesContainer = document.getElementById('portal-story-lines');
     if (linesContainer) {
       linesContainer.innerHTML = '';
-      levelData.storyLines.forEach((line, idx) => {
+      const lines = levelData.microCuento || levelData.storyLines || [];
+      lines.forEach((line, idx) => {
         const p = document.createElement('p');
         p.className = 'portal-line';
         p.dataset.line = idx;

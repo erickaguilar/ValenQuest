@@ -8,7 +8,19 @@ class SoundEngine {
   constructor() {
     this.ctx = null;
     this.muted = false;
+    this.hasUserInteracted = false;
     this.initWarmUp();
+  }
+
+  /**
+   * Checks if user has performed any gesture or activation
+   */
+  get isUserActive() {
+    if (this.hasUserInteracted) return true;
+    if (typeof navigator !== 'undefined' && navigator.userActivation) {
+      return navigator.userActivation.hasBeenActive;
+    }
+    return false;
   }
 
   /**
@@ -17,22 +29,28 @@ class SoundEngine {
   initWarmUp() {
     if (typeof window === 'undefined') return;
     const unlockHandler = () => {
+      this.hasUserInteracted = true;
       this.ensureContext();
-      window.removeEventListener('pointerdown', unlockHandler);
-      window.removeEventListener('touchstart', unlockHandler);
-      window.removeEventListener('click', unlockHandler);
-      window.removeEventListener('keydown', unlockHandler);
+      window.removeEventListener('pointerdown', unlockHandler, true);
+      window.removeEventListener('touchstart', unlockHandler, true);
+      window.removeEventListener('mousedown', unlockHandler, true);
+      window.removeEventListener('keydown', unlockHandler, true);
     };
-    window.addEventListener('pointerdown', unlockHandler, { once: true, passive: true });
-    window.addEventListener('touchstart', unlockHandler, { once: true, passive: true });
-    window.addEventListener('click', unlockHandler, { once: true, passive: true });
-    window.addEventListener('keydown', unlockHandler, { once: true, passive: true });
+    window.addEventListener('pointerdown', unlockHandler, { capture: true, once: true, passive: true });
+    window.addEventListener('touchstart', unlockHandler, { capture: true, once: true, passive: true });
+    window.addEventListener('mousedown', unlockHandler, { capture: true, once: true, passive: true });
+    window.addEventListener('keydown', unlockHandler, { capture: true, once: true, passive: true });
   }
 
   /**
    * Initializes or resumes the AudioContext upon user gesture.
    */
   ensureContext() {
+    if (typeof window === 'undefined') return;
+    // Don't create or resume AudioContext if user hasn't interacted yet,
+    // avoiding browser autoplay console warnings.
+    if (!this.isUserActive) return;
+
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) {
