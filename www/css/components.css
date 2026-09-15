@@ -2591,3 +2591,88 @@
   box-shadow: 0 2px 0 #b87805, 0 4px 12px rgba(244, 162, 97, 0.35);
 }
 
+/* ==========================================================================
+   MODAL DE CONFIGURACIÓN & AJUSTES MÁGICOS
+   ========================================================================== */
+.settings-modal-content {
+  max-width: 440px;
+  padding: 24px 20px;
+  gap: 16px;
+  text-align: left;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed var(--vq-border);
+  padding-bottom: 12px;
+}
+
+.settings-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.settings-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  gap: 12px;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.settings-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.settings-item-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.settings-item-desc {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--vq-text-muted);
+}
+
+.settings-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  border-top: 1.5px solid var(--vq-border);
+  padding-top: 12px;
+}
+
+.settings-version-tag {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+}
+
+

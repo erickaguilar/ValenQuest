@@ -48,6 +48,15 @@ vq-footer,
 ```
 Esto asegura que las etiquetas contenedoras de los Custom Elements no alteren el flujo flex vertical ni el espaciado (`gap: 16px`) definido en `.app-container`.
 
+### 2.3. Consolidación de Cabecera y Modal de Ajustes Mágicos
+- **Unificación de acceso al ropero:** Se eliminó el botón duplicado `#btn-show-wardrobe` de la barra de acciones. El badge de estrellas `#header-stars-badge` actúa como único punto de entrada canónico a `wardrobe.html`.
+- **Dock de acciones simplificado:** La barra de acciones de la cabecera ahora solo expone el acceso a la historia (`#btn-show-intro`) y el nuevo botón de configuración `#btn-open-settings`.
+- **Modal de Ajustes Mágicos (`#settings-modal`):** Encapsulado dentro de `<vq-header>` en Light DOM, agrupa en un diálogo accesible e intuitivo los controles de:
+  - **Aspecto Astral:** Selector de tema día pastel / noche astral (`#btn-toggle-theme`).
+  - **Efectos Mágicos:** Interruptor de sonido Web Audio API (`#btn-toggle-mute`).
+  - **Voz Narradora:** Alternador TTS de Web Speech API (`#btn-toggle-speech`).
+  - **Instalación PWA:** Botón de instalación en pantalla de inicio (`#btn-install-pwa`), sincronizado dinámicamente según la compatibilidad del navegador.
+
 ---
 
 ## 3. Reorganización Funcional de JavaScript (`www/js/`)
