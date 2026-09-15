@@ -2869,4 +2869,219 @@
   }
 }
 
+/* ==========================================================================
+   TRÍADA DE MODOS DE JUEGO (LA GRAN AVENTURA & PRÁCTICAS DE 5 NIVELES)
+   ========================================================================== */
+
+/* 1. Tarjeta Heroica de La Gran Aventura */
+.adventure-campaign-card {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.25) 0%, rgba(205, 180, 219, 0.3) 50%, rgba(162, 210, 255, 0.25) 100%), var(--vq-bg-card);
+  border: 3px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 22px 20px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  margin-top: 14px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.adventure-campaign-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFD166;
+  color: #4A3E56;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 14px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.adventure-campaign-title {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.adventure-campaign-desc {
+  font-size: 0.92rem;
+  color: var(--vq-text-muted);
+  max-width: 580px;
+  line-height: 1.5;
+  font-weight: 600;
+  margin: 0;
+}
+
+.adventure-temple-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 16px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--vq-text);
+}
+
+/* 2. Cabecera de Sección de Prácticas */
+.practice-section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.practice-section-title {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* 3. Selector de 5 Niveles en Tarjetas de Práctica */
+.level-selector-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.level-selector-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--vq-text-muted);
+}
+
+.level-chips-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.level-chip-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--vq-border);
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--vq-border);
+  transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
+}
+
+.level-chip-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--vq-border);
+}
+
+.level-chip-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.level-chip-btn.active {
+  background: #FFD166;
+  color: #4A3E56;
+  border-color: #4A3E56;
+  transform: scale(1.08);
+  box-shadow: 0 4px 0 #4A3E56;
+}
+
+.artifact-reading .level-chip-btn.active {
+  background: #A2D2FF;
+}
+
+.artifact-math .level-chip-btn.active {
+  background: #FFAFCC;
+}
+
+.practice-level-summary {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.practice-action-btn {
+  width: 100%;
+  max-width: 240px;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--vq-btn-primary-bg, #FFAFCC);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: #4A3E56;
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-top: 4px;
+}
+
+.practice-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-active);
+}
+
+.practice-action-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.artifact-reading .practice-action-btn {
+  background: #A2D2FF;
+}
+
+.artifact-math .practice-action-btn {
+  background: #FFC8DD;
+}
+
+
 

@@ -3,7 +3,7 @@
  * Offline-first caching engine for 100% offline play in Lumiria.
  */
 
-const CACHE_NAME = 'valenquest-v1.5.0';
+const CACHE_NAME = 'valenquest-v1.6.0';
 
 const PRECACHE_URLS = [
   '/',
@@ -30,6 +30,9 @@ const PRECACHE_URLS = [
   '/js/services/storage.js',
   '/js/services/pwa.js',
   '/js/services/wasm-loader.js',
+  '/js/services/adventure.js',
+  '/js/services/math-practice.js',
+  '/js/services/reading-practice.js',
   '/js/data/levels-data.js',
   '/pkg/kidslearn_wasm.js',
   '/pkg/kidslearn_wasm_bg.wasm',

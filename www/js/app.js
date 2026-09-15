@@ -12,6 +12,10 @@ import { companions } from './services/companions.js';
 import { pwa } from './services/pwa.js';
 import { getLevelData, getActTransitionData, TEN_MOONS_LEVELS } from './data/levels-data.js';
 
+import { adventure } from './services/adventure.js';
+import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
+import { readingPractice, READING_LEVELS } from './services/reading-practice.js';
+
 // Web Components modulares de UI (Header y Footer)
 import './components/header.js';
 import './components/footer.js';
@@ -27,6 +31,7 @@ class KidsLearnApp {
 
     // UI State (DOM only)
     this.currentTab = 'intro';
+    this.gameMode = 'adventure'; // 'adventure' | 'math_practice' | 'reading_practice'
     this.inputMode = 'choice'; // 'choice' or 'keypad'
     this.keypadBuffer = '';
     this.isSubmittingAnswer = false;
@@ -89,6 +94,12 @@ class KidsLearnApp {
 
       // Initialize Rust ReadingSession
       this.readingSession = new this.wasm.ReadingSession();
+
+      // Cargar estados de La Gran Aventura y Prácticas de 5 Niveles
+      await adventure.loadState();
+      await mathPractice.loadState();
+      await readingPractice.loadState();
+      this.syncTriadUI();
 
       this.updatePowersBadges();
       this.renderProfileHeader(profile);
@@ -202,12 +213,33 @@ class KidsLearnApp {
       });
     });
 
-    // Intro Navigation buttons
+    // Selectores de nivel de práctica en el Salón Principal
+    document.querySelectorAll('#math-level-chips .level-chip-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        sound.playClick();
+        const lvl = Number(e.currentTarget.dataset.level) || 1;
+        await mathPractice.setLevel(lvl);
+        this.syncTriadUI();
+      });
+    });
+
+    document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        sound.playClick();
+        const lvl = Number(e.currentTarget.dataset.level) || 1;
+        await readingPractice.setLevel(lvl);
+        this.syncTriadUI();
+      });
+    });
+
+    // Intro Navigation buttons (Tríada de Modos)
     const btnStartQuest = document.getElementById('btn-start-quest');
     if (btnStartQuest) {
       btnStartQuest.addEventListener('click', () => {
         sound.playLevelUp();
-        this.switchTab('math');
+        this.gameMode = 'adventure';
+        const advState = adventure.getState();
+        this.switchTab(advState.phase === 'reading' ? 'reading' : 'math');
       });
     }
 
@@ -215,6 +247,12 @@ class KidsLearnApp {
     if (btnIntroMath) {
       btnIntroMath.addEventListener('click', () => {
         sound.playClick();
+        this.gameMode = 'math_practice';
+        const lvlInfo = mathPractice.getCurrentLevelInfo();
+        if (this.mathSession && lvlInfo.curriculumTier) {
+          this.mathSession.advance_tier(lvlInfo.curriculumTier);
+          this.renderMathChallenge();
+        }
         this.switchTab('math');
       });
     }
@@ -223,6 +261,7 @@ class KidsLearnApp {
     if (btnIntroReading) {
       btnIntroReading.addEventListener('click', () => {
         sound.playClick();
+        this.gameMode = 'reading_practice';
         this.switchTab('reading');
       });
     }
@@ -581,7 +620,55 @@ class KidsLearnApp {
       this.stopRsvp();
     }
 
+    // Sincronizar badge de misión según el modo activo
+    const mathBadgeText = document.getElementById('math-mission-badge-text');
+    const readingBadgeText = document.getElementById('reading-mission-badge-text');
+    if (this.gameMode === 'adventure') {
+      const advState = adventure.getState();
+      if (mathBadgeText) mathBadgeText.textContent = `🚀 Aventura • Templo ${advState.currentTemple}`;
+      if (readingBadgeText) readingBadgeText.textContent = `🚀 Aventura • Templo ${advState.currentTemple}`;
+    } else if (this.gameMode === 'math_practice') {
+      const lvlInfo = mathPractice.getCurrentLevelInfo();
+      if (mathBadgeText) mathBadgeText.textContent = `💎 Prisma • Nivel ${lvlInfo.level}`;
+    } else if (this.gameMode === 'reading_practice') {
+      const lvlInfo = readingPractice.getCurrentLevelInfo();
+      if (readingBadgeText) readingBadgeText.textContent = `🪶 Pluma • Nivel ${lvlInfo.level}`;
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  syncTriadUI() {
+    // 1. Templo actual de La Gran Aventura
+    const advState = adventure.getState();
+    const templeDisplay = document.getElementById('adventure-temple-display');
+    if (templeDisplay) {
+      templeDisplay.textContent = `Templo ${advState.currentTemple}: ${advState.templeName}`;
+    }
+
+    // 2. Nivel seleccionado en El Prisma Numérico (Matemáticas)
+    const mathChips = document.querySelectorAll('#math-level-chips .level-chip-btn');
+    mathChips.forEach((btn) => {
+      const lvl = Number(btn.dataset.level);
+      btn.classList.toggle('active', lvl === mathPractice.selectedLevel);
+    });
+    const mathSummary = document.getElementById('math-level-summary');
+    if (mathSummary) {
+      const info = mathPractice.getCurrentLevelInfo();
+      mathSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.shortName}`;
+    }
+
+    // 3. Nivel seleccionado en La Pluma de la Fluidez (Lectura)
+    const readingChips = document.querySelectorAll('#reading-level-chips .level-chip-btn');
+    readingChips.forEach((btn) => {
+      const lvl = Number(btn.dataset.level);
+      btn.classList.toggle('active', lvl === readingPractice.selectedLevel);
+    });
+    const readingSummary = document.getElementById('reading-level-summary');
+    if (readingSummary) {
+      const info = readingPractice.getCurrentLevelInfo();
+      readingSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.shortName}`;
+    }
   }
 
   selectCompanion(id, speak = true) {
