@@ -471,7 +471,7 @@ class StorybookManager {
       this.isSpeaking = true;
       if (btn) {
         btn.classList.add('active');
-        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg> <span>Pausar Narración</span>';
+        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg> <span>Pausar a Orión</span>';
       }
     };
 
@@ -479,7 +479,7 @@ class StorybookManager {
       this.isSpeaking = false;
       if (btn) {
         btn.classList.remove('active');
-        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar Historia</span>';
+        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg> <span>Voz de Orión</span>';
       }
     };
 
@@ -494,7 +494,7 @@ class StorybookManager {
     const btn = document.getElementById('btn-read-aloud');
     if (btn) {
       btn.classList.remove('active');
-      btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar Historia</span>';
+      btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg> <span>Voz de Orión</span>';
     }
   }
 

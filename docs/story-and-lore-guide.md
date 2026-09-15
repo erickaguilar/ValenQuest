@@ -54,23 +54,69 @@ Cuando la sombra cayó sobre el reino, cuatro jóvenes heroínas de cada una de 
 
 ---
 
-## 🌑 3. La Antagonista: La Emperatriz Eclipse
+## 🦉 3. Orión, el Sabio Búho de Lumiria (El Gran Archivista y Narrador)
 
-### 3.1. Motivación y Psicología
+```text
+                  ┌─────────────────────────────────────────┐
+                  │      ORIÓN, EL SABIO BÚHO DE LUMIRIA    │
+                  │   «El Gran Archivista & Mentor Escolar» │
+                  └────────────────────┬────────────────────┘
+                                       │
+        ┌──────────────────────────────┼──────────────────────────────┐
+        ▼                              ▼                              ▼
+  PLUMAJE LAVANDA               GAFAS DE ERUDITO                VOZ NARRADORA
+  (#CDB4DB / #9D4EDD)          Cristal Estelar Dorado          Web Speech API
+   Aura Astral Chibi             Inmune a la Duda              Pedagogía Afectiva
+```
+
+### 3.1. Origen y Arquetipo del Personaje
+En la cúspide de la Gran Biblioteca del *Templo Supremo*, sobre los estantes infinitos donde reposaban las constelaciones en pergaminos, habitaba **Orión**, el búho más anciano y sabio de todo el reino. No es un búho severo ni distante; Orión es un ser pequeño, esponjoso y entrañable, con plumaje lavanda pastel (`#CDB4DB`), penachos violeta profundo (`#9D4EDD`) y enormes ojos dorados llenos de ternura e infinita curiosidad.
+
+Cuando la Emperatriz Eclipse lanzó el *Velo de la Duda*, el destello oscuro nubló la vista de casi todos los sabios. Sin embargo, Orión portaba sus **Gafas de Erudito Doradas**, forjadas con el vidrio pulido de una estrella fugaz. Estas gafas le permitieron ver a través de la niebla de la incertidumbre sin perder la memoria ni la calma.
+
+Al ver el Gran Grimorio romperse en diez fragmentos estelares, Orión comprendió que él solo —con sus patitas pequeñas y alas de pluma suave— no podía escalar los diez templos ni mover las pesadas puertas arcanas. Necesitaba la valentía, el vuelo, las raíces y la magia de las cuatro razas: **el Cuarteto de la Armonía**.
+
+### 3.2. Rol Pedagógico: El Error como Descubrimiento
+El arquetipo de Orión encarna la más pura pedagogía del refuerzo positivo y la psicología del crecimiento:
+* **Paciencia Absoluta:** Orión jamás regaña, resopla ni muestra desilusión si el niño se equivoca al calcular una suma o descifrar una palabra.
+* **Reencuadre del Error:** Si se elige una opción incorrecta, Orión acomoda sus gafas redondas con la punta del ala, parpadea con cariño y dice:  
+  > *«¡Vaya, qué hipótesis tan curiosa! En la ciencia de Lumiria, cada intento fallido es una estrella que nos enseña por dónde no caminar. Acerquemos la lupa a las unidades y descubramos juntos el misterio.»*
+* **La Voz Viva del Reino:** Orión es la manifestación canónica de la **Voz Narradora** de ValenQuest. Cuando el jugador activa el sintetizador de voz (Web Speech API), es la voz pausada, melodiosa y cálida del Maestro Orión la que lee los enunciados, los versos del cuento y las pistas matemáticas.
+
+### 3.3. Dinámica de Orión con el Cuarteto
+* **Con Valen (Alicornio):** Ejerce de tutor real y consejero de cabecera. Le recuerda a la joven líder que gobernar no es saberlo todo de inmediato, sino rodearse de amigos y escuchar con el corazón.
+* **Con Reni (Pegaso):** Es su contrapeso sereno. Cuando Reni quiere volar en picada y responder en medio segundo, Orión despliega un mapa con calma y le enseña a respirar: *«El viento veloz es magnífico, querida Reni, pero incluso las brisas más rápidas miran hacia dónde van.»*
+* **Con Zoe (Poni Terrestre):** Comparten un vínculo profundo y pacífico. Zoe le prepara té de manzanilla silvestre mientras Orión clasifica hojas y semillas según sus proporciones geométricas y vocablos botánicos.
+* **Con Lía (Unicornio):** Son colegas de debate intelectual. Se enzarzan en fascinantes discusiones sobre si los cristales de cuarzo crecen según la sucesión de números triangulares o el compás de las estrellas binarias.
+
+### 3.4. Implementación Visual y Técnica
+1. **Iconografía SVG Vectorial:**
+   * `#vq-icon-owl` (64×64 viewBox): Representación compacta de Orión con sus gafas circulares doradas, penachos violetas y estrella astral, optimizada para botones de acción táctil (`.speak-hint-btn`, `#btn-toggle-speech`, `#btn-read-aloud`).
+   * `#vq-avatar-orion` (100×100 viewBox): Avatar de cuerpo completo con halo cósmico flotante (`.vq-anim-float`), pechera esponjosa y birrete astral para diálogos e introducciones de capítulo.
+2. **Presencia en la Interfaz (UI):**
+   * **Modal de Ajustes Mágicos (`<vq-header>`):** La opción de narración lleva por título **"Voz de Orión"** acompañada de su icono de búho sabio.
+   * **Módulo Matemático:** El botón `#btn-speak-math` invoca al Maestro Orión para recitar las operaciones adaptativas en voz alta con entonación pedagógica.
+   * **Módulo de Lectura y Cuentos:** En el Salón Principal (`#btn-speak-story`) y en El Gran Libro de las Princesas (`#btn-read-aloud`), Orión guía la lectura sílaba por sílaba y capítulo por capítulo.
+
+---
+
+## 🌑 4. La Antagonista: La Emperatriz Eclipse
+
+### 4.1. Motivación y Psicología
 A diferencia de los villanos de crueldad destructiva, la **Emperatriz Eclipse** es un personaje trágico y compasivo. Antaño fue la soberana que velaba por el cielo nocturno y el descanso de los durmientes. Sin embargo, al observar a niños que sufrían por no comprender las matemáticas o por trabarse al leer, fue invadida por un profundo terror:
 > *«¿Y si la luz de la infancia se apaga? ¿Y si la duda y la frustración rompen sus corazones para siempre?»*
 
 Para protegerlos del dolor del fracaso, la Emperatriz tomó una decisión desesperada: lanzó el **Sueño del Olvido**, una niebla densa y violácea conocida como el **Velo de la Duda**. Su plan era congelar a Lumiria en un letargo donde nadie tuviera que esforzarse, equivocarse ni aprender jamás.
 
-### 3.2. La Fragmentación del Grimorio
+### 4.2. La Fragmentación del Grimorio
 El impacto del hechizo fue tan potente que rompió el Gran Grimorio de Cristal en **diez páginas sagradas**, las cuales volaron hacia diez templos antiguos. Los nueve Guardianes de los Templos quedaron sumidos en un sueño sombrío, transformados en estatuas o criaturas melancólicas que repiten enigmas sin recordar quiénes son.
 
-### 3.3. La Redención Final (Nivel 10)
+### 4.3. La Redención Final (Nivel 10)
 En ValenQuest, **el enemigo no es destruido; es comprendido y purificado**. Cuando Valen y sus amigas resuelven el último desafío en el *Trono de las Estrellas*, no usan armas, sino el reflejo del amor, la paciencia y la sabiduría acumulada. La Emperatriz Eclipse despierta de su pesadilla, comprende que los tropiezos son peldaños del crecimiento y se transforma de nuevo en la bella y serena **Soberana de la Noche Estelar**.
 
 ---
 
-## 🌙 4. La Travesía de las Diez Lunas (Estructura en 3 Actos)
+## 🌙 5. La Travesía de las Diez Lunas (Estructura en 3 Actos)
 
 El viaje de aprendizaje recorre diez templos sagrados, divididos en tres grandes arcos dramáticos y curriculares:
 
@@ -107,7 +153,7 @@ El viaje de aprendizaje recorre diez templos sagrados, divididos en tres grandes
 
 ---
 
-## 📚 5. El Gran Libro de las Princesas: Los 8 Capítulos Canónicos
+## 📚 6. El Gran Libro de las Princesas: Los 8 Capítulos Canónicos
 
 Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/com.termux/files/home/develop/ValenQuest/www/story.html)), la historia se condensa en ocho capítulos ilustrados con narración por voz Web Speech API, música de cajita procedural y efectos de espejo mágico en Canvas:
 
@@ -122,10 +168,12 @@ Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/c
 
 ---
 
-## 🔮 6. Glosario Canónico de Términos Mágicos
+## 🔮 7. Glosario Canónico de Términos Mágicos
 
 * **Lumiria:** El reino celestial donde transcurren todas las aventuras.
 * **Gran Grimorio de Cristal:** El libro mágico fundacional que contiene todo el saber matemático y lingüístico.
+* **Orión:** El Gran Archivista y Sabio Búho de Lumiria, narrador canónico y guía pedagógico.
+* **Gafas de Erudito Doradas:** Las lentes mágicas de Orión forjadas con cristal estelar puro, inmunes al Velo de la Duda.
 * **Velo de la Duda:** El encantamiento de niebla que hace creer a los estudiantes que *"no pueden"*.
 * **Prisma Real:** Poder de Valen que descompone un problema en dos caminos verdaderos.
 * **Brisa Temporal:** Poder de Reni que congela la ansiedad y regala tiempo para pensar.
@@ -137,7 +185,7 @@ Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/c
 
 ---
 
-## 🛠️ 7. Directrices para Desarrolladores y Agentes de IA
+## 🛠️ 8. Directrices para Desarrolladores y Agentes de IA
 
 Al extender la narrativa, agregar nuevos niveles o diseñar diálogos:
 1. **Tono Emocional:** Siempre positivo, tierno, estimulante y constructivo. Nunca uses lenguaje punitivo, burlón o desalentador ante el error.

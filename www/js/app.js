@@ -297,16 +297,16 @@ class KidsLearnApp {
     }
 
 
-    // Native Speech Synthesis (TTS) Toggle
+    // Native Speech Synthesis (TTS) Toggle (Voz de Orión)
     const speechBtn = document.getElementById('btn-toggle-speech');
     if (speechBtn) {
       speechBtn.addEventListener('click', () => {
         sound.playClick();
         const isEnabled = speech.toggle();
         speechBtn.classList.toggle('active', isEnabled);
-        speechBtn.title = isEnabled ? 'Voz del narrador activa' : 'Voz del narrador silenciada';
+        speechBtn.title = isEnabled ? 'Voz de Orión activa' : 'Voz de Orión silenciada';
         if (isEnabled) {
-          speech.speak('Voz mágica activada');
+          speech.speak('Voz del Maestro Orión activada');
         }
       });
     }

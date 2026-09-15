@@ -88,17 +88,17 @@ export class VqHeader extends HTMLElement {
             </button>
           </div>
 
-          <!-- Fila: Voz del Narrador (Web Speech API) -->
+          <!-- Fila: Voz de Orión (Web Speech API) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
               <span class="settings-item-label">
-                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-speech"></use></svg>
-                Voz Narradora
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
+                Voz de Orión
               </span>
-              <span class="settings-item-desc">Lectura con voz interactiva en los retos</span>
+              <span class="settings-item-desc">El Sabio Búho de Lumiria lee los retos y cuentos en voz alta</span>
             </div>
-            <button id="btn-toggle-speech" class="icon-btn active" aria-label="Alternar voz del narrador" title="Voz del narrador activa">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg>
+            <button id="btn-toggle-speech" class="icon-btn active" aria-label="Alternar voz de Orión" title="Voz de Orión activa">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
             </button>
           </div>
 

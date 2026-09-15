@@ -38,6 +38,7 @@ docs/
   * **El Reino de Lumiria:** La Era Dorada del saber y el Gran Grimorio de Cristal.
   * **Las 4 Razas:** Alicornios (Liderazgo), Pegasos (Viento y Tiempo), Ponis Terrestres (Tierra y Lenguaje) y Unicornios (Cristal y Magia).
   * **El Cuarteto de la Armonía:** Fichas de personaje de Valen 👑, Reni 🪽, Zoe 🌿 y Lía 🦄.
+  * **Orión, el Sabio Búho:** Gran Archivista de Lumiria, gafas de cristal estelar, rol pedagógico del error y voz narradora oficial (Web Speech API).
   * **La Emperatriz Eclipse:** Motivación trágica (el miedo a que la luz se apague), el *Velo de la Duda* y su purificación final.
   * **La Travesía de las Diez Lunas:** Los 3 Actos narrativos y los 10 Templos Lunares.
   * **El Gran Libro de las Princesas:** Resumen y sinopsis de los 8 capítulos canónicos.
