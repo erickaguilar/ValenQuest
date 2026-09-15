@@ -153,18 +153,18 @@ El viaje de aprendizaje recorre diez templos sagrados, divididos en tres grandes
 
 ---
 
-## 📚 6. El Gran Libro de las Princesas: Los 8 Capítulos Canónicos
+## 📚 6. El Gran Libro de las Princesas: Los 8 Capítulos Canónicos (Bonus Desbloqueables)
 
-Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/com.termux/files/home/develop/ValenQuest/www/story.html)), la historia se condensa en ocho capítulos ilustrados con narración por voz Web Speech API, música de cajita procedural y efectos de espejo mágico en Canvas:
+Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/com.termux/files/home/develop/ValenQuest/www/story.html)), la historia de Lumiria se estructura como **recompensas narrativas coleccionables** que se desbloquean al completar templos e hitos en **La Gran Aventura**. Cada capítulo cuenta con narración con la voz del Maestro Orión (Web Speech API), música de cajita procedural relajante y efectos de espejo mágico en Canvas:
 
-1. **Capítulo I: El Gran Grimorio y las Cuatro Razas:** Establece la civilización de Lumiria y la armonía entre Alicornios, Pegasos, Ponis Terrestres y Unicornios.
-2. **Capítulo II: La Emperatriz Eclipse y el Sueño del Olvido:** Narra la desesperación de la antagonista, la tormenta de sombra y la fragmentación del libro.
-3. **Capítulo III: Valen, la Princesa Astral:** Presenta a la líder y el momento en que su cuerno despierta el resplandor de la primera estrella.
-4. **Capítulo IV: Reni y los Susurros del Viento:** El encuentro en las altas cumbres con la pegaso que enseña a pensar sin prisas.
-5. **Capítulo V: Zoe y el Latido de la Tierra:** La llegada a los valles verdes con la poni terrestre que convierte cada error en abono para crecer.
-6. **Capítulo VI: Lía y la Geometría del Cristal:** El descenso a las cavernas místicas con la unicornio que encuentra el orden en los enigmas.
-7. **Capítulo VII: El Despertar de los Nueve Guardianes:** La marcha triunfal donde los templos vuelven a encenderse uno a uno al son de fanfarrias doradas.
-8. **Capítulo VIII: La Noche que se Volvió Constelación:** El abrazo final con la Emperatriz purificada, el Gran Grimorio restaurado y la fiesta eterna de las estrellas.
+1. **Capítulo I: El Gran Grimorio y las Cuatro Razas:** *(Desbloqueado al inicio)*. Establece la civilización de Lumiria y la armonía entre Alicornios, Pegasos, Ponis Terrestres y Unicornios.
+2. **Capítulo II: La Emperatriz Eclipse y el Sueño del Olvido:** *(Bonus Templo 1)*. Narra la desesperación de la antagonista, la tormenta de sombra y la fragmentación del libro.
+3. **Capítulo III: Valen, la Princesa Astral:** *(Bonus Templo 2)*. Presenta a la líder y el momento en que su cuerno despierta el resplandor de la primera estrella.
+4. **Capítulo IV: Reni y los Susurros del Viento:** *(Bonus Templo 3)*. El encuentro en las altas cumbres con la pegaso que enseña a pensar sin prisas.
+5. **Capítulo V: Zoe y el Latido de la Tierra:** *(Bonus Templo 5)*. La llegada a los valles verdes con la poni terrestre que convierte cada error en abono para crecer.
+6. **Capítulo VI: Lía y la Geometría del Cristal:** *(Bonus Templo 7)*. El descenso a las cavernas místicas con la unicornio que encuentra el orden en los enigmas.
+7. **Capítulo VII: El Despertar de los Nueve Guardianes:** *(Bonus Templo 9)*. La marcha triunfal donde los templos vuelven a encenderse uno a uno al son de fanfarrias doradas.
+8. **Capítulo VIII: La Noche que se Volvió Constelación:** *(Bonus Final Templo 10)*. El abrazo final con la Emperatriz purificada, el Gran Grimorio restaurado y la fiesta eterna de las estrellas.
 
 ---
 

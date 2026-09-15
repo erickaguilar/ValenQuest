@@ -11,7 +11,8 @@ docs/
 ├── index.md                               # Este documento (Directorio principal y guía rápida)
 │
 ├── 📖 NARRATIVA, LORE Y GAME DESIGN
-│   ├── story-and-lore-guide.md            # [NUEVO] Biblia Oficial de Historia, Lore y Mundo de Lumiria
+│   ├── story-and-lore-guide.md            # Biblia Oficial de Historia, Lore y Mundo de Lumiria
+│   ├── game-modes-and-triad-flow-spec.md  # [NUEVO] Tríada de Modos de Juego (Aventura, Prisma, Pluma y Bonus)
 │   ├── ten-moons-progression-spec.md      # Las Diez Lunas de Lumiria, 3 actos, matriz de 10 niveles y portales
 │   └── heroines-and-powers-spec.md        # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
 │
@@ -46,7 +47,17 @@ docs/
 
 ---
 
-### 2. 🌙 [La Leyenda de las Diez Lunas: Progresión Curricular y Portales](./ten-moons-progression-spec.md)
+### 2. 🎮 [Especificación de Modos de Juego y Tríada de Aprendizaje](./game-modes-and-triad-flow-spec.md)
+* **Propósito:** Separación en 3 flujos diferenciados con propósitos claros y fundamentación neuroeducativa.
+* **Contenido Principal:**
+  * **La Gran Aventura (Eje Principal / Campaña):** Flujo intercalado híbrido (*Interleaved Practice* de Rohrer & Taylor) que alterna retos de matemáticas y lectura a través de los 10 templos.
+  * **El Prisma Numérico (Modo Práctica / Arcade Matemático):** Entrenamiento continuo de cálculo mental en 5 niveles de progresión (conteo, sumas/restas sin/con acarreo, tablas y combinadas).
+  * **La Pluma de la Fluidez (Modo Práctica / Taller de Lectura):** Entrenamiento intensivo de conciencia fonológica y lenguaje en 5 niveles de fluidez (silabeo directo, trabadas, oraciones con Orión, RSVP y fábulas).
+  * **Capítulos Bonus del Gran Libro:** Desbloqueo progresivo de los 8 capítulos canónicos como recompensas narrativas coleccionables.
+
+---
+
+### 3. 🌙 [La Leyenda de las Diez Lunas: Progresión Curricular y Portales](./ten-moons-progression-spec.md)
 * **Propósito:** Especificación técnica del motor adaptativo de matemáticas (Rust WASM) integrado con la narrativa.
 * **Contenido Principal:**
   * Estructura en 3 Actos: *El Despertar de los Elementos* (1-3), *Los Secretos de Cristal* (4-7) y *La Purificación del Eclipse* (8-10).
@@ -56,7 +67,7 @@ docs/
 
 ---
 
-### 3. 🦄 [El Cuarteto de la Armonía: Razas, Poderes y Ropero](./heroines-and-powers-spec.md)
+### 4. 🦄 [El Cuarteto de la Armonía: Razas, Poderes y Ropero](./heroines-and-powers-spec.md)
 * **Propósito:** Sistema de gamificación afectiva, poderes cooperativos y economía de estrellas.
 * **Contenido Principal:**
   * Poderes de amistad: *Prisma Real* (Valen), *Brisa Temporal* (Reni), *Escudo de Raíces* (Zoe) y *Foco de Cristal* (Lía).
@@ -67,7 +78,7 @@ docs/
 
 ## ⚙️ Sección II: Arquitectura Técnica y Frontend Modular
 
-### 4. 🧩 [Arquitectura Modular Frontend y Navegación Hub & Spoke](./frontend-modular-architecture-spec.md)
+### 5. 🧩 [Arquitectura Modular Frontend y Navegación Hub & Spoke](./frontend-modular-architecture-spec.md)
 * **Propósito:** Estructuración del código web, componentes y flujo de navegación.
 * **Contenido Principal:**
   * Web Components nativos en Light DOM: `<vq-header>` y `<vq-footer>` con `display: contents`.
@@ -78,7 +89,7 @@ docs/
 
 ---
 
-### 5. 🎨 [Arquitectura CSS Modular, Modo Noche Astral y TTS](./modular-css-darkmode-speech-spec.md)
+### 6. 🎨 [Arquitectura CSS Modular, Modo Noche Astral y TTS](./modular-css-darkmode-speech-spec.md)
 * **Propósito:** Suite modular de estilos Zero-Framework, tema oscuro y síntesis de voz.
 * **Contenido Principal:**
   * Separación en capas: `tokens.css`, `base.css`, `animations.css`, `components.css`, `theme-dark.css`, `wardrobe.css` y `storybook.css`.
@@ -88,7 +99,7 @@ docs/
 
 ---
 
-### 6. 🖌️ [Especificación de Diseño Visual y Estética Chibi](./valenquest-visual-spec.md)
+### 7. 🖌️ [Especificación de Diseño Visual y Estética Chibi](./valenquest-visual-spec.md)
 * **Propósito:** Identidad gráfica, tokens de diseño y biblioteca vectorial.
 * **Contenido Principal:**
   * Filosofía estética neomórfica pastel / chibi inspirada en *My Little Pony* y *Gacha Life*.
@@ -99,7 +110,7 @@ docs/
 
 ## 📱 Sección III: Estándares Móviles y PWA
 
-### 7. 📱 [Estándares Mobile-First y Ergonomía Táctil Infantil](./mobile-standards-spec.md)
+### 8. 📱 [Estándares Mobile-First y Ergonomía Táctil Infantil](./mobile-standards-spec.md)
 * **Propósito:** Optimización para smartphones y tablets en entornos educativos y domésticos.
 * **Contenido Principal:**
   * Zonas de impacto táctil WCAG 2.2 AAA (mínimo 48-60px para dedos infantiles).
@@ -112,7 +123,7 @@ docs/
 
 ## 🚀 Sección IV: Gobernanza, Roadmap y Guía para Agentes
 
-### 8. 🔀 [Estrategia de Ramas GitFlow y Remotos](./gitflow-workflow.md)
+### 9. 🔀 [Estrategia de Ramas GitFlow y Remotos](./gitflow-workflow.md)
 * **Propósito:** Control de versiones, ramas y sincronización de remotos.
 * **Contenido Principal:**
   * Ramas maestras: `main` (despliegue en producción) y `develop` (integración continua).
@@ -121,7 +132,7 @@ docs/
 
 ---
 
-### 9. 🔮 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
+### 10. 🔮 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
 * **Propósito:** Visión de futuro, madurez tecnológica y mitigación de sobrecarga cognitiva.
 * **Contenido Principal:**
   * Portales bifásicos basados en la Teoría de Carga Cognitiva de Sweller (CLT).
