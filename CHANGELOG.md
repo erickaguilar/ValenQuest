@@ -7,6 +7,19 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ---
 
+## [1.1.0] - 2026-09-14
+
+### 🌟 Transición Cósmica de Actos & Continuación de Partida
+- **Celebración y Animación de Conclusión de Actos (`#act-transition-modal`):**
+  - Implementación de la pantalla de transición estelar al purificar el último guardián de cada acto (Acto I: Pegaso Melódico en el Nivel 3).
+  - Efectos visuales de constelación: halo estelar con gradientes cósmicos, rayo de conexión animado (`beamPulse`) y tarjetas de guardianes elementales liberados (🫧 Poni Burbuja, 🦌 Hada Ciervo, 🪽 Pegaso Melódico) con flotación armónica (`cardFloat`).
+  - Crónica del Gran Libro con cita lore canónica y narración automatizada con Web Speech API.
+  - Botón de acción destacado "¡Continuar al Acto II: Caverna de Ámbar! 🦉 🚀" adaptado a interfaces táctiles y de escritorio.
+- **Transición Automática del Motor WASM & Persistencia:**
+  - Resolución del bloqueo al terminar el Acto I: invocación de `mathSession.force_tier(nextTier)` y generación inmediata de nuevos desafíos (`generate_next_challenge()`).
+  - Actualización automática del perfil en IndexedDB (`currentTier` y `mathTier`), cambio fluido a la pestaña de matemáticas y actualización del indicador de templo.
+  - Arquitectura extensible que soporta de forma idéntica las transiciones del Acto II (Nivel 7) y la victoria final de Lumiria en el Acto III (Nivel 10).
+
 ## [1.0.0] - 2026-09-13
 
 ### 🚀 Novedades Principales

@@ -11,9 +11,9 @@ import { speech } from './speech.js';
 import { companions } from './companions.js';
 import { wardrobe } from './wardrobe.js';
 import { pwa } from './pwa.js';
-import { getLevelData, TEN_MOONS_LEVELS } from './levels-data.js';
+import { getLevelData, getActTransitionData, TEN_MOONS_LEVELS } from './levels-data.js';
 
-export const APP_VERSION = '1.0.0';
+export const APP_VERSION = '1.1.0';
 
 class KidsLearnApp {
   constructor() {
@@ -38,6 +38,7 @@ class KidsLearnApp {
     this.isPortalActive = false;
     this.currentPortalLevel = 1;
     this.isSpeakingPortalStory = false;
+    this.pendingNextTier = 4;
   }
 
   async init() {
@@ -51,11 +52,13 @@ class KidsLearnApp {
       this.wasm = await loadWasm();
       const profile = await db.getProfile();
 
-      // Guarantee Level Up and Portal modals are strictly hidden on boot
+      // Guarantee Level Up, Portal, and Act Transition modals are strictly hidden on boot
       const levelModal = document.getElementById('level-up-modal');
       if (levelModal) levelModal.hidden = true;
       const portalModal = document.getElementById('portal-challenge-modal');
       if (portalModal) portalModal.hidden = true;
+      const actModal = document.getElementById('act-transition-modal');
+      if (actModal) actModal.hidden = true;
 
       // Load persisted companion states & initialize wardrobe system
       await companions.loadState();
@@ -426,11 +429,11 @@ class KidsLearnApp {
     // Desafío de Portal Action Buttons
     const btnPortalContinue = document.getElementById('btn-portal-continue');
     if (btnPortalContinue) {
-      btnPortalContinue.addEventListener('click', () => {
+      btnPortalContinue.addEventListener('click', async () => {
         sound.playClick();
         document.getElementById('portal-challenge-modal').hidden = true;
         this.isPortalActive = false;
-        this.renderMathChallenge();
+        await this.advancePastCompletedLevel(this.currentPortalLevel);
       });
     }
 
@@ -445,8 +448,19 @@ class KidsLearnApp {
         }
         document.getElementById('portal-challenge-modal').hidden = true;
         this.isPortalActive = false;
-        this.renderMathChallenge();
-        speech.speak(`¡${lvlData.reward.name} equipado! ¡Continuemos restaurando Lumiria!`);
+        await this.advancePastCompletedLevel(this.currentPortalLevel);
+      });
+    }
+
+    // Gran Transición Cósmica de Conclusión de Actos
+    const btnActContinue = document.getElementById('btn-act-continue');
+    if (btnActContinue) {
+      btnActContinue.addEventListener('click', async () => {
+        sound.playClick();
+        speech.stop();
+        const actModal = document.getElementById('act-transition-modal');
+        if (actModal) actModal.hidden = true;
+        await this.applyTierAdvance(this.pendingNextTier || 4);
       });
     }
 
@@ -998,6 +1012,128 @@ class KidsLearnApp {
       buttonEl.classList.add('incorrect');
       setTimeout(() => buttonEl.classList.remove('incorrect'), 600);
       speech.speak(`Piénsalo bien. Recuerda: ${levelData.portalRiddle.explanation}`);
+    }
+  }
+
+  /**
+   * Evaluates progression after completing a temple portal.
+   * If it completes an Act (Levels 3, 7, 10), triggers the Grand Cosmic Act Transition.
+   * Otherwise advances smoothly to the next temple tier.
+   */
+  async advancePastCompletedLevel(completedLevel) {
+    const levelId = parseInt(completedLevel, 10) || 1;
+    const nextTier = Math.min(10, levelId + 1);
+
+    if (levelId === 3) {
+      // Acto I Concluido -> Transición Cósmica al Acto II (Caverna de Ámbar)
+      this.showActTransition(1, nextTier);
+      return;
+    } else if (levelId === 7) {
+      // Acto II Concluido -> Transición Cósmica al Acto III (Muralla de Nácar)
+      this.showActTransition(2, nextTier);
+      return;
+    } else if (levelId === 10) {
+      // Acto III Concluido -> Gran Victoria Legendaria de Lumiria
+      this.showActTransition(3, 10);
+      return;
+    }
+
+    // Progresión regular entre templos dentro del mismo acto
+    await this.applyTierAdvance(nextTier);
+  }
+
+  /**
+   * Applies tier progression to the WASM engine, profile storage, and UI
+   */
+  async applyTierAdvance(targetTier) {
+    const tierNum = Math.max(1, Math.min(10, parseInt(targetTier, 10) || 1));
+
+    if (this.mathSession) {
+      this.mathSession.force_tier(tierNum);
+      this.mathSession.clear_portal_ready();
+      this.mathSession.generate_next_challenge();
+    }
+
+    await db.updateProfile({ currentTier: tierNum, mathTier: tierNum });
+    this.isPortalActive = false;
+
+    // Switch to math tab and re-render with fresh challenge
+    this.switchTab('math');
+    this.renderMathChallenge();
+
+    // Sound fanfare & celebratory visual particles
+    sound.playSuccess();
+    const sparks = document.createElement('div');
+    sparks.className = 'gold-sparks-overlay';
+    document.body.appendChild(sparks);
+    setTimeout(() => sparks.remove(), 1200);
+
+    const lvlData = getLevelData(tierNum);
+    if (lvlData) {
+      speech.speak(`¡Bienvenidos al templo ${lvlData.name}! ${lvlData.templeTitle}.`);
+      
+      const badge = document.querySelector('.tier-badge');
+      if (badge) {
+        badge.classList.remove('pulse');
+        void badge.offsetWidth;
+        badge.classList.add('pulse');
+      }
+    }
+  }
+
+  /**
+   * Displays the Grand Cosmic Act Transition overlay modal with celebratory animations
+   */
+  showActTransition(actNumber, targetNextTier) {
+    const actData = getActTransitionData(actNumber);
+    this.pendingNextTier = targetNextTier;
+
+    const modal = document.getElementById('act-transition-modal');
+    const pill = document.getElementById('act-transition-pill');
+    const title = document.getElementById('act-transition-title');
+    const subtitle = document.getElementById('act-transition-subtitle');
+    const grid = document.getElementById('act-guardians-grid');
+    const lore = document.getElementById('act-lore-text');
+    const nextTitle = document.getElementById('act-next-title');
+    const btnText = document.getElementById('btn-act-continue-text');
+
+    if (pill) pill.textContent = actData.completedPill;
+    if (title) title.textContent = actData.headline;
+    if (subtitle) subtitle.textContent = actData.tagline;
+    if (lore) lore.textContent = actData.loreQuote;
+    if (nextTitle) {
+      nextTitle.textContent = `${actData.nextActTitle} • ${actData.nextLevelName} ${actData.nextGuardianEmoji}`;
+    }
+    if (btnText) btnText.textContent = actData.buttonText;
+
+    if (grid) {
+      grid.innerHTML = '';
+      actData.guardians.forEach((guardian, idx) => {
+        const card = document.createElement('div');
+        card.className = 'act-guardian-card';
+        card.style.animationDelay = `${idx * 0.4}s`;
+        card.innerHTML = `
+          <div class="act-guardian-emoji" style="text-shadow: 0 0 16px ${guardian.color};">${guardian.emoji}</div>
+          <div class="act-guardian-name">${guardian.name}</div>
+          <div class="act-guardian-temple">${guardian.temple}</div>
+          <div class="act-guardian-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> Purificado</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Audio & celebratory visual particles
+    sound.playLevelUp();
+    const sparks = document.createElement('div');
+    sparks.className = 'gold-sparks-overlay';
+    document.body.appendChild(sparks);
+    setTimeout(() => sparks.remove(), 1600);
+
+    // Speak narration
+    speech.speak(actData.voiceNarration);
+
+    if (modal) {
+      modal.hidden = false;
     }
   }
 

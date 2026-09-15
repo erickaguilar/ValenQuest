@@ -424,3 +424,78 @@ export function getLevelData(levelId) {
   const clamped = Math.max(1, Math.min(10, parseInt(levelId, 10) || 1));
   return TEN_MOONS_LEVELS.find((lvl) => lvl.id === clamped) || TEN_MOONS_LEVELS[0];
 }
+
+/**
+ * Catálogo Narrativo de Conclusión de Actos (Transiciones Cósmicas)
+ */
+export const ACT_TRANSITIONS = {
+  1: {
+    actNumber: 1,
+    actTitle: 'Acto I: El Despertar de los Elementos',
+    completedPill: '¡Acto I Concluido!',
+    headline: '¡El Despertar de los Elementos!',
+    tagline: 'Has liberado los tres templos elementales de Lumiria y sus constelaciones sagradas.',
+    guardians: [
+      { name: 'Poni Burbuja', temple: 'Manantial de Rocío', emoji: '🫧', level: 1, color: '#B8F2E6' },
+      { name: 'Hada Ciervo', temple: 'Bosque Susurrante', emoji: '🦌', level: 2, color: '#FFC8DD' },
+      { name: 'Pegaso Melódico', temple: 'Vértice de Algodón', emoji: '🪽', level: 3, color: '#BDE0FE' }
+    ],
+    loreQuote: '«¡Las tres constelaciones elementales vuelven a brillar en el firmamento de Lumiria! Con el canto del Pegaso Melódico, la niebla se disipa y revela los accesos subterráneos. ¡Es momento de descender hacia el Acto II: Los Secretos Olvidados de Cristal!»',
+    voiceNarration: '¡Felicidades Valen! Hemos completado el Acto I. Las constelaciones elementales están restauradas. ¡Ahora crucemos el portal hacia el Acto II en la Caverna de Ámbar!',
+    nextActNumber: 2,
+    nextActTitle: 'Acto II: Los Secretos Olvidados de Cristal',
+    nextLevelId: 4,
+    nextLevelName: 'Caverna de Ámbar',
+    nextGuardianName: 'Búho de Piedra',
+    nextGuardianEmoji: '🦉',
+    buttonText: '¡Continuar al Acto II: Caverna de Ámbar! 🦉'
+  },
+  2: {
+    actNumber: 2,
+    actTitle: 'Acto II: Los Secretos Olvidados de Cristal',
+    completedPill: '¡Acto II Concluido!',
+    headline: '¡Los Secretos Olvidados de Cristal!',
+    tagline: 'Has rescatado los cuatro templos ancestrales y sus guardianes milenarios.',
+    guardians: [
+      { name: 'Búho de Piedra', temple: 'Caverna de Ámbar', emoji: '🦉', level: 4, color: '#F4A261' },
+      { name: 'León de Espejos', temple: 'Palacio Prisma', emoji: '🦁', level: 5, color: '#E9C46A' },
+      { name: 'Esfinge de Cristal', temple: 'Reloj de las Arenas', emoji: '⏳', level: 6, color: '#9D4EDD' },
+      { name: 'Sirena Dragón', temple: 'Mar de Coral Profundo', emoji: '🧜‍♀️', level: 7, color: '#2A9D8F' }
+    ],
+    loreQuote: '«¡Los cuatro pilares de cristal resplandecen con luz dorada! La sabiduría de los eones ha sido recuperada. Solo queda la gran cima: el Trono de las Estrellas. ¡El Cuarteto de la Armonía asciende al Acto III: La Gran Purificación!»',
+    voiceNarration: '¡Increíble maestría! El Acto II está completado. Todos los templos de cristal están en paz. ¡Ascendamos a la Muralla de Nácar para el Acto III!',
+    nextActNumber: 3,
+    nextActTitle: 'Acto III: La Gran Purificación',
+    nextLevelId: 8,
+    nextLevelName: 'Muralla de Nácar',
+    nextGuardianName: 'Gólem de Cuarzo',
+    nextGuardianEmoji: '🛡️',
+    buttonText: '¡Continuar al Acto III: Muralla de Nácar! 🛡️'
+  },
+  3: {
+    actNumber: 3,
+    actTitle: 'Acto III: La Gran Purificación',
+    completedPill: '¡Soberana Astral de Lumiria!',
+    headline: '¡La Leyenda de Lumiria Restaurada!',
+    tagline: '¡Has purificado a la Emperatriz Eclipse y todas las constelaciones están completas!',
+    guardians: [
+      { name: 'Gólem de Cuarzo', temple: 'Muralla de Nácar', emoji: '🛡️', level: 8, color: '#CDB4DB' },
+      { name: 'Fénix Boreal', temple: 'Cúspide de la Aurora', emoji: '🦅', level: 9, color: '#FFAFCC' },
+      { name: 'Emperatriz Eclipse', temple: 'Trono Supremo', emoji: '👑✨', level: 10, color: '#FFD166' }
+    ],
+    loreQuote: '«¡El Velo de la Duda ha desaparecido para siempre! Valen, Reni, Zoe y Lía han unido a todas las criaturas de Lumiria. Eres la Gran Protectora del Reino de las Estrellas.»',
+    voiceNarration: '¡Victoria total! Has devuelto la luz a todo el reino de Lumiria. ¡Eres una verdadera leyenda de la amistad y el saber!',
+    nextActNumber: 3,
+    nextActTitle: 'Reino de Lumiria',
+    nextLevelId: 1,
+    nextLevelName: 'Manantial de Rocío',
+    nextGuardianName: 'Valen',
+    nextGuardianEmoji: '🦄',
+    buttonText: '¡Celebrar Victoria en Lumiria! 🎉'
+  }
+};
+
+export function getActTransitionData(actNumber) {
+  const num = parseInt(actNumber, 10) || 1;
+  return ACT_TRANSITIONS[num] || ACT_TRANSITIONS[1];
+}
