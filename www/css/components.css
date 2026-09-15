@@ -2675,4 +2675,107 @@
   color: var(--vq-text-muted);
 }
 
+/* ==========================================================================
+   BARRA DE NAVEGACIÓN DE MISIONES (MODO HUB & SPOKE)
+   ========================================================================== */
+.mission-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 8px 14px;
+  box-shadow: var(--vq-shadow-sm);
+  margin-bottom: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.back-to-quest-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.back-to-quest-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-bubble);
+  box-shadow: var(--vq-shadow-active);
+}
+
+.back-to-quest-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.mission-realm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  background: var(--vq-bg-well);
+  padding: 6px 14px;
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+}
+
+.mission-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.mission-switch-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-sky-light);
+  box-shadow: var(--vq-shadow-active);
+}
+
+.mission-switch-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .mission-top-bar {
+    padding: 6px 10px;
+    gap: 6px;
+  }
+  .mission-realm-badge {
+    display: none;
+  }
+  .back-to-quest-btn,
+  .mission-switch-btn {
+    padding: 6px 12px;
+    font-size: 0.82rem;
+  }
+}
+
 

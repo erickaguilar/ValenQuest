@@ -57,6 +57,15 @@ Esto asegura que las etiquetas contenedoras de los Custom Elements no alteren el
   - **Voz Narradora:** Alternador TTS de Web Speech API (`#btn-toggle-speech`).
   - **Instalación PWA:** Botón de instalación en pantalla de inicio (`#btn-install-pwa`), sincronizado dinámicamente según la compatibilidad del navegador.
 
+### 2.4. Navegación por Misiones (Hub & Spoke / Opción B)
+- **Eliminación de pestañas permanentes (`.nav-tabs`):** Se removió la barra fija de pestañas para eliminar saturación cognitiva en la parte superior.
+- **Salón Principal ("El Viaje" como Hub):** La pantalla de inicio presenta la bienvenida a Lumiria, el selector interactivo del Cuarteto de la Armonía y los dos artefactos mágicos como tarjetas de aventura (*El Prisma Numérico* y *La Pluma de la Fluidez*).
+- **Barra de Misión (`.mission-top-bar`):** Al ingresar a Matemáticas o Lectura, la cabecera del reto ofrece:
+  - Botón de retorno: `← Volver al Viaje` (`.back-to-quest-btn`), retornando al Hub.
+  - Insignia de reino (`.mission-realm-badge`): Muestra el artefacto activo.
+  - Salto directo (`.mission-switch-btn`): Permite conmutar rápidamente entre *Matemáticas* y *Lectura*.
+- **Enlace de identidad:** Al tocar la marca del encabezado (`#header-brand-link`), el jugador regresa inmediatamente al Salón Principal.
+
 ---
 
 ## 3. Reorganización Funcional de JavaScript (`www/js/`)

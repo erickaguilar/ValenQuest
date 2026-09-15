@@ -203,7 +203,6 @@ class KidsLearnApp {
     });
 
     // Intro Navigation buttons
-
     const btnStartQuest = document.getElementById('btn-start-quest');
     if (btnStartQuest) {
       btnStartQuest.addEventListener('click', () => {
@@ -225,6 +224,46 @@ class KidsLearnApp {
       btnIntroReading.addEventListener('click', () => {
         sound.playClick();
         this.switchTab('reading');
+      });
+    }
+
+    // Botones de Navegación de Misiones (Hub & Spoke)
+    const btnBackMath = document.getElementById('btn-back-to-journey-math');
+    if (btnBackMath) {
+      btnBackMath.addEventListener('click', () => {
+        this.switchTab('intro');
+      });
+    }
+
+    const btnBackReading = document.getElementById('btn-back-to-journey-reading');
+    if (btnBackReading) {
+      btnBackReading.addEventListener('click', () => {
+        this.switchTab('intro');
+      });
+    }
+
+    const btnGotoReadingFromMath = document.getElementById('btn-goto-reading-from-math');
+    if (btnGotoReadingFromMath) {
+      btnGotoReadingFromMath.addEventListener('click', () => {
+        this.switchTab('reading');
+      });
+    }
+
+    const btnGotoMathFromReading = document.getElementById('btn-goto-math-from-reading');
+    if (btnGotoMathFromReading) {
+      btnGotoMathFromReading.addEventListener('click', () => {
+        this.switchTab('math');
+      });
+    }
+
+    // Clic en la marca del header para regresar a El Viaje
+    const headerBrandLink = document.getElementById('header-brand-link');
+    if (headerBrandLink) {
+      headerBrandLink.addEventListener('click', (e) => {
+        if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || !window.location.pathname.includes('.html')) {
+          e.preventDefault();
+          this.switchTab('intro');
+        }
       });
     }
 
@@ -541,6 +580,8 @@ class KidsLearnApp {
     if (tab === 'reading' && this.rsvpTimer) {
       this.stopRsvp();
     }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   selectCompanion(id, speak = true) {

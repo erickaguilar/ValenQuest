@@ -12,7 +12,7 @@ export class VqHeader extends HTMLElement {
     <header class="app-header" role="banner">
       <!-- Fila Superior: Identidad, Heroína Activa y Contador de Estrellas -->
       <div class="header-main-row">
-        <div class="brand">
+        <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver a El Viaje (Salón Principal)">
           <span class="brand-icon" aria-hidden="true">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
           </span>
@@ -23,7 +23,7 @@ export class VqHeader extends HTMLElement {
               <span id="student-name">Valen</span>
             </div>
           </div>
-        </div>
+        </a>
 
         <!-- Contador de Estrellas y Enlace Único Canónico al Ropero Mágico -->
         <a href="wardrobe.html" id="header-stars-badge" class="stars-counter-badge" title="Tus estrellas de Lumiria — ¡Toca para entrar al Ropero Mágico!" aria-label="Estrellas acumuladas. Toca para entrar al Ropero Mágico" style="text-decoration:none; color:inherit;">

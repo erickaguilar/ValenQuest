@@ -713,29 +713,13 @@
     <!-- =================================================================== -->
     <vq-header></vq-header>
 
-    <!-- Navigation Tabs -->
-    <nav class="nav-tabs" role="tablist" aria-label="Secciones de aprendizaje">
-      <button class="tab-btn active" data-tab="intro" role="tab" aria-selected="true" id="tab-intro">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-journey"></use></svg>
-        <span>El Viaje</span>
-      </button>
-      <button class="tab-btn" data-tab="math" role="tab" aria-selected="false" id="tab-math">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-        <span>Matemáticas</span>
-      </button>
-      <button class="tab-btn" data-tab="reading" role="tab" aria-selected="false" id="tab-reading">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
-        <span>Lectura</span>
-      </button>
-    </nav>
-
     <!-- =================================================================== -->
-    <!-- 2. CONTENIDO PRINCIPAL (MAIN SKELETON: VISTAS EDUCATIVAS)           -->
+    <!-- 2. CONTENIDO PRINCIPAL (MAIN SKELETON: MISIONES Y HUB DE LUMIRIA)   -->
     <!-- =================================================================== -->
     <main id="main-content" class="app-main" role="main">
 
-      <!-- SECTION 0: INTRODUCCIÓN DEL VIAJE (LORE & TRÍO DE HEROÍNAS) -->
-      <section id="intro-section" class="journey-intro-view" role="tabpanel" aria-labelledby="tab-intro">
+      <!-- SECTION 0: INTRODUCCIÓN DEL VIAJE (SALÓN PRINCIPAL & HEROÍNAS) -->
+      <section id="intro-section" class="journey-intro-view" role="region" aria-label="El Salón Principal y Selección de Heroínas">
       <div class="journey-hero-card">
         
         <div class="journey-badge">
@@ -821,6 +805,11 @@
             </div>
           </div>
 
+        </div> <!-- /.quartet-grid -->
+
+        <!-- Título de Selección de Reto / Misión -->
+        <div class="trio-section-title">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Elige tu Misión de Aprendizaje:</span>
         </div>
 
         <!-- Selección de Artefactos de Aprendizaje con animaciones SVG -->
@@ -888,7 +877,22 @@
     <!-- =================================================================== -->
     <!-- SECTION 1: ADAPTIVE MATH (RUST WASM ENGINE)                         -->
     <!-- =================================================================== -->
-    <main id="math-section" role="tabpanel" aria-labelledby="tab-math" hidden>
+    <section id="math-section" class="math-view" role="region" aria-label="Módulo de matemáticas adaptativas" hidden>
+      <!-- Barra Superior de Misión: Volver al Viaje / Acceso a Lectura -->
+      <nav class="mission-top-bar" aria-label="Navegación del templo matemático">
+        <button id="btn-back-to-journey-math" class="back-to-quest-btn" type="button" aria-label="Volver a El Viaje">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>← Volver al Viaje</span>
+        </button>
+        <div class="mission-realm-badge">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
+          <span>El Prisma Numérico</span>
+        </div>
+        <button id="btn-goto-reading-from-math" class="mission-switch-btn" type="button" aria-label="Ir a Lectura" title="Cambiar al módulo de Lectura">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
+          <span>Lectura →</span>
+        </button>
+      </nav>
       <!-- Mastery & Streak Bar -->
       <section class="stats-bar" aria-label="Progreso y maestría">
         <div class="stats-row">
@@ -977,12 +981,27 @@
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar teclado numérico</span>
         </button>
       </section>
-    </main>
+    </section>
 
     <!-- =================================================================== -->
     <!-- SECTION 2: READING FLUENCY & SYLLABLE DECODING                      -->
     <!-- =================================================================== -->
-    <section id="reading-section" class="reading-view" role="tabpanel" aria-labelledby="tab-reading" hidden>
+    <section id="reading-section" class="reading-view" role="region" aria-label="Módulo de fluidez lectora" hidden>
+      <!-- Barra Superior de Misión: Volver al Viaje / Acceso a Matemáticas -->
+      <nav class="mission-top-bar" aria-label="Navegación de lectura mágica">
+        <button id="btn-back-to-journey-reading" class="back-to-quest-btn" type="button" aria-label="Volver a El Viaje">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>← Volver al Viaje</span>
+        </button>
+        <div class="mission-realm-badge">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
+          <span>La Pluma de la Fluidez</span>
+        </div>
+        <button id="btn-goto-math-from-reading" class="mission-switch-btn" type="button" aria-label="Ir a Matemáticas" title="Cambiar al módulo de Matemáticas">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
+          <span>Matemáticas →</span>
+        </button>
+      </nav>
       <!-- Story selector -->
       <div class="story-selector" id="story-selector" role="tablist" aria-label="Cuentos infantiles">
         <!-- Injected via WASM ReadingSession -->
