@@ -103,6 +103,16 @@ docs/
 
 ---
 
+### 8. 🧩 [Arquitectura Modular Frontend y Desacoplamiento de Vistas](./frontend-modular-architecture-spec.md)
+* **Alcance:** Esqueleto semántico de `index.html`, Web Components en Light DOM, organización de `www/js/` por dominios y desacoplamiento del Ropero Mágico a página dedicada preparada para Three.js.
+* **Temas Clave:**
+  * Componentes nativos `<vq-header>` y `<vq-footer>` con `display: contents`.
+  * Reorganización modular en `services/`, `data/`, `components/` y `views/`.
+  * Página dedicada `wardrobe.html` con pasarela responsiva y gancho para animaciones 3D.
+  * Sincronización offline en `sw.js` (PWA).
+
+---
+
 ## 🚀 Arquitectura General del Proyecto
 
 ```text
@@ -112,11 +122,20 @@ ValenQuest/
 │   └── tests/            # Suite de pruebas unitarias e integración de Rust (cargo test)
 ├── www/                  # Frontend Web Local-First (Zero Dependencias Externas)
 │   ├── assets/           # Sprites SVG vectoriales de heroínas e iconos de interfaz
-│   ├── css/              # Suite modular de estilos y diseño adaptable
-│   ├── js/               # Módulos Vanilla ES (Audio, Speech, Storage, Wardrobe, Companions, PWA)
+│   ├── css/              # Suite modular de estilos (tokens, base, animations, components, theme-dark, wardrobe, storybook)
+│   ├── js/               # Módulos Vanilla ES estructurados por dominios
+│   │   ├── app.js        # Orquestador del ciclo de vida de la UI
+│   │   ├── storybook.js  # Controlador del Gran Libro
+│   │   ├── wardrobe-page.js # Controlador de la Boutique y pasarela Three.js
+│   │   ├── components/   # Web Components nativos (header.js, footer.js)
+│   │   ├── views/        # Vistas pedagógicas modulares (en desarrollo)
+│   │   ├── data/         # Progresión curricular y narrativa (levels-data.js)
+│   │   └── services/     # Servicios del sistema (audio, speech, storage, companions, pwa, wasm-loader)
 │   ├── pkg/              # Binarios WebAssembly compilados con wasm-pack
 │   ├── sw.js             # Service Worker para ejecución 100% offline
+│   ├── story.html        # El Gran Libro de las Princesas
+│   ├── wardrobe.html     # Ropero Mágico y Pasarela (preparada para Three.js)
 │   ├── palacio-prisma.html # Prototipo interactivo bifásico del Nivel 5 (Sweller CLT)
-│   └── index.html        # Shell de la aplicación PWA
+│   └── index.html        # Shell y esqueleto semántico de la aplicación
 └── docs/                 # Índice y especificaciones técnicas del proyecto
 ```

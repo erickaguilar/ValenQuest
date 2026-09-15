@@ -4,14 +4,17 @@
  * All logic, validation, mastery EMA, and syllabification reside in WebAssembly.
  */
 
-import { loadWasm } from './wasm-loader.js';
-import { sound } from './audio.js';
-import { db } from './storage.js';
-import { speech } from './speech.js';
-import { companions } from './companions.js';
-import { wardrobe } from './wardrobe.js';
-import { pwa } from './pwa.js';
-import { getLevelData, getActTransitionData, TEN_MOONS_LEVELS } from './levels-data.js';
+import { loadWasm } from './services/wasm-loader.js';
+import { sound } from './services/audio.js';
+import { db } from './services/storage.js';
+import { speech } from './services/speech.js';
+import { companions } from './services/companions.js';
+import { pwa } from './services/pwa.js';
+import { getLevelData, getActTransitionData, TEN_MOONS_LEVELS } from './data/levels-data.js';
+
+// Web Components modulares de UI (Header y Footer)
+import './components/header.js';
+import './components/footer.js';
 
 export const APP_VERSION = '1.1.0';
 
@@ -60,9 +63,8 @@ class KidsLearnApp {
       const actModal = document.getElementById('act-transition-modal');
       if (actModal) actModal.hidden = true;
 
-      // Load persisted companion states & initialize wardrobe system
+      // Load persisted companion states
       await companions.loadState();
-      wardrobe.init();
 
       // Hook speech synthesis speaking state to visual indicator
       speech.onSpeakingChange((speaking) => {
@@ -1168,10 +1170,6 @@ class KidsLearnApp {
         void badge.offsetWidth; // Force reflow to restart CSS keyframe
         badge.classList.add('star-updated');
       }
-    }
-    const wardrobeBalance = document.getElementById('wardrobe-star-balance');
-    if (wardrobeBalance) {
-      wardrobeBalance.textContent = stars;
     }
   }
 

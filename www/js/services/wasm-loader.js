@@ -18,7 +18,7 @@ export async function loadWasm() {
   initPromise = (async () => {
     try {
       // Dynamic import of the wasm-pack generated ES module
-      const module = await import('../pkg/kidslearn_wasm.js');
+      const module = await import('../../pkg/kidslearn_wasm.js');
       // Initialize WebAssembly memory instance
       await module.default();
       wasmModule = module;

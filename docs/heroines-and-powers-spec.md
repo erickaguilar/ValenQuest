@@ -129,16 +129,18 @@ El sistema se organiza en módulos ES6 desacoplados:
 
 ```text
 www/js/
-├── companions.js   # Definición de las 4 heroínas, gestión de cargas y ejecución de poderes
-├── wardrobe.js     # Gestor del Ropero Mágico, catálogo de cosméticos y canje por estrellas
-├── speech.js       # Configuración de prosodia infantil y síntesis Web Speech API
-├── audio.js        # Sintetizador procedural Web Audio API (cero MP3s externos)
-├── storage.js      # Persistencia transaccional IndexedDB (perfil, cosméticos, cargas)
-├── wasm-loader.js  # Carga resiliente del binario compilado de Rust WebAssembly
-└── app.js          # Orquestador del ciclo de vida del DOM y eventos de interacción
+├── app.js               # Orquestador del ciclo de vida del DOM y eventos de interacción
+├── wardrobe-page.js     # Gestor del Ropero Mágico y pasarela Three.js (wardrobe.html)
+└── services/
+    ├── companions.js    # Definición de las 4 heroínas, gestión de cargas y ejecución de poderes
+    ├── speech.js        # Configuración de prosodia infantil y síntesis Web Speech API
+    ├── audio.js         # Sintetizador procedural Web Audio API (cero MP3s externos)
+    ├── storage.js       # Persistencia transaccional IndexedDB (perfil, cosméticos, cargas)
+    ├── wasm-loader.js   # Carga resiliente del binario compilado de Rust WebAssembly
+    └── pwa.js           # Gestor de instalación PWA y eventos offline
 ```
 
-### 4.1. Módulo `companions.js`
+### 4.1. Módulo `services/companions.js`
 Expone la instancia singleton `companions`, que emite eventos de cambio (`onChange`) para actualizar los contadores (`#badge-valen`, `#badge-reni`, `#badge-zoe`, `#badge-lia`) sin necesidad de acoplamiento rígido con el renderizador de retos.
 
 ---

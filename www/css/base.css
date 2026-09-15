@@ -97,6 +97,13 @@ body {
   flex: 1;
 }
 
+/* Integración modular de Web Components & Contenedor Semántico Main */
+vq-header,
+vq-footer,
+.app-main {
+  display: contents;
+}
+
 /* Mobile Touch Ergonomics: Zero 300ms tap delay & no double-tap zoom */
 button,
 [role="button"],

@@ -1,0 +1,321 @@
+/**
+ * ValenQuest: Ropero Mágico y Boutique de Lumiria
+ * Hoja de estilos dedicada para la página del probador (wardrobe.html).
+ * Preparada para integración de Three.js y layout responsive a pantalla completa.
+ */
+
+/* ==========================================================================
+   1. CONTENEDOR PRINCIPAL
+   ========================================================================== */
+.wardrobe-app {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-bottom: max(32px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   2. BARRA SUPERIOR DE NAVEGACIÓN
+   ========================================================================== */
+.wardrobe-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 10px 16px;
+  box-shadow: var(--vq-shadow-hard);
+  flex-wrap: wrap;
+}
+
+.back-to-quest-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.back-to-quest-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-bubble);
+  box-shadow: var(--vq-shadow-active);
+}
+
+.wardrobe-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.05);
+}
+
+.wardrobe-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wardrobe-stars-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-gold-light, #FFF0C2);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+/* ==========================================================================
+   3. LAYOUT PRINCIPAL DEL ROPERO (BIFÁSICO / MULTI-COLUMNA)
+   ========================================================================== */
+.wardrobe-main-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+@media (min-width: 820px) {
+  .wardrobe-main-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+}
+
+/* ==========================================================================
+   4. COLUMNA IZQUIERDA: ESCENARIO, PASARELA & PREVIEW
+   ========================================================================== */
+.wardrobe-stage-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wardrobe-heroine-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.wardrobe-stage-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 20px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wardrobe-stage-environment {
+  width: 100%;
+  min-height: 220px;
+  background: radial-gradient(circle at 50% 40%, var(--vq-lavender-light, #F0E6F6) 0%, var(--vq-bg-well) 70%);
+  border: 2px dashed var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Contenedor preparado para Three.js Canvas */
+.threejs-stage-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+.threejs-stage-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Avatar 2D SVG ampliado para mayor impacto visual */
+.wardrobe-avatar-box {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--vq-bg-card);
+  border: 3.5px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+  position: relative;
+  z-index: 3;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wardrobe-avatar-box:hover {
+  transform: scale(1.05);
+}
+
+.wardrobe-preview-svg {
+  width: 120px;
+  height: 120px;
+}
+
+.stage-astral-glow {
+  position: absolute;
+  bottom: 10px;
+  width: 120px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, var(--vq-gold) 0%, transparent 70%);
+  opacity: 0.6;
+  z-index: 1;
+}
+
+.stage-info-bar {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.wardrobe-preview-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.wardrobe-preview-quote {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--vq-text-muted);
+  line-height: 1.35;
+  font-style: italic;
+  max-width: 320px;
+  margin: 0;
+}
+
+.speak-hint-btn {
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   5. COLUMNA DERECHA: CATÁLOGO DE COSMÉTICOS Y FILTROS
+   ========================================================================== */
+.wardrobe-catalog-column {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 20px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.catalog-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 2px dashed var(--vq-border);
+  padding-bottom: 14px;
+}
+
+.catalog-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.catalog-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.catalog-subtitle {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--vq-text-muted);
+  margin: 0;
+}
+
+/* Filtros por Categoría (Chips) */
+.wardrobe-category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-chip {
+  padding: 6px 14px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.category-chip:hover {
+  background: var(--vq-sky-light);
+  transform: translateY(-1px);
+}
+
+.category-chip.active {
+  background: var(--vq-pink-bubble);
+  border-color: var(--vq-border);
+  box-shadow: var(--vq-shadow-active);
+  font-weight: 900;
+}
+
+/* Grid de Tarjetas de Cosméticos */
+.wardrobe-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+  width: 100%;
+}

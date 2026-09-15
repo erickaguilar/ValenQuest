@@ -78,16 +78,20 @@ kidslearn-wasm/
 ├── tests/
 │   └── math_tests.rs        # Suite de pruebas de integración Cargo
 ├── www/
-│   ├── index.html           # Shell accesible de la aplicación
+│   ├── index.html           # Shell accesible de la aplicación (esqueleto modular)
+│   ├── story.html           # El Gran Libro de las Princesas (Fairytale Storybook)
+│   ├── manifest.json        # Manifiesto PWA
+│   ├── sw.js                # Service Worker offline-first
 │   ├── pkg/                 # Artefactos compilados por wasm-pack (WASM + JS glue)
-│   ├── css/
-│   │   ├── main.css         # Layout fluido, temas y variables nativas
-│   │   └── components.css   # Tarjetas táctiles, teclado virtual y feedback
+│   ├── assets/              # Iconografía SVG, sprites de heroínas y avatares
+│   ├── css/                 # Suite CSS modular (tokens, base, animations, components, theme-dark)
 │   └── js/
 │       ├── app.js           # Orquestador del ciclo de vida de la UI
-│       ├── wasm-loader.js   # Carga y fallback de módulos WebAssembly
-│       ├── storage.js       # Wrapper minimalista para IndexedDB
-│       └── audio.js         # Sintetizador procedural con Web Audio API
+│       ├── storybook.js     # Controlador del libro de cuentos interactivo
+│       ├── components/      # Web Components nativos (header, footer)
+│       ├── views/           # Vistas pedagógicas modulares (intro, math, reading)
+│       ├── data/            # Progresión curricular y narrativa (levels-data.js)
+│       └── services/        # Servicios del sistema (audio, speech, storage, pwa, companions, wardrobe, wasm-loader)
 ├── scripts/
 │   └── build.sh             # Script de compilación y verificación automática
 └── README.md
