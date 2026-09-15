@@ -559,19 +559,30 @@
   text-align: center;
 }
 
-.journey-badge {
-  background: var(--vq-pink-bubble);
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 6px 20px;
-  font-weight: 800;
-  font-size: 0.95rem;
-  color: var(--vq-text);
-  box-shadow: var(--vq-shadow-sm);
+.journey-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vq-purple-astral);
+  margin-bottom: 2px;
+}
+
+.journey-eyebrow-sparkle {
+  font-size: 1.05rem;
+  display: inline-block;
+  animation: vq-sparkle 2.5s ease-in-out infinite;
 }
 
 .journey-title {
-  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-size: clamp(1.8rem, 6vw, 2.5rem);
   font-weight: 900;
   color: var(--vq-text);
   margin-top: -6px;
@@ -580,6 +591,7 @@
 
 .journey-title span {
   color: var(--vq-pink-bubble);
+  text-shadow: 0 2px 0 rgba(0,0,0,0.05);
 }
 
 .gacha-dialogue {
@@ -606,6 +618,85 @@
   border-color: var(--vq-border) transparent;
   display: block;
   width: 0;
+}
+
+/* Cabecera del hablante en el diálogo Gacha */
+.gacha-speaker-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px dashed var(--vq-border);
+}
+
+.gacha-speaker-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--vq-radius-circle);
+  background: var(--vq-pink-light);
+  border: 2px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--vq-shadow-sm);
+  flex-shrink: 0;
+}
+
+.gacha-speaker-avatar svg {
+  width: 38px;
+  height: 38px;
+}
+
+.gacha-speaker-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gacha-speaker-name {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  line-height: 1.2;
+}
+
+.gacha-speaker-role {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+}
+
+.gacha-dialogue-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.gacha-story-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  text-decoration: none;
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+  padding: 6px 14px;
+  border-radius: var(--vq-radius-pill);
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gacha-story-link:hover {
+  background: var(--vq-lavender);
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-active);
 }
 
 .avatar-character {

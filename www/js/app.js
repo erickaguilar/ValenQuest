@@ -317,7 +317,7 @@ class KidsLearnApp {
       btnSpeakIntro.addEventListener('click', () => {
         sound.playClick();
         const text =
-          '¡Las páginas doradas de El Gran Libro de Lumiria han despertado! El Velo de la Duda de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el Cuarteto de la Armonía y el poder de la amistad, resolveremos cada enigma para encender todas las constelaciones. ¡Abre el Gran Libro para revivir la leyenda o inicia tu aventura!';
+          '¡Las constelaciones de Lumiria nos llaman! El Velo de la Duda de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el Cuarteto de la Armonía y el poder de la amistad, resolveremos cada enigma para encender todas las estrellas. ¡Elige a tu compañera y comencemos la misión!';
         speech.speakDialogue(text);
       });
     }
@@ -610,6 +610,21 @@ class KidsLearnApp {
       if (name) {
         name.textContent = hero.name;
         name.title = `${hero.name} (${hero.title})`;
+      }
+
+      // Sincronizar cabecera del diálogo de bienvenida en el Salón Principal
+      const speakerAvatar = document.getElementById('gacha-speaker-avatar');
+      const speakerName = document.getElementById('gacha-speaker-name');
+      const speakerRole = document.getElementById('gacha-speaker-role');
+      if (speakerAvatar) {
+        speakerAvatar.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-${hero.id}"></use></svg>`;
+      }
+      if (speakerName) {
+        speakerName.textContent = hero.id === 'valen' ? 'Princesa Valen' : hero.name;
+      }
+      if (speakerRole) {
+        const raceName = hero.id === 'valen' ? 'Alicornio' : (hero.id === 'reni' ? 'Pegaso' : (hero.id === 'zoe' ? 'Poni Terrestre' : 'Unicornio'));
+        speakerRole.textContent = `${raceName} • ${hero.title}`;
       }
     }
   }

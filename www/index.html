@@ -722,23 +722,41 @@
       <section id="intro-section" class="journey-intro-view" role="region" aria-label="El Salón Principal y Selección de Heroínas">
       <div class="journey-hero-card">
         
-        <div class="journey-badge">
-          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>El Gran Libro de Lumiria</span>
+        <!-- Rótulo Mágico Ornamental / Eyebrow (Sin affordance de botón) -->
+        <div class="journey-eyebrow" role="note" aria-label="Ubicación: Salón de la Armonía en el Reino de Lumiria">
+          <span class="journey-eyebrow-sparkle" aria-hidden="true">✨</span>
+          <span>Reino de Lumiria • Salón de la Armonía</span>
+          <span class="journey-eyebrow-sparkle" aria-hidden="true">✨</span>
         </div>
 
         <h2 class="journey-title">
-          ¡Bienvenida al <span>Gran Libro de Lumiria</span>!
+          ¡Bienvenida a tu Aventura en <span>Lumiria</span>!
         </h2>
 
-        <!-- Diálogo Chibi estilo Gacha Life con botón de TTS -->
+        <!-- Diálogo Chibi estilo Gacha Life con avatar de la heroína y controles -->
         <div class="gacha-dialogue" id="intro-dialogue-bubble">
+          <!-- Cabecera del Hablante Dinámico -->
+          <div class="gacha-speaker-header">
+            <div class="gacha-speaker-avatar" id="gacha-speaker-avatar" aria-hidden="true">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
+            </div>
+            <div class="gacha-speaker-meta">
+              <strong class="gacha-speaker-name" id="gacha-speaker-name">Princesa Valen</strong>
+              <span class="gacha-speaker-role" id="gacha-speaker-role">Alicornio • Líder de Lumiria</span>
+            </div>
+          </div>
+
           <p id="intro-dialogue-text">
-            «¡Las páginas doradas de <strong>El Gran Libro de Lumiria</strong> han despertado! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las constelaciones. ¡Abre el Gran Libro para revivir la leyenda o inicia tu aventura!»
+            «¡Las constelaciones de <strong>Lumiria</strong> nos llaman! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las estrellas. ¡Elige a tu compañera y comencemos la misión!»
           </p>
-          <div style="margin-top: 10px;">
+
+          <div class="gacha-dialogue-actions">
             <button id="btn-speak-intro" class="speak-hint-btn" type="button" aria-label="Escuchar mensaje de Valen">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar mensaje de Valen</span>
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar mensaje</span>
             </button>
+            <a href="story.html" class="gacha-story-link" title="Leer la leyenda completa en El Gran Libro de las Princesas">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> <span>El Gran Libro →</span>
+            </a>
           </div>
         </div>
 

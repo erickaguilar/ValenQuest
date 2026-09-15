@@ -1,141 +1,147 @@
-# ValenQuest: Índice Maestro de Documentación Técnica
+# ValenQuest: Índice Maestro de Documentación Técnica y Narrativa
 
-Bienvenido al repositorio central de documentación de **ValenQuest (KidsLearn-WASM)**. Aquí encontrarás las especificaciones arquitectónicas, guías de diseño pedagógico, estándares móviles y directrices de ingeniería que rigen el desarrollo de la plataforma.
+Bienvenido al repositorio central de documentación de **ValenQuest (KidsLearn-WASM)**. Este índice organiza las especificaciones narrativas, arquitectónicas, pedagógicas y de ingeniería del proyecto para consulta ágil de desarrolladores humanos y agentes de inteligencia artificial.
 
 ---
 
-## 🗺️ Mapa de Documentación
+## 🗺️ Mapa General de Documentación
 
 ```text
 docs/
-├── index.md                               # Este documento (Directorio principal)
-├── ten-moons-progression-spec.md          # Las Diez Lunas de Lumiria, 3 actos, matriz de 10 niveles y portales
-├── mobile-standards-spec.md               # Estándares Mobile-First, ergonomía táctil infantil y PWA
-├── heroines-and-powers-spec.md            # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
-├── modular-css-darkmode-speech-spec.md    # CSS modular, modo noche astral y síntesis de voz
-├── valenquest-visual-spec.md              # Sistema visual de diseño, tokens, paleta y estética chibi
-├── gitflow-workflow.md                    # Flujo de trabajo GitFlow, ramas y remotos duales
-└── opportunities-and-roadmap-spec.md      # Oportunidades, sugerencias y hoja de ruta de evolución técnica
+├── index.md                               # Este documento (Directorio principal y guía rápida)
+│
+├── 📖 NARRATIVA, LORE Y GAME DESIGN
+│   ├── story-and-lore-guide.md            # [NUEVO] Biblia Oficial de Historia, Lore y Mundo de Lumiria
+│   ├── ten-moons-progression-spec.md      # Las Diez Lunas de Lumiria, 3 actos, matriz de 10 niveles y portales
+│   └── heroines-and-powers-spec.md        # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
+│
+├── ⚙️ ARQUITECTURA TÉCNICA Y MOTORES
+│   ├── frontend-modular-architecture-spec.md # Arquitectura modular frontend, Web Components y Hub & Spoke
+│   ├── modular-css-darkmode-speech-spec.md    # CSS modular en 5 capas, noche astral y síntesis de voz (TTS)
+│   └── valenquest-visual-spec.md              # Sistema visual de diseño, tokens, paleta y estética chibi
+│
+├── 📱 ESTÁNDARES MÓVILES Y PWA
+│   └── mobile-standards-spec.md               # Estándares Mobile-First, ergonomía táctil infantil y PWA offline
+│
+└── 🚀 GOBERNANZA, ROADMAP Y DESARROLLO
+    ├── gitflow-workflow.md                    # Flujo de trabajo GitFlow, ramas y remotos duales (GitHub + GitLab)
+    └── opportunities-and-roadmap-spec.md      # Oportunidades de madurez, CLT Sweller y hoja de ruta técnica
 ```
 
 ---
 
-## 📚 Módulos y Especificaciones
+## 📖 Sección I: Narrativa, Lore y Diseño de Juego
 
-### 1. 🌙 [La Leyenda de las Diez Lunas de Lumiria: Progresión Curricular y Portales](./ten-moons-progression-spec.md)
-* **Alcance:** Estructura narrativa en 3 actos, matriz curricular de 10 niveles y mecánica de fin de nivel (Desafíos de Portal).
-* **Temas Clave:**
-  * Narrativa de la Gran Crónica: El Rescate del Grimorio de Cristal contra la Emperatriz Eclipse.
-  * Los 3 Actos: *El Despertar de los Elementos* (1-3), *Los Secretos de Cristal* (4-7) y *La Purificación del Eclipse* (8-10).
-  * Matriz dual de 10 niveles: retos matemáticos procedurales (Rust WASM) + comprensión lectora (español).
-  * Los 10 Guardianes Astrales y sus 10 desbloqueos coleccionables en el Ropero de IndexedDB.
-  * Mecánica del Desafío de Portal al 100% de maestría: Micro-cuento con TTS interactivo, acertijo lógico-matemático integrado y purificación pastel con chispas doradas.
-
----
-
-### 2. 📱 [Estándares Mobile-First y Ergonomía Táctil Infantil](./mobile-standards-spec.md)
-* **Alcance:** Optimización para smartphones y tabletas (iOS Safari / Android Chrome).
-* **Temas Clave:**
-  * Ergonomía táctil para niñas y niños de 5 a 9 años (zonas de impacto WCAG 2.2 AAA de 48-60px).
-  * Soporte completo de **Safe Areas** (`viewport-fit=cover`, `env(safe-area-inset-*)`).
-  * Unidades de viewport dinámicas (`100dvh` para evitar el bug de la barra de direcciones en Safari).
-  * Eliminación del retraso de 300 ms (`touch-action: manipulation`) y prevención de "sticky hover".
-  * Desbloqueo preventivo de Web Audio API y Web Speech API ante el primer gesto táctil.
-  * Contención de overscroll y prevención de pull-to-refresh accidental.
+### 1. 🌟 [Biblia Oficial de Historia, Lore y Mundo de Lumiria](./story-and-lore-guide.md)
+* **Propósito:** Documento canónico definitivo de la mitología, personajes, antagonista y trama del juego.
+* **Contenido Principal:**
+  * **El Reino de Lumiria:** La Era Dorada del saber y el Gran Grimorio de Cristal.
+  * **Las 4 Razas:** Alicornios (Liderazgo), Pegasos (Viento y Tiempo), Ponis Terrestres (Tierra y Lenguaje) y Unicornios (Cristal y Magia).
+  * **El Cuarteto de la Armonía:** Fichas de personaje de Valen 👑, Reni 🪽, Zoe 🌿 y Lía 🦄.
+  * **La Emperatriz Eclipse:** Motivación trágica (el miedo a que la luz se apague), el *Velo de la Duda* y su purificación final.
+  * **La Travesía de las Diez Lunas:** Los 3 Actos narrativos y los 10 Templos Lunares.
+  * **El Gran Libro de las Princesas:** Resumen y sinopsis de los 8 capítulos canónicos.
+  * **Glosario Mágico y Directrices Narrativas:** Pautas de redacción para mantener el tono positivo y pedagógico.
 
 ---
 
-### 3. 🌟 [El Cuarteto de la Armonía: Las 4 Razas de Lumiria, Poderes y Ropero](./heroines-and-powers-spec.md)
-* **Alcance:** Gamificación afectiva, 4 razas canónicas (MLP), andamiaje pedagógico y economía de estrellas.
-* **Temas Clave:**
-  * Las 4 razas de Lumiria: **Valen** 👑 (Alicornio Líder), **Reni** 🪽 (Pegaso), **Zoe** 🌿 (Poni Terrestre) y **Lía** 🦄 (Unicornio).
-  * Mecánicas de amistad:
-    * *Prisma Real* (Valen: descarte de 2 opciones + $2\times$ estrellas).
-    * *Brisa Temporal* (Reni: pausa de latencia con $P = 1.0$).
-    * *Escudo de Raíces* (Zoe: protección de racha ante error + guía TTS).
-    * *Foco de Cristal* (Lía: resalta la pista clave del reto).
-  * Retardo intencional de poderes (**Gating Cognitivo de 1.8s**).
-  * Persistencia transaccional en `IndexedDB` (`valenquest_db` v4) con sembrado atómico y migración de razas.
-  * Ropero Mágico con 4 heroínas y cosméticos exclusivos de Alicornio (`tiara-solsticio`, `cetro-cometa`, `alas-majestuosas`).
+### 2. 🌙 [La Leyenda de las Diez Lunas: Progresión Curricular y Portales](./ten-moons-progression-spec.md)
+* **Propósito:** Especificación técnica del motor adaptativo de matemáticas (Rust WASM) integrado con la narrativa.
+* **Contenido Principal:**
+  * Estructura en 3 Actos: *El Despertar de los Elementos* (1-3), *Los Secretos de Cristal* (4-7) y *La Purificación del Eclipse* (8-10).
+  * Matriz curricular dual: operaciones aritméticas progresivas y habilidades de comprensión lectora.
+  * Los 10 Guardianes Astrales y sus 10 recompensas cosméticas registradas en IndexedDB.
+  * Mecánica del Desafío de Portal al alcanzar el 100% de maestría adaptativa ($M_k \ge 0.95$ por EMA).
 
 ---
 
-### 4. 🎨 [Arquitectura CSS Modular, Modo Noche Astral y TTS](./modular-css-darkmode-speech-spec.md)
-* **Alcance:** Estructura de estilos Zero-Framework y accesibilidad auditiva.
-* **Temas Clave:**
-  * Separación en cinco capas (`tokens.css`, `base.css`, `animations.css`, `components.css`, `theme-dark.css`).
-  * Matriz de contrastes y paletas Día Pastel vs. Noche Astral.
-  * Prevención de FOUC (Flash of Unstyled Content) con script síncrono ultra-rápido.
-  * Síntesis de voz nativa (`SpeechSynthesis API`) con cadencia adaptada para lectura infantil.
+### 3. 🦄 [El Cuarteto de la Armonía: Razas, Poderes y Ropero](./heroines-and-powers-spec.md)
+* **Propósito:** Sistema de gamificación afectiva, poderes cooperativos y economía de estrellas.
+* **Contenido Principal:**
+  * Poderes de amistad: *Prisma Real* (Valen), *Brisa Temporal* (Reni), *Escudo de Raíces* (Zoe) y *Foco de Cristal* (Lía).
+  * Gating cognitivo intencional de 1.8 segundos antes de sugerir ayudas.
+  * Persistencia en `IndexedDB` (`valenquest_db` v4) y catálogo de atuendos del Ropero Mágico.
 
 ---
 
-### 5. 🦄 [Especificación de Diseño Visual y Estética Chibi](./valenquest-visual-spec.md)
-* **Alcance:** Identidad de marca, tokens semánticos, iconografía SVG y tipografía.
-* **Temas Clave:**
-  * Filosofía de diseño inspirada en *My Little Pony*, *Gacha Life* y libros de cuentos infantiles.
-  * Definición exhaustiva de tokens CSS (`--vq-pink-bubble`, `--vq-gold`, `--vq-mint`, `--vq-border`).
-  * Anatomía de avatares vectoriales SVG con animaciones en keyframes a 60 FPS.
-  * Tipografías amigables y legibles para dislexia (`Fredoka`, `Quicksand`).
+## ⚙️ Sección II: Arquitectura Técnica y Frontend Modular
+
+### 4. 🧩 [Arquitectura Modular Frontend y Navegación Hub & Spoke](./frontend-modular-architecture-spec.md)
+* **Propósito:** Estructuración del código web, componentes y flujo de navegación.
+* **Contenido Principal:**
+  * Web Components nativos en Light DOM: `<vq-header>` y `<vq-footer>` con `display: contents`.
+  * Organización modular de `www/js/`: `services/`, `data/`, `components/` y `views/`.
+  * Desacoplamiento del Ropero Mágico a página dedicada (`wardrobe.html`) con gancho preparado para animaciones 3D con Three.js (`initThreeJsStage()`).
+  * Navegación por Misiones (Hub & Spoke): Salón Principal como centro neurálgico y barras de misión con botón `← Volver al Viaje`.
+  * Modal de Ajustes Mágicos (`#settings-modal`) encapsulado dentro de `<vq-header>`.
 
 ---
 
-### 6. 🔀 [Estrategia de Ramas GitFlow y Remotos](./gitflow-workflow.md)
-* **Alcance:** Gestión de versiones, despliegue continuo y control de código.
-* **Temas Clave:**
-  * Estructura de ramas: `main` (producción Vercel) y `develop` (desarrollo activo).
-  * Estrategia de remotos duales simultáneos:
-    * `origin`: [GitHub Repository](https://github.com/erickaguilar/ValenQuest.git)
-    * `gitlab`: [GitLab Repository](https://gitlab.com/erick.aguilar/ValenQuest.git)
-    * `all`: Remote consolidado para empuje dual sincronizado (`git push all <rama>`).
+### 5. 🎨 [Arquitectura CSS Modular, Modo Noche Astral y TTS](./modular-css-darkmode-speech-spec.md)
+* **Propósito:** Suite modular de estilos Zero-Framework, tema oscuro y síntesis de voz.
+* **Contenido Principal:**
+  * Separación en capas: `tokens.css`, `base.css`, `animations.css`, `components.css`, `theme-dark.css`, `wardrobe.css` y `storybook.css`.
+  * Tokens semánticos de modo día pastel vs. noche astral.
+  * Prevención de FOUC mediante script de cabecera síncrono.
+  * Configuración del motor Web Speech API (TTS) adaptado para cadencia infantil en español.
+
+---
+
+### 6. 🖌️ [Especificación de Diseño Visual y Estética Chibi](./valenquest-visual-spec.md)
+* **Propósito:** Identidad gráfica, tokens de diseño y biblioteca vectorial.
+* **Contenido Principal:**
+  * Filosofía estética neomórfica pastel / chibi inspirada en *My Little Pony* y *Gacha Life*.
+  * Biblioteca SVG vectorial pura sin dependencias externas (`heroines.svg`, `icons.svg`).
+  * Directrices tipográficas accesibles para educación primaria y dislexia.
+
+---
+
+## 📱 Sección III: Estándares Móviles y PWA
+
+### 7. 📱 [Estándares Mobile-First y Ergonomía Táctil Infantil](./mobile-standards-spec.md)
+* **Propósito:** Optimización para smartphones y tablets en entornos educativos y domésticos.
+* **Contenido Principal:**
+  * Zonas de impacto táctil WCAG 2.2 AAA (mínimo 48-60px para dedos infantiles).
+  * Soporte de Safe Areas (`viewport-fit=cover`, `env(safe-area-inset-*)`).
+  * Manejo de viewports dinámicos (`100dvh`) y prevención de pull-to-refresh accidental.
+  * Desbloqueo preventivo de Web Audio y Speech ante el primer toque.
+  * Configuración del Service Worker (`sw.js`) para jugabilidad 100% offline.
+
+---
+
+## 🚀 Sección IV: Gobernanza, Roadmap y Guía para Agentes
+
+### 8. 🔀 [Estrategia de Ramas GitFlow y Remotos](./gitflow-workflow.md)
+* **Propósito:** Control de versiones, ramas y sincronización de remotos.
+* **Contenido Principal:**
+  * Ramas maestras: `main` (despliegue en producción) y `develop` (integración continua).
+  * Configuración del remote unificado `all` para empuje simultáneo a GitHub y GitLab (`git push all <rama>`).
   * Estándar de commits convencionales (`feat:`, `fix:`, `docs:`, `perf:`).
 
 ---
 
-### 7. 🚀 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
-* **Alcance:** Diagnóstico integral de madurez, mitigación de sobrecarga cognitiva, panel docente y resiliencia.
-* **Temas Clave:**
-  * Integración de portales bifásicos basados en la Teoría de Carga Cognitiva de Sweller (CLT).
-  * Panel de acompañamiento familiar y docente local-first (cero telemetría externa).
-  * Modo "Karaoke Visual Asistido" para resiliencia ante contingencias de `Web Speech API`.
-  * Expansión del motor fonotáctico RAE en Rust con métricas de legibilidad y autoría de cuentos en JSON.
-  * Matriz de priorización cuatrimestral por horizontes de implementación.
+### 9. 🔮 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
+* **Propósito:** Visión de futuro, madurez tecnológica y mitigación de sobrecarga cognitiva.
+* **Contenido Principal:**
+  * Portales bifásicos basados en la Teoría de Carga Cognitiva de Sweller (CLT).
+  * Panel familiar y docente con analíticas privadas locales en el dispositivo.
+  * Plan de integración de modelos 3D y partículas en Three.js.
 
 ---
 
-### 8. 🧩 [Arquitectura Modular Frontend y Desacoplamiento de Vistas](./frontend-modular-architecture-spec.md)
-* **Alcance:** Esqueleto semántico de `index.html`, Web Components en Light DOM, organización de `www/js/` por dominios y desacoplamiento del Ropero Mágico a página dedicada preparada para Three.js.
-* **Temas Clave:**
-  * Componentes nativos `<vq-header>` y `<vq-footer>` con `display: contents`.
-  * Reorganización modular en `services/`, `data/`, `components/` y `views/`.
-  * Página dedicada `wardrobe.html` con pasarela responsiva y gancho para animaciones 3D.
-  * Sincronización offline en `sw.js` (PWA).
+## 💡 Guía Rápida para Desarrolladores y Agentes de IA
 
----
+Cuando trabajes en este repositorio, respeta rigurosamente las siguientes **reglas de oro arquitectónicas**:
 
-## 🚀 Arquitectura General del Proyecto
-
-```text
-ValenQuest/
-├── src/                  # Motor de Lógica Educativa en Rust
-│   ├── engine/           # Máquina de estados finitos adaptativa (FSM), PRNG y silabeo español
-│   └── tests/            # Suite de pruebas unitarias e integración de Rust (cargo test)
-├── www/                  # Frontend Web Local-First (Zero Dependencias Externas)
-│   ├── assets/           # Sprites SVG vectoriales de heroínas e iconos de interfaz
-│   ├── css/              # Suite modular de estilos (tokens, base, animations, components, theme-dark, wardrobe, storybook)
-│   ├── js/               # Módulos Vanilla ES estructurados por dominios
-│   │   ├── app.js        # Orquestador del ciclo de vida de la UI
-│   │   ├── storybook.js  # Controlador del Gran Libro
-│   │   ├── wardrobe-page.js # Controlador de la Boutique y pasarela Three.js
-│   │   ├── components/   # Web Components nativos (header.js, footer.js)
-│   │   ├── views/        # Vistas pedagógicas modulares (en desarrollo)
-│   │   ├── data/         # Progresión curricular y narrativa (levels-data.js)
-│   │   └── services/     # Servicios del sistema (audio, speech, storage, companions, pwa, wasm-loader)
-│   ├── pkg/              # Binarios WebAssembly compilados con wasm-pack
-│   ├── sw.js             # Service Worker para ejecución 100% offline
-│   ├── story.html        # El Gran Libro de las Princesas
-│   ├── wardrobe.html     # Ropero Mágico y Pasarela (preparada para Three.js)
-│   ├── palacio-prisma.html # Prototipo interactivo bifásico del Nivel 5 (Sweller CLT)
-│   └── index.html        # Shell y esqueleto semántico de la aplicación
-└── docs/                 # Índice y especificaciones técnicas del proyecto
-```
+1. **Zero External Frameworks & Zero External Runtime Dependencies:**
+   * No añadas React, Vue, Angular, jQuery ni utilidades como lodash o tailwind.
+   * La aplicación utiliza **Vanilla JS ES Modules**, CSS puro con Custom Properties y HTML5 semántico.
+2. **Zero CORS & Local-First:**
+   * Ningún asset gráfico o sonoro debe requerir CDN externo que falle sin internet. Todos los iconos y avatares son SVGs embebidos o sprites locales. Los sonidos se sintetizan mediante Web Audio API procedimentalmente.
+3. **Cero Lógica Crítica en JS:**
+   * La generación matemática adaptativa, la fórmula EMA, el PRNG determinista y el silabeo RAE residen en el binario WebAssembly compilado con Rust (`src/` -> `www/pkg/`).
+   * JavaScript únicamente gestiona el DOM, orquesta eventos y reproduce audio/TTS.
+4. **Respeto a los IDs del DOM:**
+   * `app.js` interactúa con el DOM mediante IDs canónicos (ej. `#btn-toggle-theme`, `#btn-toggle-mute`, `#header-stars-badge`). Al refactorizar componentes, mantén siempre accesibles estos identificadores.
+5. **Caché PWA:**
+   * Al modificar o añadir archivos estáticos a `www/`, recuerda incrementar la constante `CACHE_NAME` en [`www/sw.js`](file:///data/data/com.termux/files/home/develop/ValenQuest/www/sw.js) para que los navegadores y dispositivos móviles actualicen su caché local.
