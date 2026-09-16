@@ -77,6 +77,8 @@ class KidsLearnApp {
       if (portalModal) portalModal.hidden = true;
       const actModal = document.getElementById('act-transition-modal');
       if (actModal) actModal.hidden = true;
+      const powersGuideModal = document.getElementById('powers-guide-modal');
+      if (powersGuideModal) powersGuideModal.hidden = true;
 
       // Load persisted companion states
       await companions.loadState();
@@ -556,6 +558,9 @@ class KidsLearnApp {
         document.getElementById('level-up-modal').hidden = true;
       });
     }
+
+    // Guía de Poderes de Lumiria
+    this.setupPowersGuideModal();
 
     // Desafío de Portal Action Buttons
     const btnPortalContinue = document.getElementById('btn-portal-continue');
@@ -1537,6 +1542,38 @@ class KidsLearnApp {
       title.innerHTML = `¡Has alcanzado ${tierName}! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
       modal.hidden = false;
     }
+  }
+
+  setupPowersGuideModal() {
+    const btnInfo = document.getElementById('btn-powers-info');
+    const modal = document.getElementById('powers-guide-modal');
+    const btnClose = document.getElementById('btn-close-powers-guide');
+    const btnOk = document.getElementById('btn-powers-guide-ok');
+
+    if (!modal) return;
+
+    const openModal = () => {
+      sound.playClick();
+      modal.hidden = false;
+      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda de una forma mágica.'); } catch (e) {}
+    };
+
+    const closeModal = () => {
+      sound.playClick();
+      modal.hidden = true;
+    };
+
+    if (btnInfo) btnInfo.addEventListener('click', openModal);
+    if (btnClose) btnClose.addEventListener('click', closeModal);
+    if (btnOk) btnOk.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
   }
 
   renderProfileHeader(profile) {

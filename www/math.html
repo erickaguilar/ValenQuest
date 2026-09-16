@@ -292,10 +292,16 @@
 
         <!-- Barra de Poderes del Cuarteto de la Armonía (Prisma, Brisa, Escudo, Foco) -->
         <div class="companion-powers-bar math-powers-bar" id="math-powers-bar" aria-label="Poderes de amistad del Cuarteto de la Armonía">
-          <span class="powers-bar-label">
-            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-            <span>Poderes de Lumiria:</span>
-          </span>
+          <div class="powers-bar-header">
+            <span class="powers-bar-label">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <span>Poderes de Lumiria:</span>
+            </span>
+            <button type="button" class="powers-info-btn" id="btn-powers-info" title="¿Qué hace cada poder? Guía mágica" aria-label="Ver qué hace cada poder">
+              <span class="powers-info-icon" aria-hidden="true">❓</span>
+              <span>¿Para qué sirven?</span>
+            </button>
+          </div>
           <div class="companion-powers-grid">
             <button id="btn-power-valen" class="power-btn" type="button" title="Valen (Alicornio): Prisma Real - Descarta opciones incorrectas">
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
@@ -346,6 +352,91 @@
       </a>
     </footer>
 
+  </div>
+
+  <!-- Modal Accesible: Guía de Poderes de Lumiria -->
+  <div id="powers-guide-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="powers-guide-title">
+    <div class="modal-content powers-guide-modal-content">
+      <div class="powers-guide-header">
+        <div class="powers-guide-title-group">
+          <h2 id="powers-guide-title" class="powers-guide-title">
+            <span aria-hidden="true">✨</span> Poderes de Lumiria
+          </h2>
+          <p class="powers-guide-subtitle">¡Las 4 Princesas te ayudan en cada reto!</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="btn-close-powers-guide" aria-label="Cerrar guía de poderes">
+          <span aria-hidden="true" style="font-size:1.2rem;font-weight:900;">✕</span>
+        </button>
+      </div>
+
+      <div class="powers-guide-list">
+        <!-- 1. Prisma (Valen) -->
+        <div class="power-guide-item power-guide-valen">
+          <div class="power-guide-badge" aria-hidden="true">
+            <svg class="vq-icon"><use href="#vq-icon-crown"></use></svg>
+          </div>
+          <div class="power-guide-text">
+            <div class="power-guide-name-row">
+              <span class="power-guide-name">Prisma Real</span>
+              <span class="power-guide-heroine">Valen (Alicornio)</span>
+            </div>
+            <p class="power-guide-desc"><strong>Descarta opciones incorrectas</strong> para que te sea mucho más fácil encontrar la respuesta correcta.</p>
+          </div>
+        </div>
+
+        <!-- 2. Brisa (Reni) -->
+        <div class="power-guide-item power-guide-reni">
+          <div class="power-guide-badge" aria-hidden="true">
+            <svg class="vq-icon"><use href="#vq-icon-wing"></use></svg>
+          </div>
+          <div class="power-guide-text">
+            <div class="power-guide-name-row">
+              <span class="power-guide-name">Brisa Temporal</span>
+              <span class="power-guide-heroine">Reni (Pegaso)</span>
+            </div>
+            <p class="power-guide-desc"><strong>Te da tiempo y calma</strong> para pensar tranquilamente y resolver el ejercicio a tu propio ritmo.</p>
+          </div>
+        </div>
+
+        <!-- 3. Escudo (Zoe) -->
+        <div class="power-guide-item power-guide-zoe">
+          <div class="power-guide-badge" aria-hidden="true">
+            <svg class="vq-icon"><use href="#vq-icon-leaf"></use></svg>
+          </div>
+          <div class="power-guide-text">
+            <div class="power-guide-name-row">
+              <span class="power-guide-name">Escudo de Raíces</span>
+              <span class="power-guide-heroine">Zoe (Poni Terrestre)</span>
+            </div>
+            <p class="power-guide-desc"><strong>Protege tu racha</strong>: si te equivocas, ¡el escudo absorbe el error y tu racha no se reinicia!</p>
+          </div>
+        </div>
+
+        <!-- 4. Foco (Lía) -->
+        <div class="power-guide-item power-guide-lia">
+          <div class="power-guide-badge" aria-hidden="true">
+            <svg class="vq-icon"><use href="#vq-icon-crystal"></use></svg>
+          </div>
+          <div class="power-guide-text">
+            <div class="power-guide-name-row">
+              <span class="power-guide-name">Foco de Cristal</span>
+              <span class="power-guide-heroine">Lía (Unicornio)</span>
+            </div>
+            <p class="power-guide-desc"><strong>Ilumina la pista clave</strong> del reto para ayudarte a encontrar el secreto del problema.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="power-guide-tip">
+        <span aria-hidden="true">💡</span>
+        <span><strong>¿Cómo se recargan?</strong> Cada poder tiene 2 cargas. Al acertar respuestas seguidas y mantener tu racha, ¡las princesas recargan sus poderes automáticamente!</span>
+      </div>
+
+      <button type="button" class="action-btn powers-guide-ok-btn" id="btn-powers-guide-ok">
+        <span>¡Entendido, a jugar!</span>
+        <span aria-hidden="true">✨</span>
+      </button>
+    </div>
   </div>
 
   <!-- Controlador Interactivo de Matemáticas -->

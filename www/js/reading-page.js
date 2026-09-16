@@ -395,7 +395,41 @@ class ReadingPageController {
       }
     });
 
+    this.setupPowersGuideModal();
     this.updatePowersBadges();
+  }
+
+  setupPowersGuideModal() {
+    const btnInfo = document.getElementById('btn-powers-info');
+    const modal = document.getElementById('powers-guide-modal');
+    const btnClose = document.getElementById('btn-close-powers-guide');
+    const btnOk = document.getElementById('btn-powers-guide-ok');
+
+    if (!modal || modal._guideBound) return;
+    modal._guideBound = true;
+
+    const openModal = () => {
+      sound.playClick();
+      modal.hidden = false;
+      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda de una forma mágica.'); } catch (e) {}
+    };
+
+    const closeModal = () => {
+      sound.playClick();
+      modal.hidden = true;
+    };
+
+    if (btnInfo) btnInfo.addEventListener('click', openModal);
+    if (btnClose) btnClose.addEventListener('click', closeModal);
+    if (btnOk) btnOk.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
   }
 
   updatePowersBadges() {
