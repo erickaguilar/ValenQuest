@@ -1,0 +1,585 @@
+/**
+ * ValenQuest: Estilos de la Página de Campaña (campaign.css)
+ * Estética mágica pastel-gacha para la presentación de La Gran Aventura
+ * y el estado de construcción de los 10 Templos Lunares.
+ */
+
+/* ==========================================================================
+   1. CONTENEDOR GENERAL
+   ========================================================================== */
+.campaign-app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 12px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   2. BARRA DE NAVEGACIÓN SUPERIOR (TOP NAV)
+   ========================================================================== */
+.campaign-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.campaign-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.campaign-back-btn:hover {
+  background: var(--vq-sky-light);
+  transform: translateY(-2px);
+}
+
+.campaign-back-btn:active {
+  transform: translateY(1px);
+}
+
+.campaign-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--vq-text);
+}
+
+.campaign-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.campaign-stars-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-gold-light, #FFF0C2);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.campaign-diamonds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+/* ==========================================================================
+   3. BANNER PRINCIPAL DE CONSTRUCCIÓN MÁGICA
+   ========================================================================== */
+.campaign-hero-banner {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.campaign-hero-banner::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.campaign-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.construction-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #FFE082;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: #4A3E56;
+  box-shadow: 0 2px 0 var(--vq-border);
+  animation: vqSoftFloat 3s ease-in-out infinite;
+}
+
+[data-theme="dark"] .construction-status-pill {
+  background: #E0A96D;
+  color: #201633;
+}
+
+.campaign-hero-title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.campaign-hero-desc {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--vq-text-muted);
+  margin: 0;
+  max-width: 800px;
+}
+
+/* Tarjeta de Diálogo con Orión */
+.campaign-dialogue-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--vq-bg-well);
+  border: 2px dashed var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 16px;
+  position: relative;
+}
+
+.dialogue-avatar {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 50%;
+  background: var(--vq-sky-light);
+  border: 2.5px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.dialogue-avatar .vq-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.dialogue-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.dialogue-speaker {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dialogue-quote {
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--vq-text);
+  margin: 0;
+}
+
+.dialogue-speak-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-pink-bubble);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #32213F;
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.dialogue-speak-btn:hover {
+  background: var(--vq-pink-light);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   4. SECCIÓN: ROADMAP DE LOS 10 TEMPLOS LUNARES
+   ========================================================================== */
+.campaign-temples-section {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-header-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-header-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.section-header-subtitle {
+  font-size: 0.88rem;
+  color: var(--vq-text-muted);
+  font-weight: 600;
+  margin: 0;
+}
+
+.temple-roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.temple-card {
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.temple-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.temple-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.temple-number-pill {
+  font-size: 0.75rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  background: var(--vq-lavender);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: #32213F;
+}
+
+.temple-phase-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.temple-title {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.temple-desc {
+  font-size: 0.82rem;
+  color: var(--vq-text-muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.temple-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(74, 62, 86, 0.2);
+}
+
+.temple-status-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #4A3E56;
+  background: #FFE082;
+  border: 1px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 2px 8px;
+}
+
+.temple-unlock-hint {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+}
+
+/* ==========================================================================
+   5. SECCIÓN: ENTRENAMIENTO EN MODOS DE PRÁCTICA
+   ========================================================================== */
+.campaign-training-section {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.training-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.training-card {
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.training-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--vq-shadow-hard);
+}
+
+.training-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.training-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: #FFF;
+}
+
+.training-card.math .training-icon-wrap {
+  background: var(--vq-sky-light);
+}
+
+.training-card.reading .training-icon-wrap {
+  background: var(--vq-pink-light);
+}
+
+.training-card.story .training-icon-wrap {
+  background: var(--vq-mint);
+}
+
+.training-card.wardrobe .training-icon-wrap {
+  background: var(--vq-lavender);
+}
+
+.training-reward-pill {
+  font-size: 0.75rem;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: var(--vq-radius-pill);
+  border: 1px solid var(--vq-border);
+}
+
+.training-card.math .training-reward-pill {
+  background: #BDE0FE;
+  color: #1D3557;
+}
+
+.training-card.reading .training-reward-pill {
+  background: #FFC8DD;
+  color: #4A3E56;
+}
+
+.training-card.story .training-reward-pill {
+  background: #B8F2E6;
+  color: #1E3A34;
+}
+
+.training-card.wardrobe .training-reward-pill {
+  background: #CDB4DB;
+  color: #32213F;
+}
+
+.training-card-title {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+}
+
+.training-card-desc {
+  font-size: 0.82rem;
+  color: var(--vq-text-muted);
+  line-height: 1.35;
+  margin: 0;
+  flex: 1;
+}
+
+.training-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: var(--vq-radius-pill);
+  border: 2px solid var(--vq-border);
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-decoration: none;
+  color: var(--vq-text);
+  background: #FFF;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.12s ease, background 0.15s ease;
+  margin-top: 4px;
+}
+
+.training-cta-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-sky-light);
+}
+
+.training-cta-btn:active {
+  transform: translateY(1px);
+}
+
+/* ==========================================================================
+   6. PIE DE PÁGINA
+   ========================================================================== */
+.campaign-footer {
+  text-align: center;
+  padding: 16px 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.campaign-footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: var(--vq-pink-bubble);
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: #32213F;
+  font-size: 1rem;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-hard);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.campaign-footer-cta:hover {
+  background: var(--vq-pink-light);
+  transform: translateY(-2px);
+}
+
+.campaign-footer-meta {
+  font-size: 0.8rem;
+  color: var(--vq-text-muted);
+  margin: 0;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE MOBILE AJUSTES
+   ========================================================================== */
+@media (max-width: 600px) {
+  .campaign-app {
+    padding: 8px 10px 30px;
+    gap: 14px;
+  }
+
+  .campaign-hero-banner,
+  .campaign-temples-section,
+  .campaign-training-section {
+    padding: 16px;
+    border-radius: var(--vq-radius-card);
+  }
+
+  .campaign-hero-title {
+    font-size: 1.3rem;
+  }
+
+  .campaign-dialogue-card {
+    flex-direction: column;
+  }
+}

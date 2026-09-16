@@ -119,8 +119,21 @@ class KidsLearnApp {
       this.renderMathChallenge();
       this.renderReadingCatalog();
 
-      // Ensure intro tab is active initially (silent during init)
-      this.switchTab('intro', false);
+      // Support direct navigation via URL query params (?mode=math | ?mode=reading)
+      const urlParams = new URLSearchParams(window.location.search);
+      const modeParam = urlParams.get('mode');
+      if (modeParam === 'math') {
+        this.gameMode = 'math_practice';
+        this.renderMathChallenge();
+        this.syncTriadUI();
+        this.switchTab('math', false);
+      } else if (modeParam === 'reading') {
+        this.gameMode = 'reading_practice';
+        this.syncTriadUI();
+        this.switchTab('reading', false);
+      } else {
+        this.switchTab('intro', false);
+      }
 
       // Initialize PWA installation and Service Worker engine
       pwa.init();
@@ -263,9 +276,6 @@ class KidsLearnApp {
     if (btnStartQuest) {
       btnStartQuest.addEventListener('click', () => {
         sound.playLevelUp();
-        this.gameMode = 'adventure';
-        const advState = adventure.getState();
-        this.switchTab(advState.phase === 'reading' ? 'reading' : 'math');
       });
     }
 

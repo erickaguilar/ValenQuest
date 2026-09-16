@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <title>ValenQuest | La Gran Aventura de Lumiria</title>
+
+  <!-- Prevención de FOUC -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem("vq-theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    })();
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ValenQuest Campaña">
+
+  <!-- Arquitectura Modular CSS -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/theme-dark.css">
+  <link rel="stylesheet" href="css/campaign.css">
+</head>
+<body>
+
+  <!-- SVG Sprite de Iconos y Heroínas (Local-first & Zero-CORS) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="vq-icon-unicorn" viewBox="0 0 64 64">
+      <circle cx="32" cy="34" r="26" fill="#FFC8DD" opacity="0.35"/>
+      <path d="M18,48 C18,48 18,36 24,30 C28,26 34,26 40,28 C46,30 50,36 50,44 C50,50 42,54 32,54 C24,54 18,48 18,48 Z" 
+            fill="#FDF7FF" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <polygon points="34,6 29,22 39,22" fill="#FFD166" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse cx="38" cy="38" rx="3.5" ry="4.5" fill="#4A3E56"/>
+      <circle cx="37" cy="36" r="1.5" fill="#FFFFFF"/>
+    </symbol>
+
+    <symbol id="vq-icon-crown" viewBox="0 0 64 64">
+      <polygon points="12,46 16,24 26,34 32,18 38,34 48,24 52,46" fill="#FFD166" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <rect x="12" y="46" width="40" height="8" rx="3" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3"/>
+      <circle cx="32" cy="18" r="4" fill="#A2D2FF"/>
+    </symbol>
+
+    <symbol id="vq-icon-star" viewBox="0 0 64 64">
+      <polygon points="32,6 39,23 58,24 43,36 48,54 32,43 16,54 21,36 6,24 25,23" 
+               fill="#FFD166" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="vq-icon-rocket" viewBox="0 0 64 64">
+      <path d="M32,8 C22,14 18,28 18,44 L32,54 L46,44 C46,28 42,14 32,8 Z" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <circle cx="32" cy="28" r="7" fill="#A2D2FF" stroke="#4A3E56" stroke-width="2.5"/>
+      <polygon points="18,40 10,48 18,48" fill="#FFD166" stroke="#4A3E56" stroke-width="2.5"/>
+      <polygon points="46,40 54,48 46,48" fill="#FFD166" stroke="#4A3E56" stroke-width="2.5"/>
+    </symbol>
+
+    <symbol id="vq-icon-sparkles" viewBox="0 0 64 64">
+      <path d="M32,8 L36,24 L52,28 L36,32 L32,48 L28,32 L12,28 L28,24 Z" fill="#FFD166" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="vq-icon-owl" viewBox="0 0 64 64">
+      <ellipse cx="32" cy="36" rx="20" ry="22" fill="#BDE0FE" stroke="#4A3E56" stroke-width="3.5"/>
+      <circle cx="24" cy="30" r="7" fill="#FDF7FF" stroke="#4A3E56" stroke-width="2.5"/>
+      <circle cx="40" cy="30" r="7" fill="#FDF7FF" stroke="#4A3E56" stroke-width="2.5"/>
+      <circle cx="25" cy="30" r="3" fill="#4A3E56"/>
+      <circle cx="39" cy="30" r="3" fill="#4A3E56"/>
+      <polygon points="32,36 28,42 36,42" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="vq-icon-prism" viewBox="0 0 64 64">
+      <polygon points="32,8 54,48 10,48" fill="#CDB4DB" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <polygon points="32,8 42,48 22,48" fill="#FFAFCC" opacity="0.6"/>
+    </symbol>
+
+    <symbol id="vq-icon-quill" viewBox="0 0 64 64">
+      <path d="M48,10 C48,10 32,18 24,32 C18,42 16,52 16,52 C16,52 24,48 34,42 C44,36 50,22 48,10 Z" 
+            fill="#BDE0FE" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <line x1="20" y1="48" x2="38" y2="24" stroke="#4A3E56" stroke-width="2.5"/>
+    </symbol>
+
+    <symbol id="vq-icon-scroll" viewBox="0 0 64 64">
+      <rect x="14" y="16" width="36" height="36" rx="4" fill="#FFF0C2" stroke="#4A3E56" stroke-width="3.5"/>
+      <line x1="22" y1="26" x2="42" y2="26" stroke="#4A3E56" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="22" y1="34" x2="42" y2="34" stroke="#4A3E56" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="22" y1="42" x2="34" y2="42" stroke="#4A3E56" stroke-width="2.5" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="vq-icon-wardrobe" viewBox="0 0 64 64">
+      <rect x="12" y="10" width="40" height="46" rx="4" fill="#FFC8DD" stroke="#4A3E56" stroke-width="3.5"/>
+      <line x1="32" y1="10" x2="32" y2="56" stroke="#4A3E56" stroke-width="3"/>
+      <circle cx="27" cy="32" r="2.5" fill="#4A3E56"/>
+      <circle cx="37" cy="32" r="2.5" fill="#4A3E56"/>
+    </symbol>
+
+    <symbol id="vq-icon-lock" viewBox="0 0 64 64">
+      <rect x="16" y="26" width="32" height="26" rx="4" fill="#FFD166" stroke="#4A3E56" stroke-width="3.5"/>
+      <path d="M22,26 L22,18 C22,12.5 26.5,8 32,8 C37.5,8 42,12.5 42,18 L42,26" fill="none" stroke="#4A3E56" stroke-width="3.5"/>
+      <circle cx="32" cy="38" r="3" fill="#4A3E56"/>
+    </symbol>
+
+    <symbol id="vq-icon-moon" viewBox="0 0 64 64">
+      <path d="M38,12 C24,14 14,26 16,40 C18,52 30,58 42,54 C32,50 28,38 32,28 C34,22 38,16 38,12 Z" 
+            fill="#CDB4DB" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+    </symbol>
+
+    <symbol id="vq-icon-sun" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="14" fill="#FFD166" stroke="#4A3E56" stroke-width="3.5"/>
+      <line x1="32" y1="8" x2="32" y2="14" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="32" y1="50" x2="32" y2="56" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="8" y1="32" x2="14" y2="32" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="50" y1="32" x2="56" y2="32" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="vq-icon-sound-on" viewBox="0 0 64 64">
+      <path d="M12,24 L22,24 L34,14 L34,50 L22,40 L12,40 Z" fill="#A2D2FF" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M42,22 C46,26 46,38 42,42" fill="none" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M48,16 C54,22 54,42 48,48" fill="none" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+    </symbol>
+
+    <symbol id="vq-icon-sound-off" viewBox="0 0 64 64">
+      <path d="M12,24 L22,24 L34,14 L34,50 L22,40 L12,40 Z" fill="#FFC8DD" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <line x1="42" y1="24" x2="54" y2="40" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="54" y1="24" x2="42" y2="40" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <div class="campaign-app">
+    
+    <!-- Barra Superior de Navegación -->
+    <header class="campaign-top-nav" role="banner">
+      <a href="index.html" class="campaign-back-btn" id="btn-back-to-hub" aria-label="Volver al Salón Principal">
+        <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+        <span>← Volver a ValenQuest</span>
+      </a>
+
+      <div class="campaign-brand-badge">
+        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
+        <span>La Gran Aventura</span>
+      </div>
+
+      <div class="campaign-top-actions">
+        <!-- Saldo de Estrellas de Campaña -->
+        <div class="campaign-stars-pill" title="Tus estrellas de campaña en Lumiria">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
+          <strong id="campaign-star-balance">0</strong>
+        </div>
+
+        <!-- Saldo de Diamantes de Práctica -->
+        <div class="campaign-diamonds-pill" title="Tus diamantes del Prisma Numérico">
+          <span aria-hidden="true">💎</span>
+          <strong id="campaign-diamond-balance">0</strong>
+        </div>
+
+        <!-- Silenciar Sonido -->
+        <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar sonido" title="Silenciar efectos">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
+        </button>
+
+        <!-- Modo Noche / Día -->
+        <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Banner Principal: Estado de Construcción Mágica -->
+    <main class="campaign-main-layout" role="main">
+      <section class="campaign-hero-banner" aria-label="Estado del Modo Campaña">
+        <div class="campaign-badge-row">
+          <span class="construction-status-pill">
+            🚧 En Construcción Mágica • Próximamente
+          </span>
+          <span class="temple-number-pill" id="campaign-current-temple-pill">
+            Templo Activo: 1 - Manantial de Rocío
+          </span>
+        </div>
+
+        <h2 class="campaign-hero-title">
+          <svg class="vq-icon vq-icon--lg" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
+          <span>La Gran Aventura de Lumiria</span>
+        </h2>
+
+        <p class="campaign-hero-desc">
+          El modo historia troncal está siendo forjado por los Sabios de Lumiria. Unificará los desafíos matemáticos y la lectura fonológica en una travesía épica intercalada a través de los 10 Templos Lunares para derrotar al Eclipse Sombrío.
+        </p>
+
+        <!-- Tarjeta de Diálogo con Orión y la Heroína Activa -->
+        <div class="campaign-dialogue-card">
+          <div class="dialogue-avatar" id="campaign-heroine-avatar" aria-hidden="true">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
+          </div>
+          <div class="dialogue-body">
+            <div class="dialogue-speaker">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
+              <span>Maestro Orión y <strong id="campaign-heroine-name">Valen</strong></span>
+            </div>
+            <p class="dialogue-quote">
+              «¡Paciencia, valiente aventurera! Los cristales de los 10 Templos están alineándose. Mientras tanto, tu deber real es entrenar tu mente en el Prisma Numérico y la Pluma de la Fluidez para ganar diamantes y dominar los poderes de la amistad.»
+            </p>
+            <button id="btn-speak-campaign" class="dialogue-speak-btn" type="button" aria-label="Escuchar mensaje de Orión">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <span>Escuchar Consejo de Orión</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Roadmap Visual de los 10 Templos Lunares -->
+      <section class="campaign-temples-section" aria-label="Camino de los 10 Templos Lunares">
+        <div class="section-header-group">
+          <h3 class="section-header-title">
+            <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+            <span>Los 10 Templos Lunares de la Aventura</span>
+          </h3>
+          <p class="section-header-subtitle">
+            Cada templo requerirá superar rondas de cálculo y comprensión lectora antes de desbloquear el Portal Astral:
+          </p>
+        </div>
+
+        <div class="temple-roadmap-grid">
+          <!-- Templo 1 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo I</span>
+              <span class="temple-phase-tag">💧 Agua Prístina</span>
+            </div>
+            <h4 class="temple-title">Manantial de Rocío</h4>
+            <p class="temple-desc">Conteo sensorial, sumas elementales hasta 10 y reconocimiento fonológico inicial.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. II</span>
+            </div>
+          </article>
+
+          <!-- Templo 2 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo II</span>
+              <span class="temple-phase-tag">🌲 Flora Sabia</span>
+            </div>
+            <h4 class="temple-title">Bosque Susurrante</h4>
+            <p class="temple-desc">Sumas y restas sin acarreo hasta 20, combinadas con sílabas directas y diptongos.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. III</span>
+            </div>
+          </article>
+
+          <!-- Templo 3 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo III</span>
+              <span class="temple-phase-tag">☁️ Céfiro Celeste</span>
+            </div>
+            <h4 class="temple-title">Vértice de Algodón</h4>
+            <p class="temple-desc">Operaciones con acarreo, desagrupación y dígrafos complejos (ll, ch, qu, gu).</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. IV</span>
+            </div>
+          </article>
+
+          <!-- Templo 4 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo IV</span>
+              <span class="temple-phase-tag">🍯 Luz Ámbar</span>
+            </div>
+            <h4 class="temple-title">Caverna de Ámbar</h4>
+            <p class="temple-desc">Inicio de multiplicación (tablas 2, 3, 5 y 10) y oraciones completas guiadas.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Tiara Ámbar</span>
+            </div>
+          </article>
+
+          <!-- Templo 5 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo V</span>
+              <span class="temple-phase-tag">💎 Luz Arcoíris</span>
+            </div>
+            <h4 class="temple-title">Palacio Prisma</h4>
+            <p class="temple-desc">Retos mixtos de suma/resta con multiplicación y lecturas de mediana extensión.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. V</span>
+            </div>
+          </article>
+
+          <!-- Templo 6 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo VI</span>
+              <span class="temple-phase-tag">⏳ Arenas Eternas</span>
+            </div>
+            <h4 class="temple-title">Reloj de las Arenas</h4>
+            <p class="temple-desc">Desafíos rápidos contrarreloj para entrenar cálculo mental y palabras por minuto.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Runa de Tiempo</span>
+            </div>
+          </article>
+
+          <!-- Templo 7 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo VII</span>
+              <span class="temple-phase-tag">🪸 Océano Astral</span>
+            </div>
+            <h4 class="temple-title">Mar de Coral Profundo</h4>
+            <p class="temple-desc">Problemas de razonamiento contextual y comprensión profunda de leyendas marinas.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. VI</span>
+            </div>
+          </article>
+
+          <!-- Templo 8 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo VIII</span>
+              <span class="temple-phase-tag">🐚 Nácar Lunar</span>
+            </div>
+            <h4 class="temple-title">Muralla de Nácar</h4>
+            <p class="temple-desc">Aritmética de tres dígitos, resolución lógica y textos de lectura crítica.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Escudo Nácar</span>
+            </div>
+          </article>
+
+          <!-- Templo 9 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo IX</span>
+              <span class="temple-phase-tag">🌅 Albor Sagrado</span>
+            </div>
+            <h4 class="temple-title">Cúspide de la Aurora</h4>
+            <p class="temple-desc">Criptogramas numéricos avanzados y lectura fluida de crónicas complejas.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. VII</span>
+            </div>
+          </article>
+
+          <!-- Templo 10 -->
+          <article class="temple-card">
+            <div class="temple-card-header">
+              <span class="temple-number-pill">Templo X</span>
+              <span class="temple-phase-tag">👑 Trono Real</span>
+            </div>
+            <h4 class="temple-title">Trono de las Estrellas</h4>
+            <p class="temple-desc">La Batalla Final de Lumiria: liberación definitiva de la magia alicornio.</p>
+            <div class="temple-card-footer">
+              <span class="temple-status-tag">🔒 En preparación</span>
+              <span class="temple-unlock-hint">Desbloquea Cap. VIII</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Zona de Entrenamiento Recomendada (Modos de Práctica Activos) -->
+      <section class="campaign-training-section" aria-label="Modos de Práctica Disponibles">
+        <div class="section-header-group">
+          <h3 class="section-header-title">
+            <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
+            <span>Mientras tanto... ¡Entrena en los Modos de Práctica!</span>
+          </h3>
+          <p class="section-header-subtitle">
+            Fortalece a tus heroínas y acumula diamantes y sabiduría en los módulos independientes:
+          </p>
+        </div>
+
+        <div class="training-grid">
+          <!-- Tarjeta 1: Prisma Numérico -->
+          <article class="training-card math">
+            <div class="training-card-header">
+              <div class="training-icon-wrap" aria-hidden="true">💎</div>
+              <span class="training-reward-pill">Gana Diamantes 💎</span>
+            </div>
+            <h4 class="training-card-title">El Prisma Numérico</h4>
+            <p class="training-card-desc">
+              Práctica de cálculo mental libre con 5 niveles en caliente, combos astronómicos al 100% y poderes de amistad.
+            </p>
+            <a href="index.html?mode=math" class="training-cta-btn">
+              <span>Practicar Cálculo</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <!-- Tarjeta 2: Pluma de la Fluidez -->
+          <article class="training-card reading">
+            <div class="training-card-header">
+              <div class="training-icon-wrap" aria-hidden="true">🪶</div>
+              <span class="training-reward-pill">Fluidez & Fonemas 📖</span>
+            </div>
+            <h4 class="training-card-title">La Pluma de la Fluidez</h4>
+            <p class="training-card-desc">
+              Práctica de lectura fonológica adaptativa con 5 niveles, medición de palabras por minuto y comprensión.
+            </p>
+            <a href="index.html?mode=reading" class="training-cta-btn">
+              <span>Practicar Lectura</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <!-- Tarjeta 3: Gran Libro de las Princesas -->
+          <article class="training-card story">
+            <div class="training-card-header">
+              <div class="training-icon-wrap" aria-hidden="true">📜</div>
+              <span class="training-reward-pill">Crónicas Reales ✨</span>
+            </div>
+            <h4 class="training-card-title">El Gran Libro</h4>
+            <p class="training-card-desc">
+              Explora las historias de Valen, Reni, Zoe y Lia con narración por voz y bellas ilustraciones chibi.
+            </p>
+            <a href="story.html" class="training-cta-btn">
+              <span>Leer Historias</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <!-- Tarjeta 4: Ropero Mágico -->
+          <article class="training-card wardrobe">
+            <div class="training-card-header">
+              <div class="training-icon-wrap" aria-hidden="true">👗</div>
+              <span class="training-reward-pill">Boutique de Diamantes</span>
+            </div>
+            <h4 class="training-card-title">Ropero Mágico</h4>
+            <p class="training-card-desc">
+              Usa los diamantes que ganaste en el Prisma Numérico para desbloquear tiaras, alas de fénix y amuletos.
+            </p>
+            <a href="wardrobe.html" class="training-cta-btn">
+              <span>Visitar Boutique</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <!-- Pie de Página -->
+      <footer class="campaign-footer">
+        <a href="index.html" class="campaign-footer-cta">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>← Volver al Salón Principal (ValenQuest)</span>
+        </a>
+        <p class="campaign-footer-meta">
+          ValenQuest v1.2 • Módulo de Campaña La Gran Aventura • Edición Lumiria Offline
+        </p>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Controlador Interactivo de la Campaña -->
+  <script type="module" src="js/campaign-page.js"></script>
+</body>
+</html>
