@@ -9,6 +9,7 @@ import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { adventure, TEMPLE_NAMES } from './services/adventure.js';
+import { theme } from './services/theme.js';
 
 class CampaignPageController {
   constructor() {
@@ -56,18 +57,7 @@ class CampaignPageController {
     // Alternancia de tema Noche Astral / Día Pastel
     const themeBtn = document.getElementById('btn-toggle-theme');
     if (themeBtn) {
-      this.syncThemeButton();
-      themeBtn.addEventListener('click', () => {
-        sound.playClick();
-        const currentTheme =
-          document.documentElement.getAttribute('data-theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', nextTheme);
-        document.body.setAttribute('data-theme', nextTheme);
-        localStorage.setItem('vq-theme', nextTheme);
-        this.syncThemeButton();
-      });
+      theme.bindButton(themeBtn);
     }
 
     // Alternar silenciado de audio
@@ -84,16 +74,7 @@ class CampaignPageController {
   }
 
   syncThemeButton() {
-    const themeBtn = document.getElementById('btn-toggle-theme');
-    if (!themeBtn) return;
-    const currentTheme =
-      document.documentElement.getAttribute('data-theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const isDark = currentTheme === 'dark';
-    themeBtn.innerHTML = isDark
-      ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sun"></use></svg>'
-      : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>';
-    themeBtn.title = isDark ? 'Cambiar a Modo Día Pastel' : 'Cambiar a Modo Noche Astral';
+    theme.syncButton();
   }
 
   // =========================================================================

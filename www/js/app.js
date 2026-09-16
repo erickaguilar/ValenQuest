@@ -11,6 +11,7 @@ import { speech } from './services/speech.js';
 import { companions } from './services/companions.js';
 import { pwa } from './services/pwa.js';
 import { getLevelData, getActTransitionData, TEN_MOONS_LEVELS } from './data/levels-data.js';
+import { theme } from './services/theme.js';
 
 import { adventure } from './services/adventure.js';
 import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
@@ -210,21 +211,7 @@ class KidsLearnApp {
 
 
   syncThemeButton() {
-    const themeBtn = document.getElementById('btn-toggle-theme');
-    const currentTheme =
-      document.documentElement.getAttribute('data-theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const isDark = currentTheme === 'dark';
-
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    document.body.setAttribute('data-theme', currentTheme);
-
-    if (themeBtn) {
-      themeBtn.innerHTML = isDark
-        ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sun"></use></svg>'
-        : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>';
-      themeBtn.title = isDark ? 'Cambiar a Modo Día Pastel' : 'Cambiar a Modo Noche Astral';
-    }
+    theme.syncButton();
   }
 
 
@@ -358,17 +345,7 @@ class KidsLearnApp {
     // Dark Mode Theme Toggle
     const themeBtn = document.getElementById('btn-toggle-theme');
     if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        sound.playClick();
-        const currentTheme =
-          document.documentElement.getAttribute('data-theme') ||
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', nextTheme);
-        document.body.setAttribute('data-theme', nextTheme);
-        localStorage.setItem('vq-theme', nextTheme);
-        this.syncThemeButton();
-      });
+      theme.bindButton(themeBtn);
     }
 
 
@@ -434,13 +411,6 @@ class KidsLearnApp {
         }
       });
     }
-
-    // React to OS Dark Mode preference changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (!localStorage.getItem('vq-theme')) {
-        this.syncThemeButton();
-      }
-    });
 
     // Heroines Harmony Quartet Selection (Intro cards)
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {

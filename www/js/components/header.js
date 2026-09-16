@@ -4,6 +4,7 @@
  * Gestiona la identidad del jugador, avatar de la heroína activa, contador de estrellas y modal de ajustes mágicos.
  */
 import { sound } from '../services/audio.js';
+import { theme } from '../services/theme.js';
 
 export class VqHeader extends HTMLElement {
   connectedCallback() {
@@ -141,8 +142,13 @@ export class VqHeader extends HTMLElement {
     const btnOpen = this.querySelector('#btn-open-settings');
     const btnClose = this.querySelector('#btn-settings-close');
     const btnDone = this.querySelector('#btn-settings-done');
+    const themeBtn = this.querySelector('#btn-toggle-theme');
     const pwaBtn = this.querySelector('#btn-install-pwa');
     const pwaRow = this.querySelector('#settings-pwa-row');
+
+    if (themeBtn) {
+      theme.bindButton(themeBtn);
+    }
 
     const openModal = () => {
       if (modal) {

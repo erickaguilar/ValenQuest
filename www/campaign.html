@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <title>ValenQuest | La Gran Aventura de Lumiria</title>
 
-  <!-- Prevención de FOUC -->
+  <!-- Prevención de FOUC de tema oscuro/claro -->
   <script>
     (function() {
-      const savedTheme = localStorage.getItem("vq-theme");
-      if (savedTheme) {
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      }
+      const savedTheme = localStorage.getItem("vq-theme") || 
+        (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document.addEventListener('DOMContentLoaded', function() {
+        if (document.body) document.body.setAttribute('data-theme', savedTheme);
+      });
     })();
   </script>
 

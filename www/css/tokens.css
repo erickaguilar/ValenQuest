@@ -69,8 +69,7 @@
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]),
-  html:not([data-theme="light"]),
-  body:not([data-theme="light"]) {
+  html:not([data-theme="light"]) {
     --vq-bg-canvas: #130E1F;
     --vq-bg-card: #201633;
     --vq-bg-well: #1A122A;

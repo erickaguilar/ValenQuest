@@ -1316,20 +1316,98 @@
 
 /* Modo Noche para la Guía */
 [data-theme="dark"] .powers-guide-modal-content {
-  background: #201633;
-  border-color: #9D4EDD;
+  background: #201633 !important;
+  border-color: #9D4EDD !important;
+  color: #F8F5FC !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(157, 78, 221, 0.25) !important;
 }
+
+[data-theme="dark"] .powers-guide-header {
+  border-bottom-color: #584470 !important;
+}
+
+[data-theme="dark"] .powers-guide-title {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .powers-guide-subtitle {
+  color: #D8B4FE !important;
+}
+
+[data-theme="dark"] .power-guide-item {
+  border-color: #584470 !important;
+  box-shadow: 0 3px 0 #130E1F !important;
+}
+
 [data-theme="dark"] .power-guide-valen {
-  background: rgba(244, 114, 182, 0.15);
+  background: rgba(244, 114, 182, 0.2) !important;
+  border-color: #F472B6 !important;
 }
+
 [data-theme="dark"] .power-guide-reni {
-  background: rgba(96, 165, 250, 0.15);
+  background: rgba(96, 165, 250, 0.2) !important;
+  border-color: #60A5FA !important;
 }
+
 [data-theme="dark"] .power-guide-zoe {
-  background: rgba(52, 211, 153, 0.15);
+  background: rgba(52, 211, 153, 0.2) !important;
+  border-color: #34D399 !important;
 }
+
 [data-theme="dark"] .power-guide-lia {
-  background: rgba(192, 132, 252, 0.15);
+  background: rgba(192, 132, 252, 0.2) !important;
+  border-color: #C084FC !important;
+}
+
+[data-theme="dark"] .power-guide-name {
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .power-guide-heroine {
+  color: #E9D5FF !important;
+}
+
+[data-theme="dark"] .power-guide-desc {
+  color: #F1F5F9 !important;
+}
+
+[data-theme="dark"] .power-guide-desc strong {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .power-guide-tip {
+  background: #1A122A !important;
+  border-color: #8975A3 !important;
+  color: #F8F5FC !important;
+}
+
+[data-theme="dark"] .power-guide-tip strong {
+  color: #FBBF24 !important;
+}
+
+[data-theme="dark"] .powers-info-btn {
+  background: #281C3F !important;
+  border-color: #8975A3 !important;
+  color: #F8F5FC !important;
+}
+
+[data-theme="dark"] .powers-info-btn:hover {
+  background: #3B2A59 !important;
+  border-color: #FBBF24 !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] #btn-close-powers-guide {
+  background: #281C3F !important;
+  border-color: #8975A3 !important;
+  color: #F8F5FC !important;
+}
+
+[data-theme="dark"] #btn-close-powers-guide:hover {
+  background: #F472B6 !important;
+  border-color: #F472B6 !important;
+  color: #FFFFFF !important;
 }
 
 .power-guide-badge {
