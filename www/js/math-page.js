@@ -1,28 +1,29 @@
 /**
- * ValenQuest: Controlador de la Pluma de la Fluidez (reading-page.js)
- * Maneja la sesión independiente de práctica lectora con 5 niveles en caliente,
- * racha, combo lírico, recompensas en Diamantes (💎) y poderes de amistad.
+ * ValenQuest: Controlador del Prisma Numérico (math-page.js)
+ * Maneja la sesión independiente de cálculo mental con 5 niveles en caliente,
+ * racha, combo astral, recompensas en Diamantes (💎) y poderes de amistad.
+ * Homologado con reading-page.js.
  */
 
 import { sound } from './services/audio.js';
 import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
-import { readingPractice, READING_LEVELS } from './services/reading-practice.js';
+import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
+import { wasmLoader } from './services/wasm-loader.js';
 
-class ReadingPageController {
+class MathPageController {
   constructor() {
     this.activeHeroineId = 'valen';
     this.isSubmitting = false;
     this.challengeStartTime = Date.now();
-    this.rsvpTimer = null;
-    this.isRsvpPlaying = false;
     this.streakShieldActive = false;
     this.starMultiplier = 1;
+    this.keypadBuffer = '';
   }
 
   async init() {
-    console.log('🪶 [ValenQuest] Inicializando Taller de Lectura: La Pluma de la Fluidez...');
+    console.log('💎 [ValenQuest] Inicializando Taller Matemático: El Prisma Numérico...');
 
     // 1. Configurar eventos de cabecera y controles globales
     this.setupHeaderControls();
@@ -36,24 +37,31 @@ class ReadingPageController {
       this.activeHeroineId = companions.activeId;
     }
 
-    // 3. Cargar estado del módulo de lectura desde IndexedDB (game_modules)
-    await readingPractice.loadState();
+    // 3. Cargar motor Rust WASM y estado del módulo de matemáticas (game_modules)
+    try {
+      const wasm = await wasmLoader.load();
+      await mathPractice.loadState();
+      mathPractice.init(wasm);
+    } catch (err) {
+      console.error('Error initializing WASM in math page:', err);
+    }
 
     // 4. Renderizar balances de cabecera
     this.renderBalances(profile);
 
-    // 5. Configurar chips de nivel
+    // 5. Configurar chips de nivel y alternador de modo teclado
     this.setupLevelChips();
+    this.setupInputModeToggle();
+    this.setupKeypadButtons();
 
     // 6. Configurar poderes de heroínas
     this.setupPowersBadges();
 
-    // 7. Generar y renderizar primer reto
-    readingPractice.generateChallenge();
+    // 7. Renderizar primer reto
     this.renderChallenge();
 
     // Saludo inicial de Orión
-    speech.speak('¡Bienvenida a La Pluma de la Fluidez! Elige tu nivel y leamos juntos.');
+    speech.speak('¡Bienvenida a El Prisma Numérico! Elige tu nivel de cálculo y que la luz guíe tu camino.');
   }
 
   // =========================================================================
@@ -102,10 +110,10 @@ class ReadingPageController {
   }
 
   renderBalances(profile) {
-    const starEl = document.getElementById('reading-star-balance');
+    const starEl = document.getElementById('math-star-balance');
     if (starEl) starEl.textContent = profile?.stars || 0;
 
-    const diamondEl = document.getElementById('reading-diamond-balance');
+    const diamondEl = document.getElementById('math-diamond-balance');
     if (diamondEl) diamondEl.textContent = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
   }
 
@@ -118,38 +126,92 @@ class ReadingPageController {
       chip.addEventListener('click', async (e) => {
         sound.playClick();
         const lvl = Number(e.currentTarget.dataset.level) || 1;
-        await readingPractice.setLevel(lvl);
+        await mathPractice.setLevel(lvl);
+        this.keypadBuffer = '';
         this.renderChallenge();
-        const info = readingPractice.getCurrentLevelInfo();
+        const info = mathPractice.getCurrentLevelInfo();
         speech.speak(`Nivel ${lvl}: ${info.name}. ${info.shortName}.`);
       });
     });
   }
 
   // =========================================================================
-  // Renderizado del Reto Lector
+  // Alternador de Modo de Entrada (Opciones vs Teclado)
+  // =========================================================================
+  setupInputModeToggle() {
+    const btnToggle = document.getElementById('btn-toggle-math-mode');
+    if (btnToggle) {
+      btnToggle.addEventListener('click', () => {
+        sound.playClick();
+        const nextMode = mathPractice.inputMode === 'choice' ? 'keypad' : 'choice';
+        mathPractice.setInputMode(nextMode);
+        this.keypadBuffer = '';
+        this.renderChallenge();
+      });
+    }
+  }
+
+  setupKeypadButtons() {
+    const keypadGrid = document.getElementById('math-keypad-grid');
+    if (keypadGrid) {
+      keypadGrid.addEventListener('click', (e) => {
+        const btn = e.target.closest('.math-keypad-btn');
+        if (!btn) return;
+
+        sound.playClick();
+        const digit = btn.dataset.digit;
+
+        if (digit === 'backspace') {
+          this.keypadBuffer = this.keypadBuffer.slice(0, -1);
+        } else if (digit !== undefined) {
+          if (this.keypadBuffer.length < 5) {
+            this.keypadBuffer += digit;
+          }
+        }
+        this.updateKeypadDisplay();
+      });
+    }
+
+    const btnSubmitKeypad = document.getElementById('btn-keypad-submit');
+    if (btnSubmitKeypad) {
+      btnSubmitKeypad.addEventListener('click', () => {
+        if (!this.keypadBuffer) return;
+        this.submitAnswer(Number(this.keypadBuffer));
+      });
+    }
+  }
+
+  updateKeypadDisplay() {
+    const preview = document.getElementById('math-preview-val');
+    if (preview) {
+      preview.textContent = this.keypadBuffer || '?';
+    }
+  }
+
+  // =========================================================================
+  // Renderizado del Reto Matemático
   // =========================================================================
   renderChallenge() {
-    const state = readingPractice.getState();
+    const state = mathPractice.getState();
     const challenge = state.currentChallenge;
     if (!challenge) return;
 
     this.challengeStartTime = Date.now();
 
-    // 1. Sincronizar título e info del nivel
-    const titleTag = document.getElementById('reading-active-title');
+    // 1. Sincronizar título e info del nivel (HOMOLOGADO)
+    const titleTag = document.getElementById('math-active-title');
     if (titleTag && state.levelInfo) {
-      titleTag.textContent = `${state.levelInfo.icon || '💧'} Nivel ${state.selectedLevel}: ${state.levelInfo.name} (${state.levelInfo.shortName})`;
+      titleTag.textContent = `${state.levelInfo.icon} Nivel ${state.selectedLevel}: ${state.levelInfo.name} (${state.levelInfo.shortName})`;
     }
 
     // 2. Sincronizar racha, récord y diamantes en barra arcade
-    const streakVal = document.getElementById('reading-streak-val');
+    const streakVal = document.getElementById('math-streak-val');
     if (streakVal) streakVal.textContent = state.streak;
 
-    const recordVal = document.getElementById('reading-record-val');
+    const recordVal = document.getElementById('math-record-val');
     if (recordVal) recordVal.textContent = state.highestStreak;
 
-    const diamondsVal = document.getElementById('reading-diamonds-val');
+    const diamondsVal = document.getElementById('math-diamonds-val');
     if (diamondsVal) diamondsVal.textContent = state.diamondsEarned || 0;
 
     // 3. Sincronizar chips activos
@@ -159,130 +221,82 @@ class ReadingPageController {
     });
 
     // 4. Sincronizar combo bar
-    const comboPct = document.getElementById('reading-combo-pct');
-    const comboFill = document.getElementById('reading-combo-fill');
-    const comboBadge = document.getElementById('reading-combo-badge');
+    const comboPct = document.getElementById('math-combo-pct');
+    const comboFill = document.getElementById('math-combo-fill');
+    const comboBadge = document.getElementById('math-combo-badge');
     if (comboPct) comboPct.textContent = `${state.combo}%`;
     if (comboFill) comboFill.style.width = `${state.combo}%`;
     if (comboBadge) {
       comboBadge.textContent = state.totalCombos > 0 ? `⚡ x${state.totalCombos + 1}` : '⚡ x1';
     }
 
-    // 5. Renderizar consigna
-    const promptText = document.getElementById('challenge-prompt-text');
-    if (promptText) {
-      promptText.textContent = challenge.prompt;
-    }
-
-    // 6. Botón de narración por voz con Orión
+    // 5. Botón de narración por voz con Orión
     const btnSpeak = document.getElementById('btn-speak-challenge');
     if (btnSpeak) {
       btnSpeak.onclick = () => {
         sound.playClick();
-        speech.speak(challenge.speakText || challenge.prompt);
+        speech.speak(`¿Cuánto es ${challenge.op1} ${challenge.operator} ${challenge.op2}?`);
       };
     }
 
-    // 7. Renderizar contenido específico del nivel
-    const contentArea = document.getElementById('challenge-content-area');
-    if (contentArea) {
-      contentArea.innerHTML = '';
+    // 6. Botón de alternancia de modo
+    const btnToggleMode = document.getElementById('btn-toggle-math-mode');
+    if (btnToggleMode) {
+      btnToggleMode.innerHTML = state.inputMode === 'choice'
+        ? '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Usar Teclado 🔢</span>'
+        : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Opciones 🔘</span>';
+    }
 
-      if (challenge.type === 'syllables') {
-        contentArea.innerHTML = `<div class="syllable-display">${challenge.displayHtml}</div>`;
-      } else if (challenge.type === 'blend') {
-        contentArea.innerHTML = `<div class="blend-display">${challenge.displayHtml}</div>`;
-      } else if (challenge.type === 'sentence') {
-        contentArea.innerHTML = `
-          <div class="sentence-text">«${challenge.sentence}»</div>
-          <div class="sentence-question">❓ ${challenge.question}</div>
-        `;
-      } else if (challenge.type === 'rsvp') {
-        contentArea.innerHTML = `
-          <div class="rsvp-stage">
-            <div class="rsvp-word-box" id="rsvp-display-box">${challenge.words[0] || 'Listo'}</div>
-            <div class="rsvp-controls-row">
-              <button type="button" class="btn-rsvp-play" id="btn-play-rsvp-words">
-                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-                <span>¡Iniciar Velocímetro!</span>
-              </button>
-              <div class="sentence-question" id="rsvp-question-tag" style="display:none;">❓ ${challenge.question}</div>
-            </div>
-          </div>
-        `;
-        this.setupRsvpInteractive(challenge.words);
-      } else if (challenge.type === 'fable') {
-        contentArea.innerHTML = `
-          <div class="fable-box">
-            <h4 class="fable-title"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> ${challenge.title}</h4>
-            <p class="fable-text">${challenge.text}</p>
-            <div class="fable-question">❓ ${challenge.question}</div>
-          </div>
-        `;
+    // 7. Renderizar operación matemática
+    const op1El = document.getElementById('math-op1');
+    const operatorEl = document.getElementById('math-operator');
+    const op2El = document.getElementById('math-op2');
+    const previewEl = document.getElementById('math-preview-val');
+
+    if (op1El) op1El.textContent = challenge.op1;
+    if (operatorEl) operatorEl.textContent = challenge.operator;
+    if (op2El) op2El.textContent = challenge.op2;
+    if (previewEl) previewEl.textContent = state.inputMode === 'keypad' ? (this.keypadBuffer || '?') : '?';
+
+    // 8. Opciones Múltiples vs Teclado
+    const optionsContainer = document.getElementById('math-options-container');
+    const keypadContainer = document.getElementById('math-keypad-container');
+
+    if (state.inputMode === 'choice') {
+      if (optionsContainer) optionsContainer.hidden = false;
+      if (keypadContainer) keypadContainer.hidden = true;
+
+      const grid = document.getElementById('math-options-grid');
+      if (grid) {
+        grid.innerHTML = '';
+        challenge.options.forEach((optNum) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'math-choice-btn';
+          btn.textContent = optNum;
+          btn.addEventListener('click', (e) => this.submitAnswer(optNum, e.currentTarget));
+          grid.appendChild(btn);
+        });
       }
+    } else {
+      if (optionsContainer) optionsContainer.hidden = true;
+      if (keypadContainer) keypadContainer.hidden = false;
+      this.updateKeypadDisplay();
     }
-
-    // 8. Renderizar opciones múltiples
-    const optionsGrid = document.getElementById('reading-options-grid');
-    if (optionsGrid) {
-      optionsGrid.innerHTML = '';
-      challenge.options.forEach((optText) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'reading-choice-btn';
-        btn.textContent = optText;
-        btn.addEventListener('click', (e) => this.submitAnswer(optText, e.currentTarget));
-        optionsGrid.appendChild(btn);
-      });
-    }
-  }
-
-  // =========================================================================
-  // RSVP Interactivo (Nivel 4)
-  // =========================================================================
-  setupRsvpInteractive(words) {
-    const btnPlay = document.getElementById('btn-play-rsvp-words');
-    const box = document.getElementById('rsvp-display-box');
-    const questionTag = document.getElementById('rsvp-question-tag');
-    if (!btnPlay || !box) return;
-
-    btnPlay.addEventListener('click', () => {
-      if (this.isRsvpPlaying) return;
-      this.isRsvpPlaying = true;
-      sound.playClick();
-      btnPlay.disabled = true;
-
-      let idx = 0;
-      if (this.rsvpTimer) clearInterval(this.rsvpTimer);
-
-      this.rsvpTimer = setInterval(() => {
-        if (idx < words.length) {
-          box.textContent = words[idx];
-          try { sound.playClick(); } catch (e) {}
-          idx++;
-        } else {
-          clearInterval(this.rsvpTimer);
-          this.isRsvpPlaying = false;
-          box.textContent = '✨ ¡Lectura Completa!';
-          if (questionTag) questionTag.style.display = 'block';
-          btnPlay.disabled = false;
-        }
-      }, 380);
-    });
   }
 
   // =========================================================================
   // Envío de Respuestas (Zero-Freeze con try-catch-finally)
   // =========================================================================
-  async submitAnswer(userAnswer, buttonEl) {
+  async submitAnswer(userAnswer, buttonEl = null) {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
 
-    const card = document.getElementById('reading-challenge-card');
+    const card = document.getElementById('math-challenge-card');
     const elapsedMs = Date.now() - this.challengeStartTime;
 
     try {
-      const res = readingPractice.checkAnswer(userAnswer, elapsedMs);
+      const res = mathPractice.checkAnswer(userAnswer, elapsedMs);
 
       if (res.isCorrect) {
         if (buttonEl) buttonEl.classList.add('correct-choice');
@@ -293,16 +307,16 @@ class ReadingPageController {
           const newBalance = await db.addDiamonds(res.earnedDiamonds || 1);
           this.updateDiamondsDisplay(newBalance);
         } catch (e) {
-          console.warn('Error saving diamonds in reading:', e);
+          console.warn('Error saving diamonds in math:', e);
         }
 
         // Sincronizar barra arcade
-        const diamondsVal = document.getElementById('reading-diamonds-val');
+        const diamondsVal = document.getElementById('math-diamonds-val');
         if (diamondsVal) diamondsVal.textContent = res.totalDiamonds;
 
-        const comboPct = document.getElementById('reading-combo-pct');
-        const comboFill = document.getElementById('reading-combo-fill');
-        const comboBadge = document.getElementById('reading-combo-badge');
+        const comboPct = document.getElementById('math-combo-pct');
+        const comboFill = document.getElementById('math-combo-fill');
+        const comboBadge = document.getElementById('math-combo-badge');
         if (comboPct) comboPct.textContent = `${res.combo}%`;
         if (comboFill) comboFill.style.width = `${res.combo}%`;
         if (comboBadge) {
@@ -316,16 +330,16 @@ class ReadingPageController {
         } catch (e) {}
 
         if (res.comboBurst) {
-          const comboWrapper = document.getElementById('reading-combo-wrapper');
+          const comboWrapper = document.getElementById('math-combo-wrapper');
           if (comboWrapper) {
             comboWrapper.classList.add('combo-burst-burst');
             setTimeout(() => comboWrapper.classList.remove('combo-burst-burst'), 1200);
           }
           try { sound.playLevelUp(); } catch (e) {}
-          try { speech.speak('¡Súper Combo Lírico completado! ¡Diez diamantes para tu ropero!'); } catch (e) {}
+          try { speech.speak('¡Súper Combo Astral completado! ¡Diez diamantes para tu ropero!'); } catch (e) {}
 
           await new Promise((resolve) => setTimeout(resolve, 800));
-          readingPractice.resetCombo();
+          mathPractice.resetCombo();
           if (comboPct) comboPct.textContent = '0%';
           if (comboFill) comboFill.style.width = '0%';
         } else if (res.streak > 0 && res.streak % 3 === 0) {
@@ -343,33 +357,34 @@ class ReadingPageController {
         if (this.streakShieldActive) {
           this.streakShieldActive = false;
           try { sound.playStreak(); } catch (e) {}
-          try { speech.speak('¡El Escudo de Zoe protegió tu racha de lectura!'); } catch (e) {}
+          try { speech.speak('¡El Escudo de Zoe protegió tu racha de cálculo!'); } catch (e) {}
         }
 
-        const streakVal = document.getElementById('reading-streak-val');
+        const streakVal = document.getElementById('math-streak-val');
         if (streakVal) streakVal.textContent = res.streak;
-        const comboPct = document.getElementById('reading-combo-pct');
-        const comboFill = document.getElementById('reading-combo-fill');
+        const comboPct = document.getElementById('math-combo-pct');
+        const comboFill = document.getElementById('math-combo-fill');
         if (comboPct) comboPct.textContent = '0%';
         if (comboFill) comboFill.style.width = '0%';
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      await new Promise((resolve) => setTimeout(resolve, 550));
     } catch (err) {
-      console.error('Error in reading submitAnswer:', err);
+      console.error('Error in math submitAnswer:', err);
     } finally {
       this.isSubmitting = false;
+      this.keypadBuffer = '';
       if (card) card.classList.remove('correct-flash', 'incorrect-shake');
-      readingPractice.generateChallenge();
+      mathPractice.generateChallenge();
       this.renderChallenge();
     }
   }
 
   updateDiamondsDisplay(diamonds) {
-    const headerDiamonds = document.getElementById('reading-diamond-balance');
+    const headerDiamonds = document.getElementById('math-diamond-balance');
     if (headerDiamonds) headerDiamonds.textContent = diamonds;
 
-    const arcadeDiamonds = document.getElementById('reading-diamonds-val');
+    const arcadeDiamonds = document.getElementById('math-diamonds-val');
     if (arcadeDiamonds) arcadeDiamonds.textContent = diamonds;
   }
 
@@ -377,7 +392,7 @@ class ReadingPageController {
   // Poderes del Cuarteto de la Armonía
   // =========================================================================
   setupPowersBadges() {
-    const powerBar = document.getElementById('reading-powers-bar');
+    const powerBar = document.getElementById('math-powers-bar');
     if (!powerBar) return;
 
     powerBar.innerHTML = '';
@@ -416,17 +431,17 @@ class ReadingPageController {
     if (heroineId === 'zoe') {
       this.streakShieldActive = true;
     } else if (heroineId === 'valen') {
-      // Descarta una opción incorrecta
-      const challenge = readingPractice.getState().currentChallenge;
+      // Descarta dos opciones incorrectas
+      const challenge = mathPractice.getState().currentChallenge;
       if (challenge) {
-        const optionBtns = document.querySelectorAll('.reading-choice-btn');
-        let discarded = false;
+        const optionBtns = document.querySelectorAll('.math-choice-btn');
+        let discardedCount = 0;
         optionBtns.forEach((btn) => {
-          if (!discarded && btn.textContent !== challenge.answer) {
+          if (discardedCount < 2 && Number(btn.textContent) !== challenge.answer) {
             btn.disabled = true;
             btn.style.opacity = '0.35';
             btn.style.textDecoration = 'line-through';
-            discarded = true;
+            discardedCount++;
           }
         });
       }
@@ -437,7 +452,7 @@ class ReadingPageController {
 }
 
 // Inicialización automática
-const controller = new ReadingPageController();
+const controller = new MathPageController();
 document.addEventListener('DOMContentLoaded', () => {
   controller.init();
 });

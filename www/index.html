@@ -961,20 +961,20 @@
             <div class="level-selector-wrapper">
               <span class="level-selector-label">Elige nivel de cálculo:</span>
               <div class="level-chips-row" id="math-level-chips" role="group" aria-label="Nivel de práctica matemática">
-                <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Conteo y Sumas 1..10">1</button>
-                <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Sumas y Restas hasta 20">2</button>
-                <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Acarreo y Desagrupación">3</button>
-                <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: Tablas 2, 3, 5 y 10">4</button>
-                <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Tablas Avanzadas y Desafíos">5</button>
+                <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Chispas Estelares (Conteo y Sumas 1..10)">1</button>
+                <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Senderos de Nubes (Sumas y Restas hasta 20)">2</button>
+                <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Enigmas de Cristal (Acarreo y Desagrupación)">3</button>
+                <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: El Salón de los Reflejos (Tablas 2, 3, 5 y 10)">4</button>
+                <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Vórtice Cósmico (Tablas Avanzadas y Desafíos)">5</button>
               </div>
               <div class="practice-level-summary" id="math-level-summary">
-                ✨ Nivel 1: Conteo y Sumas 1..10
+                ✨ Nivel 1: Chispas Estelares (Conteo y Sumas 1..10)
               </div>
             </div>
 
-            <button id="btn-intro-goto-math" class="practice-action-btn" type="button" aria-label="Comenzar práctica de matemáticas en el nivel seleccionado">
-              <span>Practicar Matemáticas →</span>
-            </button>
+            <a href="math.html" id="btn-intro-goto-math" class="practice-action-btn" role="button" aria-label="Comenzar práctica de matemáticas en el Prisma Numérico" style="text-decoration: none;">
+              <span>Entrar al Prisma Numérico →</span>
+            </a>
           </div>
 
           <!-- Pilar 3: La Pluma de la Fluidez (Taller de Lectura) -->
@@ -995,14 +995,14 @@
             <div class="level-selector-wrapper">
               <span class="level-selector-label">Elige nivel de lectura:</span>
               <div class="level-chips-row" id="reading-level-chips" role="group" aria-label="Nivel de práctica de lectura">
-                <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Palabras Directas">1</button>
-                <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Sílabas Trabadas">2</button>
-                <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Oraciones con Orión">3</button>
-                <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: Velocímetro RSVP">4</button>
-                <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Comprensión Lectora">5</button>
+                <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Ecos de Rocío (Palabras Directas)">1</button>
+                <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Vientos Cruzados (Sílabas Trabadas)">2</button>
+                <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Pergaminos Cantarines (Oraciones con Orión)">3</button>
+                <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: Vuelo Rápido RSVP (Velocímetro RSVP)">4</button>
+                <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Fábulas del Grimorio (Comprensión Lectora)">5</button>
               </div>
               <div class="practice-level-summary" id="reading-level-summary">
-                💧 Nivel 1: Palabras Directas
+                💧 Nivel 1: Ecos de Rocío (Palabras Directas)
               </div>
             </div>
 
@@ -1055,7 +1055,7 @@
           <div class="math-practice-bar-info">
             <span class="math-practice-title-tag">
               <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-              <strong id="math-practice-active-title">✨ Nivel 1: Conteo y Sumas 1..10</strong>
+              <strong id="math-practice-active-title">✨ Nivel 1: Chispas Estelares (Conteo y Sumas 1..10)</strong>
             </span>
             <span class="math-practice-streak-tag" id="math-practice-streak-tag">
               🔥 Racha: <strong id="math-practice-streak-val">0</strong> • Récord: <span id="math-practice-record-val">0</span>
@@ -1067,11 +1067,11 @@
           <div class="math-practice-chips-wrapper">
             <span class="math-practice-chips-label">Nivel:</span>
             <div class="level-chips-row" id="math-practice-ingame-chips" role="group" aria-label="Cambiar nivel de cálculo en caliente">
-              <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Conteo y Sumas 1..10">1</button>
-              <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Sumas y Restas hasta 20">2</button>
-              <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Acarreo y Desagrupación">3</button>
-              <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: Tablas 2, 3, 5 y 10">4</button>
-              <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Tablas Avanzadas y Desafíos">5</button>
+              <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Chispas Estelares (Conteo y Sumas 1..10)">1</button>
+              <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Senderos de Nubes (Sumas y Restas hasta 20)">2</button>
+              <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Enigmas de Cristal (Acarreo y Desagrupación)">3</button>
+              <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: El Salón de los Reflejos (Tablas 2, 3, 5 y 10)">4</button>
+              <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Vórtice Cósmico (Tablas Avanzadas y Desafíos)">5</button>
             </div>
           </div>
         </div>

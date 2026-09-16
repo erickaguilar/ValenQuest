@@ -1,0 +1,613 @@
+/**
+ * ValenQuest: Estilos de la Página de Matemáticas (math.css)
+ * Taller interactivo de cálculo mental para El Prisma Numérico.
+ * Homologado al 100% con La Pluma de la Fluidez (reading.css).
+ * Soporte Día Pastel / Noche Astral y Mobile-First.
+ */
+
+/* ==========================================================================
+   1. CONTENEDOR GENERAL (HOMOLOGADO)
+   ========================================================================== */
+.math-app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   2. BARRA DE NAVEGACIÓN SUPERIOR (TOP NAV)
+   ========================================================================== */
+.math-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.math-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.math-back-btn:hover {
+  background: var(--vq-sky-light);
+  transform: translateY(-2px);
+}
+
+.math-back-btn:active {
+  transform: translateY(1px);
+}
+
+.math-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--vq-text);
+}
+
+.math-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-stars-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-gold-light, #FFF0C2);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.math-diamonds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+/* ==========================================================================
+   3. BARRA ARCADE EN VIVO (HOMOLOGADA CON READING)
+   ========================================================================== */
+.math-practice-bar {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 14px 18px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.math-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.math-bar-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.math-title-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--vq-text);
+}
+
+.math-streak-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #4A3E56;
+  background: #FFD166;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .math-streak-tag {
+  background: #9D4EDD;
+  color: #FDF7FF;
+}
+
+.math-diamonds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #1D3557;
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .math-diamonds-tag {
+  background: linear-gradient(135deg, #2A4365 0%, #1A365D 100%);
+  color: #FDF7FF;
+}
+
+.math-chips-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-chips-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--vq-text-muted);
+}
+
+.level-chips-row {
+  display: flex;
+  gap: 4px;
+}
+
+.level-chip-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--vq-border);
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.level-chip-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-light);
+}
+
+.level-chip-btn.active {
+  background: var(--vq-pink-bubble);
+  border-color: var(--vq-border);
+  box-shadow: var(--vq-shadow-active);
+  transform: translateY(-1px);
+}
+
+/* Barra de Combo Astral */
+.math-combo-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.math-combo-wrapper.combo-burst-burst {
+  animation: vqComboAstralBurst 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.math-combo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.math-combo-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.math-combo-badge {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: var(--vq-radius-pill);
+  background: var(--vq-gold);
+  border: 1px solid var(--vq-border);
+  color: var(--vq-text);
+}
+
+.math-combo-pct {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+}
+
+.math-combo-track {
+  height: 10px;
+  border-radius: var(--vq-radius-pill);
+  background: rgba(74, 62, 86, 0.15);
+  border: 1.5px solid var(--vq-border);
+  overflow: hidden;
+}
+
+.math-combo-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #A2D2FF 0%, #FFAFCC 50%, #FFD166 100%);
+  border-radius: var(--vq-radius-pill);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   4. TARJETA PRINCIPAL DEL DESAFÍO MATEMÁTICO (HOMOLOGADA CON READING)
+   ========================================================================== */
+.math-challenge-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 380px;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.math-challenge-card.correct-flash {
+  animation: vqCardSuccessPulse 0.5s ease-out;
+}
+
+.math-challenge-card.incorrect-shake {
+  animation: vqShake 0.45s ease-in-out;
+}
+
+.challenge-prompt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.challenge-prompt-text {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.challenge-prompt-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-speak-orion,
+.btn-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.btn-speak-orion:hover,
+.btn-mode-toggle:hover {
+  background: var(--vq-sky-light);
+  transform: translateY(-2px);
+}
+
+/* Área de Visualización de la Operación de Cálculo */
+.math-expression-area {
+  background: var(--vq-bg-well);
+  border: 2.5px dashed var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  min-height: 140px;
+}
+
+.math-expression-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  letter-spacing: 2px;
+}
+
+.math-op1 { color: #32213F; }
+.math-operator { color: var(--vq-pink-bubble); }
+.math-op2 { color: #1D3557; }
+.math-equals { color: var(--vq-text-muted); }
+.math-target-q {
+  color: var(--vq-gold);
+  background: rgba(255, 209, 102, 0.2);
+  padding: 2px 14px;
+  border-radius: var(--vq-radius-card);
+  border: 2px dashed var(--vq-border);
+}
+
+.math-answer-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-answer-preview-box {
+  min-width: 110px;
+  height: 48px;
+  padding: 4px 16px;
+  background: var(--vq-bg-card);
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+/* Opciones de Respuesta Múltiple (Modo 'choice') */
+.math-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.math-choice-btn {
+  padding: 18px 20px;
+  background: var(--vq-bg-card);
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-hard);
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.math-choice-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  background: #FFF0C2;
+}
+
+.math-choice-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+.math-choice-btn.correct-choice {
+  background: #B8F2E6 !important;
+  color: #1E3A34 !important;
+  border-color: #34D399 !important;
+}
+
+.math-choice-btn.incorrect-choice {
+  background: #FFC8DD !important;
+  color: #5C1D2E !important;
+  border-color: #E63946 !important;
+}
+
+/* Teclado Numérico Arcade (Modo 'keypad') */
+.math-keypad-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.math-keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.math-keypad-btn {
+  height: 54px;
+  border-radius: var(--vq-radius-card);
+  border: 2px solid var(--vq-border);
+  background: var(--vq-bg-card);
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.12s ease;
+}
+
+.math-keypad-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-sky-light);
+}
+
+.math-keypad-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.math-keypad-btn.keypad-clear {
+  background: #FFC8DD;
+  font-size: 1.15rem;
+}
+
+.math-keypad-submit {
+  width: 100%;
+  height: 54px;
+  border-radius: var(--vq-radius-pill);
+  border: 2.5px solid var(--vq-border);
+  background: linear-gradient(135deg, #FFAFCC 0%, #FFC8DD 100%);
+  color: #32213F;
+  font-size: 1.15rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--vq-shadow-hard);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.math-keypad-submit:hover {
+  transform: translateY(-2px);
+  background: #FFAFCC;
+}
+
+.math-keypad-submit:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+/* Barra de Poderes de las Princesas (Homologada) */
+.math-powers-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  border-top: 2px dashed var(--vq-border);
+}
+
+/* ==========================================================================
+   5. PIE DE PÁGINA (HOMOLOGADO CON READING)
+   ========================================================================== */
+.math-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.math-nav-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease;
+}
+
+.math-nav-link-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-sky-light);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .math-app {
+    padding: 8px 10px 30px;
+    gap: 12px;
+  }
+
+  .math-practice-bar,
+  .math-challenge-card {
+    padding: 14px;
+    border-radius: var(--vq-radius-card);
+  }
+
+  .math-expression-display {
+    font-size: 2.2rem;
+    gap: 6px;
+  }
+
+  .math-choice-btn {
+    font-size: 1.3rem;
+    padding: 12px 14px;
+  }
+}

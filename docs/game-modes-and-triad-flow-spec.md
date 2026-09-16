@@ -84,19 +84,21 @@ Los 8 capítulos canónicos ilustrados en [`www/story.html`](file:///data/data/c
 ### 3.1. Concepto y Rol
 Es el **gimnasio de cálculo mental continuo e infinito**. Diseñado para el entrenamiento puro de la fluidez aritmética sin pausas narrativas. Permite seleccionar libremente o progresar a través de **5 niveles de dominio**:
 
-### 3.2. Matriz de los 5 Niveles de Cálculo
+### 3.2. Matriz de los 5 Niveles de Cálculo (Homologada con Lectura)
 
-| Nivel | Nombre del Reto | Operaciones y Rango | Foco Cognitivo / Pedagógico |
-| :---: | :--- | :--- | :--- |
-| **1** | **Chispas Estelares** | Sumas directas $1 \dots 10$, conteo visual con talismanes. | Sentido numérico, conservación de cantidad y correspondencia 1 a 1. |
-| **2** | **Senderos de Nubes** | Sumas y restas hasta $20$ sin transformación ($14 + 5$, $18 - 6$). | Fluidez aditiva básica, complementos al 10 y recta numérica mental. |
-| **3** | **Enigmas de Cristal** | Sumas con acarreo ($17 + 8$) y restas con desagrupación ($32 - 15$) hasta $50$. | Descomposición posicional (unidades y decenas) y algoritmo de transformación. |
-| **4** | **El Salón de los Reflejos** | Tablas de multiplicar fundamentales: $2$, $3$, $5$ y $10$. | Multiplicación como suma repetida, patrones rítmicos y matrices rectangulares. |
-| **5** | **Vórtice Cósmico** | Tablas avanzadas ($4, 6, 7, 8, 9$), dobles, mitades y operaciones con paréntesis. | Automatización ágil, jerarquía operacional y flexibilidad de cálculo mental. |
+| Nivel | Icono | Nombre del Reto | Subtítulo Pedagógico | Operaciones y Rango | Foco Cognitivo / Pedagógico |
+| :---: | :---: | :--- | :--- | :--- | :--- |
+| **1** | ✨ | **Chispas Estelares** | *Conteo y Sumas 1..10* | Sumas directas $1 \dots 10$, conteo visual con talismanes. | Sentido numérico, conservación de cantidad y correspondencia 1 a 1. |
+| **2** | ☁️ | **Senderos de Nubes** | *Sumas y Restas hasta 20* | Sumas y restas hasta $20$ sin transformación ($14 + 5$, $18 - 6$). | Fluidez aditiva básica, complementos al 10 y recta numérica mental. |
+| **3** | 💎 | **Enigmas de Cristal** | *Acarreo y Desagrupación* | Sumas con acarreo ($17 + 8$) y restas con desagrupación ($32 - 15$) hasta $50$. | Descomposición posicional (unidades y decenas) y algoritmo de transformación. |
+| **4** | 🦁 | **El Salón de los Reflejos** | *Tablas 2, 3, 5 y 10* | Tablas de multiplicar fundamentales: $2$, $3$, $5$ y $10$. | Multiplicación como suma repetida, patrones rítmicos y matrices rectangulares. |
+| **5** | 🌌 | **Vórtice Cósmico** | *Tablas Avanzadas y Desafíos* | Tablas avanzadas ($4, 6, 7, 8, 9$), dobles, mitades y operaciones con paréntesis. | Automatización ágil, jerarquía operacional y flexibilidad de cálculo mental. |
 
 ### 3.3. Mecánicas Arcade
-* **Racha Infinita de Estrellas:** Multiplicadores dinámicos ($1\times, 1.5\times, 2\times$) al mantener respuestas consecutivas sin error.
-* **Soporte de Entrada Dual:** Opciones múltiples con distractores plausibles generados por Rust WASM o teclado numérico virtual táctil (Modo Teclado).
+* **Racha Infinita de Fuego:** Multiplicadores dinámicos al mantener respuestas consecutivas sin error.
+* **Barra de Combo Astral (0% a 100%):** Cada acierto suma porcentaje de combo. Al llegar al 100%, se desata una ráfaga astral con recompensa de 10 Diamantes (💎) y reinicio instantáneo del ciclo sin congelar la interfaz.
+* **Recompensas Exclusivas en Diamantes (💎):** Los módulos de práctica de cálculo y lectura otorgan Diamantes (💎) destinados al Ropero Mágico (`wardrobe.html`), preservando las Estrellas (⭐) exclusivamente para la progresión narrativa de la Campaña (`campaign.html`).
+* **Soporte de Entrada Dual:** Opciones múltiples con distractores generados por Rust WASM o teclado numérico virtual táctil (Modo Teclado con botón unificado de envío).
 
 ---
 
@@ -105,39 +107,42 @@ Es el **gimnasio de cálculo mental continuo e infinito**. Diseñado para el ent
 ### 4.1. Concepto y Rol
 Es el **taller intensivo de decodificación fonética y comprensión lingüística**. Diseñado para niños que están aprendiendo a leer o perfeccionando su entonación y velocidad. Estructurado en **5 niveles de maestría lectora**:
 
-### 4.2. Matriz de los 5 Niveles de Fluidez Lectora
+### 4.2. Matriz de los 5 Niveles de Fluidez Lectora (Homologada con Matemáticas)
 
-| Nivel | Nombre del Taller | Formato y Mecánica Lingüística | Foco Cognitivo / RAE |
-| :---: | :--- | :--- | :--- |
-| **1** | **Ecos de Rocío** | Palabras bisílabas directas (*ma-pa, lu-na, ro-sa, es-tre-lla*). | Conciencia silábica directa, segmentación fonémica y articulación clara. |
-| **2** | **Vientos Cruzados** | Sílabas trabadas y grupos consonánticos inseparables (*bra, pla, tro, glu, cri*). | Superación de dislalias fonológicas y fluidez en combinaciones complejas. |
-| **3** | **Pergaminos Cantarines** | Oraciones breves con apoyo auditivo del Maestro Orión (Web Speech API). | Entonación prosódica, signos de puntuación (. , ¡! ¿?) y pausas respiratorias. |
-| **4** | **Vuelo Rápido RSVP** | Lectura visual palabra por palabra en taquistoscopio RSVP (100 a 250 WPM). | Eliminación de subvocalización innecesaria y ampliación del campo visual fijador. |
-| **5** | **Fábulas del Grimorio** | Párrafos narrativos con adivinanzas y preguntas de inferencia y vocabulario. | Comprensión literal e inferencial, identificación de sinónimos y lección moral. |
+| Nivel | Icono | Nombre del Taller | Subtítulo Pedagógico | Formato y Mecánica Lingüística | Foco Cognitivo / RAE |
+| :---: | :---: | :--- | :--- | :--- | :--- |
+| **1** | 💧 | **Ecos de Rocío** | *Palabras Directas* | Palabras bisílabas directas (*ma-pa, lu-na, ro-sa, es-tre-lla*). | Conciencia silábica directa, segmentación fonémica y articulación clara. |
+| **2** | 🍃 | **Vientos Cruzados** | *Sílabas Trabadas* | Sílabas trabadas y grupos consonánticos inseparables (*bra, pla, tro, glu, cri*). | Superación de dislalias fonológicas y fluidez en combinaciones complejas. |
+| **3** | 📜 | **Pergaminos Cantarines** | *Oraciones con Orión* | Oraciones breves con apoyo auditivo del Maestro Orión (Web Speech API). | Entonación prosódica, signos de puntuación (. , ¡! ¿?) y pausas respiratorias. |
+| **4** | ⚡ | **Vuelo Rápido RSVP** | *Velocímetro RSVP* | Lectura visual palabra por palabra en taquistoscopio RSVP (100 a 250 WPM). | Eliminación de subvocalización innecesaria y ampliación del campo visual fijador. |
+| **5** | 📖 | **Fábulas del Grimorio** | *Comprensión Lectora* | Párrafos narrativos con adivinanzas y preguntas de inferencia y vocabulario. | Comprensión literal e inferencial, identificación de sinónimos y lección moral. |
 
 ---
 
 ## ⚙️ 5. Arquitectura de Software y Persistencia
 
-### 5.1. Orquestación Frontend Desacoplada (`www/`)
-El frontend desacopla por completo los tres pilares de juego para evitar colisiones de estado:
+### 5.1. Orquestación Frontend Desacoplada y Homologada (`www/`)
+El frontend desacopla por completo los tres pilares de juego para evitar colisiones de estado, con arquitectura simétrica y diseño homologado:
 
 ```text
 www/
-├── index.html                     # Salón Principal (Hub) y El Prisma Numérico (Matemáticas)
+├── index.html                     # Salón Principal (Hub de Lumiria)
 ├── campaign.html                  # [DESACOPLADO] La Gran Aventura (Campaña Troncal)
+├── math.html                      # [DESACOPLADO] El Prisma Numérico (Arcade de Cálculo Mental)
 ├── reading.html                   # [DESACOPLADO] La Pluma de la Fluidez (Taller de Lectura)
 ├── story.html                     # El Gran Libro de las Princesas (Crónicas y Cuentos)
 ├── wardrobe.html                  # El Ropero Mágico y Boutique de Lumiria
 ├── css/
 │   ├── campaign.css               # Estilos del modo campaña y roadmap de templos
-│   ├── reading.css                # [NUEVO] Estilos dedicados de La Pluma de la Fluidez
+│   ├── math.css                   # [DESACOPLADO] Estilos dedicados de El Prisma Numérico
+│   ├── reading.css                # [DESACOPLADO] Estilos dedicados de La Pluma de la Fluidez
 │   ├── wardrobe.css               # Probador y boutique
 │   └── components.css             # Componentes transversales
 ├── js/
-│   ├── app.js                     # Controlador principal del Hub y Prisma Numérico
+│   ├── app.js                     # Controlador principal del Hub
 │   ├── campaign-page.js           # Controlador dedicado de la Campaña
-│   ├── reading-page.js            # [NUEVO] Controlador dedicado de La Pluma de la Fluidez
+│   ├── math-page.js               # [DESACOPLADO] Controlador dedicado de El Prisma Numérico
+│   ├── reading-page.js            # [DESACOPLADO] Controlador dedicado de La Pluma de la Fluidez
 │   ├── wardrobe-page.js           # Controlador de la Boutique
 │   └── services/
 │       ├── adventure.js           # Orquestador híbrido de La Gran Aventura

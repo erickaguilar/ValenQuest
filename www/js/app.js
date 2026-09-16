@@ -283,10 +283,6 @@ class KidsLearnApp {
     if (btnIntroMath) {
       btnIntroMath.addEventListener('click', () => {
         sound.playClick();
-        this.gameMode = 'math_practice';
-        this.renderMathChallenge();
-        this.syncTriadUI();
-        this.switchTab('math');
       });
     }
 
@@ -294,8 +290,6 @@ class KidsLearnApp {
     if (btnIntroReading) {
       btnIntroReading.addEventListener('click', () => {
         sound.playClick();
-        this.gameMode = 'reading_practice';
-        this.switchTab('reading');
       });
     }
 
@@ -718,7 +712,7 @@ class KidsLearnApp {
     if (mathSummary) {
       const info = mathPractice.getCurrentLevelInfo();
       const streakText = mathPractice.highestStreak > 0 ? ` • Récord: 🔥${mathPractice.highestStreak}` : '';
-      mathSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.shortName}${streakText}`;
+      mathSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.name} (${info.shortName})${streakText}`;
     }
 
     // 3. Nivel seleccionado en La Pluma de la Fluidez (Lectura)
@@ -730,7 +724,8 @@ class KidsLearnApp {
     const readingSummary = document.getElementById('reading-level-summary');
     if (readingSummary) {
       const info = readingPractice.getCurrentLevelInfo();
-      readingSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.shortName}`;
+      const streakText = readingPractice.highestStreak > 0 ? ` • Récord: 🔥${readingPractice.highestStreak}` : '';
+      readingSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.name} (${info.shortName})${streakText}`;
     }
   }
 
@@ -822,7 +817,7 @@ class KidsLearnApp {
         mathPracticeBar.hidden = false;
         const activeTitle = document.getElementById('math-practice-active-title');
         if (activeTitle) {
-          activeTitle.textContent = `${lvlInfo.icon} Nivel ${lvlInfo.level}: ${lvlInfo.name}`;
+          activeTitle.textContent = `${lvlInfo.icon} Nivel ${lvlInfo.level}: ${lvlInfo.name} (${lvlInfo.shortName})`;
         }
         const streakVal = document.getElementById('math-practice-streak-val');
         if (streakVal) streakVal.textContent = mathPractice.streak;
