@@ -48,6 +48,7 @@ export const INITIAL_COSMETICS = [
     slot: 'head',
     name: 'Tiara de Rocío',
     costStars: 0,
+    costDiamonds: 0,
     unlocked: true,
     icon: '👑',
     description: 'Gotas de rocío celestial que brillan con la luz del alba.',
@@ -59,6 +60,7 @@ export const INITIAL_COSMETICS = [
     slot: 'head',
     name: 'Diadema Prisma Estelar',
     costStars: 15,
+    costDiamonds: 15,
     unlocked: false,
     icon: '💎',
     description: 'Forjada con tres puntas de cristal que refractan destellos arcoíris.',
@@ -70,6 +72,7 @@ export const INITIAL_COSMETICS = [
     slot: 'wings',
     name: 'Alas Cósmicas Tornasol',
     costStars: 30,
+    costDiamonds: 30,
     unlocked: false,
     icon: '🪽',
     description: 'Plumas celestiales imbuidas con el fulgor de la realeza alicornio.',
@@ -81,6 +84,7 @@ export const INITIAL_COSMETICS = [
     slot: 'head',
     name: 'Lazo Celeste de Viento',
     costStars: 0,
+    costDiamonds: 0,
     unlocked: true,
     icon: '🎀',
     description: 'Cinta etérea hilada con la brisa suave de las nubes.',
@@ -92,6 +96,7 @@ export const INITIAL_COSMETICS = [
     slot: 'wings',
     name: 'Alas de Fénix Tornasol',
     costStars: 25,
+    costDiamonds: 25,
     unlocked: false,
     icon: '🪽',
     description: 'Plumas tornasoladas con el resplandor de la aurora boreal.',
@@ -103,6 +108,7 @@ export const INITIAL_COSMETICS = [
     slot: 'head',
     name: 'Corona Floral Silvestre',
     costStars: 0,
+    costDiamonds: 0,
     unlocked: true,
     icon: '🌸',
     description: 'Pétalos y ramas de la arboleda sagrada que nunca se marchitan.',
@@ -114,6 +120,7 @@ export const INITIAL_COSMETICS = [
     slot: 'charm',
     name: 'Broche Esmeralda Sabia',
     costStars: 20,
+    costDiamonds: 20,
     unlocked: false,
     icon: '🌿',
     description: 'Gema mística que susurra consejos de los antiguos guardianes.',
@@ -125,6 +132,7 @@ export const INITIAL_COSMETICS = [
     slot: 'head',
     name: 'Tiara del Solsticio',
     costStars: 0,
+    costDiamonds: 0,
     unlocked: true,
     icon: '👑',
     description: 'Corona estelar forjada con rayos de luna y solsticio de Lumiria.',
@@ -136,6 +144,7 @@ export const INITIAL_COSMETICS = [
     slot: 'charm',
     name: 'Cetro del Cometa',
     costStars: 20,
+    costDiamonds: 20,
     unlocked: false,
     icon: '🪄',
     description: 'Artefacto real que canaliza la resonancia mágica de la amistad.',
@@ -725,13 +734,16 @@ class StorageService {
 
         req.onsuccess = () => {
           if (req.result) {
-            resolve(req.result);
+            const p = req.result;
+            if (typeof p.diamonds !== 'number') p.diamonds = 0;
+            resolve(p);
           } else {
             resolve({
               id: 'active',
               name: 'Valen',
               avatar: '🦄',
               stars: 5,
+              diamonds: 0,
               currentTier: 1,
               selectedCompanion: 'valen',
             });
@@ -742,6 +754,7 @@ class StorageService {
           name: 'Valen',
           avatar: '🦄',
           stars: 5,
+          diamonds: 0,
           currentTier: 1,
           selectedCompanion: 'valen',
         });
@@ -751,6 +764,7 @@ class StorageService {
           name: 'Valen',
           avatar: '🦄',
           stars: 5,
+          diamonds: 0,
           currentTier: 1,
           selectedCompanion: 'valen',
         });
@@ -763,7 +777,12 @@ class StorageService {
     return new Promise((resolve, reject) => {
       const tx = this.db.transaction('player_profile', 'readwrite');
       const store = tx.objectStore('player_profile');
-      const toSave = { ...profile, id: 'active', lastPlayed: new Date().toISOString() };
+      const toSave = {
+        ...profile,
+        id: 'active',
+        diamonds: typeof profile.diamonds === 'number' ? profile.diamonds : 0,
+        lastPlayed: new Date().toISOString(),
+      };
       const req = store.put(toSave);
 
       req.onsuccess = () => resolve(toSave);
@@ -772,7 +791,7 @@ class StorageService {
   }
 
   /**
-   * Atomically adds or deducts stars from player balance.
+   * Atomically adds or deducts stars from player balance (Campana Aventura).
    * @param {number} amount - Positive to reward, negative to spend
    * @returns {Promise<number>} New star balance
    */
@@ -781,6 +800,7 @@ class StorageService {
     const profile = (await this.getProfile()) || {
       id: 'active',
       stars: 0,
+      diamonds: 0,
       name: 'Valen',
       avatar: '🦄',
     };
@@ -791,6 +811,34 @@ class StorageService {
 
     await this.saveProfile(profile);
     return newStars;
+  }
+
+  /**
+   * Atomically adds or deducts diamonds from player balance (El Prisma Numerico - Practica).
+   * @param {number} amount - Positive to reward, negative to spend
+   * @returns {Promise<number>} New diamond balance
+   */
+  async addDiamonds(amount) {
+    await this.init();
+    const profile = (await this.getProfile()) || {
+      id: 'active',
+      stars: 0,
+      diamonds: 0,
+      name: 'Valen',
+      avatar: '🦄',
+    };
+
+    const currentDiamonds = typeof profile.diamonds === 'number' ? profile.diamonds : 0;
+    const newDiamonds = Math.max(0, currentDiamonds + amount);
+    profile.diamonds = newDiamonds;
+
+    await this.saveProfile(profile);
+    return newDiamonds;
+  }
+
+  async getDiamonds() {
+    const profile = await this.getProfile();
+    return profile?.diamonds || 0;
   }
 
   // =========================================================================
@@ -879,9 +927,9 @@ class StorageService {
   }
 
   /**
-   * Unlocks an item by spending player stars in an atomic transaction
+   * Unlocks an item by spending player diamonds or stars in an atomic transaction
    */
-  async unlockCosmetic(itemId) {
+  async unlockCosmetic(itemId, preferredCurrency = 'auto') {
     await this.init();
     const profile = await this.getProfile();
     const catalog = await this.getCosmeticsCatalog();
@@ -891,19 +939,45 @@ class StorageService {
     if (item.unlocked) return { success: true, item, alreadyUnlocked: true };
 
     const currentStars = profile.stars || 0;
-    if (currentStars < item.costStars) {
-      return {
-        success: false,
-        reason: `Necesitas ${item.costStars} ⭐ (tienes ${currentStars} ⭐)`,
-        required: item.costStars,
-        current: currentStars,
-      };
+    const currentDiamonds = typeof profile.diamonds === 'number' ? profile.diamonds : 0;
+    const costDiamonds = item.costDiamonds !== undefined ? item.costDiamonds : (item.costStars || 15);
+    const costStars = item.costStars || 0;
+
+    let useDiamonds = false;
+    if (preferredCurrency === 'diamonds') {
+      useDiamonds = true;
+    } else if (preferredCurrency === 'stars') {
+      useDiamonds = false;
+    } else {
+      // Auto: prefer diamonds if player has enough (aesthetic rewards from practice)
+      useDiamonds = costDiamonds > 0 && currentDiamonds >= costDiamonds;
     }
 
-    // Atomic deduction and unlock
-    profile.stars = currentStars - item.costStars;
-    item.unlocked = true;
+    if (useDiamonds) {
+      if (currentDiamonds < costDiamonds) {
+        return {
+          success: false,
+          reason: `Necesitas ${costDiamonds} 💎 (tienes ${currentDiamonds} 💎)`,
+          required: costDiamonds,
+          current: currentDiamonds,
+          currency: 'diamonds',
+        };
+      }
+      profile.diamonds = currentDiamonds - costDiamonds;
+    } else {
+      if (currentStars < costStars) {
+        return {
+          success: false,
+          reason: `Necesitas ${costStars} ⭐ (tienes ${currentStars} ⭐)`,
+          required: costStars,
+          current: currentStars,
+          currency: 'stars',
+        };
+      }
+      profile.stars = currentStars - costStars;
+    }
 
+    item.unlocked = true;
     await this.saveProfile(profile);
 
     const tx = this.db.transaction('cosmetics_catalog', 'readwrite');
@@ -914,7 +988,9 @@ class StorageService {
         resolve({
           success: true,
           item,
+          currencyUsed: useDiamonds ? 'diamonds' : 'stars',
           remainingStars: profile.stars,
+          remainingDiamonds: profile.diamonds,
         });
       };
     });

@@ -25,11 +25,17 @@ export class VqHeader extends HTMLElement {
           </div>
         </a>
 
-        <!-- Contador de Estrellas y Enlace Único Canónico al Ropero Mágico -->
-        <a href="wardrobe.html" id="header-stars-badge" class="stars-counter-badge" title="Tus estrellas de Lumiria — ¡Toca para entrar al Ropero Mágico!" aria-label="Estrellas acumuladas. Toca para entrar al Ropero Mágico" style="text-decoration:none; color:inherit;">
-          <span class="star-icon" aria-hidden="true"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg></span>
-          <span id="player-stars-count">0</span>
-        </a>
+        <!-- Contadores de Divisas: Estrellas (Campaña) y Diamantes (Práctica Libre) -->
+        <div class="header-currencies">
+          <a href="wardrobe.html" id="header-stars-badge" class="stars-counter-badge" title="Tus estrellas de Lumiria (Campaña Aventura) — ¡Toca para entrar al Ropero Mágico!" aria-label="Estrellas acumuladas. Toca para entrar al Ropero Mágico" style="text-decoration:none; color:inherit;">
+            <span class="star-icon" aria-hidden="true"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg></span>
+            <span id="player-stars-count">0</span>
+          </a>
+          <a href="wardrobe.html" id="header-diamonds-badge" class="diamonds-counter-badge" title="Tus diamantes del Prisma (Práctica Libre) — ¡Toca para entrar al Ropero Mágico!" aria-label="Diamantes acumulados. Toca para entrar al Ropero Mágico" style="text-decoration:none; color:inherit;">
+            <span class="diamond-icon" aria-hidden="true">💎</span>
+            <span id="player-diamonds-count">0</span>
+          </a>
+        </div>
       </div>
 
       <!-- Dock de Acciones y Herramientas Mágicas -->

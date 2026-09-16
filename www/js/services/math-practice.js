@@ -62,6 +62,7 @@ export class MathPracticeService {
     this.totalAnswered = 0;
     this.combo = 0; // 0% a 100%
     this.totalCombos = 0;
+    this.diamondsEarned = 0;
     this.inputMode = 'choice'; // 'choice' | 'keypad'
     this.keypadBuffer = '';
     this.currentChallenge = null;
@@ -84,6 +85,7 @@ export class MathPracticeService {
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
         this.totalCombos = state.totalCombos || 0;
+        this.diamondsEarned = state.diamondsEarned || 0;
         this.combo = typeof state.combo === 'number' ? state.combo : 0;
         if (state.inputMode) this.inputMode = state.inputMode;
       }
@@ -102,6 +104,7 @@ export class MathPracticeService {
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
         totalCombos: this.totalCombos,
+        diamondsEarned: this.diamondsEarned || 0,
         combo: this.combo || 0,
         inputMode: this.inputMode,
       };
@@ -117,18 +120,22 @@ export class MathPracticeService {
   }
 
   getCurrentLevelInfo() {
-    return MATH_LEVELS.find((l) => l.level === this.selectedLevel) || MATH_LEVELS[0];
+    return (
+      MATH_LEVELS.find((lvl) => lvl.level === this.selectedLevel) ||
+      MATH_LEVELS[0]
+    );
   }
 
   getState() {
     return {
       selectedLevel: this.selectedLevel,
-      currentLevelInfo: this.getCurrentLevelInfo(),
+      levelInfo: this.getCurrentLevelInfo(),
       streak: this.streak,
       highestStreak: this.highestStreak,
       totalAnswered: this.totalAnswered,
       combo: typeof this.combo === 'number' ? this.combo : 0,
       totalCombos: this.totalCombos || 0,
+      diamondsEarned: this.diamondsEarned || 0,
       inputMode: this.inputMode,
       currentChallenge: this.currentChallenge,
     };
@@ -151,11 +158,21 @@ export class MathPracticeService {
     this.session.force_tier(lvlInfo.curriculumTier);
     this.session.clear_portal_ready();
 
-    const op1 = this.session.get_operand1();
-    const op2 = this.session.get_operand2();
-    const op = this.session.get_operator();
-    const expr = this.session.get_expression ? this.session.get_expression() : '';
-    const answer = this.session.get_correct_answer();
+    let op1 = this.session.get_operand1();
+    let op2 = this.session.get_operand2();
+    let op = this.session.get_operator();
+    let expr = this.session.get_expression ? this.session.get_expression() : '';
+    let answer = this.session.get_correct_answer();
+
+    // Si los operandos son exactamente los mismos del reto anterior, refrescar para mayor variedad
+    if (this.currentChallenge && this.currentChallenge.op1 === op1 && this.currentChallenge.op2 === op2 && this.currentChallenge.operator === op) {
+      this.session.generate_next_challenge();
+      op1 = this.session.get_operand1();
+      op2 = this.session.get_operand2();
+      op = this.session.get_operator();
+      expr = this.session.get_expression ? this.session.get_expression() : '';
+      answer = this.session.get_correct_answer();
+    }
 
     let options = [];
     try {
@@ -190,6 +207,7 @@ export class MathPracticeService {
     const isCorrect = Number(userAnswer) === this.currentChallenge.answer;
     this.totalAnswered++;
     let comboBurst = false;
+    let earnedDiamonds = 0;
 
     if (isCorrect) {
       this.streak++;
@@ -197,13 +215,23 @@ export class MathPracticeService {
         this.highestStreak = this.streak;
       }
       const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
-      this.combo = Math.min(100, (this.combo || 0) + gain);
+      const nextCombo = Math.min(100, (this.combo || 0) + gain);
 
-      if (this.combo >= 100) {
+      // Calculo de Diamantes (Práctica Libre NO otorga estrellas de campaña)
+      const baseDiamonds = elapsedMs > 0 && elapsedMs <= 4000 ? 2 : 1;
+      const isStreakMilestone = this.streak > 0 && this.streak % 3 === 0;
+      const streakBonus = isStreakMilestone ? 1 : 0;
+      earnedDiamonds = baseDiamonds + streakBonus;
+
+      if (nextCombo >= 100) {
         comboBurst = true;
         this.totalCombos = (this.totalCombos || 0) + 1;
-        this.combo = 0; // Se reinicia para el siguiente combo
+        this.combo = 100; // Se mantiene en 100% para visualización del burst en UI
+        earnedDiamonds += 10; // +10 Diamantes bonus por Súper Combo Astral
+      } else {
+        this.combo = nextCombo;
       }
+      this.diamondsEarned = (this.diamondsEarned || 0) + earnedDiamonds;
     } else {
       this.streak = 0;
       this.combo = 0;
@@ -218,12 +246,15 @@ export class MathPracticeService {
       combo: typeof this.combo === 'number' ? this.combo : 0,
       comboBurst,
       totalCombos: this.totalCombos || 0,
+      earnedDiamonds,
+      totalDiamonds: this.diamondsEarned,
       correctAnswer: this.currentChallenge.answer,
     };
   }
 
   resetCombo() {
     this.combo = 0;
+    this.saveState();
     this.notify();
   }
 

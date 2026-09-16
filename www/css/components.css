@@ -1459,6 +1459,54 @@
   100% { transform: scale(1); }
 }
 
+/* Header Currencies Container */
+.header-currencies {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Header Diamonds Counter Badge (El Prisma Numérico / Práctica Libre) */
+.diamonds-counter-badge {
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+@media (hover: hover) {
+  .diamonds-counter-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--vq-shadow-hard);
+    background: linear-gradient(135deg, #CFE8FF 0%, #B8DCFF 100%);
+  }
+}
+
+.diamonds-counter-badge:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.diamonds-counter-badge.diamond-updated {
+  animation: vqDiamondPulse 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes vqDiamondPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.22); box-shadow: 0 0 16px #A2D2FF; }
+  100% { transform: scale(1); }
+}
+
 /* Header Wardrobe Button */
 .wardrobe-icon-btn {
   background: var(--vq-lavender);
@@ -1546,6 +1594,28 @@
   font-weight: 900;
   font-size: 0.95rem;
   box-shadow: var(--vq-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wardrobe-diamonds-pill {
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.95rem;
+  box-shadow: var(--vq-shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wardrobe-diamond-icon {
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
 /* Wardrobe Heroine Selector Tabs */
@@ -1693,6 +1763,11 @@
 .item-status-pill.cost-pill {
   background: var(--vq-gold);
   color: var(--vq-text);
+}
+
+.item-status-pill.cost-diamond-pill {
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  color: #1D3557;
 }
 
 .item-icon-display {
@@ -1907,7 +1982,8 @@
     padding: 1px 6px;
   }
 
-  .stars-counter-badge {
+  .stars-counter-badge,
+  .diamonds-counter-badge {
     padding: 4px 10px;
     font-size: 0.88rem;
   }
@@ -3191,6 +3267,25 @@
 
 [data-theme="dark"] .math-practice-streak-tag {
   background: #9D4EDD;
+  color: #FDF7FF;
+}
+
+.math-practice-diamonds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #1D3557;
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .math-practice-diamonds-tag {
+  background: linear-gradient(135deg, #2A4365 0%, #1A365D 100%);
   color: #FDF7FF;
 }
 

@@ -148,11 +148,16 @@ class WardrobePageController {
   async render() {
     const profile = await db.getProfile();
     const currentStars = profile?.stars || 0;
+    const currentDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
-    // Saldo de estrellas
+    // Saldo de estrellas y diamantes
     const starBalanceEl = document.getElementById('wardrobe-star-balance');
     if (starBalanceEl) {
       starBalanceEl.textContent = currentStars;
+    }
+    const diamondBalanceEl = document.getElementById('wardrobe-diamond-balance');
+    if (diamondBalanceEl) {
+      diamondBalanceEl.textContent = currentDiamonds;
     }
 
     // Actualizar estado activo en pestañas de heroínas
@@ -207,6 +212,7 @@ class WardrobePageController {
 
     const profile = await db.getProfile();
     const currentStars = profile?.stars || 0;
+    const currentDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
     let catalog = await db.getCosmeticsCatalog(this.activeHeroineId);
     const equipped = companions.getEquipped(this.activeHeroineId);
@@ -225,7 +231,12 @@ class WardrobePageController {
 
     catalog.forEach((item) => {
       const isEquipped = equipped[item.slot] === item.itemId;
-      const canAfford = currentStars >= item.costStars;
+      const costDiamonds = item.costDiamonds !== undefined ? item.costDiamonds : (item.costStars || 15);
+      const costStars = item.costStars || 0;
+
+      const canAffordDiamonds = costDiamonds > 0 && currentDiamonds >= costDiamonds;
+      const canAffordStars = costStars > 0 && currentStars >= costStars;
+      const canAfford = canAffordDiamonds || canAffordStars;
 
       const card = document.createElement('div');
       card.className = `wardrobe-item-card ${item.unlocked ? 'unlocked' : 'locked'} ${isEquipped ? 'equipped' : ''}`;
@@ -242,11 +253,21 @@ class WardrobePageController {
         else iconSymbol = 'vq-icon-crystal';
       }
 
+      let costBadgesHtml = '';
+      if (!item.unlocked) {
+        if (costDiamonds > 0) {
+          costBadgesHtml += `<span class="item-status-pill cost-diamond-pill" title="Diamantes estéticos de práctica"><span aria-hidden="true">💎</span> ${costDiamonds}</span>`;
+        }
+        if (costStars > 0) {
+          costBadgesHtml += `<span class="item-status-pill cost-pill" title="Estrellas de campaña"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> ${costStars}</span>`;
+        }
+      }
+
       card.innerHTML = `
         <div class="item-card-header">
           <span class="item-slot-badge">${slotLabel}</span>
           ${isEquipped ? '<span class="item-status-pill equipped-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> Equipado</span>' : ''}
-          ${!item.unlocked ? `<span class="item-status-pill cost-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> ${item.costStars}</span>` : ''}
+          ${costBadgesHtml}
         </div>
         <div class="item-icon-display">
           <svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#${iconSymbol}"></use></svg>
@@ -262,14 +283,22 @@ class WardrobePageController {
         if (canAfford) {
           const btnUnlock = document.createElement('button');
           btnUnlock.className = 'wardrobe-action-btn unlock-btn';
-          btnUnlock.innerHTML = `<span>Desbloquear por ${item.costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
-          btnUnlock.addEventListener('click', () => this.handleUnlock(item));
+          if (canAffordDiamonds) {
+            btnUnlock.innerHTML = `<span>Desbloquear por ${costDiamonds}</span> <span aria-hidden="true">💎</span>`;
+          } else {
+            btnUnlock.innerHTML = `<span>Desbloquear por ${costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
+          }
+          btnUnlock.addEventListener('click', () => this.handleUnlock(item, canAffordDiamonds ? 'diamonds' : 'stars'));
           actionArea.appendChild(btnUnlock);
         } else {
           const btnLocked = document.createElement('button');
           btnLocked.className = 'wardrobe-action-btn locked-btn';
           btnLocked.disabled = true;
-          btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${item.costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
+          if (costDiamonds > 0) {
+            btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${costDiamonds}</span> <span aria-hidden="true">💎</span>`;
+          } else {
+            btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
+          }
           actionArea.appendChild(btnLocked);
         }
       } else {
@@ -290,13 +319,14 @@ class WardrobePageController {
   // =========================================================================
   // Acciones de Desbloqueo y Equipamiento
   // =========================================================================
-  async handleUnlock(item) {
+  async handleUnlock(item, preferredCurrency = 'auto') {
     sound.playClick();
-    const res = await db.unlockCosmetic(item.itemId);
+    const res = await db.unlockCosmetic(item.itemId, preferredCurrency);
 
     if (res.success) {
       sound.playLevelUp();
-      speech.speak(`¡Felicidades! Desbloqueaste ${item.name}. ¡Lo equipamos en ${HEROINES[this.activeHeroineId].name}!`);
+      const currName = res.currencyUsed === 'diamonds' ? 'diamantes' : 'estrellas';
+      speech.speak(`¡Felicidades! Desbloqueaste ${item.name} con tus ${currName}. ¡Lo equipamos en ${HEROINES[this.activeHeroineId].name}!`);
 
       // Equipar automáticamente tras el desbloqueo
       await companions.equip(this.activeHeroineId, item.slot, item.itemId);
@@ -305,7 +335,7 @@ class WardrobePageController {
       await this.render();
     } else {
       sound.playIncorrect();
-      speech.speak(res.reason || 'Aún necesitas más estrellas de Lumiria.');
+      speech.speak(res.reason || 'Aún necesitas más diamantes o estrellas de Lumiria.');
     }
   }
 
