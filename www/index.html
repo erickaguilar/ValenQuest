@@ -1051,23 +1051,40 @@
       </nav>
       <!-- Barra de Controles y Racha en Vivo: El Prisma Numérico (Arcade Práctica) -->
       <section class="math-practice-bar" id="math-practice-bar" aria-label="Controles del modo práctica del Prisma Numérico" hidden>
-        <div class="math-practice-bar-info">
-          <span class="math-practice-title-tag">
-            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-            <strong id="math-practice-active-title">✨ Nivel 1: Conteo y Sumas 1..10</strong>
-          </span>
-          <span class="math-practice-streak-tag" id="math-practice-streak-tag">
-            🔥 Racha: <strong id="math-practice-streak-val">0</strong> • Récord: <span id="math-practice-record-val">0</span>
-          </span>
+        <div class="math-practice-bar-row">
+          <div class="math-practice-bar-info">
+            <span class="math-practice-title-tag">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
+              <strong id="math-practice-active-title">✨ Nivel 1: Conteo y Sumas 1..10</strong>
+            </span>
+            <span class="math-practice-streak-tag" id="math-practice-streak-tag">
+              🔥 Racha: <strong id="math-practice-streak-val">0</strong> • Récord: <span id="math-practice-record-val">0</span>
+            </span>
+          </div>
+          <div class="math-practice-chips-wrapper">
+            <span class="math-practice-chips-label">Nivel:</span>
+            <div class="level-chips-row" id="math-practice-ingame-chips" role="group" aria-label="Cambiar nivel de cálculo en caliente">
+              <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Conteo y Sumas 1..10">1</button>
+              <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Sumas y Restas hasta 20">2</button>
+              <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Acarreo y Desagrupación">3</button>
+              <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: Tablas 2, 3, 5 y 10">4</button>
+              <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Tablas Avanzadas y Desafíos">5</button>
+            </div>
+          </div>
         </div>
-        <div class="math-practice-chips-wrapper">
-          <span class="math-practice-chips-label">Nivel:</span>
-          <div class="level-chips-row" id="math-practice-ingame-chips" role="group" aria-label="Cambiar nivel de cálculo en caliente">
-            <button type="button" class="level-chip-btn active" data-level="1" title="Nivel 1: Conteo y Sumas 1..10">1</button>
-            <button type="button" class="level-chip-btn" data-level="2" title="Nivel 2: Sumas y Restas hasta 20">2</button>
-            <button type="button" class="level-chip-btn" data-level="3" title="Nivel 3: Acarreo y Desagrupación">3</button>
-            <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: Tablas 2, 3, 5 y 10">4</button>
-            <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Tablas Avanzadas y Desafíos">5</button>
+
+        <!-- Barra de Combo Astral: Se llena con aciertos continuos y desata ráfagas de estrellas -->
+        <div class="math-practice-combo-wrapper" id="math-practice-combo-wrapper" aria-label="Barra de Combo Astral">
+          <div class="math-combo-header">
+            <span class="math-combo-title">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <strong>Combo Astral</strong>
+              <span class="math-combo-badge" id="math-combo-badge">⚡ x1</span>
+            </span>
+            <span class="math-combo-pct" id="math-combo-pct">0%</span>
+          </div>
+          <div class="math-combo-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
           </div>
         </div>
       </section>

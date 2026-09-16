@@ -3089,13 +3089,20 @@
   background: var(--vq-bg-card);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-card);
-  padding: 10px 14px;
+  padding: 12px 14px;
   box-shadow: var(--vq-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.math-practice-bar-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .math-practice-bar-info {
@@ -3150,8 +3157,97 @@
   color: var(--vq-text-muted);
 }
 
+/* 4.1 Barra de Combo Astral */
+.math-practice-combo-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 8px 12px;
+  transition: all 0.3s ease;
+}
+
+.math-combo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.math-combo-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #B5179E;
+}
+
+[data-theme="dark"] .math-combo-title {
+  color: #F72585;
+}
+
+.math-combo-badge {
+  display: inline-block;
+  background: #FFD166;
+  color: #4A3E56;
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 1px 8px;
+  font-size: 0.75rem;
+  font-weight: 900;
+}
+
+.math-combo-pct {
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.math-combo-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  overflow: hidden;
+  position: relative;
+}
+
+[data-theme="dark"] .math-combo-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.math-combo-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #FFD166, #FF9E00, #F72585);
+  border-radius: var(--vq-radius-pill);
+  transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.combo-burst-burst {
+  animation: comboBurstFlash 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes comboBurstFlash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.8);
+    transform: scale(1);
+  }
+  40% {
+    box-shadow: 0 0 20px 4px rgba(247, 37, 133, 0.9), 0 0 10px #FFD166;
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(247, 37, 133, 0);
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 600px) {
-  .math-practice-bar {
+  .math-practice-bar-row {
     flex-direction: column;
     align-items: stretch;
     text-align: center;

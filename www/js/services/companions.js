@@ -178,9 +178,11 @@ class CompanionSystem {
 
   /**
    * Refills friendship charges upon reaching streak milestones.
-   * Persists new charges atomically to IndexedDB.
+   * In practice mode, charges are NOT refilled on regular streaks to keep practice focused.
    */
-  async rewardStreak(streak) {
+  async rewardStreak(streak, isPractice = false) {
+    if (isPractice) return;
+
     if (streak > 0 && streak % 3 === 0) {
       for (const key of Object.keys(this.charges)) {
         if (this.charges[key] < 3) {
@@ -195,9 +197,25 @@ class CompanionSystem {
   }
 
   /**
+   * Recharges a single power for practice mode upon completing a Combo Burst
+   */
+  async rechargeOnePower(maxCharge = 1) {
+    const keys = ['valen', 'reni', 'zoe', 'lia'];
+    const eligible = keys.filter((k) => (this.charges[k] || 0) < maxCharge);
+    if (eligible.length > 0) {
+      const pick = eligible[Math.floor(Math.random() * eligible.length)];
+      this.charges[pick] = (this.charges[pick] || 0) + 1;
+      await db.updateCompanionCharges(pick, this.charges[pick]).catch(() => {});
+      this.notifyListeners();
+      return pick;
+    }
+    return null;
+  }
+
+  /**
    * Activates the selected heroine power.
    * @param {string} heroineId - 'valen' | 'reni' | 'zoe' | 'lia'
-   * @param {Object} context - Game context ({ mathSession, app })
+   * @param {Object} context - Game context ({ mathSession, app, isPractice })
    */
   activatePower(heroineId, context) {
     if (this.isGated) {
@@ -223,28 +241,32 @@ class CompanionSystem {
     });
 
     sound.playLevelUp();
-    speech.speakDialogue(heroine.voiceQuote);
+    if (context && context.isPractice) {
+      // En modo práctica voz más concisa
+    } else {
+      speech.speakDialogue(heroine.voiceQuote);
+    }
 
     let effectResult = {};
 
     switch (heroineId) {
       case 'valen': {
-        // Valen: Discards 1 or 2 wrong distractors from DOM
+        // Valen: Discards 1 distractor in practice, up to 2 in adventure
         effectResult = this.applyValenPower(context);
         break;
       }
       case 'reni': {
-        // Reni: Freezes time and resets challenge timer
+        // Reni: Brief breathing pause
         effectResult = this.applyReniPower(context);
         break;
       }
       case 'zoe': {
-        // Zoe: Roots Shield protects streak + explains problem with TTS
+        // Zoe: Roots Shield protects streak
         effectResult = this.applyZoePower(context);
         break;
       }
       case 'lia': {
-        // Lía: Royal Flare (Double stars + team recharge)
+        // Lía: Operator highlight or clue
         effectResult = this.applyLiaPower(context);
         break;
       }
@@ -257,10 +279,10 @@ class CompanionSystem {
   }
 
   applyValenPower(context) {
-    const { mathSession, app } = context;
+    const { mathSession, app, isPractice } = context;
     if (app) {
-      // Prisma Real: Duplica estrellas (2x) al acertar
-      app.starMultiplier = 2;
+      // Prisma Real: en aventura 2x estrellas; en práctica ventaja mínima (1x)
+      app.starMultiplier = isPractice ? 1 : 2;
     }
 
     const card = document.getElementById('math-challenge-card');
@@ -268,10 +290,10 @@ class CompanionSystem {
       card.classList.add('royal-boost');
       setTimeout(() => {
         card.classList.remove('royal-boost');
-      }, 2500);
+      }, 2000);
     }
 
-    if (!mathSession) return { discarded: 0, starMultiplier: 2 };
+    if (!mathSession) return { discarded: 0, starMultiplier: isPractice ? 1 : 2 };
 
     // If student was on keypad mode, switch to choice mode so discarded options are visible
     if (app && app.inputMode === 'keypad') {
@@ -286,6 +308,7 @@ class CompanionSystem {
     const correctAnswer = mathSession.get_correct_answer();
     const buttons = Array.from(document.querySelectorAll('#options-grid .option-btn'));
     let discardedCount = 0;
+    const maxDiscard = isPractice ? 1 : 2; // En práctica solo descarta 1 distractor para ventaja mínima
 
     for (const btn of buttons) {
       const val = parseInt(btn.textContent, 10);
@@ -295,18 +318,20 @@ class CompanionSystem {
         btn.style.textDecoration = 'line-through';
         btn.style.transform = 'scale(0.9)';
         discardedCount += 1;
-        // Discard up to 2 wrong answers
-        if (discardedCount >= 2) break;
+        if (discardedCount >= maxDiscard) break;
       }
     }
 
-    return { discarded: discardedCount, starMultiplier: 2 };
+    if (isPractice) {
+      speech.speak('Valen descarta una opción para ayudarte a practicar.');
+    }
+
+    return { discarded: discardedCount, starMultiplier: isPractice ? 1 : 2 };
   }
 
   applyReniPower(context) {
-    const { app } = context;
+    const { app, isPractice } = context;
     if (app) {
-      // Reset challenge start time to now, guaranteeing elapsed_ms is minimal for P = 1.0
       app.challengeStartTime = performance.now();
     }
     const card = document.getElementById('math-challenge-card');
@@ -316,22 +341,28 @@ class CompanionSystem {
         card.style.boxShadow = '';
       }, 2000);
     }
+    if (isPractice) {
+      speech.speak('Reni te da un momento de calma para calcular.');
+    }
     return { timeFrozen: true };
   }
 
   applyZoePower(context) {
-    const { mathSession, app } = context;
+    const { mathSession, app, isPractice } = context;
     if (app) {
       // Escudo de Raíces: protege la racha ante un tropiezo
       app.streakShieldActive = true;
     }
 
-    let hint = '';
-    if (mathSession) {
+    if (isPractice) {
+      // En práctica, mensaje ágil sin interrumpir el ritmo arcade
+      speech.speak('¡Escudo de Zoe activo para cuidar tu racha!');
+    } else if (mathSession) {
       const op1 = mathSession.get_operand1();
       const op = mathSession.get_operator();
       const op2 = mathSession.get_operand2();
 
+      let hint = '';
       if (op === '+') {
         hint = `Tienes ${op1}, y le añades ${op2}. Imagina contar hacia adelante desde ${op1}.`;
       } else if (op === '-') {
@@ -347,16 +378,29 @@ class CompanionSystem {
       card.classList.add('shield-protect');
       setTimeout(() => {
         card.classList.remove('shield-protect');
-      }, 2500);
+      }, 2000);
     }
 
-    return { spoken: true, shieldActive: true, hint };
+    return { spoken: true, shieldActive: true };
   }
 
   applyLiaPower(context) {
-    const { mathSession } = context;
-    let clue = '';
+    const { mathSession, isPractice } = context;
+    const card = document.getElementById('math-challenge-card');
+    if (card) {
+      card.classList.add('crystal-focus');
+      setTimeout(() => {
+        card.classList.remove('crystal-focus');
+      }, 2000);
+    }
 
+    if (isPractice) {
+      const op = mathSession ? mathSession.get_operator() : '+';
+      speech.speak(`Lía enfoca el signo ${op}: ¡atenta a la operación!`);
+      return { crystalFocus: true, clue: 'Pista de signo' };
+    }
+
+    let clue = '';
     if (mathSession) {
       const op1 = mathSession.get_operand1();
       const op = mathSession.get_operator();
@@ -382,14 +426,6 @@ class CompanionSystem {
       }
 
       speech.speak(clue, { rate: 0.9, pitch: 1.15 });
-    }
-
-    const card = document.getElementById('math-challenge-card');
-    if (card) {
-      card.classList.add('crystal-focus');
-      setTimeout(() => {
-        card.classList.remove('crystal-focus');
-      }, 2500);
     }
 
     return { crystalFocus: true, clue };

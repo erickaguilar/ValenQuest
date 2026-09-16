@@ -58,6 +58,8 @@ export class MathPracticeService {
     this.streak = 0;
     this.highestStreak = 0;
     this.totalAnswered = 0;
+    this.combo = 0; // 0% a 100%
+    this.totalCombos = 0;
     this.listeners = [];
   }
 
@@ -68,6 +70,8 @@ export class MathPracticeService {
         this.selectedLevel = state.selectedLevel || 1;
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
+        this.totalCombos = state.totalCombos || 0;
+        this.combo = 0;
       }
     } catch (err) {
       console.warn('MathPracticeService: error loading state:', err);
@@ -83,6 +87,7 @@ export class MathPracticeService {
         levelName: this.getCurrentLevelInfo().name,
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
+        totalCombos: this.totalCombos,
       };
       await storage.saveModuleState('math_practice', payload);
     } catch (err) {
@@ -106,6 +111,8 @@ export class MathPracticeService {
       streak: this.streak,
       highestStreak: this.highestStreak,
       totalAnswered: this.totalAnswered,
+      combo: this.combo,
+      totalCombos: this.totalCombos,
     };
   }
 
@@ -113,22 +120,48 @@ export class MathPracticeService {
     const validLevel = Math.max(1, Math.min(5, Number(level) || 1));
     this.selectedLevel = validLevel;
     this.streak = 0;
+    this.combo = 0;
     await this.saveState();
     return this.getState();
   }
 
-  async recordAnswer(isCorrect) {
+  resetCombo() {
+    this.combo = 0;
+    this.notify();
+  }
+
+  async recordAnswer(isCorrect, elapsedMs = 0) {
     this.totalAnswered++;
+    let comboBurst = false;
+
     if (isCorrect) {
       this.streak++;
       if (this.streak > this.highestStreak) {
         this.highestStreak = this.streak;
       }
+      // Cada acierto ágil (<=4s) suma +25% de combo; respuesta pensada suma +20%
+      const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
+      this.combo += gain;
+
+      if (this.combo >= 100) {
+        comboBurst = true;
+        this.totalCombos++;
+        this.combo = 0; // Se reinicia para el siguiente combo
+      }
     } else {
       this.streak = 0;
+      this.combo = 0;
     }
+
     await this.saveState();
-    return this.getState();
+    return {
+      isCorrect,
+      streak: this.streak,
+      highestStreak: this.highestStreak,
+      combo: this.combo,
+      comboBurst,
+      totalCombos: this.totalCombos,
+    };
   }
 
   onChange(callback) {

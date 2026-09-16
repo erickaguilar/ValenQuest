@@ -25,7 +25,8 @@ export const APP_VERSION = '1.1.0';
 class KidsLearnApp {
   constructor() {
     this.wasm = null;
-    this.mathSession = null;
+    this.adventureMathSession = null;
+    this.practiceMathSession = null;
     this.readingSession = null;
     this.currentStoryText = '';
 
@@ -47,6 +48,14 @@ class KidsLearnApp {
     this.currentPortalLevel = 1;
     this.isSpeakingPortalStory = false;
     this.pendingNextTier = 4;
+  }
+
+  /**
+   * Getter que devuelve la sesión matemática correspondiente al modo activo.
+   * Aísla al 100% la campaña narrativa del modo práctica libre.
+   */
+  get mathSession() {
+    return this.gameMode === 'math_practice' ? this.practiceMathSession : this.adventureMathSession;
   }
 
   async init() {
@@ -88,9 +97,16 @@ class KidsLearnApp {
       this.syncActiveCompanionUI(activeCompanionId);
       companions.applyEquippedCosmeticsClasses();
 
-      // Initialize Rust MathSession with high-entropy seed and saved tier
+      // Cargar estados de La Gran Aventura y Prácticas de 5 Niveles primero
+      await adventure.loadState();
+      await mathPractice.loadState();
+      await readingPractice.loadState();
+
+      // Initialize Rust MathSessions (completamente separados para Campaña Aventura y Práctica Libre)
       const seed = BigInt(Date.now());
-      this.mathSession = new this.wasm.MathSession(seed, profile.currentTier || 1);
+      this.adventureMathSession = new this.wasm.MathSession(seed, profile.currentTier || 1);
+      const mathLvl = mathPractice.getCurrentLevelInfo();
+      this.practiceMathSession = new this.wasm.MathSession(seed + 999n, mathLvl.curriculumTier || 1);
 
       // Initialize Rust ReadingSession
       this.readingSession = new this.wasm.ReadingSession();
@@ -452,6 +468,7 @@ class KidsLearnApp {
           const res = companions.activatePower(id, {
             mathSession: this.mathSession,
             app: this,
+            isPractice: this.gameMode === 'math_practice',
           });
           this.updatePowersBadges();
           if (res && res.success) {
@@ -589,6 +606,7 @@ class KidsLearnApp {
       tierBadge.style.cursor = 'pointer';
       tierBadge.setAttribute('title', 'Toca para abrir el Desafío de Portal del Templo');
       tierBadge.addEventListener('click', () => {
+        if (this.gameMode !== 'adventure') return;
         sound.playClick();
         const currentTier = this.mathSession ? this.mathSession.get_tier() : 1;
         this.openPortalChallenge(currentTier);
@@ -796,17 +814,33 @@ class KidsLearnApp {
     const statsBar = document.querySelector('#math-section .stats-bar');
 
     if (this.gameMode === 'math_practice') {
+      // Bloquear estrictamente el tier de la sesión de práctica al nivel seleccionado
+      const lvlInfo = mathPractice.getCurrentLevelInfo();
+      if (this.practiceMathSession && lvlInfo.curriculumTier) {
+        this.practiceMathSession.force_tier(lvlInfo.curriculumTier);
+        this.practiceMathSession.clear_portal_ready();
+      }
+
       if (mathPracticeBar) {
         mathPracticeBar.hidden = false;
-        const info = mathPractice.getCurrentLevelInfo();
         const activeTitle = document.getElementById('math-practice-active-title');
         if (activeTitle) {
-          activeTitle.textContent = `${info.icon} Nivel ${info.level}: ${info.name}`;
+          activeTitle.textContent = `${lvlInfo.icon} Nivel ${lvlInfo.level}: ${lvlInfo.name}`;
         }
         const streakVal = document.getElementById('math-practice-streak-val');
         if (streakVal) streakVal.textContent = mathPractice.streak;
         const recordVal = document.getElementById('math-practice-record-val');
         if (recordVal) recordVal.textContent = mathPractice.highestStreak;
+
+        // Actualizar barra de combo astral
+        const comboPct = document.getElementById('math-combo-pct');
+        const comboFill = document.getElementById('math-combo-fill');
+        const comboBadge = document.getElementById('math-combo-badge');
+        if (comboPct) comboPct.textContent = `${mathPractice.combo}%`;
+        if (comboFill) comboFill.style.width = `${mathPractice.combo}%`;
+        if (comboBadge) {
+          comboBadge.textContent = mathPractice.totalCombos > 0 ? `⚡ x${mathPractice.totalCombos + 1}` : '⚡ x1';
+        }
 
         document.querySelectorAll('#math-practice-ingame-chips .level-chip-btn').forEach((btn) => {
           btn.classList.toggle('active', Number(btn.dataset.level) === mathPractice.selectedLevel);
@@ -938,10 +972,17 @@ class KidsLearnApp {
 
     const elapsedMs = Math.round(performance.now() - this.challengeStartTime);
 
-    // Call Rust WASM: updates EMA mastery, streaks, and FSM tier transitions
+    // Call Rust WASM: updates session metrics
     const isCorrect = this.mathSession.submit_answer(userAnswer, elapsedMs);
     const tierChanged = this.mathSession.get_tier_changed();
     const currentStreak = this.mathSession.get_streak();
+
+    // En modo práctica libre: REFORZAR inmediatamente el tier seleccionado y limpiar estado de portal
+    if (this.gameMode === 'math_practice') {
+      const lvlInfo = mathPractice.getCurrentLevelInfo();
+      this.practiceMathSession.force_tier(lvlInfo.curriculumTier);
+      this.practiceMathSession.clear_portal_ready();
+    }
 
     const card = document.getElementById('math-challenge-card');
 
@@ -952,33 +993,56 @@ class KidsLearnApp {
       card.classList.add('correct-flash');
 
       let streakForRewards = currentStreak;
+      let practiceResult = null;
+
       if (this.gameMode === 'math_practice') {
-        await mathPractice.recordAnswer(true);
+        practiceResult = await mathPractice.recordAnswer(true, elapsedMs);
         streakForRewards = mathPractice.streak;
         const streakVal = document.getElementById('math-practice-streak-val');
         if (streakVal) streakVal.textContent = mathPractice.streak;
         const recordVal = document.getElementById('math-practice-record-val');
         if (recordVal) recordVal.textContent = mathPractice.highestStreak;
+
+        // Actualizar barra de combo astral
+        const comboPct = document.getElementById('math-combo-pct');
+        const comboFill = document.getElementById('math-combo-fill');
+        const comboBadge = document.getElementById('math-combo-badge');
+        if (comboPct) comboPct.textContent = `${mathPractice.combo}%`;
+        if (comboFill) comboFill.style.width = `${mathPractice.combo}%`;
+        if (comboBadge) {
+          comboBadge.textContent = mathPractice.totalCombos > 0 ? `⚡ x${mathPractice.totalCombos + 1}` : '⚡ x1';
+        }
       }
 
-      await companions.rewardStreak(streakForRewards);
+      // En práctica las heroínas no regalan cargas cada 3 aciertos (isPractice = true)
+      await companions.rewardStreak(streakForRewards, this.gameMode === 'math_practice');
       this.updatePowersBadges();
 
       // Calculation of Stars:
-      // Agile performance (<=4000ms): 2 stars; thoughtful/hesitant: 1 star.
-      // Streak milestone bonus: Every 3 streak grants +1 bonus star!
-      // Lía's Royal Flare: Multiplies earned stars (2x) when activated!
       const baseStars = elapsedMs <= 4000 ? 2 : 1;
       const isStreakMilestone = streakForRewards > 0 && streakForRewards % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
       const multiplier = this.starMultiplier || 1;
-      const earnedStars = (baseStars + streakBonus) * multiplier;
+      let earnedStars = (baseStars + streakBonus) * multiplier;
       this.starMultiplier = 1; // Reset multiplier after successful challenge
 
-      const newStarsBalance = await db.addStars(earnedStars);
-      this.updateStarsDisplay(newStarsBalance);
+      // Manejo de Burst de Combo Astral en Modo Práctica (100% de combo)
+      if (this.gameMode === 'math_practice' && practiceResult && practiceResult.comboBurst) {
+        earnedStars += 5; // +5 Estrellas de bonificación por Combo Astral al 100%!
+        const comboWrapper = document.getElementById('math-practice-combo-wrapper');
+        if (comboWrapper) {
+          comboWrapper.classList.add('combo-burst-burst');
+          setTimeout(() => comboWrapper.classList.remove('combo-burst-burst'), 1000);
+        }
+        sound.playLevelUp();
+        speech.speak('¡Súper Combo Astral completado! Cinco estrellas bonus.');
 
-      if (isStreakMilestone) {
+        // Recargar 1 poder para una princesa aleatoria
+        const rechargedKey = await companions.rechargeOnePower(1);
+        if (rechargedKey) {
+          this.updatePowersBadges();
+        }
+      } else if (isStreakMilestone) {
         sound.playStreak();
         if (this.gameMode === 'math_practice' && streakForRewards % 5 === 0) {
           speech.speak(`¡Racha estelar de ${streakForRewards} en el Prisma Numérico!`);
@@ -988,6 +1052,9 @@ class KidsLearnApp {
       } else {
         sound.playCorrect();
       }
+
+      const newStarsBalance = await db.addStars(earnedStars);
+      this.updateStarsDisplay(newStarsBalance);
     } else {
       if (display) {
         display.classList.add('incorrect');
@@ -1013,6 +1080,10 @@ class KidsLearnApp {
         await mathPractice.recordAnswer(false);
         const streakVal = document.getElementById('math-practice-streak-val');
         if (streakVal) streakVal.textContent = mathPractice.streak;
+        const comboPct = document.getElementById('math-combo-pct');
+        const comboFill = document.getElementById('math-combo-fill');
+        if (comboPct) comboPct.textContent = '0%';
+        if (comboFill) comboFill.style.width = '0%';
       }
 
       card.classList.add('incorrect-shake');
@@ -1027,7 +1098,7 @@ class KidsLearnApp {
       display.classList.remove('correct', 'incorrect');
     }
 
-    // Check for Tier Level Up or Desafío de Portal (exclusivo para La Gran Aventura)
+    // Check for Tier Level Up or Desafío de Portal (EXCLUSIVO para La Gran Aventura)
     if (this.gameMode === 'adventure') {
       if (tierChanged === 1 || (this.mathSession && this.mathSession.is_portal_ready())) {
         sound.playLevelUp();
@@ -1036,15 +1107,17 @@ class KidsLearnApp {
       }
     }
 
-    // Persist session metrics to IndexedDB
-    await db.recordMathSession({
-      tier: this.mathSession.get_tier(),
-      totalAnswered: this.mathSession.get_total_answered(),
-      totalCorrect: this.mathSession.get_total_correct(),
-      streak: this.gameMode === 'math_practice' ? mathPractice.streak : currentStreak,
-      highestStreak: this.gameMode === 'math_practice' ? mathPractice.highestStreak : this.mathSession.get_highest_streak(),
-      mastery: this.mathSession.get_mastery(),
-    });
+    // Persist session metrics to IndexedDB (SOLO para La Gran Aventura)
+    if (this.gameMode === 'adventure') {
+      await db.recordMathSession({
+        tier: this.mathSession.get_tier(),
+        totalAnswered: this.mathSession.get_total_answered(),
+        totalCorrect: this.mathSession.get_total_correct(),
+        streak: currentStreak,
+        highestStreak: this.mathSession.get_highest_streak(),
+        mastery: this.mathSession.get_mastery(),
+      });
+    }
 
     this.isSubmittingAnswer = false;
 
