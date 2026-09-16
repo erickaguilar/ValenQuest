@@ -10,258 +10,61 @@
 const DB_NAME = 'valenquest_db';
 const DB_VERSION = 5;
 
-export const INITIAL_GAME_MODULES = [
-  {
-    moduleId: 'adventure',
-    currentTemple: 1,
-    templeName: 'Manantial de Rocío',
-    phase: 'math',
-    consecutiveCorrect: 0,
-    templeProgress: 0,
-    unlockedChapters: [1],
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    moduleId: 'math_practice',
-    selectedLevel: 1,
-    levelName: 'Chispas Estelares',
-    streak: 0,
-    highestStreak: 0,
-    totalAnswered: 0,
-    updatedAt: new Date().toISOString(),
-  },
-  {
-    moduleId: 'reading_practice',
-    selectedLevel: 1,
-    levelName: 'Ecos de Rocío',
-    wordsRead: 0,
-    highestWpm: 120,
-    storiesCompleted: 0,
-    updatedAt: new Date().toISOString(),
-  },
-];
+export let INITIAL_GAME_MODULES = [];
+export let INITIAL_COSMETICS = [];
 
-export const INITIAL_COSMETICS = [
-  {
-    itemId: 'tiara-basica',
-    heroineId: 'valen',
-    slot: 'head',
-    name: 'Tiara de Rocío',
-    costStars: 0,
-    costDiamonds: 0,
-    unlocked: true,
-    icon: '👑',
-    description: 'Gotas de rocío celestial que brillan con la luz del alba.',
-    svgLayerId: 'cosmetic-valen-tiara-basica',
-  },
-  {
-    itemId: 'tiara-cristal',
-    heroineId: 'valen',
-    slot: 'head',
-    name: 'Diadema Prisma Estelar',
-    costStars: 15,
-    costDiamonds: 15,
-    unlocked: false,
-    icon: '💎',
-    description: 'Forjada con tres puntas de cristal que refractan destellos arcoíris.',
-    svgLayerId: 'cosmetic-valen-tiara-cristal',
-  },
-  {
-    itemId: 'alas-majestuosas',
-    heroineId: 'valen',
-    slot: 'wings',
-    name: 'Alas Cósmicas Tornasol',
-    costStars: 30,
-    costDiamonds: 30,
-    unlocked: false,
-    icon: '🪽',
-    description: 'Plumas celestiales imbuidas con el fulgor de la realeza alicornio.',
-    svgLayerId: 'cosmetic-valen-alas-majestuosas',
-  },
-  {
-    itemId: 'lazo-cielo',
-    heroineId: 'reni',
-    slot: 'head',
-    name: 'Lazo Celeste de Viento',
-    costStars: 0,
-    costDiamonds: 0,
-    unlocked: true,
-    icon: '🎀',
-    description: 'Cinta etérea hilada con la brisa suave de las nubes.',
-    svgLayerId: 'cosmetic-reni-lazo-cielo',
-  },
-  {
-    itemId: 'alas-aurora',
-    heroineId: 'reni',
-    slot: 'wings',
-    name: 'Alas de Fénix Tornasol',
-    costStars: 25,
-    costDiamonds: 25,
-    unlocked: false,
-    icon: '🪽',
-    description: 'Plumas tornasoladas con el resplandor de la aurora boreal.',
-    svgLayerId: 'cosmetic-reni-alas-aurora',
-  },
-  {
-    itemId: 'corona-hojas',
-    heroineId: 'zoe',
-    slot: 'head',
-    name: 'Corona Floral Silvestre',
-    costStars: 0,
-    costDiamonds: 0,
-    unlocked: true,
-    icon: '🌸',
-    description: 'Pétalos y ramas de la arboleda sagrada que nunca se marchitan.',
-    svgLayerId: 'cosmetic-zoe-corona-hojas',
-  },
-  {
-    itemId: 'amuleto-bosque',
-    heroineId: 'zoe',
-    slot: 'charm',
-    name: 'Broche Esmeralda Sabia',
-    costStars: 20,
-    costDiamonds: 20,
-    unlocked: false,
-    icon: '🌿',
-    description: 'Gema mística que susurra consejos de los antiguos guardianes.',
-    svgLayerId: 'cosmetic-zoe-amuleto-bosque',
-  },
-  {
-    itemId: 'tiara-solsticio',
-    heroineId: 'lia',
-    slot: 'head',
-    name: 'Tiara del Solsticio',
-    costStars: 0,
-    costDiamonds: 0,
-    unlocked: true,
-    icon: '👑',
-    description: 'Corona estelar forjada con rayos de luna y solsticio de Lumiria.',
-    svgLayerId: 'cosmetic-lia-tiara-solsticio',
-  },
-  {
-    itemId: 'cetro-cometa',
-    heroineId: 'lia',
-    slot: 'charm',
-    name: 'Cetro del Cometa',
-    costStars: 20,
-    costDiamonds: 20,
-    unlocked: false,
-    icon: '🪄',
-    description: 'Artefacto real que canaliza la resonancia mágica de la amistad.',
-    svgLayerId: 'cosmetic-lia-cetro-cometa',
-  },
-  // --- Recompensas Astrales de los 10 Templos (Desafíos de Portal) ---
-  {
-    itemId: 'tiara-rocio-astral',
-    heroineId: 'valen',
-    slot: 'head',
-    name: 'Tiara de Rocío Astral',
-    costStars: 0,
-    unlocked: false,
-    icon: '👑',
-    description: 'Forjada con las gotas puras del Manantial de Rocío (Templo 1).',
-    svgLayerId: 'cosmetic-valen-tiara-basica',
-  },
-  {
-    itemId: 'lazo-viento-celeste',
-    heroineId: 'reni',
-    slot: 'head',
-    name: 'Lazo de Viento Celeste',
-    costStars: 0,
-    unlocked: false,
-    icon: '🎀',
-    description: 'Cinta etérea bendecida por los vientos del Bosque Susurrante (Templo 2).',
-    svgLayerId: 'cosmetic-reni-lazo-cielo',
-  },
-  {
-    itemId: 'alas-pluma-dulce',
-    heroineId: 'reni',
-    slot: 'wings',
-    name: 'Alas de Pluma Dulce',
-    costStars: 0,
-    unlocked: false,
-    icon: '🪽',
-    description: 'Plumas esponjosas con el aroma y melodía del Vértice de Algodón (Templo 3).',
-    svgLayerId: 'cosmetic-reni-alas-aurora',
-  },
-  {
-    itemId: 'corona-floral-silvestre',
-    heroineId: 'zoe',
-    slot: 'head',
-    name: 'Corona Floral Silvestre',
-    costStars: 0,
-    unlocked: false,
-    icon: '🌸',
-    description: 'Pétalos sagrados nacidos en la Caverna de Ámbar (Templo 4).',
-    svgLayerId: 'cosmetic-zoe-corona-hojas',
-  },
-  {
-    itemId: 'cetro-estelar-radiante',
-    heroineId: 'lia',
-    slot: 'charm',
-    name: 'Cetro Estelar Radiante',
-    costStars: 0,
-    unlocked: false,
-    icon: '🪄',
-    description: 'Canaliza la resonancia prismática del Palacio Prisma (Templo 5).',
-    svgLayerId: 'cosmetic-lia-cetro-cometa',
-  },
-  {
-    itemId: 'reloj-bolsillo-astral',
-    heroineId: 'lia',
-    slot: 'charm',
-    name: 'Reloj de Bolsillo Astral',
-    costStars: 0,
-    unlocked: false,
-    icon: '⏱️',
-    description: 'Cronómetro místico que mide las eras del Reloj de las Arenas (Templo 6).',
-    svgLayerId: 'cosmetic-lia-cetro-cometa',
-  },
-  {
-    itemId: 'aura-burbujas-iridiscentes',
-    heroineId: 'valen',
-    slot: 'wings',
-    name: 'Aura de Burbujas Iridiscentes',
-    costStars: 0,
-    unlocked: false,
-    icon: '🫧',
-    description: 'Burbujas bioluminiscentes del Mar de Coral Profundo (Templo 7).',
-    svgLayerId: 'cosmetic-valen-alas-majestuosas',
-  },
-  {
-    itemId: 'armadura-petalos-seda',
-    heroineId: 'zoe',
-    slot: 'charm',
-    name: 'Armadura de Pétalos de Seda',
-    costStars: 0,
-    unlocked: false,
-    icon: '🥋',
-    description: 'Manto protector tejido con resina de cuarzo de la Muralla de Nácar (Templo 8).',
-    svgLayerId: 'cosmetic-zoe-amuleto-bosque',
-  },
-  {
-    itemId: 'alas-tornasol-aurora',
-    heroineId: 'reni',
-    slot: 'wings',
-    name: 'Alas Tornasol de Aurora',
-    costStars: 0,
-    unlocked: false,
-    icon: '🪽',
-    description: 'Alas de fuego boreal de la Cúspide de la Aurora (Templo 9).',
-    svgLayerId: 'cosmetic-reni-alas-aurora',
-  },
-  {
-    itemId: 'corona-suprema-soberana',
-    heroineId: 'valen',
-    slot: 'head',
-    name: 'Corona Suprema de Soberana Astral',
-    costStars: 0,
-    unlocked: false,
-    icon: '👑',
-    description: 'La máxima diadema de realeza otorgada por la Emperatriz Purificada (Templo 10).',
-    svgLayerId: 'cosmetic-valen-tiara-cristal',
-  },
-];
+/**
+ * Loads the initial game modules state from data/game-modules.json asynchronously.
+ */
+export async function loadInitialGameModules() {
+  if (INITIAL_GAME_MODULES && INITIAL_GAME_MODULES.length > 0) {
+    return INITIAL_GAME_MODULES;
+  }
+  try {
+    const res = await fetch('data/game-modules.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    INITIAL_GAME_MODULES = await res.json();
+    return INITIAL_GAME_MODULES;
+  } catch (err) {
+    console.warn('⚠️ [Storage] Could not fetch data/game-modules.json, attempting fallback:', err);
+    try {
+      const resFallback = await fetch('data/initial-state.json');
+      const dataFallback = await resFallback.json();
+      INITIAL_GAME_MODULES = dataFallback.gameModules || [];
+      return INITIAL_GAME_MODULES;
+    } catch (e) {
+      console.error('❌ [Storage] Failed to load initial game modules:', e);
+      return [];
+    }
+  }
+}
+
+/**
+ * Loads the initial cosmetics catalog from data/cosmetics.json asynchronously.
+ */
+export async function loadInitialCosmetics() {
+  if (INITIAL_COSMETICS && INITIAL_COSMETICS.length > 0) {
+    return INITIAL_COSMETICS;
+  }
+  try {
+    const res = await fetch('data/cosmetics.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    INITIAL_COSMETICS = await res.json();
+    return INITIAL_COSMETICS;
+  } catch (err) {
+    console.warn('⚠️ [Storage] Could not fetch data/cosmetics.json, attempting fallback:', err);
+    try {
+      const resFallback = await fetch('data/initial-state.json');
+      const dataFallback = await resFallback.json();
+      INITIAL_COSMETICS = dataFallback.cosmetics || [];
+      return INITIAL_COSMETICS;
+    } catch (e) {
+      console.error('❌ [Storage] Failed to load initial cosmetics:', e);
+      return [];
+    }
+  }
+}
+
 
 export const INITIAL_COMPANIONS = [
   {
@@ -579,6 +382,7 @@ class StorageService {
       }
 
       // 3. Seed Cosmetics Catalog (Seed defaults and ensure missing cosmetics like Lía's items are added)
+      await loadInitialCosmetics();
       const existingCatKeys = await new Promise((res) => {
         try {
           const tx = this.db.transaction('cosmetics_catalog', 'readonly');
@@ -610,6 +414,7 @@ class StorageService {
 
       // 4. Seed Game Modules (Triad JSON objects: adventure, math_practice, reading_practice)
       if (this.db.objectStoreNames.contains('game_modules')) {
+        await loadInitialGameModules();
         const existingModKeys = await new Promise((res) => {
           try {
             const tx = this.db.transaction('game_modules', 'readonly');
@@ -649,6 +454,7 @@ class StorageService {
   // =========================================================================
   async getModuleState(moduleId) {
     await this.init();
+    await loadInitialGameModules();
     return new Promise((resolve) => {
       try {
         if (!this.db.objectStoreNames.contains('game_modules')) {
@@ -704,6 +510,7 @@ class StorageService {
 
   async getAllModuleStates() {
     await this.init();
+    await loadInitialGameModules();
     return new Promise((resolve) => {
       try {
         if (!this.db.objectStoreNames.contains('game_modules')) {
@@ -1001,6 +808,7 @@ class StorageService {
    */
   async grantCosmeticReward(itemId) {
     await this.init();
+    await loadInitialCosmetics();
     const catalog = await this.getCosmeticsCatalog();
     let item = catalog.find((i) => i.itemId === itemId);
 

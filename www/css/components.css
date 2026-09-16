@@ -6,6 +6,8 @@
 
 /* ==========================================================================
    0. VQ SVG ICON SYSTEM (PASTEL GACHA / MLP STICKER ICONS)
+   Sprites desacoplados en assets/icons.svg y assets/heroines.svg.
+   Cargados asíncronamente vía js/services/icons.js (Local-First PWA).
    ========================================================================== */
 .vq-icon {
   display: inline-block;

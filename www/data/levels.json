@@ -1,0 +1,590 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "act": 1,
+      "actTitle": "Acto I: El Despertar de los Elementos",
+      "name": "Manantial de Rocío",
+      "templeTitle": "Templo del Rocío Cristalino",
+      "pageNumber": 1,
+      "mathAxis": "Sumas simples directas (a + b ≤ 10)",
+      "readingAxis": "Sílabas directas (ma, pa, so) y palabras bisílabas",
+      "guardian": {
+        "name": "Poni Burbuja",
+        "title": "Guardián de las Aguas Cantarinas",
+        "emoji": "🫧",
+        "species": "Poni Acuático Astral",
+        "shadowColor": "#4A3E56",
+        "purifiedColor": "#70D6FF"
+      },
+      "microCuento": [
+        "En el Manantial de Rocío el agua canta con notas de cristal.",
+        "El Poni Burbuja danza alegre guardando las perlas de la mañana.",
+        "Una niebla oscura de la Emperatriz Eclipse apagó su dulce risa.",
+        "Con la fuerza de tu amistad, ¡las aguas volverán a brillar!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El Poni Burbuja necesita reunir las perlas del manantial para disipar la niebla oscura del altar...",
+        "prompt": "En el manantial hay 3 conchas con 2 perlas cada una, y un delfín amigo trae 3 perlas más. ¿Cuántas perlas hay en total?",
+        "options": [
+          7,
+          8,
+          9,
+          10
+        ],
+        "correctAnswer": 9,
+        "explanation": "3 conchas de 2 perlas son 6 perlas (3 × 2 = 6). Más 3 perlas del delfín: 6 + 3 = 9 perlas mágicas."
+      },
+      "reward": {
+        "itemId": "tiara-rocio-astral",
+        "heroineId": "valen",
+        "slot": "head",
+        "name": "Tiara de Rocío Astral",
+        "icon": "👑",
+        "description": "Forjada con las gotas puras del Manantial de Rocío.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 2,
+      "act": 1,
+      "actTitle": "Acto I: El Despertar de los Elementos",
+      "name": "Bosque Susurrante",
+      "templeTitle": "Santuario de la Arboleda Esmeralda",
+      "pageNumber": 2,
+      "mathAxis": "Suma y resta hasta 20 sin acarreos",
+      "readingAxis": "Sílabas trabadas (tr, bl, pl) y rimas consonantes",
+      "guardian": {
+        "name": "Hada Ciervo",
+        "title": "Guardián de los Vientos del Bosque",
+        "emoji": "🦌",
+        "species": "Espíritu Astado Silvestre",
+        "shadowColor": "#36454F",
+        "purifiedColor": "#A7C957"
+      },
+      "microCuento": [
+        "Bajo los robles del Bosque Susurrante el viento trenza hojas doradas.",
+        "El Hada Ciervo cuida los brotes tiernos con pasos silenciosos.",
+        "Un viento helado de olvido enredó sus astas en zarzas de sombra.",
+        "¡Despeja el sendero con tu saber para que vuelva la primavera!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El Hada Ciervo debe ofrendar flores aromáticas para despertar a los árboles dormidos...",
+        "prompt": "El Hada Ciervo tenía 18 flores silvestres y repartió 6 a las ardillas del bosque. ¿Cuántas flores le quedan para el altar?",
+        "options": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "correctAnswer": 12,
+        "explanation": "A 18 le restamos 6 flores: 18 - 6 = 12 flores silvestres."
+      },
+      "reward": {
+        "itemId": "lazo-viento-celeste",
+        "heroineId": "reni",
+        "slot": "head",
+        "name": "Lazo de Viento Celeste",
+        "icon": "🎀",
+        "description": "Cinta etérea hilada con las brisas suaves del Bosque Susurrante.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 3,
+      "act": 1,
+      "actTitle": "Acto I: El Despertar de los Elementos",
+      "name": "Vértice de Algodón",
+      "templeTitle": "Cumbre de los Vientos Celestiales",
+      "pageNumber": 3,
+      "mathAxis": "Suma de dos cifras con acarreo forzado en unidades",
+      "readingAxis": "Estructura de oración: ordenar Sujeto + Verbo + Predicado",
+      "guardian": {
+        "name": "Pegaso Melódico",
+        "title": "Heraldo de las Nubes Cantoras",
+        "emoji": "🪽",
+        "species": "Pegaso Celestial de Lumiria",
+        "shadowColor": "#2D3142",
+        "purifiedColor": "#BDE0FE"
+      },
+      "microCuento": [
+        "En el Vértice de Algodón las nubes esponjosas flotan al son del arpa.",
+        "El Pegaso Melódico entona cantos que despiertan los arcoíris.",
+        "Un trueno oscuro enmudeció su arpa de plata entre nubes densas.",
+        "¡Une las notas y cifras correctas para devolverle su melodía!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El Pegaso Melódico necesita reunir plumas de azúcar para templar las cuerdas de su arpa...",
+        "prompt": "En el nido celestial hay 17 plumas de azúcar y las aves mensajeras traen 8 plumas más. ¿Cuántas plumas se juntan en total?",
+        "options": [
+          23,
+          24,
+          25,
+          26
+        ],
+        "correctAnswer": 25,
+        "explanation": "Sumamos 17 + 8 = 25 plumas mágicas con acarreo en unidades."
+      },
+      "reward": {
+        "itemId": "alas-pluma-dulce",
+        "heroineId": "reni",
+        "slot": "wings",
+        "name": "Alas de Pluma Dulce",
+        "icon": "🪽",
+        "description": "Plumas esponjosas con el aroma y la melodía del cielo.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 4,
+      "act": 2,
+      "actTitle": "Acto II: Los Secretos Olvidados de Cristal",
+      "name": "Caverna de Ámbar",
+      "templeTitle": "Laberinto de los Fósiles Luminosos",
+      "pageNumber": 4,
+      "mathAxis": "Resta con transformación (desagrupar decenas)",
+      "readingAxis": "Identificar la idea principal en textos breves de 3 renglones",
+      "guardian": {
+        "name": "Búho de Piedra",
+        "title": "Guardián de la Sabiduría Oculta",
+        "emoji": "🦉",
+        "species": "Guardián Mineral Rupestre",
+        "shadowColor": "#1F2421",
+        "purifiedColor": "#F4A261"
+      },
+      "microCuento": [
+        "En lo profundo de la Caverna de Ámbar descansan milenios de secretos.",
+        "El Búho de Piedra vigila los cristales dorados con mirada vigilante.",
+        "El hechizo del Eclipse petrificó sus alas bajo una coraza sombría.",
+        "¡Desagrupa los cristales sabios para abrir sus ojos de luz!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El Búho de Piedra necesita calcular los cristales de ámbar que aún alumbran la bóveda...",
+        "prompt": "En el cofre brillaban 32 cristales de ámbar, pero la cueva usó 7 para encender las antorchas. ¿Cuántos cristales quedan?",
+        "options": [
+          23,
+          24,
+          25,
+          27
+        ],
+        "correctAnswer": 25,
+        "explanation": "Desagrupamos una decena: 32 - 7 = 25 cristales de ámbar."
+      },
+      "reward": {
+        "itemId": "corona-floral-silvestre",
+        "heroineId": "zoe",
+        "slot": "head",
+        "name": "Corona Floral Silvestre",
+        "icon": "🌸",
+        "description": "Pétalos y ramas de la arboleda sagrada que nunca se marchitan.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 5,
+      "act": 2,
+      "actTitle": "Acto II: Los Secretos Olvidados de Cristal",
+      "name": "Palacio Prisma",
+      "templeTitle": "Cámara de las Mil Luces",
+      "pageNumber": 5,
+      "mathAxis": "Tablas de multiplicar iniciales: 2, 3, 5 y 10",
+      "readingAxis": "Deducción por contexto: sinónimos y vocabulario en fábulas",
+      "guardian": {
+        "name": "León de Espejos",
+        "title": "Soberano de los Reflejos Radiantes",
+        "emoji": "🦁",
+        "species": "Félido de Cuarzo Refractivo",
+        "shadowColor": "#2B2D42",
+        "purifiedColor": "#FFD166"
+      },
+      "microCuento": [
+        "Las columnas del Palacio Prisma reflejan destellos de siete colores.",
+        "El León de Espejos custodia el prisma central que multiplica la luz.",
+        "La sombra del Eclipse empañó sus cristales con un velo de penumbra.",
+        "¡Enfoca el rayo de la armonía para que su melena vuelva a destellar!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El León de Espejos debe encender los candelabros del salón mayor para romper el eclipse...",
+        "prompt": "Cinco candelabros prismáticos tienen 6 velas mágicas cada uno. ¿Cuántas llamas de colores iluminan la sala?",
+        "options": [
+          25,
+          28,
+          30,
+          35
+        ],
+        "correctAnswer": 30,
+        "explanation": "Multiplicamos 5 candelabros por 6 velas: 5 × 6 = 30 llamas luminosas."
+      },
+      "reward": {
+        "itemId": "cetro-estelar-radiante",
+        "heroineId": "lia",
+        "slot": "charm",
+        "name": "Cetro Estelar Radiante",
+        "icon": "🪄",
+        "description": "Canaliza la resonancia mágica del Palacio Prisma.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 6,
+      "act": 2,
+      "actTitle": "Acto II: Los Secretos Olvidados de Cristal",
+      "name": "Reloj de las Arenas",
+      "templeTitle": "Torre del Tiempo Inmemorial",
+      "pageNumber": 6,
+      "mathAxis": "Tablas complejas (4, 6, 7, 8, 9) y cálculo de dobles/mitades",
+      "readingAxis": "Secuencia temporal: ordenar eventos con conectores (primero, luego, al final)",
+      "guardian": {
+        "name": "Esfinge de Cristal",
+        "title": "Custodia del Compás Eterno",
+        "emoji": "⏳",
+        "species": "Esfinge Mística de las Eras",
+        "shadowColor": "#3D348B",
+        "purifiedColor": "#E0AAFF"
+      },
+      "microCuento": [
+        "En el desierto estelar las dunas del Reloj de las Arenas fluyen sin cesar.",
+        "La Esfinge de Cristal custodia el péndulo que mide las eras de Lumiria.",
+        "El tiempo quedó congelado cuando la sombra del Eclipse tocó la arena.",
+        "¡Resuelve el misterio de las horas para reactivar el compás universal!"
+      ],
+      "portalRiddle": {
+        "storyContext": "La Esfinge de Cristal evalúa los engranes astronómicos antes de reiniciar el péndulo...",
+        "prompt": "El reloj solar tiene 8 cuadrantes con 7 engranes astrales cada uno. ¿Cuántos engranes hay en total?",
+        "options": [
+          48,
+          54,
+          56,
+          64
+        ],
+        "correctAnswer": 56,
+        "explanation": "Multiplicamos 8 cuadrantes por 7 engranes: 8 × 7 = 56 engranes de cristal."
+      },
+      "reward": {
+        "itemId": "reloj-bolsillo-astral",
+        "heroineId": "lia",
+        "slot": "charm",
+        "name": "Reloj de Bolsillo Astral",
+        "icon": "⏱️",
+        "description": "Cronómetro místico que resuena con los compases estelares.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 7,
+      "act": 2,
+      "actTitle": "Acto II: Los Secretos Olvidados de Cristal",
+      "name": "Mar de Coral Profundo",
+      "templeTitle": "Abismo de las Perlas Iridiscentes",
+      "pageNumber": 7,
+      "mathAxis": "Reparto equitativo (división exacta) y problemas verbales",
+      "readingAxis": "Causa y efecto: responder preguntas del tipo \"¿Por qué el personaje hizo X?\"",
+      "guardian": {
+        "name": "Sirena Dragón",
+        "title": "Soberana de los Arrecifes Luminosos",
+        "emoji": "🧜‍♀️",
+        "species": "Dragón Acuático de Escamas Tornasol",
+        "shadowColor": "#14213D",
+        "purifiedColor": "#48CAE4"
+      },
+      "microCuento": [
+        "En las profundidades del Mar de Coral las corrientes marinas cantan secretos.",
+        "La Sirena Dragón protege los corales bioluminiscentes con su cola tornasol.",
+        "Una marea negra del Eclipse atrapó a los peces cantores en remolinos.",
+        "¡Reparte las caracolas de luz para calmar la marea y devolver la paz!"
+      ],
+      "portalRiddle": {
+        "storyContext": "La Sirena Dragón debe repartir perlas protectoras entre los 4 santuarios de coral...",
+        "prompt": "La Sirena Dragón tiene 36 perlas iridiscentes y las reparte en partes iguales entre 4 cofres. ¿Cuántas tocan en cada cofre?",
+        "options": [
+          7,
+          8,
+          9,
+          12
+        ],
+        "correctAnswer": 9,
+        "explanation": "Repartir equitativamente es dividir: 36 ÷ 4 = 9 perlas exactas por cofre."
+      },
+      "reward": {
+        "itemId": "aura-burbujas-iridiscentes",
+        "heroineId": "valen",
+        "slot": "wings",
+        "name": "Aura de Burbujas Iridiscentes",
+        "icon": "🫧",
+        "description": "Burbujas luminosas que flotan con el rumor relajante del mar.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 8,
+      "act": 3,
+      "actTitle": "Acto III: La Gran Purificación",
+      "name": "Muralla de Nácar",
+      "templeTitle": "Bastión de los Escudos de Cuarzo",
+      "pageNumber": 8,
+      "mathAxis": "Fracciones visuales (medios 1/2, cuartos 1/4, octavos 1/8 en gemas)",
+      "readingAxis": "Distinguir entre afirmaciones de hechos y emociones/opiniones",
+      "guardian": {
+        "name": "Gólem de Cuarzo",
+        "title": "Centinela de los Mosaicos de Luz",
+        "emoji": "🛡️",
+        "species": "Coloso Protector de Nácar",
+        "shadowColor": "#2B2D42",
+        "purifiedColor": "#D8F3DC"
+      },
+      "microCuento": [
+        "La imponente Muralla de Nácar resguarda las fronteras del Templo Astral.",
+        "El Gólem de Cuarzo vigila la puerta encajando mosaicos de gemas perfectas.",
+        "Una grieta de sombra desmoronó los bloques partiendo su corazón mineral.",
+        "¡Reconstruye las fracciones sagradas para sellar la muralla de luz!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El Gólem de Cuarzo necesita restaurar tres cuartas partes de su mosaico central...",
+        "prompt": "El escudo requiere 24 gemas de cuarzo en total. Si ya se han colocado tres cuartas partes (3/4), ¿cuántas gemas están puestas?",
+        "options": [
+          12,
+          16,
+          18,
+          20
+        ],
+        "correctAnswer": 18,
+        "explanation": "Un cuarto de 24 es 6 (24 ÷ 4 = 6). Tres cuartos son 6 × 3 = 18 gemas colocadas."
+      },
+      "reward": {
+        "itemId": "armadura-petalos-seda",
+        "heroineId": "zoe",
+        "slot": "charm",
+        "name": "Armadura de Pétalos de Seda",
+        "icon": "🥋",
+        "description": "Manto protector tejido con seda élfica y resina de cuarzo.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 9,
+      "act": 3,
+      "actTitle": "Acto III: La Gran Purificación",
+      "name": "Cúspide de la Aurora",
+      "templeTitle": "Cumbre de los Fuegos Bipolares",
+      "pageNumber": 9,
+      "mathAxis": "Operaciones combinadas de dos pasos con balance de paréntesis",
+      "readingAxis": "Inferencia del mensaje moral o lección implícita de la historia",
+      "guardian": {
+        "name": "Fénix Boreal",
+        "title": "Guardián del Fuego Multicolor",
+        "emoji": "🦅",
+        "species": "Ave Fénix de las Alturas Astrales",
+        "shadowColor": "#1A1A24",
+        "purifiedColor": "#F72585"
+      },
+      "microCuento": [
+        "En la Cúspide de la Aurora los vientos polares danzan con cortinas de fuego.",
+        "El Fénix Boreal despliega plumas celestiales que encienden el firmamento.",
+        "Una tormenta oscura apagó su llama sagrada en lo más alto de la cumbre.",
+        "¡Equilibra las ecuaciones del cielo para que su fuego vuelva a volar!"
+      ],
+      "portalRiddle": {
+        "storyContext": "El Fénix Boreal necesita reavivar la antorcha con chispas de cometas y estrellas...",
+        "prompt": "Cuatro estrellas reúnen 6 chispas cada una, y un cometa agrega 8 chispas más: (4 × 6) + 8. ¿Cuántas chispas encienden el altar?",
+        "options": [
+          30,
+          32,
+          34,
+          36
+        ],
+        "correctAnswer": 32,
+        "explanation": "Primero multiplicamos 4 × 6 = 24 chispas. Luego sumamos 8: 24 + 8 = 32 chispas de fuego boreal."
+      },
+      "reward": {
+        "itemId": "alas-tornasol-aurora",
+        "heroineId": "reni",
+        "slot": "wings",
+        "name": "Alas Tornasol de Aurora",
+        "icon": "🪽",
+        "description": "Alas multicolor que refractan los cielos polares de Lumiria.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    },
+    {
+      "id": 10,
+      "act": 3,
+      "actTitle": "Acto III: La Gran Purificación",
+      "name": "Trono de las Estrellas",
+      "templeTitle": "Templo Supremo de la Armonía Cósmica",
+      "pageNumber": 10,
+      "mathAxis": "Acertijos numéricos de alta fluidez mental (t ≤ 3500 ms)",
+      "readingAxis": "Reconstrucción del poema completo de Lumiria con coherencia global",
+      "guardian": {
+        "name": "Emperatriz Eclipse (Purificada)",
+        "title": "Soberana Astral Redimida de Lumiria",
+        "emoji": "👑✨",
+        "species": "Alicornio Astral Ancestral",
+        "shadowColor": "#1E1035",
+        "purifiedColor": "#FFD700"
+      },
+      "microCuento": [
+        "En el Trono de las Estrellas el Grimorio de Cristal espera su última página.",
+        "La Emperatriz Eclipse llora lágrimas de sombra añorando la luz perdida.",
+        "No es un monstruo que destruir, sino un corazón solitario por liberar.",
+        "¡Pronuncia el acertijo de la amistad y restaura la armonía eterna!"
+      ],
+      "portalRiddle": {
+        "storyContext": "La Emperatriz Eclipse pide el número de la constelación suprema que une a las 4 razas...",
+        "prompt": "Calcula: 5 constelaciones de 8 estrellas cada una, más el doble de 6 estrellas del alba: (5 × 8) + (2 × 6). ¿Cuál es la cifra sagrada?",
+        "options": [
+          48,
+          50,
+          52,
+          56
+        ],
+        "correctAnswer": 52,
+        "explanation": "5 × 8 = 40 estrellas. El doble de 6 es 12. Sumamos 40 + 12 = 52 estrellas sagradas."
+      },
+      "reward": {
+        "itemId": "corona-suprema-soberana",
+        "heroineId": "valen",
+        "slot": "head",
+        "name": "Corona Suprema de Soberana Astral",
+        "icon": "👑",
+        "description": "La máxima diadema de realeza astral otorgada por la Emperatriz Purificada.",
+        "costStars": 0,
+        "unlocked": false
+      }
+    }
+  ],
+  "actTransitions": {
+    "1": {
+      "actNumber": 1,
+      "actTitle": "Acto I: El Despertar de los Elementos",
+      "completedPill": "¡Acto I Concluido!",
+      "headline": "¡El Despertar de los Elementos!",
+      "tagline": "Has liberado los tres templos elementales de Lumiria y sus constelaciones sagradas.",
+      "guardians": [
+        {
+          "name": "Poni Burbuja",
+          "temple": "Manantial de Rocío",
+          "emoji": "🫧",
+          "level": 1,
+          "color": "#B8F2E6"
+        },
+        {
+          "name": "Hada Ciervo",
+          "temple": "Bosque Susurrante",
+          "emoji": "🦌",
+          "level": 2,
+          "color": "#FFC8DD"
+        },
+        {
+          "name": "Pegaso Melódico",
+          "temple": "Vértice de Algodón",
+          "emoji": "🪽",
+          "level": 3,
+          "color": "#BDE0FE"
+        }
+      ],
+      "loreQuote": "«¡Las tres constelaciones elementales vuelven a brillar en el firmamento de Lumiria! Con el canto del Pegaso Melódico, la niebla se disipa y revela los accesos subterráneos. ¡Es momento de descender hacia el Acto II: Los Secretos Olvidados de Cristal!»",
+      "voiceNarration": "¡Felicidades Valen! Hemos completado el Acto I. Las constelaciones elementales están restauradas. ¡Ahora crucemos el portal hacia el Acto II en la Caverna de Ámbar!",
+      "nextActNumber": 2,
+      "nextActTitle": "Acto II: Los Secretos Olvidados de Cristal",
+      "nextLevelId": 4,
+      "nextLevelName": "Caverna de Ámbar",
+      "nextGuardianName": "Búho de Piedra",
+      "nextGuardianEmoji": "🦉",
+      "buttonText": "¡Continuar al Acto II: Caverna de Ámbar! 🦉"
+    },
+    "2": {
+      "actNumber": 2,
+      "actTitle": "Acto II: Los Secretos Olvidados de Cristal",
+      "completedPill": "¡Acto II Concluido!",
+      "headline": "¡Los Secretos Olvidados de Cristal!",
+      "tagline": "Has rescatado los cuatro templos ancestrales y sus guardianes milenarios.",
+      "guardians": [
+        {
+          "name": "Búho de Piedra",
+          "temple": "Caverna de Ámbar",
+          "emoji": "🦉",
+          "level": 4,
+          "color": "#F4A261"
+        },
+        {
+          "name": "León de Espejos",
+          "temple": "Palacio Prisma",
+          "emoji": "🦁",
+          "level": 5,
+          "color": "#E9C46A"
+        },
+        {
+          "name": "Esfinge de Cristal",
+          "temple": "Reloj de las Arenas",
+          "emoji": "⏳",
+          "level": 6,
+          "color": "#9D4EDD"
+        },
+        {
+          "name": "Sirena Dragón",
+          "temple": "Mar de Coral Profundo",
+          "emoji": "🧜‍♀️",
+          "level": 7,
+          "color": "#2A9D8F"
+        }
+      ],
+      "loreQuote": "«¡Los cuatro pilares de cristal resplandecen con luz dorada! La sabiduría de los eones ha sido recuperada. Solo queda la gran cima: el Trono de las Estrellas. ¡El Cuarteto de la Armonía asciende al Acto III: La Gran Purificación!»",
+      "voiceNarration": "¡Increíble maestría! El Acto II está completado. Todos los templos de cristal están en paz. ¡Ascendamos a la Muralla de Nácar para el Acto III!",
+      "nextActNumber": 3,
+      "nextActTitle": "Acto III: La Gran Purificación",
+      "nextLevelId": 8,
+      "nextLevelName": "Muralla de Nácar",
+      "nextGuardianName": "Gólem de Cuarzo",
+      "nextGuardianEmoji": "🛡️",
+      "buttonText": "¡Continuar al Acto III: Muralla de Nácar! 🛡️"
+    },
+    "3": {
+      "actNumber": 3,
+      "actTitle": "Acto III: La Gran Purificación",
+      "completedPill": "¡Soberana Astral de Lumiria!",
+      "headline": "¡La Leyenda de Lumiria Restaurada!",
+      "tagline": "¡Has purificado a la Emperatriz Eclipse y todas las constelaciones están completas!",
+      "guardians": [
+        {
+          "name": "Gólem de Cuarzo",
+          "temple": "Muralla de Nácar",
+          "emoji": "🛡️",
+          "level": 8,
+          "color": "#CDB4DB"
+        },
+        {
+          "name": "Fénix Boreal",
+          "temple": "Cúspide de la Aurora",
+          "emoji": "🦅",
+          "level": 9,
+          "color": "#FFAFCC"
+        },
+        {
+          "name": "Emperatriz Eclipse",
+          "temple": "Trono Supremo",
+          "emoji": "👑✨",
+          "level": 10,
+          "color": "#FFD166"
+        }
+      ],
+      "loreQuote": "«¡El Velo de la Duda ha desaparecido para siempre! Valen, Reni, Zoe y Lía han unido a todas las criaturas de Lumiria. Eres la Gran Protectora del Reino de las Estrellas.»",
+      "voiceNarration": "¡Victoria total! Has devuelto la luz a todo el reino de Lumiria. ¡Eres una verdadera leyenda de la amistad y el saber!",
+      "nextActNumber": 3,
+      "nextActTitle": "Reino de Lumiria",
+      "nextLevelId": 1,
+      "nextLevelName": "Manantial de Rocío",
+      "nextGuardianName": "Valen",
+      "nextGuardianEmoji": "🦄",
+      "buttonText": "¡Celebrar Victoria en Lumiria! 🎉"
+    }
+  }
+}

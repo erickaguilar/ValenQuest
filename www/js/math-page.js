@@ -12,6 +12,7 @@ import { companions, HEROINES } from './services/companions.js';
 import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
 import { loadWasm, wasmLoader } from './services/wasm-loader.js';
 import { theme } from './services/theme.js';
+import { loadSvgSprites } from './services/icons.js';
 
 class MathPageController {
   constructor() {
@@ -25,6 +26,7 @@ class MathPageController {
 
   async init() {
     console.log('💎 [ValenQuest] Inicializando Taller Matemático: El Prisma Numérico...');
+    loadSvgSprites();
 
     // 1. Renderizar inmediatamente el reto inicial (sin esperar a red/DB/wasm)
     try {

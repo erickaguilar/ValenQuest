@@ -1,0 +1,30 @@
+[
+  {
+    "moduleId": "adventure",
+    "currentTemple": 1,
+    "templeName": "Manantial de Rocío",
+    "phase": "math",
+    "consecutiveCorrect": 0,
+    "templeProgress": 0,
+    "unlockedChapters": [1],
+    "updatedAt": ""
+  },
+  {
+    "moduleId": "math_practice",
+    "selectedLevel": 1,
+    "levelName": "Chispas Estelares",
+    "streak": 0,
+    "highestStreak": 0,
+    "totalAnswered": 0,
+    "updatedAt": ""
+  },
+  {
+    "moduleId": "reading_practice",
+    "selectedLevel": 1,
+    "levelName": "Ecos de Rocío",
+    "wordsRead": 0,
+    "highestWpm": 120,
+    "storiesCompleted": 0,
+    "updatedAt": ""
+  }
+]

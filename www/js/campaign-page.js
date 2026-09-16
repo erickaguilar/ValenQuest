@@ -10,6 +10,7 @@ import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { adventure, TEMPLE_NAMES } from './services/adventure.js';
 import { theme } from './services/theme.js';
+import { loadSvgSprites } from './services/icons.js';
 
 class CampaignPageController {
   constructor() {
@@ -18,6 +19,7 @@ class CampaignPageController {
 
   async init() {
     console.log('🏰 [ValenQuest] Inicializando Modo Campaña (La Gran Aventura)...');
+    await loadSvgSprites();
 
     // 1. Configurar eventos de cabecera y controles
     this.setupHeaderControls();

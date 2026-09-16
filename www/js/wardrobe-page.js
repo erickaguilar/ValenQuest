@@ -9,6 +9,7 @@ import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { theme } from './services/theme.js';
+import { loadSvgSprites } from './services/icons.js';
 
 class WardrobePageController {
   constructor() {
@@ -19,6 +20,7 @@ class WardrobePageController {
 
   async init() {
     console.log('👗 [ValenQuest] Inicializando Ropero Mágico en Lumiria...');
+    await loadSvgSprites();
 
     // 1. Configurar eventos de navegación y controles de la cabecera
     this.setupHeaderControls();

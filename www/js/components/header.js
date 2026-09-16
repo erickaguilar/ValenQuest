@@ -5,9 +5,11 @@
  */
 import { sound } from '../services/audio.js';
 import { theme } from '../services/theme.js';
+import { loadSvgSprites } from '../services/icons.js';
 
 export class VqHeader extends HTMLElement {
   connectedCallback() {
+    loadSvgSprites();
     this.innerHTML = `
     <!-- App Header (Optimizado Mobile-First) -->
     <header class="app-header" role="banner">

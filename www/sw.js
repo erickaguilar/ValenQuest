@@ -1,18 +1,17 @@
 /**
- * ValenQuest PWA Service Worker
- * Offline-first caching engine for 100% offline play in Lumiria.
+ * ValenQuest PWA Service Worker (sw.js)
+ * Estrategia Híbrida: Precache exclusivo del shell núcleo (Core)
+ * y Runtime Caching con Stale-While-Revalidate para el resto de páginas y módulos.
  */
 
-const CACHE_NAME = 'valenquest-v1.9.8';
+const CACHE_VERSION = 'v2.1.0';
+const CORE_CACHE_NAME = `valenquest-core-${CACHE_VERSION}`;
+const RUNTIME_CACHE_NAME = `valenquest-runtime-${CACHE_VERSION}`;
 
-const PRECACHE_URLS = [
+// Shell Núcleo Estricto (Solo lo indispensable para arrancar offline el Salón Principal)
+const CORE_PRECACHE_URLS = [
   '/',
   '/index.html',
-  '/campaign.html',
-  '/math.html',
-  '/reading.html',
-  '/story.html',
-  '/wardrobe.html',
   '/manifest.json',
   '/favicon.svg',
   '/css/tokens.css',
@@ -20,54 +19,43 @@ const PRECACHE_URLS = [
   '/css/animations.css',
   '/css/components.css',
   '/css/theme-dark.css',
-  '/css/storybook.css',
-  '/css/wardrobe.css',
-  '/css/campaign.css',
-  '/css/math.css',
-  '/css/reading.css',
   '/js/app.js',
-  '/js/campaign-page.js',
-  '/js/math-page.js',
-  '/js/reading-page.js',
-  '/js/storybook.js',
-  '/js/wardrobe-page.js',
   '/js/components/header.js',
   '/js/components/footer.js',
+  '/js/services/icons.js',
   '/js/services/theme.js',
   '/js/services/audio.js',
   '/js/services/speech.js',
   '/js/services/companions.js',
   '/js/services/storage.js',
   '/js/services/pwa.js',
-  '/js/services/wasm-loader.js',
   '/js/services/adventure.js',
   '/js/services/math-practice.js',
   '/js/services/reading-practice.js',
-  '/js/data/levels-data.js',
-  '/pkg/kidslearn_wasm.js',
-  '/pkg/kidslearn_wasm_bg.wasm',
-  '/assets/heroines.svg',
+  '/js/controllers/portal-controller.js',
+  '/data/cosmetics.json',
+  '/data/game-modules.json',
   '/assets/icons.svg',
-  '/assets/icon-192.png',
-  '/assets/icon-512.png',
-  '/assets/icon-maskable.png'
+  '/assets/heroines.svg',
+  '/assets/icon-192.png'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('🌟 [ValenQuest SW] Pre-caching core game assets & WASM binary...');
-      return cache.addAll(PRECACHE_URLS);
+    caches.open(CORE_CACHE_NAME).then((cache) => {
+      console.log('🌟 [ValenQuest SW] Pre-caching Core Shell assets...');
+      return cache.addAll(CORE_PRECACHE_URLS);
     }).then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', (event) => {
+  const currentCaches = [CORE_CACHE_NAME, RUNTIME_CACHE_NAME];
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
+          if (!currentCaches.includes(cache)) {
             console.log('🧹 [ValenQuest SW] Clearing deprecated cache:', cache);
             return caches.delete(cache);
           }
@@ -78,49 +66,43 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
-
-  // Ignore cross-origin requests
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(
+    // 1. Intentar primero en el caché (Core o Runtime previo)
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Fetch in background to update cache for next time (Stale-While-Revalidate)
+        // En segundo plano revalida para mantener frescura
         fetch(event.request)
           .then((networkResponse) => {
             if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, networkResponse);
-              });
+              const targetCache = CORE_PRECACHE_URLS.includes(url.pathname) ? CORE_CACHE_NAME : RUNTIME_CACHE_NAME;
+              caches.open(targetCache).then((cache) => cache.put(event.request, networkResponse));
             }
           })
-          .catch(() => {
-            // Network failure is expected in offline mode, silently ignored
-          });
-
+          .catch(() => {});
         return cachedResponse;
       }
 
-      // If not in cache, fetch from network and cache it
+      // 2. Runtime Caching (Stale-While-Revalidate para páginas secundarias y módulos)
       return fetch(event.request)
         .then((response) => {
           if (!response || response.status !== 200 || response.type !== 'basic') {
             return response;
           }
           const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
+          caches.open(RUNTIME_CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
           });
           return response;
         })
         .catch(() => {
-          // Fallback to index.html for navigation requests
+          // Fallback al Salón Principal si falla la red en una navegación offline
           if (event.request.mode === 'navigate') {
-            return caches.match('/index.html');
+            return caches.match('/index.html') || caches.match('/');
           }
         });
     })

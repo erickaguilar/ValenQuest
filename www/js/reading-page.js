@@ -10,6 +10,7 @@ import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { readingPractice, READING_LEVELS } from './services/reading-practice.js';
 import { theme } from './services/theme.js';
+import { loadSvgSprites } from './services/icons.js';
 
 class ReadingPageController {
   constructor() {
@@ -24,6 +25,7 @@ class ReadingPageController {
 
   async init() {
     console.log('🪶 [ValenQuest] Inicializando Taller de Lectura: La Pluma de la Fluidez...');
+    loadSvgSprites();
 
     // 1. Renderizar inmediatamente el reto inicial (sin esperar a red/DB)
     try {

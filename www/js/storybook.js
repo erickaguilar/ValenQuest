@@ -14,6 +14,7 @@
  */
 
 import { theme } from './services/theme.js';
+import { loadSvgSprites } from './services/icons.js';
 
 const CHAPTERS = [
   {
@@ -178,6 +179,7 @@ class StorybookManager {
   }
 
   init() {
+    loadSvgSprites();
     this.canvas = document.getElementById('mirror-canvas');
     if (this.canvas) {
       this.ctx = this.canvas.getContext('2d');

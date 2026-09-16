@@ -35,18 +35,26 @@ wasm-pack build --target web --out-dir www/pkg --release
 
 # 4. Validar artefactos generados
 echo ""
-echo "[4/4] 📋 Verificando artefactos generados en www/pkg/..."
+echo "[4/5] 📋 Verificando artefactos generados en www/pkg/..."
 if [[ -f "www/pkg/kidslearn_wasm_bg.wasm" && -f "www/pkg/kidslearn_wasm.js" ]]; then
     WASM_SIZE=$(du -h "www/pkg/kidslearn_wasm_bg.wasm" | cut -f1)
     echo "  ✓ Binario WASM: www/pkg/kidslearn_wasm_bg.wasm ($WASM_SIZE)"
     echo "  ✓ Glue JS:      www/pkg/kidslearn_wasm.js"
-    echo "=================================================="
-    echo "🎉 ¡Compilación completada exitosamente!"
-    echo "Para servir localmente la aplicación:"
-    echo "   python3 -m http.server 8090 --directory www"
-    echo "=================================================="
-
 else
     echo "❌ Error: Faltan archivos compilados en www/pkg/."
     exit 1
 fi
+
+# 5. Optimización Web, Minificación y Hashes de Cache Busting
+echo ""
+echo "[5/5] 🏗️ Ejecutando optimización web y hasheo para cache busting..."
+node scripts/build.js
+
+echo "=================================================="
+echo "🎉 ¡Compilación y optimización completadas con éxito!"
+echo "Para servir localmente en modo desarrollo:"
+echo "   python3 -m http.server 8090 --directory www"
+echo "Para servir la versión optimizada de producción (dist):"
+echo "   python3 -m http.server 8090 --directory dist"
+echo "=================================================="
+

@@ -1,21 +1,23 @@
 /**
- * KidsLearn-WASM UI Lifecycle Orchestrator
- * Strictly decoupled: JS only manages the DOM, Web Audio, and event dispatching.
- * All logic, validation, mastery EMA, and syllabification reside in WebAssembly.
+ * KidsLearn-WASM UI Hub Controller (app.js)
+ * Orquestador del Salón Principal y Selección de Heroínas (index.html).
+ * Desacoplado: Cada página curricular (math.html, reading.html, campaign.html,
+ * wardrobe.html, story.html) posee su propio controlador independiente.
  */
 
 import { loadWasm } from './services/wasm-loader.js';
 import { sound } from './services/audio.js';
 import { db } from './services/storage.js';
 import { speech } from './services/speech.js';
-import { companions } from './services/companions.js';
+import { companions, HEROINES } from './services/companions.js';
 import { pwa } from './services/pwa.js';
-import { getLevelData, getActTransitionData, TEN_MOONS_LEVELS } from './data/levels-data.js';
+import { loadLevelsData } from './data/levels-data.js';
 import { theme } from './services/theme.js';
-
+import { loadSvgSprites } from './services/icons.js';
 import { adventure } from './services/adventure.js';
-import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
-import { readingPractice, READING_LEVELS } from './services/reading-practice.js';
+import { mathPractice } from './services/math-practice.js';
+import { readingPractice } from './services/reading-practice.js';
+import { portalController } from './controllers/portal-controller.js';
 
 // Web Components modulares de UI (Header y Footer)
 import './components/header.js';
@@ -26,52 +28,39 @@ export const APP_VERSION = '1.1.0';
 class KidsLearnApp {
   constructor() {
     this.wasm = null;
-    this.adventureMathSession = null;
-    this.readingSession = null;
     this.currentStoryText = '';
-
-    // UI State (DOM only)
-    this.currentTab = 'intro';
-    this.gameMode = 'adventure'; // 'adventure' | 'math_practice' | 'reading_practice'
-    this.inputMode = 'choice'; // 'choice' or 'keypad'
-    this.keypadBuffer = '';
-    this.isSubmittingAnswer = false;
-    this.challengeStartTime = 0;
-    this.rsvpTimer = null;
-    this.rsvpIndex = 0;
-    this.rsvpWords = [];
-    this.rsvpWpm = 100;
-    this.powerGatingTimer = null;
-
-    // Active companion perk states
-    this.starMultiplier = 1;
-    this.streakShieldActive = false;
-
-    // Adventure narrative and portal states
-    this.isPortalActive = false;
-    this.pendingNextTier = 4;
-  }
-
-  /**
-   * Getter que devuelve la sesión matemática correspondiente al modo activo.
-   * Aísla al 100% la campaña narrativa del modo práctica libre.
-   */
-  get mathSession() {
-    return this.gameMode === 'math_practice' ? mathPractice.session : this.adventureMathSession;
   }
 
   async init() {
-    console.log(`🌟 [ValenQuest] Initializing application v${APP_VERSION} in Lumiria...`);
+    console.log(`🌟 [ValenQuest] Initializing Hub Application v${APP_VERSION} in Lumiria...`);
 
-    // 1. Bind event listeners immediately so all buttons respond with zero delay
+    // 1. Redirección inmediata para enlaces o marcadores antiguos con query params
+    const urlParams = new URLSearchParams(window.location.search);
+    const modeParam = urlParams.get('mode');
+    if (modeParam === 'math') {
+      window.location.replace('math.html');
+      return;
+    } else if (modeParam === 'reading') {
+      window.location.replace('reading.html');
+      return;
+    } else if (modeParam === 'campaign') {
+      window.location.replace('campaign.html');
+      return;
+    }
+
+    // 2. Configurar listeners de la UI y tema
     this.setupEventListeners();
     this.syncThemeButton();
 
     try {
+      await loadSvgSprites();
       this.wasm = await loadWasm();
+      await loadLevelsData();
+      portalController.init();
+
       const profile = await db.getProfile();
 
-      // Guarantee Level Up, Portal, and Act Transition modals are strictly hidden on boot
+      // Ocultar modales en arranque
       const levelModal = document.getElementById('level-up-modal');
       if (levelModal) levelModal.hidden = true;
       const portalModal = document.getElementById('portal-challenge-modal');
@@ -81,1629 +70,276 @@ class KidsLearnApp {
       const powersGuideModal = document.getElementById('powers-guide-modal');
       if (powersGuideModal) powersGuideModal.hidden = true;
 
-      // Load persisted companion states
+      // Cargar estado de guardianas
       await companions.loadState();
 
-      // Hook speech synthesis speaking state to visual indicator
+      // Vincular animación de la burbuja de diálogo con la síntesis de voz
       speech.onSpeakingChange((speaking) => {
         const bubble = document.getElementById('intro-dialogue-bubble');
         if (bubble) bubble.classList.toggle('vq-anim-speaking', speaking);
-        const speechBtn = document.getElementById('btn-toggle-speech');
+        const speechBtn = document.getElementById('btn-speak-intro');
         if (speechBtn) speechBtn.classList.toggle('vq-anim-speaking', speaking);
       });
 
       // Hook companion powers badges updates
       companions.onChange(() => this.updatePowersBadges());
 
-      // Restore active heroine from profile or fallback (silent during init)
-      const activeCompanionId = profile.selectedCompanion || companions.activeId || 'valen';
+      // Restaurar heroína activa
+      const activeCompanionId = profile?.selectedCompanion || companions.activeId || 'valen';
       await companions.setActive(activeCompanionId, false);
       this.syncActiveCompanionUI(activeCompanionId);
-      companions.applyEquippedCosmeticsClasses();
 
-      // Cargar estados de La Gran Aventura y Prácticas de 5 Niveles primero
-      await adventure.loadState();
-      await mathPractice.loadState();
-      await readingPractice.loadState();
+      // Cargar balances e indicadores de los módulos
+      await this.syncTriadUI();
 
-      // Initialize Rust MathSessions (completamente separados para Campaña Aventura y Práctica Libre)
-      const seed = BigInt(Date.now());
-      this.adventureMathSession = new this.wasm.MathSession(seed, profile.currentTier || 1);
-      mathPractice.init(this.wasm);
+      // Configurar Modal de Guía de Poderes
+      this.setupPowersGuideModal();
 
-      // Initialize Rust ReadingSession
-      this.readingSession = new this.wasm.ReadingSession();
-
-      this.syncTriadUI();
-
-      this.updatePowersBadges();
-      this.renderProfileHeader(profile);
-      this.updateDiamondsDisplay(profile.diamonds || 0);
-      this.renderMathChallenge();
-      this.renderReadingCatalog();
-
-      // Support direct navigation via URL query params (?mode=math | ?mode=reading)
-      const urlParams = new URLSearchParams(window.location.search);
-      const modeParam = urlParams.get('mode');
-      if (modeParam === 'math') {
-        this.gameMode = 'math_practice';
-        this.renderMathChallenge();
-        this.syncTriadUI();
-        this.switchTab('math', false);
-      } else if (modeParam === 'reading') {
-        this.gameMode = 'reading_practice';
-        this.syncTriadUI();
-        this.switchTab('reading', false);
-      } else {
-        this.switchTab('intro', false);
-      }
-
-      // Initialize PWA installation and Service Worker engine
+      // Inicializar motor PWA
       pwa.init();
 
-      console.log('🚀 [ValenQuest] Application ready with Heroines Trio & Friendship Powers!');
+      console.log('🚀 [ValenQuest] Hub ready with Heroines Quartet & Modular Navigation!');
     } catch (err) {
-      console.error('Fatal initialization error:', err);
+      console.error('Fatal initialization error in Hub:', err);
     }
-  }
-
-  /**
-   * Cognitive Gating: Locks help buttons during initial seconds of a challenge
-   * to ensure student reads and attempts the problem first.
-   */
-  startCognitiveGating(delayMs = 1800) {
-    if (this.powerGatingTimer) {
-      clearTimeout(this.powerGatingTimer);
-      this.powerGatingTimer = null;
-    }
-
-    companions.setGated(true);
-
-    const bar = document.querySelector('.companion-powers-bar');
-    const label = document.querySelector('.powers-bar-label');
-    const buttons = document.querySelectorAll('.power-btn');
-
-    if (bar) bar.classList.add('powers-gated');
-    if (label) label.innerHTML = '<span>⏳</span> <span>Observa...</span>';
-
-    buttons.forEach((btn) => {
-      btn.disabled = true;
-      btn.classList.add('power-gated');
-      btn.setAttribute('aria-disabled', 'true');
-    });
-
-    this.powerGatingTimer = setTimeout(() => {
-      companions.setGated(false);
-      if (bar) bar.classList.remove('powers-gated');
-      if (label) label.innerHTML = '<span>✨</span> <span>Poderes:</span>';
-
-      buttons.forEach((btn) => {
-        btn.classList.remove('power-gated');
-        const id = btn.id.replace('btn-power-', '');
-        const hasCharges = companions.getCharges(id) > 0;
-        btn.disabled = !hasCharges;
-        btn.setAttribute('aria-disabled', hasCharges ? 'false' : 'true');
-      });
-      this.powerGatingTimer = null;
-    }, delayMs);
   }
 
   updatePowersBadges() {
-    const isGated = companions.isPowerGated();
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
       const badge = document.getElementById(`badge-${id}`);
-      const btn = document.getElementById(`btn-power-${id}`);
-      const charges = companions.getCharges(id);
-      if (badge) badge.textContent = charges;
-      if (btn) {
-        if (isGated) {
-          btn.disabled = true;
-          btn.classList.add('power-gated');
-          btn.setAttribute('aria-disabled', 'true');
-        } else {
-          btn.disabled = charges <= 0;
-          btn.classList.remove('power-gated');
-          btn.setAttribute('aria-disabled', charges <= 0 ? 'false' : 'true');
-        }
+      if (badge) {
+        badge.textContent = companions.getCharges(id);
       }
     });
   }
 
-
   syncThemeButton() {
-    theme.syncButton();
+    const btn = document.getElementById('btn-toggle-theme');
+    if (btn) {
+      theme.bindButton(btn);
+    }
   }
 
-
-
-  // =========================================================================
-  // Event Listeners & Input Handlers
-  // =========================================================================
   setupEventListeners() {
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const tab = e.currentTarget.dataset.tab;
-        this.switchTab(tab);
-      });
+    // 1. Selector interactivo del Cuarteto de la Armonía
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const card = document.getElementById(`card-heroine-${id}`);
+      if (card) {
+        card.addEventListener('click', () => {
+          this.selectCompanion(id);
+        });
+      }
     });
 
-    // Selectores de nivel de práctica en el Salón Principal
+    // 2. Botón de narración del mensaje de bienvenida
+    const btnSpeakIntro = document.getElementById('btn-speak-intro');
+    if (btnSpeakIntro) {
+      btnSpeakIntro.addEventListener('click', () => {
+        const textEl = document.getElementById('intro-dialogue-text');
+        if (textEl) {
+          speech.speak(textEl.innerText || textEl.textContent);
+        }
+      });
+    }
+
+    // 3. Selectores de nivel de Matemáticas en el Salón Principal
     document.querySelectorAll('#math-level-chips .level-chip-btn').forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         sound.playClick();
         const lvl = Number(e.currentTarget.dataset.level) || 1;
         await mathPractice.setLevel(lvl);
-        this.syncTriadUI();
+        this.updateMathChipsUI(lvl);
       });
     });
 
-    // Selectores de nivel en caliente DENTRO del juego (El Prisma Numérico)
-    document.querySelectorAll('#math-practice-ingame-chips .level-chip-btn').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
-        sound.playClick();
-        const lvl = Number(e.currentTarget.dataset.level) || 1;
-        await mathPractice.setLevel(lvl);
-        const lvlInfo = mathPractice.getCurrentLevelInfo();
-        this.renderMathChallenge();
-        this.syncTriadUI();
-        speech.speak(`Nivel ${lvlInfo.level}: ${lvlInfo.name}`);
-      });
-    });
-
+    // 4. Selectores de nivel de Lectura en el Salón Principal
     document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         sound.playClick();
         const lvl = Number(e.currentTarget.dataset.level) || 1;
         await readingPractice.setLevel(lvl);
-        this.syncTriadUI();
+        this.updateReadingChipsUI(lvl);
       });
     });
 
-    // Intro Navigation buttons (Tríada de Modos)
+    // 5. Efectos de sonido en los botones de acción de entrada
     const btnStartQuest = document.getElementById('btn-start-quest');
     if (btnStartQuest) {
-      btnStartQuest.addEventListener('click', () => {
-        sound.playLevelUp();
-      });
+      btnStartQuest.addEventListener('click', () => sound.playLevelUp());
     }
 
     const btnIntroMath = document.getElementById('btn-intro-goto-math');
     if (btnIntroMath) {
-      btnIntroMath.addEventListener('click', () => {
-        sound.playClick();
-      });
+      btnIntroMath.addEventListener('click', () => sound.playClick());
     }
 
     const btnIntroReading = document.getElementById('btn-intro-goto-reading');
     if (btnIntroReading) {
-      btnIntroReading.addEventListener('click', () => {
+      btnIntroReading.addEventListener('click', () => sound.playClick());
+    }
+
+    // 6. Botón de instalación PWA en el banner
+    const btnBannerInstall = document.getElementById('btn-banner-install');
+    if (btnBannerInstall) {
+      btnBannerInstall.addEventListener('click', () => {
         sound.playClick();
-      });
-    }
-
-    // Botones de Navegación de Misiones (Hub & Spoke)
-    const btnBackMath = document.getElementById('btn-back-to-journey-math');
-    if (btnBackMath) {
-      btnBackMath.addEventListener('click', () => {
-        this.switchTab('intro');
-      });
-    }
-
-    const btnBackReading = document.getElementById('btn-back-to-journey-reading');
-    if (btnBackReading) {
-      btnBackReading.addEventListener('click', () => {
-        this.switchTab('intro');
-      });
-    }
-
-    const btnGotoReadingFromMath = document.getElementById('btn-goto-reading-from-math');
-    if (btnGotoReadingFromMath) {
-      btnGotoReadingFromMath.addEventListener('click', () => {
-        if (this.gameMode === 'math_practice') {
-          this.gameMode = 'reading_practice';
-        }
-        this.switchTab('reading');
-      });
-    }
-
-    const btnGotoMathFromReading = document.getElementById('btn-goto-math-from-reading');
-    if (btnGotoMathFromReading) {
-      btnGotoMathFromReading.addEventListener('click', () => {
-        if (this.gameMode === 'reading_practice') {
-          this.gameMode = 'math_practice';
-        }
-        this.renderMathChallenge();
-        this.switchTab('math');
-      });
-    }
-
-    // Clic en la marca del header para regresar a El Viaje
-    const headerBrandLink = document.getElementById('header-brand-link');
-    if (headerBrandLink) {
-      headerBrandLink.addEventListener('click', (e) => {
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || !window.location.pathname.includes('.html')) {
-          e.preventDefault();
-          this.switchTab('intro');
-        }
-      });
-    }
-
-
-    // Audio mute toggle
-    const muteBtn = document.getElementById('btn-toggle-mute');
-    if (muteBtn) {
-      muteBtn.addEventListener('click', () => {
-        const isMuted = sound.toggleMute();
-        muteBtn.innerHTML = isMuted
-          ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg>'
-          : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>';
-        muteBtn.title = isMuted ? 'Activar sonido' : 'Silenciar sonido';
-      });
-    }
-
-    // Dark Mode Theme Toggle
-    const themeBtn = document.getElementById('btn-toggle-theme');
-    if (themeBtn) {
-      theme.bindButton(themeBtn);
-    }
-
-
-    // Native Speech Synthesis (TTS) Toggle (Voz de Orión)
-    const speechBtn = document.getElementById('btn-toggle-speech');
-    if (speechBtn) {
-      speechBtn.addEventListener('click', () => {
-        sound.playClick();
-        const isEnabled = speech.toggle();
-        speechBtn.classList.toggle('active', isEnabled);
-        speechBtn.title = isEnabled ? 'Voz de Orión activa' : 'Voz de Orión silenciada';
-        if (isEnabled) {
-          speech.speak('Voz del Maestro Orión activada');
-        }
-      });
-    }
-
-    // Speak Intro Dialogue Button
-    const btnSpeakIntro = document.getElementById('btn-speak-intro');
-    if (btnSpeakIntro) {
-      btnSpeakIntro.addEventListener('click', () => {
-        sound.playClick();
-        const text =
-          '¡Las constelaciones de Lumiria nos llaman! El Velo de la Duda de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el Cuarteto de la Armonía y el poder de la amistad, resolveremos cada enigma para encender todas las estrellas. ¡Elige a tu compañera y comencemos la misión!';
-        speech.speakDialogue(text);
-      });
-    }
-
-    // Speak Math Challenge Button
-    const btnSpeakMath = document.getElementById('btn-speak-math');
-    if (btnSpeakMath) {
-      btnSpeakMath.addEventListener('click', () => {
-        sound.playClick();
-        if (this.gameMode === 'math_practice' && mathPractice.currentChallenge) {
-          const ch = mathPractice.currentChallenge;
-          if (ch.expression && ch.expression.length > 0) {
-            speech.speak(`¿Cuánto es ${ch.expression}?`);
-          } else {
-            speech.speakMath(ch.op1, ch.operator, ch.op2);
-          }
-          return;
-        }
-        if (!this.adventureMathSession) return;
-        const expr = this.adventureMathSession.get_expression();
-        if (expr && expr.length > 0) {
-          speech.speak(`¿Cuánto es ${expr}?`);
-        } else {
-          const op1 = this.adventureMathSession.get_operand1();
-          const op = this.adventureMathSession.get_operator();
-          const op2 = this.adventureMathSession.get_operand2();
-          speech.speakMath(op1, op, op2);
-        }
-      });
-    }
-
-    // Speak Story Button
-    const btnSpeakStory = document.getElementById('btn-speak-story');
-    if (btnSpeakStory) {
-      btnSpeakStory.addEventListener('click', () => {
-        sound.playClick();
-        if (this.currentStoryText) {
-          speech.speakDialogue(this.currentStoryText);
-        }
-      });
-    }
-
-    // Heroines Harmony Quartet Selection (Intro cards)
-    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
-      const card = document.getElementById(`card-heroine-${id}`);
-      if (card) {
-        card.addEventListener('click', () => {
-          this.selectCompanion(id, true);
-        });
-      }
-    });
-
-    // Footer Scroll to Top
-    const btnFooterScrollTop = document.getElementById('btn-footer-scroll-top');
-    if (btnFooterScrollTop) {
-      btnFooterScrollTop.addEventListener('click', () => {
-        sound.playClick();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
-
-    // Companion In-Game Power Buttons (Valen, Reni, Zoe, Lía)
-    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
-      const btn = document.getElementById(`btn-power-${id}`);
-      if (btn) {
-        btn.addEventListener('click', () => {
-          const isPractice = this.gameMode === 'math_practice';
-          const ch = isPractice ? mathPractice.currentChallenge : null;
-          const res = companions.activatePower(id, {
-            mathSession: this.adventureMathSession,
-            app: this,
-            isPractice,
-            correctAnswer: ch ? ch.answer : undefined,
-            operator: ch ? ch.operator : undefined,
-          });
-          this.updatePowersBadges();
-          if (res && res.success) {
-            btn.classList.add('power-activated');
-            setTimeout(() => btn.classList.remove('power-activated'), 700);
-          }
-        });
-      }
-    });
-
-    // Input mode toggle (Multiple Choice vs Numeric Keypad)
-    const modeToggle = document.getElementById('btn-toggle-mode');
-    if (modeToggle) {
-      modeToggle.addEventListener('click', () => {
-        sound.playClick();
-        this.inputMode = this.inputMode === 'choice' ? 'keypad' : 'choice';
-        modeToggle.innerHTML =
-          this.inputMode === 'choice'
-            ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Cambiar a Teclado Numérico</span>'
-            : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg> <span>Cambiar a Selección Múltiple</span>';
-        this.renderInputArea();
-      });
-    }
-
-    // Tactile On-screen Keypad delegation
-    const keypad = document.getElementById('keypad-grid');
-    if (keypad) {
-      keypad.addEventListener('click', (e) => {
-        const btn = e.target.closest('.key-btn');
-        if (!btn) return;
-        sound.playClick();
-        const action = btn.dataset.action;
-        const val = btn.dataset.val;
-
-        if (action === 'backspace') {
-          this.keypadBuffer = this.keypadBuffer.slice(0, -1);
-          this.updateKeypadDisplay();
-        } else if (action === 'clear') {
-          this.keypadBuffer = '';
-          this.updateKeypadDisplay();
-        } else if (action === 'submit') {
-          this.handleKeypadSubmit();
-        } else if (val !== undefined) {
-          if (this.keypadBuffer.length < 3) {
-            this.keypadBuffer += val;
-            this.updateKeypadDisplay();
-          }
-        }
-      });
-    }
-
-    // Physical keyboard listener for accessibility
-    window.addEventListener('keydown', (e) => {
-      if (this.currentTab !== 'math') return;
-
-      if (e.key >= '0' && e.key <= '9') {
-        sound.playClick();
-        if (this.inputMode !== 'keypad') {
-          this.inputMode = 'keypad';
-          this.renderInputArea();
-        }
-        if (this.keypadBuffer.length < 3) {
-          this.keypadBuffer += e.key;
-          this.updateKeypadDisplay();
-        }
-      } else if (e.key === 'Backspace') {
-        sound.playClick();
-        this.keypadBuffer = this.keypadBuffer.slice(0, -1);
-        this.updateKeypadDisplay();
-      } else if (e.key === 'Enter') {
-        if (this.keypadBuffer.length > 0) {
-          this.handleKeypadSubmit();
-        }
-      }
-    });
-
-    // Level up modal dismiss
-    const dismissModalBtn = document.getElementById('btn-modal-dismiss');
-    if (dismissModalBtn) {
-      dismissModalBtn.addEventListener('click', () => {
-        sound.playClick();
-        document.getElementById('level-up-modal').hidden = true;
-      });
-    }
-
-    // Guía de Poderes de Lumiria
-    this.setupPowersGuideModal();
-
-    // Desafío de Portal Action Buttons
-    const btnPortalContinue = document.getElementById('btn-portal-continue');
-    if (btnPortalContinue) {
-      btnPortalContinue.addEventListener('click', async () => {
-        sound.playClick();
-        document.getElementById('portal-challenge-modal').hidden = true;
-        this.isPortalActive = false;
-        await this.advancePastCompletedLevel(this.currentPortalLevel);
-      });
-    }
-
-    const btnPortalEquip = document.getElementById('btn-portal-equip-now');
-    if (btnPortalEquip) {
-      btnPortalEquip.addEventListener('click', async () => {
-        sound.playClick();
-        const lvlData = getLevelData(this.currentPortalLevel);
-        if (lvlData && lvlData.reward) {
-          await companions.equip(lvlData.reward.heroineId, lvlData.reward.slot, lvlData.reward.itemId);
-          companions.applyEquippedCosmeticsClasses();
-        }
-        document.getElementById('portal-challenge-modal').hidden = true;
-        this.isPortalActive = false;
-        await this.advancePastCompletedLevel(this.currentPortalLevel);
-      });
-    }
-
-    // Gran Transición Cósmica de Conclusión de Actos
-    const btnActContinue = document.getElementById('btn-act-continue');
-    if (btnActContinue) {
-      btnActContinue.addEventListener('click', async () => {
-        sound.playClick();
-        speech.stop();
-        const actModal = document.getElementById('act-transition-modal');
-        if (actModal) actModal.hidden = true;
-        await this.applyTierAdvance(this.pendingNextTier || 4);
-      });
-    }
-
-    const btnPortalSpeak = document.getElementById('btn-portal-speak-story');
-    if (btnPortalSpeak) {
-      btnPortalSpeak.addEventListener('click', () => {
-        sound.playClick();
-        const lvlData = getLevelData(this.currentPortalLevel);
-        if (lvlData) {
-          this.speakPortalStory(lvlData.microCuento);
-        }
-      });
-    }
-
-    // Tapping tier badge opens the Astral Temple Portal Challenge
-    const tierBadge = document.querySelector('.tier-badge');
-    if (tierBadge) {
-      tierBadge.style.cursor = 'pointer';
-      tierBadge.setAttribute('title', 'Toca para abrir el Desafío de Portal del Templo');
-      tierBadge.addEventListener('click', () => {
-        if (this.gameMode !== 'adventure') return;
-        sound.playClick();
-        const currentTier = this.adventureMathSession ? this.adventureMathSession.get_tier() : 1;
-        this.openPortalChallenge(currentTier);
-      });
-    }
-
-    // Tapping the math answer preview box toggles input mode
-    const previewBox = document.getElementById('math-answer-preview');
-    if (previewBox) {
-      previewBox.style.cursor = 'pointer';
-      previewBox.setAttribute('title', 'Toca para alternar modo de entrada');
-      previewBox.addEventListener('click', () => {
-        sound.playClick();
-        const modeBtn = document.getElementById('btn-toggle-mode');
-        if (modeBtn) modeBtn.click();
-      });
-    }
-
-    // Reading controls
-    const btnPlayRsvp = document.getElementById('btn-play-rsvp');
-    if (btnPlayRsvp) {
-      btnPlayRsvp.addEventListener('click', () => this.toggleRsvp());
-    }
-
-    const rsvpSpeedSlider = document.getElementById('rsvp-speed');
-    if (rsvpSpeedSlider) {
-      rsvpSpeedSlider.addEventListener('input', (e) => {
-        this.rsvpWpm = parseInt(e.target.value, 10);
-        document.getElementById('wpm-display').textContent = `${this.rsvpWpm} PPM`;
-        if (this.rsvpTimer) {
-          this.stopRsvp();
-          this.startRsvp();
-        }
+        pwa.promptInstall();
       });
     }
   }
 
-  switchTab(tab, playSound = true) {
-    if (playSound) sound.playClick();
-    this.currentTab = tab;
-
-    document.querySelectorAll('.tab-btn').forEach((btn) => {
-      const isActive = btn.dataset.tab === tab;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  updateMathChipsUI(lvl) {
+    document.querySelectorAll('#math-level-chips .level-chip-btn').forEach((btn) => {
+      const active = Number(btn.dataset.level) === lvl;
+      btn.classList.toggle('active', active);
     });
-
-    const introSec = document.getElementById('intro-section');
-    const mathSec = document.getElementById('math-section');
-    const readSec = document.getElementById('reading-section');
-
-    if (introSec) introSec.hidden = tab !== 'intro';
-    if (mathSec) mathSec.hidden = tab !== 'math';
-    if (readSec) readSec.hidden = tab !== 'reading';
-
-    if (tab === 'reading' && this.rsvpTimer) {
-      this.stopRsvp();
-    }
-
-    if (tab === 'math') {
-      this.renderMathChallenge();
-    } else if (tab === 'reading') {
-      if (this.readingSession) {
-        this.renderReadingCatalog();
-      }
-    }
-
-    if (tab === 'intro') {
-      this.syncTriadUI();
-    }
-
-    // Sincronizar badge de misión según el modo activo
-    const mathBadgeText = document.getElementById('math-mission-badge-text');
-    const readingBadgeText = document.getElementById('reading-mission-badge-text');
-    if (this.gameMode === 'adventure') {
-      const advState = adventure.getState();
-      if (mathBadgeText) mathBadgeText.textContent = `🚀 Aventura • Templo ${advState.currentTemple}`;
-      if (readingBadgeText) readingBadgeText.textContent = `🚀 Aventura • Templo ${advState.currentTemple}`;
-    } else if (this.gameMode === 'math_practice') {
+    const summary = document.getElementById('math-level-summary');
+    if (summary) {
       const lvlInfo = mathPractice.getCurrentLevelInfo();
-      if (mathBadgeText) mathBadgeText.textContent = `💎 Prisma • Nivel ${lvlInfo.level}`;
-    } else if (this.gameMode === 'reading_practice') {
-      const lvlInfo = readingPractice.getCurrentLevelInfo();
-      if (readingBadgeText) readingBadgeText.textContent = `🪶 Pluma • Nivel ${lvlInfo.level}`;
+      summary.textContent = `✨ Nivel ${lvlInfo.level}: ${lvlInfo.name} (${lvlInfo.subtitle})`;
     }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  syncTriadUI() {
-    // 1. Templo actual de La Gran Aventura
-    const advState = adventure.getState();
+  updateReadingChipsUI(lvl) {
+    document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
+      const active = Number(btn.dataset.level) === lvl;
+      btn.classList.toggle('active', active);
+    });
+    const summary = document.getElementById('reading-level-summary');
+    if (summary) {
+      const lvlInfo = readingPractice.getCurrentLevelInfo();
+      summary.textContent = `💧 Nivel ${lvlInfo.level}: ${lvlInfo.name} (${lvlInfo.subtitle})`;
+    }
+  }
+
+  async syncTriadUI() {
+    // 1. Estado de la Campaña (Aventura)
+    const advState = await adventure.loadState();
     const templeDisplay = document.getElementById('adventure-temple-display');
     if (templeDisplay) {
       templeDisplay.textContent = `Templo ${advState.currentTemple}: ${advState.templeName}`;
     }
 
-    // 2. Nivel seleccionado en El Prisma Numérico (Matemáticas)
-    const mathChips = document.querySelectorAll('#math-level-chips .level-chip-btn');
-    mathChips.forEach((btn) => {
-      const lvl = Number(btn.dataset.level);
-      btn.classList.toggle('active', lvl === mathPractice.selectedLevel);
-    });
-    const mathSummary = document.getElementById('math-level-summary');
-    if (mathSummary) {
-      const info = mathPractice.getCurrentLevelInfo();
-      const streakText = mathPractice.highestStreak > 0 ? ` • Récord: 🔥${mathPractice.highestStreak}` : '';
-      mathSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.name} (${info.shortName})${streakText}`;
-    }
+    // 2. Estado del Prisma Numérico
+    await mathPractice.loadState();
+    const mathLvl = mathPractice.currentLevel || 1;
+    this.updateMathChipsUI(mathLvl);
 
-    // 3. Nivel seleccionado en La Pluma de la Fluidez (Lectura)
-    const readingChips = document.querySelectorAll('#reading-level-chips .level-chip-btn');
-    readingChips.forEach((btn) => {
-      const lvl = Number(btn.dataset.level);
-      btn.classList.toggle('active', lvl === readingPractice.selectedLevel);
-    });
-    const readingSummary = document.getElementById('reading-level-summary');
-    if (readingSummary) {
-      const info = readingPractice.getCurrentLevelInfo();
-      const streakText = readingPractice.highestStreak > 0 ? ` • Récord: 🔥${readingPractice.highestStreak}` : '';
-      readingSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.name} (${info.shortName})${streakText}`;
-    }
+    // 3. Estado de la Pluma de la Fluidez
+    await readingPractice.loadState();
+    const readLvl = readingPractice.currentLevel || 1;
+    this.updateReadingChipsUI(readLvl);
   }
 
   selectCompanion(id, speak = true) {
     companions.setActive(id);
     this.syncActiveCompanionUI(id);
-    const hero = companions.getActive();
-    if (hero) {
-      sound.playClick();
-      if (speak) {
-        speech.speakDialogue(`¡Hola, soy ${hero.name}! ${hero.title}. ${hero.voiceQuote}`);
-      }
+    sound.playClick();
+
+    if (speak) {
+      const hero = HEROINES[id] || HEROINES.valen;
+      speech.speak(`¡Hola, soy ${hero.name}! ${hero.description}`);
     }
   }
 
   syncActiveCompanionUI(id) {
-    document.querySelectorAll('.heroine-card').forEach((c) => {
-      c.classList.toggle('active-companion', c.id === `card-heroine-${id}`);
+    const hero = HEROINES[id] || HEROINES.valen;
+
+    // Actualizar selección visual en la cuadrícula de heroínas
+    ['valen', 'reni', 'zoe', 'lia'].forEach((heroId) => {
+      const card = document.getElementById(`card-heroine-${heroId}`);
+      if (card) {
+        card.classList.toggle('active-companion', heroId === id);
+      }
     });
-    const hero = companions.getActive();
-    if (hero) {
-      const avatar = document.getElementById('student-avatar');
-      const name = document.getElementById('student-name');
-      if (avatar) {
-        avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero.iconSymbol || 'vq-icon-star'}"></use></svg>`;
-      }
-      if (name) {
-        name.textContent = hero.name;
-        name.title = `${hero.name} (${hero.title})`;
-      }
 
-      // Sincronizar cabecera del diálogo de bienvenida en el Salón Principal
-      const speakerAvatar = document.getElementById('gacha-speaker-avatar');
-      const speakerName = document.getElementById('gacha-speaker-name');
-      const speakerRole = document.getElementById('gacha-speaker-role');
-      if (speakerAvatar) {
-        speakerAvatar.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-${hero.id}"></use></svg>`;
-      }
-      if (speakerName) {
-        speakerName.textContent = hero.id === 'valen' ? 'Princesa Valen' : hero.name;
-      }
-      if (speakerRole) {
-        const raceName = hero.id === 'valen' ? 'Alicornio' : (hero.id === 'reni' ? 'Pegaso' : (hero.id === 'zoe' ? 'Poni Terrestre' : 'Unicornio'));
-        speakerRole.textContent = `${raceName} • ${hero.title}`;
-      }
+    // Actualizar avatar y título en la cabecera
+    const studentAvatar = document.getElementById('student-avatar');
+    const studentName = document.getElementById('student-name');
+    if (studentAvatar) {
+      studentAvatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero.iconSymbol || 'vq-icon-star'}"></use></svg>`;
     }
-  }
-
-
-  // =========================================================================
-  // Math Game Engine Integration
-  // =========================================================================
-  renderMathChallenge() {
-    this.challengeStartTime = performance.now();
-    this.isSubmittingAnswer = false;
-    this.keypadBuffer = '';
-    this.updateKeypadDisplay();
-
-    // Cognitive gating: lock powers during initial reading window (1.8s)
-    this.startCognitiveGating(1800);
-
-    const mathPracticeBar = document.getElementById('math-practice-bar');
-    const statsBar = document.querySelector('#math-section .stats-bar');
-
-    if (this.gameMode === 'math_practice') {
-      if (!mathPractice.currentChallenge) {
-        mathPractice.generateChallenge();
-      }
-      const challenge = mathPractice.currentChallenge;
-      const lvlInfo = mathPractice.getCurrentLevelInfo();
-
-      if (challenge.expression && challenge.expression.length > 0) {
-        document.getElementById('math-op1').textContent = challenge.expression;
-        document.getElementById('math-op2').textContent = '';
-        document.getElementById('math-operator').textContent = '';
-      } else {
-        document.getElementById('math-op1').textContent = challenge.op1;
-        document.getElementById('math-op2').textContent = challenge.op2;
-        document.getElementById('math-operator').textContent = challenge.operator;
-      }
-
-      document.getElementById('tier-badge-text').textContent = lvlInfo.name;
-      document.getElementById('streak-count').textContent = mathPractice.streak;
-
-      const flameBadge = document.getElementById('streak-badge');
-      if (flameBadge) flameBadge.classList.toggle('active-flame', mathPractice.streak >= 3);
-
-      if (mathPracticeBar) {
-        mathPracticeBar.hidden = false;
-        const activeTitle = document.getElementById('math-practice-active-title');
-        if (activeTitle) {
-          activeTitle.textContent = `${lvlInfo.icon} Nivel ${lvlInfo.level}: ${lvlInfo.name} (${lvlInfo.shortName})`;
-        }
-        const streakVal = document.getElementById('math-practice-streak-val');
-        if (streakVal) streakVal.textContent = mathPractice.streak;
-        const recordVal = document.getElementById('math-practice-record-val');
-        if (recordVal) recordVal.textContent = mathPractice.highestStreak;
-
-        const diamondsVal = document.getElementById('math-practice-diamonds-val');
-        if (diamondsVal) diamondsVal.textContent = mathPractice.diamondsEarned || 0;
-
-        const comboVal = typeof mathPractice.combo === 'number' ? mathPractice.combo : 0;
-        const comboPct = document.getElementById('math-combo-pct');
-        const comboFill = document.getElementById('math-combo-fill');
-        const comboBadge = document.getElementById('math-combo-badge');
-        if (comboPct) comboPct.textContent = `${comboVal}%`;
-        if (comboFill) comboFill.style.width = `${comboVal}%`;
-        if (comboBadge) {
-          comboBadge.textContent = mathPractice.totalCombos > 0 ? `⚡ x${mathPractice.totalCombos + 1}` : '⚡ x1';
-        }
-
-        document.querySelectorAll('#math-practice-ingame-chips .level-chip-btn').forEach((btn) => {
-          btn.classList.toggle('active', Number(btn.dataset.level) === mathPractice.selectedLevel);
-        });
-      }
-      if (statsBar) {
-        statsBar.hidden = true;
-      }
-    } else {
-      if (mathPracticeBar) {
-        mathPracticeBar.hidden = true;
-      }
-      if (statsBar) {
-        statsBar.hidden = false;
-      }
-
-      const session = this.adventureMathSession;
-      if (session) {
-        const op1 = session.get_operand1();
-        const op2 = session.get_operand2();
-        const op = session.get_operator();
-        const expr = session.get_expression ? session.get_expression() : '';
-        const tierName = session.get_tier_name();
-        const streak = session.get_streak();
-        const masteryPct = session.get_mastery_percentage();
-
-        if (expr && expr.length > 0) {
-          document.getElementById('math-op1').textContent = expr;
-          document.getElementById('math-op2').textContent = '';
-          document.getElementById('math-operator').textContent = '';
-        } else {
-          document.getElementById('math-op1').textContent = op1;
-          document.getElementById('math-op2').textContent = op2;
-          document.getElementById('math-operator').textContent = op;
-        }
-
-        document.getElementById('tier-badge-text').textContent = tierName;
-        document.getElementById('streak-count').textContent = streak;
-        document.getElementById('mastery-pct').textContent = `${masteryPct}%`;
-        document.getElementById('mastery-bar-fill').style.width = `${masteryPct}%`;
-
-        const flameBadge = document.getElementById('streak-badge');
-        if (flameBadge) flameBadge.classList.toggle('active-flame', streak >= 3);
-      }
+    if (studentName) {
+      studentName.textContent = hero.name;
     }
 
-    this.renderInputArea();
-  }
+    // Actualizar globo de diálogo estilo Gacha Life
+    const speakerAvatar = document.getElementById('gacha-speaker-avatar');
+    const speakerName = document.getElementById('gacha-speaker-name');
+    const speakerRole = document.getElementById('gacha-speaker-role');
+    const dialogueText = document.getElementById('intro-dialogue-text');
 
-  renderInputArea() {
-    const choiceContainer = document.getElementById('options-grid');
-    const keypadContainer = document.getElementById('keypad-wrapper');
-
-    if (this.inputMode === 'choice') {
-      choiceContainer.hidden = false;
-      keypadContainer.hidden = true;
-
-      let options = [];
-      if (this.gameMode === 'math_practice') {
-        if (!mathPractice.currentChallenge) {
-          mathPractice.generateChallenge();
-        }
-        options = mathPractice.currentChallenge ? mathPractice.currentChallenge.options : [];
-      } else if (this.adventureMathSession) {
-        try {
-          options = JSON.parse(this.adventureMathSession.get_options_json());
-        } catch {
-          options = [];
-        }
-      }
-
-      choiceContainer.innerHTML = '';
-      options.forEach((optVal) => {
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.textContent = optVal;
-        btn.setAttribute('aria-label', `Opción ${optVal}`);
-
-        // Live preview on hover / pointerenter / focus
-        btn.addEventListener('pointerenter', () => {
-          if (!btn.disabled && !this.isSubmittingAnswer) {
-            this.previewAnswer(optVal);
-          }
-        });
-        btn.addEventListener('pointerleave', () => {
-          if (!this.isSubmittingAnswer) {
-            this.clearAnswerPreview();
-          }
-        });
-        btn.addEventListener('focus', () => {
-          if (!btn.disabled && !this.isSubmittingAnswer) {
-            this.previewAnswer(optVal);
-          }
-        });
-        btn.addEventListener('blur', () => {
-          if (!this.isSubmittingAnswer) {
-            this.clearAnswerPreview();
-          }
-        });
-
-        btn.addEventListener('click', () => {
-          this.submitAnswer(optVal);
-        });
-        choiceContainer.appendChild(btn);
-      });
-    } else {
-      choiceContainer.hidden = true;
-      keypadContainer.hidden = false;
+    if (speakerAvatar) {
+      speakerAvatar.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-${hero.id}"></use></svg>`;
     }
-  }
-
-  updateKeypadDisplay() {
-    const display = document.getElementById('math-answer-preview');
-    if (!display) return;
-    if (this.keypadBuffer.length > 0) {
-      display.textContent = this.keypadBuffer;
-      display.classList.remove('empty', 'preview', 'correct', 'incorrect');
-    } else {
-      display.textContent = '?';
-      display.classList.add('empty');
-      display.classList.remove('preview', 'correct', 'incorrect');
+    if (speakerName) {
+      speakerName.textContent = hero.name;
     }
-  }
-
-  previewAnswer(val) {
-    if (this.isSubmittingAnswer) return;
-    const display = document.getElementById('math-answer-preview');
-    if (!display) return;
-    display.textContent = val;
-    display.classList.remove('empty');
-    display.classList.add('preview');
-  }
-
-  clearAnswerPreview() {
-    if (this.isSubmittingAnswer) return;
-    const display = document.getElementById('math-answer-preview');
-    if (!display) return;
-    if (this.inputMode === 'keypad' && this.keypadBuffer.length > 0) {
-      display.textContent = this.keypadBuffer;
-      display.classList.remove('empty', 'preview');
-    } else {
-      display.textContent = '?';
-      display.classList.add('empty');
-      display.classList.remove('preview', 'correct', 'incorrect');
+    if (speakerRole) {
+      speakerRole.textContent = `${hero.race} • ${hero.title}`;
     }
-  }
-
-  handleKeypadSubmit() {
-    if (!this.keypadBuffer) return;
-    const num = parseInt(this.keypadBuffer, 10);
-    if (!Number.isNaN(num)) {
-      this.submitAnswer(num);
-    }
-  }
-
-  /**
-   * Dispatches user answer and elapsed latency to Rust WASM engine
-   */
-  async submitAnswer(userAnswer) {
-    if (this.isSubmittingAnswer) return;
-    this.isSubmittingAnswer = true;
-
-    const display = document.getElementById('math-answer-preview');
-    if (display) {
-      display.textContent = userAnswer;
-      display.classList.remove('empty', 'preview');
-    }
-
-    const elapsedMs = Math.round(performance.now() - this.challengeStartTime);
-    const card = document.getElementById('math-challenge-card');
-
-    // =========================================================================
-    // 1. MODO PRÁCTICA LIBRE: EL PRISMA NUMÉRICO (Completamente Desacoplado)
-    // =========================================================================
-    if (this.gameMode === 'math_practice') {
-      try {
-        const res = await mathPractice.checkAnswer(userAnswer, elapsedMs);
-
-        if (res.isCorrect) {
-          if (display) display.classList.add('correct');
-          if (card) card.classList.add('correct-flash');
-
-          const streakVal = document.getElementById('math-practice-streak-val');
-          if (streakVal) streakVal.textContent = res.streak;
-          const recordVal = document.getElementById('math-practice-record-val');
-          if (recordVal) recordVal.textContent = res.highestStreak;
-
-          const comboPct = document.getElementById('math-combo-pct');
-          const comboFill = document.getElementById('math-combo-fill');
-          const comboBadge = document.getElementById('math-combo-badge');
-          if (comboPct) comboPct.textContent = `${res.combo}%`;
-          if (comboFill) comboFill.style.width = `${res.combo}%`;
-          if (comboBadge) {
-            comboBadge.textContent = res.totalCombos > 0 ? `⚡ x${res.totalCombos + 1}` : '⚡ x1';
-          }
-
-          // Otorgar Diamantes al perfil (elimina estrellas en práctica)
-          try {
-            const newDiamondsBalance = await db.addDiamonds(res.earnedDiamonds || 1);
-            this.updateDiamondsDisplay(newDiamondsBalance);
-          } catch (e) {
-            console.warn('Error saving diamonds balance:', e);
-          }
-
-          // Ventajas mínimas de princesas en práctica
-          try {
-            await companions.rewardStreak(res.streak, true);
-            this.updatePowersBadges();
-          } catch (e) {}
-
-          if (res.comboBurst) {
-            const comboWrapper = document.getElementById('math-practice-combo-wrapper');
-            if (comboWrapper) {
-              comboWrapper.classList.add('combo-burst-burst');
-              setTimeout(() => comboWrapper.classList.remove('combo-burst-burst'), 1200);
-            }
-            try { sound.playLevelUp(); } catch (e) {}
-            try { speech.speak('¡Súper Combo Astral completado! ¡Diez diamantes para tu ropero!'); } catch (e) {}
-
-            try {
-              const rechargedKey = await companions.rechargeOnePower(2);
-              if (rechargedKey) {
-                this.updatePowersBadges();
-              }
-            } catch (e) {}
-
-            // Pausa breve para celebrar y visualizar el 100% de combo alcanzado
-            await new Promise((resolve) => setTimeout(resolve, 800));
-            mathPractice.resetCombo();
-            if (comboPct) comboPct.textContent = '0%';
-            if (comboFill) comboFill.style.width = '0%';
-          } else if (res.streak > 0 && res.streak % 3 === 0) {
-            try { sound.playStreak(); } catch (e) {}
-            if (res.streak % 5 === 0) {
-              try { speech.speak(`¡Racha estelar de ${res.streak} en el Prisma Numérico!`); } catch (e) {}
-            } else {
-              try { speech.speakPraise(res.streak); } catch (e) {}
-            }
-          } else {
-            try { sound.playCorrect(); } catch (e) {}
-          }
-        } else {
-          if (display) display.classList.add('incorrect');
-
-          // Zoe's Roots Shield protection
-          if (this.streakShieldActive) {
-            this.streakShieldActive = false;
-            try { sound.playStreak(); } catch (e) {}
-            try { speech.speak('¡El Escudo de Raíces de Zoe protegió tu racha! Inténtalo de nuevo.'); } catch (e) {}
-            if (card) card.classList.add('shield-protect');
-            setTimeout(() => {
-              if (card) card.classList.remove('shield-protect');
-              if (display) {
-                display.classList.remove('incorrect');
-                this.clearAnswerPreview();
-              }
-              this.isSubmittingAnswer = false;
-            }, 800);
-            return;
-          }
-
-          const streakVal = document.getElementById('math-practice-streak-val');
-          if (streakVal) streakVal.textContent = res.streak;
-          const comboPct = document.getElementById('math-combo-pct');
-          const comboFill = document.getElementById('math-combo-fill');
-          if (comboPct) comboPct.textContent = '0%';
-          if (comboFill) comboFill.style.width = '0%';
-
-          if (card) card.classList.add('incorrect-shake');
-          try { sound.playIncorrect(); } catch (e) {}
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, 550));
-        if (card) card.classList.remove('correct-flash', 'incorrect-shake');
-        if (display) display.classList.remove('correct', 'incorrect');
-      } catch (err) {
-        console.error('Error in math practice answer submission:', err);
-      } finally {
-        this.isSubmittingAnswer = false;
-        this.keypadBuffer = '';
-        this.updateKeypadDisplay();
-        mathPractice.generateChallenge();
-        this.renderMathChallenge();
-      }
-      return;
-    }
-
-    // =========================================================================
-    // 2. MODO CAMPAÑA NARRATIVA: LA GRAN AVENTURA
-    // =========================================================================
-    try {
-      const isCorrect = this.adventureMathSession.submit_answer(userAnswer, elapsedMs);
-      const tierChanged = this.adventureMathSession.get_tier_changed();
-      const currentStreak = this.adventureMathSession.get_streak();
-
-      if (isCorrect) {
-        if (display) display.classList.add('correct');
-        if (card) card.classList.add('correct-flash');
-
-        await companions.rewardStreak(currentStreak, false);
-        this.updatePowersBadges();
-
-        const baseStars = elapsedMs <= 4000 ? 2 : 1;
-        const isStreakMilestone = currentStreak > 0 && currentStreak % 3 === 0;
-        const streakBonus = isStreakMilestone ? 1 : 0;
-        const multiplier = this.starMultiplier || 1;
-        let earnedStars = (baseStars + streakBonus) * multiplier;
-        this.starMultiplier = 1;
-
-        if (isStreakMilestone) {
-          sound.playStreak();
-          speech.speakPraise(currentStreak);
-        } else {
-          sound.playCorrect();
-        }
-
-        const newStarsBalance = await db.addStars(earnedStars);
-        this.updateStarsDisplay(newStarsBalance);
-      } else {
-        if (display) display.classList.add('incorrect');
-
-        if (this.streakShieldActive) {
-          this.streakShieldActive = false;
-          sound.playStreak();
-          speech.speak('¡El Escudo de Raíces de Zoe protegió tu racha! Inténtalo de nuevo.');
-          if (card) card.classList.add('shield-protect');
-          setTimeout(() => {
-            if (card) card.classList.remove('shield-protect');
-            if (display) {
-              display.classList.remove('incorrect');
-              this.clearAnswerPreview();
-            }
-            this.isSubmittingAnswer = false;
-          }, 800);
-          return;
-        }
-
-        if (card) card.classList.add('incorrect-shake');
-        sound.playIncorrect();
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 550));
-      if (card) card.classList.remove('correct-flash', 'incorrect-shake');
-      if (display) display.classList.remove('correct', 'incorrect');
-
-      if (tierChanged === 1 || (this.adventureMathSession && this.adventureMathSession.is_portal_ready())) {
-        sound.playLevelUp();
-        const completedLevel = Math.max(1, this.adventureMathSession.get_tier() - 1);
-        this.openPortalChallenge(completedLevel);
-      }
-
-      await db.recordMathSession({
-        tier: this.adventureMathSession.get_tier(),
-        totalAnswered: this.adventureMathSession.get_total_answered(),
-        totalCorrect: this.adventureMathSession.get_total_correct(),
-        streak: currentStreak,
-        highestStreak: this.adventureMathSession.get_highest_streak(),
-        mastery: this.adventureMathSession.get_mastery(),
-      });
-    } catch (err) {
-      console.error('Error in adventure math answer submission:', err);
-    } finally {
-      this.isSubmittingAnswer = false;
-      if (!this.isPortalActive) {
-        this.adventureMathSession.generate_next_challenge();
-        this.renderMathChallenge();
-      }
-    }
-  }
-
-  /**
-   * Opens the Friendship Portal Challenge for an Astral Temple
-   */
-  openPortalChallenge(levelId) {
-    const levelData = getLevelData(levelId);
-    this.currentPortalLevel = levelData.id;
-    this.isPortalActive = true;
-
-    // Header
-    const pagePill = document.getElementById('portal-page-pill');
-    const actPill = document.getElementById('portal-act-pill');
-    const title = document.getElementById('portal-modal-title');
-    const subtitle = document.getElementById('portal-subtitle');
-
-    if (pagePill) pagePill.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-reading"></use></svg> Página ${levelData.pageNumber} de 10`;
-    if (actPill) actPill.textContent = levelData.actTitle.split(':')[0];
-    if (title) title.textContent = levelData.name;
-    if (subtitle) subtitle.textContent = `${levelData.templeTitle} • Desafío de Portal`;
-
-    // Guardian Stage (Corrupted by default)
-    const wrapper = document.getElementById('portal-guardian-wrapper');
-    const emoji = document.getElementById('portal-guardian-emoji');
-    const guardianName = document.getElementById('portal-guardian-name');
-    const statusBadge = document.getElementById('portal-guardian-status');
-
-    if (wrapper) {
-      wrapper.className = 'guardian-avatar-wrapper vq-anim-corrupted';
-    }
-    if (emoji) emoji.textContent = levelData.guardian.emoji;
-    if (guardianName) guardianName.textContent = levelData.guardian.name;
-    if (statusBadge) {
-      statusBadge.className = 'guardian-status-badge corrupted';
-      statusBadge.textContent = 'Sombra del Eclipse';
-    }
-
-    // Story Lines
-    const linesContainer = document.getElementById('portal-story-lines');
-    if (linesContainer) {
-      linesContainer.innerHTML = '';
-      const lines = levelData.microCuento || levelData.storyLines || [];
-      lines.forEach((line, idx) => {
-        const p = document.createElement('p');
-        p.className = 'portal-line';
-        p.dataset.line = idx;
-        p.textContent = line;
-        linesContainer.appendChild(p);
-      });
-    }
-
-    // Riddle
-    const riddlePrompt = document.getElementById('portal-riddle-prompt');
-    if (riddlePrompt) riddlePrompt.textContent = levelData.portalRiddle.prompt;
-
-    const optionsGrid = document.getElementById('portal-options-grid');
-    if (optionsGrid) {
-      optionsGrid.innerHTML = '';
-      levelData.portalRiddle.options.forEach((optVal) => {
-        const btn = document.createElement('button');
-        btn.className = 'portal-option-btn';
-        btn.type = 'button';
-        btn.textContent = optVal;
-        btn.addEventListener('click', (e) => this.handlePortalAnswer(optVal, e.currentTarget, levelData));
-        optionsGrid.appendChild(btn);
-      });
-    }
-
-    // Speak Button
-    const btnSpeak = document.getElementById('btn-portal-speak-story');
-    if (btnSpeak) {
-      btnSpeak.onclick = () => this.speakPortalStory(levelData);
-    }
-
-    // Card Visibility
-    const riddleCard = document.getElementById('portal-riddle-card');
-    const rewardCard = document.getElementById('portal-reward-card');
-    if (riddleCard) riddleCard.hidden = false;
-    if (rewardCard) rewardCard.hidden = true;
-
-    // Show modal
-    const modal = document.getElementById('portal-challenge-modal');
-    if (modal) modal.hidden = false;
-
-    // Auto-read story with TTS after brief opening pause
-    setTimeout(() => {
-      this.speakPortalStory(levelData);
-    }, 450);
-  }
-
-  /**
-   * Narrates micro-story line-by-line with visual karaoke highlighting
-   */
-  async speakPortalStory(input) {
-    const lines = Array.isArray(input) ? input : (input && (input.storyLines || input.microCuento));
-    if (!lines || lines.length === 0 || this.isSpeakingPortalStory) return;
-    this.isSpeakingPortalStory = true;
-
-    // Clear highlights
-    document.querySelectorAll('.portal-line').forEach((el) => el.classList.remove('speaking'));
-
-    for (let i = 0; i < lines.length; i++) {
-      if (!this.isPortalActive) break;
-
-      const lineEl = document.querySelector(`.portal-line[data-line="${i}"]`);
-      if (lineEl) {
-        document.querySelectorAll('.portal-line').forEach((el) => el.classList.remove('speaking'));
-        lineEl.classList.add('speaking');
-      }
-
-      await new Promise((resolve) => {
-        speech.speak(lines[i]);
-        const approxDurationMs = Math.max(1800, lines[i].split(' ').length * 370);
-        setTimeout(resolve, approxDurationMs);
-      });
-    }
-
-    document.querySelectorAll('.portal-line').forEach((el) => el.classList.remove('speaking'));
-    this.isSpeakingPortalStory = false;
-  }
-
-  /**
-   * Evaluates the student's answer in the Portal Challenge
-   */
-  async handlePortalAnswer(selectedVal, buttonEl, levelData) {
-    if (this.isSpeakingPortalStory) {
-      speech.stop();
-      this.isSpeakingPortalStory = false;
-    }
-
-    const isCorrect = selectedVal === levelData.portalRiddle.correctAnswer;
-
-    if (isCorrect) {
-      sound.playCorrect();
-      buttonEl.classList.add('correct');
-
-      // 1. Purify Guardian visually
-      const wrapper = document.getElementById('portal-guardian-wrapper');
-      const statusBadge = document.getElementById('portal-guardian-status');
-
-      if (wrapper) {
-        wrapper.classList.remove('vq-anim-corrupted');
-        wrapper.classList.add('vq-anim-purified');
-      }
-      if (statusBadge) {
-        statusBadge.classList.remove('corrupted');
-        statusBadge.classList.add('purified');
-        statusBadge.innerHTML = '¡Guardián Purificado! <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>';
-      }
-
-      // 2. Gold sparks celebration burst
-      const sparks = document.createElement('div');
-      sparks.className = 'gold-sparks-overlay';
-      document.body.appendChild(sparks);
-      setTimeout(() => sparks.remove(), 1400);
-
-      // 3. Audio celebration
-      sound.playLevelUp();
-
-      // 4. Persistence: unlock cosmetic reward in IndexedDB without spending stars
-      await db.grantCosmeticReward(levelData.reward.itemId);
-
-      // 5. Update WASM engine & profile tier
-      if (this.adventureMathSession) {
-        this.adventureMathSession.clear_portal_ready();
-      }
-      const newTier = this.adventureMathSession ? this.adventureMathSession.get_tier() : 1;
-      await db.updateProfile({ currentTier: newTier, mathTier: newTier });
-
-      // 6. Display reward card
-      setTimeout(() => {
-        const riddleCard = document.getElementById('portal-riddle-card');
-        const rewardCard = document.getElementById('portal-reward-card');
-        if (riddleCard) riddleCard.hidden = true;
-        if (rewardCard) {
-          rewardCard.hidden = false;
-          const rewardIcon = document.getElementById('portal-reward-icon');
-          const rewardName = document.getElementById('portal-reward-name');
-          const rewardDesc = document.getElementById('portal-reward-desc');
-          let rewardSymbol = levelData.reward.iconSymbol || (levelData.reward.itemId.includes('alas') ? 'vq-icon-wing' : levelData.reward.itemId.includes('cetro') ? 'vq-icon-magic-wand' : 'vq-icon-crown');
-          if (rewardIcon) rewardIcon.innerHTML = `<svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#${rewardSymbol}"></use></svg>`;
-          if (rewardName) rewardName.textContent = levelData.reward.name;
-          if (rewardDesc) rewardDesc.textContent = `${levelData.reward.description} • ¡Desbloqueado en tu Ropero!`;
-        }
-      }, 500);
-
-      // 7. Voice praise
-      speech.speak(`¡Felicidades Valen! Has purificado al ${levelData.guardian.name} y desbloqueado ${levelData.reward.name}.`);
-    } else {
-      sound.playIncorrect();
-      buttonEl.classList.add('incorrect');
-      setTimeout(() => buttonEl.classList.remove('incorrect'), 600);
-      speech.speak(`Piénsalo bien. Recuerda: ${levelData.portalRiddle.explanation}`);
-    }
-  }
-
-  /**
-   * Evaluates progression after completing a temple portal.
-   * If it completes an Act (Levels 3, 7, 10), triggers the Grand Cosmic Act Transition.
-   * Otherwise advances smoothly to the next temple tier.
-   */
-  async advancePastCompletedLevel(completedLevel) {
-    const levelId = parseInt(completedLevel, 10) || 1;
-    const nextTier = Math.min(10, levelId + 1);
-
-    if (levelId === 3) {
-      // Acto I Concluido -> Transición Cósmica al Acto II (Caverna de Ámbar)
-      this.showActTransition(1, nextTier);
-      return;
-    } else if (levelId === 7) {
-      // Acto II Concluido -> Transición Cósmica al Acto III (Muralla de Nácar)
-      this.showActTransition(2, nextTier);
-      return;
-    } else if (levelId === 10) {
-      // Acto III Concluido -> Gran Victoria Legendaria de Lumiria
-      this.showActTransition(3, 10);
-      return;
-    }
-
-    // Progresión regular entre templos dentro del mismo acto
-    await this.applyTierAdvance(nextTier);
-  }
-
-  /**
-   * Applies tier progression to the WASM engine, profile storage, and UI
-   */
-  async applyTierAdvance(targetTier) {
-    const tierNum = Math.max(1, Math.min(10, parseInt(targetTier, 10) || 1));
-
-    if (this.adventureMathSession) {
-      this.adventureMathSession.force_tier(tierNum);
-      this.adventureMathSession.clear_portal_ready();
-      this.adventureMathSession.generate_next_challenge();
-    }
-
-    await db.updateProfile({ currentTier: tierNum, mathTier: tierNum });
-    this.isPortalActive = false;
-
-    // Switch to math tab and re-render with fresh challenge
-    this.switchTab('math');
-    this.renderMathChallenge();
-
-    // Sound fanfare & celebratory visual particles
-    sound.playSuccess();
-    const sparks = document.createElement('div');
-    sparks.className = 'gold-sparks-overlay';
-    document.body.appendChild(sparks);
-    setTimeout(() => sparks.remove(), 1200);
-
-    const lvlData = getLevelData(tierNum);
-    if (lvlData) {
-      speech.speak(`¡Bienvenidos al templo ${lvlData.name}! ${lvlData.templeTitle}.`);
-      
-      const badge = document.querySelector('.tier-badge');
-      if (badge) {
-        badge.classList.remove('pulse');
-        void badge.offsetWidth;
-        badge.classList.add('pulse');
-      }
-    }
-  }
-
-  /**
-   * Displays the Grand Cosmic Act Transition overlay modal with celebratory animations
-   */
-  showActTransition(actNumber, targetNextTier) {
-    const actData = getActTransitionData(actNumber);
-    this.pendingNextTier = targetNextTier;
-
-    const modal = document.getElementById('act-transition-modal');
-    const pill = document.getElementById('act-transition-pill');
-    const title = document.getElementById('act-transition-title');
-    const subtitle = document.getElementById('act-transition-subtitle');
-    const grid = document.getElementById('act-guardians-grid');
-    const lore = document.getElementById('act-lore-text');
-    const nextTitle = document.getElementById('act-next-title');
-    const btnText = document.getElementById('btn-act-continue-text');
-
-    if (pill) pill.textContent = actData.completedPill;
-    if (title) title.textContent = actData.headline;
-    if (subtitle) subtitle.textContent = actData.tagline;
-    if (lore) lore.textContent = actData.loreQuote;
-    if (nextTitle) {
-      nextTitle.textContent = `${actData.nextActTitle} • ${actData.nextLevelName} ${actData.nextGuardianEmoji}`;
-    }
-    if (btnText) btnText.textContent = actData.buttonText;
-
-    if (grid) {
-      grid.innerHTML = '';
-      actData.guardians.forEach((guardian, idx) => {
-        const card = document.createElement('div');
-        card.className = 'act-guardian-card';
-        card.style.animationDelay = `${idx * 0.4}s`;
-        card.innerHTML = `
-          <div class="act-guardian-emoji" style="text-shadow: 0 0 16px ${guardian.color};">${guardian.emoji}</div>
-          <div class="act-guardian-name">${guardian.name}</div>
-          <div class="act-guardian-temple">${guardian.temple}</div>
-          <div class="act-guardian-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> Purificado</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // Audio & celebratory visual particles
-    sound.playLevelUp();
-    const sparks = document.createElement('div');
-    sparks.className = 'gold-sparks-overlay';
-    document.body.appendChild(sparks);
-    setTimeout(() => sparks.remove(), 1600);
-
-    // Speak narration
-    speech.speak(actData.voiceNarration);
-
-    if (modal) {
-      modal.hidden = false;
-    }
-  }
-
-  showLevelUpModal(tierName) {
-    const modal = document.getElementById('level-up-modal');
-    const title = document.getElementById('modal-tier-title');
-    if (modal && title) {
-      title.innerHTML = `¡Has alcanzado ${tierName}! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
-      modal.hidden = false;
+    if (dialogueText) {
+      const quotes = {
+        valen: '«¡Las constelaciones de <strong>Lumiria</strong> nos llaman! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las estrellas. ¡Elige tu misión y comencemos!»',
+        reni: '«¡Siente la brisa fresca de las nubes! Mi <strong>Brisa Temporal</strong> te dará todo el tiempo del mundo para pensar con calma. ¡Ningún reto es demasiado rápido cuando volamos juntas!»',
+        zoe: '«¡La arboleda sagrada nos protege! Con mi <strong>Escudo de Raíces</strong> nunca perderás tu racha y descubriremos el secreto de cada número paso a pasito. ¡La paciencia florece en sabiduría!»',
+        lia: '«¡Los cristales del palacio refractan la verdad! Mi <strong>Foco de Cristal</strong> iluminará la pista clave de cada problema matemático y de lectura. ¡La magia de aprender es infinita!»'
+      };
+      dialogueText.innerHTML = quotes[id] || quotes.valen;
     }
   }
 
   setupPowersGuideModal() {
-    const btnInfo = document.getElementById('btn-powers-info');
     const modal = document.getElementById('powers-guide-modal');
-    const btnClose = document.getElementById('btn-close-powers-guide');
-    const btnOk = document.getElementById('btn-powers-guide-ok');
+    const openBtn = document.getElementById('btn-open-powers-guide');
+    const closeBtn = document.getElementById('powers-guide-close');
+    const tabBtns = document.querySelectorAll('.power-guide-tab-btn');
+    const heroPanels = document.querySelectorAll('.power-guide-hero');
 
     if (!modal) return;
 
-    const openModal = () => {
-      sound.playClick();
-      modal.hidden = false;
-      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda de una forma mágica.'); } catch (e) {}
-    };
+    if (openBtn) {
+      openBtn.addEventListener('click', () => {
+        sound.playClick();
+        modal.hidden = false;
+      });
+    }
 
-    const closeModal = () => {
-      sound.playClick();
-      modal.hidden = true;
-    };
-
-    if (btnInfo) btnInfo.addEventListener('click', openModal);
-    if (btnClose) btnClose.addEventListener('click', closeModal);
-    if (btnOk) btnOk.addEventListener('click', closeModal);
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        sound.playClick();
+        modal.hidden = true;
+      });
+    }
 
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !modal.hidden) closeModal();
-    });
-  }
-
-  renderProfileHeader(profile) {
-    const avatar = document.getElementById('student-avatar');
-    const name = document.getElementById('student-name');
-    const hero = companions.getActive();
-    if (avatar) avatar.innerHTML = `<svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#${hero?.iconSymbol || 'vq-icon-crown'}"></use></svg>`;
-    if (name) {
-      name.textContent = hero?.name || profile.name || 'Valen';
-      if (hero) name.title = `${hero.name} (${hero.title})`;
-    }
-    this.updateStarsDisplay(profile.stars || 0);
-    this.updateDiamondsDisplay(profile.diamonds || 0);
-  }
-
-  updateStarsDisplay(stars) {
-    const countEl = document.getElementById('player-stars-count');
-    if (countEl) {
-      countEl.textContent = stars;
-      const badge = document.getElementById('header-stars-badge');
-      if (badge) {
-        badge.classList.remove('star-updated');
-        void badge.offsetWidth; // Force reflow to restart CSS keyframe
-        badge.classList.add('star-updated');
+      if (e.target === modal) {
+        modal.hidden = true;
       }
-    }
-  }
-
-  updateDiamondsDisplay(diamonds) {
-    const countEl = document.getElementById('player-diamonds-count');
-    if (countEl) {
-      countEl.textContent = diamonds;
-      const badge = document.getElementById('header-diamonds-badge');
-      if (badge) {
-        badge.classList.remove('diamond-updated');
-        void badge.offsetWidth; // Force reflow to restart CSS keyframe
-        badge.classList.add('diamond-updated');
-      }
-    }
-    const practiceVal = document.getElementById('math-practice-diamonds-val');
-    if (practiceVal) {
-      practiceVal.textContent = diamonds;
-    }
-  }
-
-  // =========================================================================
-  // Reading Fluency Engine Integration
-  // =========================================================================
-  renderReadingCatalog() {
-    const storiesJson = this.readingSession.get_stories_json();
-    const stories = JSON.parse(storiesJson);
-    const selector = document.getElementById('story-selector');
-    if (!selector) return;
-
-    selector.innerHTML = '';
-    stories.forEach((story, idx) => {
-      const chip = document.createElement('button');
-      chip.className = `story-chip ${idx === 0 ? 'active' : ''}`;
-      chip.textContent = `${story.title} (Nivel ${story.level})`;
-      chip.addEventListener('click', () => {
-        sound.playClick();
-        document.querySelectorAll('.story-chip').forEach((c) => c.classList.remove('active'));
-        chip.classList.add('active');
-        this.readingSession.select_story(story.id);
-        this.loadStoryView(story);
-      });
-      selector.appendChild(chip);
     });
 
-    if (stories.length > 0) {
-      this.loadStoryView(stories[0]);
-    }
-  }
-
-  loadStoryView(story) {
-    this.currentStoryText = story.text;
-    document.getElementById('reading-story-title').textContent = story.title;
-
-    // Use Rust WASM Syllable Parser to split words and format text
-    const syllablesJson = this.readingSession.get_active_story_syllables();
-    const wordsWithSyllables = JSON.parse(syllablesJson);
-    this.rsvpWords = wordsWithSyllables.map((w) => w.raw);
-
-    const storyBody = document.getElementById('reading-story-body');
-    storyBody.innerHTML = '';
-
-    wordsWithSyllables.forEach((item) => {
-      const wordSpan = document.createElement('span');
-      wordSpan.className = 'word-span';
-      wordSpan.setAttribute('title', `Haz clic para escuchar "${item.clean || item.raw}"`);
-
-      // Click to pronounce individual word via Native SpeechSynthesis
-      wordSpan.addEventListener('click', () => {
+    tabBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const targetHero = e.currentTarget.dataset.hero;
         sound.playClick();
-        speech.speakWord(item.clean || item.raw);
-      });
 
-      if (item.syllables && item.syllables.length > 1) {
-        // Color alternate syllables for phonetic decoding
-        item.syllables.forEach((syl, i) => {
-          const sylSpan = document.createElement('span');
-          sylSpan.className = i % 2 === 0 ? 'syllable-a' : 'syllable-b';
-          sylSpan.textContent = syl;
-          wordSpan.appendChild(sylSpan);
+        tabBtns.forEach((b) => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+
+        heroPanels.forEach((panel) => {
+          panel.hidden = panel.id !== `guide-hero-${targetHero}`;
         });
-      } else {
-        wordSpan.textContent = item.raw;
-      }
-
-      storyBody.appendChild(wordSpan);
-      storyBody.appendChild(document.createTextNode(' '));
+      });
     });
-
-    // Reset RSVP display
-    document.getElementById('rsvp-current-word').textContent = 'Listo para leer';
-  }
-
-
-  toggleRsvp() {
-    if (this.rsvpTimer) {
-      this.stopRsvp();
-    } else {
-      this.startRsvp();
-    }
-  }
-
-  startRsvp() {
-    if (this.rsvpWords.length === 0) return;
-    this.rsvpIndex = 0;
-    const btn = document.getElementById('btn-play-rsvp');
-    if (btn) btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Pausar Lectura</span>';
-
-    const intervalMs = Math.round((60 / this.rsvpWpm) * 1000);
-    const display = document.getElementById('rsvp-current-word');
-
-    this.rsvpTimer = setInterval(() => {
-      if (this.rsvpIndex < this.rsvpWords.length) {
-        display.textContent = this.rsvpWords[this.rsvpIndex];
-        this.rsvpIndex++;
-      } else {
-        this.stopRsvp();
-        display.innerHTML = '¡Completado! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-party"></use></svg>';
-        sound.playLevelUp();
-      }
-    }, intervalMs);
-  }
-
-  stopRsvp() {
-    if (this.rsvpTimer) {
-      clearInterval(this.rsvpTimer);
-      this.rsvpTimer = null;
-    }
-    const btn = document.getElementById('btn-play-rsvp');
-    if (btn) btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-play"></use></svg> <span>Iniciar Lectura RSVP</span>';
   }
 }
 
-// Instantiate and boot on DOM content ready
-window.addEventListener('DOMContentLoaded', () => {
-  const app = new KidsLearnApp();
-  window.valenApp = app;
-  app.init();
-});
+// Inicialización automática
+const app = new KidsLearnApp();
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', () => {
+    app.init();
+  });
+}
+
+export { app };
