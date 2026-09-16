@@ -252,6 +252,28 @@
 }
 
 /* ==========================================================================
+   3b. SECCIÓN: EL CUARTETO DE LA ARMONÍA (HEROÍNAS)
+   ========================================================================== */
+.campaign-heroines-view {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  scroll-margin-top: 24px;
+}
+
+@media (max-width: 640px) {
+  .campaign-heroines-view {
+    padding: 16px;
+    gap: 14px;
+  }
+}
+
+/* ==========================================================================
    4. SECCIÓN: ROADMAP DE LOS 10 TEMPLOS LUNARES
    ========================================================================== */
 .campaign-temples-section {

@@ -53,26 +53,10 @@ class WardrobePageController {
   }
 
   // =========================================================================
-  // Controles de Navegación y Temas
+  // Controles de Cabecera (Gestionados por el Web Component <vq-header>)
   // =========================================================================
   setupHeaderControls() {
-    // Alternancia de tema Noche Astral / Día Pastel
-    const themeBtn = document.getElementById('btn-toggle-theme');
-    if (themeBtn) {
-      theme.bindButton(themeBtn);
-    }
-
-    // Botón de silenciar efectos de sonido
-    const muteBtn = document.getElementById('btn-toggle-mute');
-    if (muteBtn) {
-      muteBtn.addEventListener('click', () => {
-        const isMuted = sound.toggleMute();
-        muteBtn.innerHTML = isMuted
-          ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg>'
-          : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>';
-        muteBtn.title = isMuted ? 'Activar sonido' : 'Silenciar sonido';
-      });
-    }
+    // Gestionado automáticamente por <vq-header>
   }
 
   syncThemeButton() {

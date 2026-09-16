@@ -1,7 +1,7 @@
 /**
  * ValenQuest: Controlador del Modo Campaña (campaign-page.js)
  * Maneja la presentación de La Gran Aventura de Lumiria,
- * la visualización del estado de construcción y el roadmap de los 10 Templos.
+ * la selección interactiva del Cuarteto de la Armonía y el roadmap de los 10 Templos.
  */
 
 import { sound } from './services/audio.js';
@@ -41,10 +41,13 @@ class CampaignPageController {
     this.renderHeroineInfo();
     this.renderTempleRoadmap(advState);
 
-    // 5. Configurar botón de narración por voz
+    // 5. Configurar selector interactivo de heroínas
+    this.setupHeroinesSelector();
+
+    // 6. Configurar botones de narración por voz y animación
     this.setupSpeechButton();
 
-    // 6. Efectos de audio en enlaces y botones
+    // 7. Efectos de audio en enlaces y botones
     this.setupAudioClicks();
 
     // Saludo inicial suave
@@ -55,24 +58,10 @@ class CampaignPageController {
   // =========================================================================
   // Controles de Cabecera (Tema & Audio)
   // =========================================================================
+  // Controles de Cabecera (Gestionados por el Web Component <vq-header>)
+  // =========================================================================
   setupHeaderControls() {
-    // Alternancia de tema Noche Astral / Día Pastel
-    const themeBtn = document.getElementById('btn-toggle-theme');
-    if (themeBtn) {
-      theme.bindButton(themeBtn);
-    }
-
-    // Alternar silenciado de audio
-    const muteBtn = document.getElementById('btn-toggle-mute');
-    if (muteBtn) {
-      muteBtn.addEventListener('click', () => {
-        const isMuted = sound.toggleMute();
-        muteBtn.innerHTML = isMuted
-          ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg>'
-          : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>';
-        muteBtn.title = isMuted ? 'Activar sonido' : 'Silenciar sonido';
-      });
-    }
+    // Gestionado automáticamente por <vq-header>
   }
 
   syncThemeButton() {
@@ -80,7 +69,40 @@ class CampaignPageController {
   }
 
   // =========================================================================
-  // Renderizado de Información
+  // Selector del Cuarteto de la Armonía
+  // =========================================================================
+  setupHeroinesSelector() {
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const card = document.getElementById(`card-heroine-${id}`);
+      if (card) {
+        card.addEventListener('click', () => {
+          this.selectHeroine(id, true);
+        });
+
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.selectHeroine(id, true);
+          }
+        });
+      }
+    });
+  }
+
+  async selectHeroine(id, speak = true) {
+    this.activeHeroineId = id;
+    await companions.setActive(id);
+    this.renderHeroineInfo();
+    sound.playClick();
+
+    if (speak) {
+      const hero = HEROINES[id] || HEROINES.valen;
+      speech.speak(`¡Hola, soy ${hero.name}! ${hero.voiceQuote || hero.title}`);
+    }
+  }
+
+  // =========================================================================
+  // Renderizado de Información y Diálogo Gacha
   // =========================================================================
   renderBalances(profile) {
     const starEl = document.getElementById('campaign-star-balance');
@@ -92,12 +114,49 @@ class CampaignPageController {
 
   renderHeroineInfo() {
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
+
+    // 1. Tarjeta de diálogo de Orión
     const nameEl = document.getElementById('campaign-heroine-name');
     if (nameEl) nameEl.textContent = hero.name;
 
     const avatarEl = document.getElementById('campaign-heroine-avatar');
     if (avatarEl && hero.symbolId) {
       avatarEl.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#${hero.symbolId}"></use></svg>`;
+    }
+
+    // 2. Cuadrícula de heroínas: clase activa
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const card = document.getElementById(`card-heroine-${id}`);
+      if (card) {
+        card.classList.toggle('active-companion', id === this.activeHeroineId);
+      }
+    });
+
+    // 3. Globo de diálogo Chibi estilo Gacha Life
+    const speakerAvatar = document.getElementById('gacha-speaker-avatar');
+    if (speakerAvatar) {
+      speakerAvatar.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-${hero.id}"></use></svg>`;
+    }
+
+    const speakerName = document.getElementById('gacha-speaker-name');
+    if (speakerName) {
+      speakerName.textContent = hero.name;
+    }
+
+    const speakerRole = document.getElementById('gacha-speaker-role');
+    if (speakerRole) {
+      speakerRole.textContent = `${hero.raceName || hero.race} • ${hero.title}`;
+    }
+
+    const dialogueText = document.getElementById('intro-dialogue-text');
+    if (dialogueText) {
+      const quotes = {
+        valen: '«¡Las constelaciones de <strong>Lumiria</strong> nos llaman! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las estrellas. ¡Elige a tu compañera y comencemos la misión!»',
+        reni: '«¡Siente la brisa fresca de las nubes! Mi <strong>Brisa Temporal</strong> te dará todo el tiempo del mundo para pensar con calma. ¡Ningún reto es demasiado rápido cuando volamos juntas!»',
+        zoe: '«¡La arboleda sagrada nos protege! Con mi <strong>Escudo de Raíces</strong> nunca perderás tu racha y descubriremos el secreto de cada número paso a pasito. ¡La paciencia florece en sabiduría!»',
+        lia: '«¡Los cristales del palacio refractan la verdad! Mi <strong>Foco de Cristal</strong> iluminará la pista clave de cada problema matemático y de lectura. ¡La magia de aprender es infinita!»'
+      };
+      dialogueText.innerHTML = quotes[this.activeHeroineId] || quotes.valen;
     }
   }
 
@@ -111,9 +170,10 @@ class CampaignPageController {
   }
 
   setupSpeechButton() {
-    const btnSpeak = document.getElementById('btn-speak-campaign');
-    if (btnSpeak) {
-      btnSpeak.addEventListener('click', () => {
+    // 1. Voz de Orión en el banner
+    const btnSpeakCampaign = document.getElementById('btn-speak-campaign');
+    if (btnSpeakCampaign) {
+      btnSpeakCampaign.addEventListener('click', () => {
         sound.playClick();
         const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
         speech.speak(
@@ -121,10 +181,29 @@ class CampaignPageController {
         );
       });
     }
+
+    // 2. Voz de la Heroína en el globo Chibi Gacha
+    const btnSpeakIntro = document.getElementById('btn-speak-intro');
+    if (btnSpeakIntro) {
+      btnSpeakIntro.addEventListener('click', () => {
+        sound.playClick();
+        const textEl = document.getElementById('intro-dialogue-text');
+        if (textEl) {
+          speech.speak(textEl.innerText || textEl.textContent);
+        }
+      });
+    }
+
+    // 3. Animación de habla sincronizada
+    speech.onSpeakingChange((speaking) => {
+      const bubble = document.getElementById('intro-dialogue-bubble');
+      if (bubble) bubble.classList.toggle('vq-anim-speaking', speaking);
+      if (btnSpeakIntro) btnSpeakIntro.classList.toggle('vq-anim-speaking', speaking);
+    });
   }
 
   setupAudioClicks() {
-    document.querySelectorAll('.training-cta-btn, .campaign-back-btn, .campaign-footer-cta').forEach((btn) => {
+    document.querySelectorAll('.training-cta-btn, .campaign-back-btn, .campaign-footer-cta, .gacha-story-link').forEach((btn) => {
       btn.addEventListener('click', () => {
         try { sound.playClick(); } catch (e) {}
       });

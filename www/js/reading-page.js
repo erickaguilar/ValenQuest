@@ -70,24 +70,10 @@ class ReadingPageController {
   }
 
   // =========================================================================
-  // Controles de Cabecera (Tema & Audio)
+  // Controles de Cabecera (Gestionados por el Web Component <vq-header>)
   // =========================================================================
   setupHeaderControls() {
-    const themeBtn = document.getElementById('btn-toggle-theme');
-    if (themeBtn) {
-      theme.bindButton(themeBtn);
-    }
-
-    const muteBtn = document.getElementById('btn-toggle-mute');
-    if (muteBtn) {
-      muteBtn.addEventListener('click', () => {
-        const isMuted = sound.toggleMute();
-        muteBtn.innerHTML = isMuted
-          ? '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg>'
-          : '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>';
-        muteBtn.title = isMuted ? 'Activar sonido' : 'Silenciar sonido';
-      });
-    }
+    // Gestionado automáticamente por <vq-header>
   }
 
   syncThemeButton() {

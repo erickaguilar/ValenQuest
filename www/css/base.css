@@ -209,64 +209,100 @@ button,
   margin: 0;
 }
 
-.brand-subtitle {
+/* ==========================================================================
+   UNIFIED WARDROBE HEADER BUTTON (ROPERO MÁGICO)
+   ========================================================================== */
+.wardrobe-header-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  margin-top: 3px;
-  padding: 2px 8px;
-  font-size: 0.74rem;
-  font-weight: 800;
-  color: var(--vq-text-muted);
-  background: var(--vq-bg-well);
-  border: 1.5px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  max-width: 160px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.brand-subtitle #student-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Header Stars Counter Badge (Gold Reward Pill) */
-.stars-counter-badge {
-  background: var(--vq-gold);
+  gap: 8px;
+  padding: 5px 12px;
+  background: linear-gradient(135deg, var(--vq-pink-light, #FFC8DD) 0%, var(--vq-lavender-light, #F0E6F6) 100%);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
-  padding: 6px 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.95rem;
-  font-weight: 900;
-  color: var(--vq-text);
   box-shadow: var(--vq-shadow-sm);
+  color: var(--vq-text);
   cursor: pointer;
   user-select: none;
+  text-decoration: none;
   flex-shrink: 0;
-  transition: transform 0.1s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
-@media (hover: hover) {
-  .stars-counter-badge:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--vq-shadow-hard);
-    background: #FFE082;
-  }
+[data-theme="dark"] .wardrobe-header-btn {
+  background: linear-gradient(135deg, #4C1D95 0%, #201633 100%);
+  color: var(--vq-text);
 }
 
-.stars-counter-badge:active {
-  transform: translateY(2px) scale(0.96);
+.wardrobe-header-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-hard);
+  background: linear-gradient(135deg, #FFAFCC 0%, #E9D5FF 100%);
+}
+
+[data-theme="dark"] .wardrobe-header-btn:hover {
+  background: linear-gradient(135deg, #5B21B6 0%, #2E1065 100%);
+}
+
+.wardrobe-header-btn:active {
+  transform: translateY(2px) scale(0.97);
   box-shadow: 0 1px 0 var(--vq-border);
 }
 
-.stars-counter-badge.star-updated {
-  animation: vqStarPulse 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+.wardrobe-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wardrobe-header-icon .vq-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.wardrobe-header-text {
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  letter-spacing: -0.2px;
+}
+
+.wardrobe-header-stats {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+}
+
+[data-theme="dark"] .wardrobe-header-stats {
+  background: rgba(19, 14, 31, 0.75);
+}
+
+.wardrobe-stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.wardrobe-stat-item .vq-icon {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 440px) {
+  .wardrobe-header-text {
+    display: none;
+  }
+  .wardrobe-header-btn {
+    padding: 4px 8px;
+    gap: 6px;
+  }
 }
 
 /* Header Actions Toolbar (Dock de Herramientas Mágicas) */

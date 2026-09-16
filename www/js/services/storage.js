@@ -923,6 +923,85 @@ class StorageService {
       req.onerror = () => reject(req.error);
     });
   }
+
+  /**
+   * Resets all player progress to zero:
+   * - Clears player profile (stars = 0, diamonds = 0, streaks = 0, tier = 1)
+   * - Clears companion charges and equips back to defaults
+   * - Locks all cosmetics back to initial default locks
+   * - Resets adventure, math practice, and reading practice modules back to initial states
+   * - Clears session history
+   * - Preserves user preferences like 'vq-theme', 'vq-speech-rate', 'vq-calm-mode'
+   */
+  async resetAllProgress() {
+    await this.init();
+    const storeNames = ['player_profile', 'companions_state', 'cosmetics_catalog', 'session_history', 'game_modules'];
+
+    // 1. Clear all stores in IndexedDB
+    await new Promise((resolve, reject) => {
+      try {
+        const tx = this.db.transaction(storeNames, 'readwrite');
+        storeNames.forEach((name) => {
+          if (this.db.objectStoreNames.contains(name)) {
+            tx.objectStore(name).clear();
+          }
+        });
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      } catch (err) {
+        reject(err);
+      }
+    });
+
+    // 2. Clear progress keys from localStorage while preserving user preferences
+    if (typeof localStorage !== 'undefined') {
+      const preserved = {
+        theme: localStorage.getItem('vq-theme'),
+        speechRate: localStorage.getItem('vq-speech-rate'),
+        calmMode: localStorage.getItem('vq-calm-mode'),
+        fontSize: localStorage.getItem('vq-font-size'),
+      };
+
+      const keysToRemove = [
+        'vq_player_profile',
+        'vq_adventure_state',
+        'vq_math_practice_state',
+        'vq_reading_practice_state',
+        'valenquest_stars',
+        'valenquest_diamonds',
+        'vq_streak',
+        'vq_active_companion',
+        'vq_last_visited',
+      ];
+      keysToRemove.forEach((k) => {
+        try { localStorage.removeItem(k); } catch (_) {}
+      });
+
+      if (preserved.theme) localStorage.setItem('vq-theme', preserved.theme);
+      if (preserved.speechRate) localStorage.setItem('vq-speech-rate', preserved.speechRate);
+      if (preserved.calmMode) localStorage.setItem('vq-calm-mode', preserved.calmMode);
+      if (preserved.fontSize) localStorage.setItem('vq-font-size', preserved.fontSize);
+    }
+
+    // 3. Reseed initial default data
+    this._isSeeding = false;
+    await this.ensureSeedData();
+
+    // 4. Force stars and diamonds to 0 for a genuine reset to zero
+    const profile = await this.getProfile();
+    profile.stars = 0;
+    profile.diamonds = 0;
+    profile.currentStreak = 0;
+    profile.bestStreak = 0;
+    profile.totalMathSolved = 0;
+    profile.totalMathCorrect = 0;
+    profile.currentTier = 1;
+    profile.mathTier = 1;
+    profile.readingTier = 1;
+    await this.saveProfile(profile);
+
+    return true;
+  }
 }
 
 export const db = new StorageService();

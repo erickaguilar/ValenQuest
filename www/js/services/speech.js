@@ -13,6 +13,14 @@ class SpeechEngine {
     this.speakingListeners = new Set();
     this.warmedUp = false;
     this._currentUtterance = null;
+    this.rateMultiplier = 1.0;
+
+    if (typeof localStorage !== 'undefined') {
+      const savedRate = parseFloat(localStorage.getItem('vq-speech-rate'));
+      if (!isNaN(savedRate) && savedRate > 0) {
+        this.rateMultiplier = savedRate;
+      }
+    }
 
     if (this.synth) {
       this.initVoices();
@@ -147,6 +155,20 @@ class SpeechEngine {
     this.speakingListeners.forEach((fn) => fn(speaking));
   }
 
+  setRate(rate) {
+    const val = parseFloat(rate);
+    if (!isNaN(val) && val > 0) {
+      this.rateMultiplier = val;
+      if (typeof localStorage !== 'undefined') {
+        try { localStorage.setItem('vq-speech-rate', val.toString()); } catch (_) {}
+      }
+    }
+  }
+
+  getRate() {
+    return this.rateMultiplier;
+  }
+
   /**
    * Speaks raw text with child-friendly prosody.
    */
@@ -178,7 +200,9 @@ class SpeechEngine {
       utterance.lang = 'es-MX';
     }
 
-    utterance.rate = rate;   // Slightly slower and deliberate for primary students
+    // Apply speed multiplier (allows slow / normal / fast pacing)
+    const effectiveRate = Math.max(0.5, Math.min(2.0, rate * this.rateMultiplier));
+    utterance.rate = effectiveRate;   // Deliberate, clear cadence
     utterance.pitch = pitch; // Warm, friendly tone
 
     utterance.onstart = () => this.notifySpeaking(true);
