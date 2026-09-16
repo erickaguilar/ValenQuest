@@ -54,6 +54,7 @@ docs/
   * **El Prisma Numérico (Modo Práctica / Arcade Matemático):** Entrenamiento continuo de cálculo mental en 5 niveles de progresión (conteo, sumas/restas sin/con acarreo, tablas y combinadas).
   * **La Pluma de la Fluidez (Modo Práctica / Taller de Lectura):** Entrenamiento intensivo de conciencia fonológica y lenguaje en 5 niveles de fluidez (silabeo directo, trabadas, oraciones con Orión, RSVP y fábulas).
   * **Capítulos Bonus del Gran Libro:** Desbloqueo progresivo de los 8 capítulos canónicos como recompensas narrativas coleccionables.
+  * **Persistencia Local en IndexedDB (`valenquest_db` v5):** Cada módulo almacena su estado como un objeto JSON independiente en el object store `game_modules` (`adventure`, `math_practice`, `reading_practice`).
 
 ---
 

@@ -63,11 +63,11 @@ export class MathPracticeService {
 
   async loadState() {
     try {
-      const profile = await storage.getProfile();
-      if (profile && profile.mathPractice) {
-        this.selectedLevel = profile.mathPractice.selectedLevel || 1;
-        this.highestStreak = profile.mathPractice.highestStreak || 0;
-        this.totalAnswered = profile.mathPractice.totalAnswered || 0;
+      const state = await storage.getModuleState('math_practice');
+      if (state) {
+        this.selectedLevel = state.selectedLevel || 1;
+        this.highestStreak = state.highestStreak || 0;
+        this.totalAnswered = state.totalAnswered || 0;
       }
     } catch (err) {
       console.warn('MathPracticeService: error loading state:', err);
@@ -78,13 +78,13 @@ export class MathPracticeService {
 
   async saveState() {
     try {
-      const profile = (await storage.getProfile()) || {};
-      profile.mathPractice = {
+      const payload = {
         selectedLevel: this.selectedLevel,
+        levelName: this.getCurrentLevelInfo().name,
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
       };
-      await storage.saveProfile(profile);
+      await storage.saveModuleState('math_practice', payload);
     } catch (err) {
       console.warn('MathPracticeService: error saving state:', err);
     }

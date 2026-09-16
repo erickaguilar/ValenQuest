@@ -8,7 +8,38 @@
  */
 
 const DB_NAME = 'valenquest_db';
-const DB_VERSION = 4;
+const DB_VERSION = 5;
+
+export const INITIAL_GAME_MODULES = [
+  {
+    moduleId: 'adventure',
+    currentTemple: 1,
+    templeName: 'Manantial de Rocío',
+    phase: 'math',
+    consecutiveCorrect: 0,
+    templeProgress: 0,
+    unlockedChapters: [1],
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    moduleId: 'math_practice',
+    selectedLevel: 1,
+    levelName: 'Chispas Estelares',
+    streak: 0,
+    highestStreak: 0,
+    totalAnswered: 0,
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    moduleId: 'reading_practice',
+    selectedLevel: 1,
+    levelName: 'Ecos de Rocío',
+    wordsRead: 0,
+    highestWpm: 120,
+    storiesCompleted: 0,
+    updatedAt: new Date().toISOString(),
+  },
+];
 
 export const INITIAL_COSMETICS = [
   {
@@ -306,6 +337,11 @@ class StorageService {
           });
           sessionStore.createIndex('timestamp', 'timestamp', { unique: false });
         }
+
+        // 5. Game Modules Store (JSON objects per triad module)
+        if (!db.objectStoreNames.contains('game_modules')) {
+          db.createObjectStore('game_modules', { keyPath: 'moduleId' });
+        }
       };
 
       request.onsuccess = async (event) => {
@@ -562,9 +598,118 @@ class StorageService {
           }
         });
       }
+
+      // 4. Seed Game Modules (Triad JSON objects: adventure, math_practice, reading_practice)
+      if (this.db.objectStoreNames.contains('game_modules')) {
+        const existingModKeys = await new Promise((res) => {
+          try {
+            const tx = this.db.transaction('game_modules', 'readonly');
+            const req = tx.objectStore('game_modules').getAllKeys();
+            req.onsuccess = () => res(req.result || []);
+            req.onerror = () => res([]);
+          } catch (e) {
+            res([]);
+          }
+        });
+
+        const missingModules = INITIAL_GAME_MODULES.filter(
+          (mod) => !existingModKeys.includes(mod.moduleId)
+        );
+
+        if (missingModules.length > 0) {
+          await new Promise((res, rej) => {
+            try {
+              const tx = this.db.transaction('game_modules', 'readwrite');
+              const store = tx.objectStore('game_modules');
+              missingModules.forEach((mod) => store.put(mod));
+              tx.oncomplete = () => res(true);
+              tx.onerror = () => rej(tx.error);
+            } catch (e) {
+              rej(e);
+            }
+          });
+        }
+      }
     } finally {
       this._isSeeding = false;
     }
+  }
+
+  // =========================================================================
+  // Game Modules State Management (Triad JSON Objects in IndexedDB)
+  // =========================================================================
+  async getModuleState(moduleId) {
+    await this.init();
+    return new Promise((resolve) => {
+      try {
+        if (!this.db.objectStoreNames.contains('game_modules')) {
+          const defaultMod = INITIAL_GAME_MODULES.find((m) => m.moduleId === moduleId);
+          return resolve(defaultMod ? { ...defaultMod } : null);
+        }
+        const tx = this.db.transaction('game_modules', 'readonly');
+        const store = tx.objectStore('game_modules');
+        const req = store.get(moduleId);
+
+        req.onsuccess = () => {
+          if (req.result) {
+            resolve(req.result);
+          } else {
+            const defaultMod = INITIAL_GAME_MODULES.find((m) => m.moduleId === moduleId);
+            resolve(defaultMod ? { ...defaultMod } : null);
+          }
+        };
+        req.onerror = () => {
+          const defaultMod = INITIAL_GAME_MODULES.find((m) => m.moduleId === moduleId);
+          resolve(defaultMod ? { ...defaultMod } : null);
+        };
+      } catch (err) {
+        const defaultMod = INITIAL_GAME_MODULES.find((m) => m.moduleId === moduleId);
+        resolve(defaultMod ? { ...defaultMod } : null);
+      }
+    });
+  }
+
+  async saveModuleState(moduleId, stateObj) {
+    await this.init();
+    return new Promise((resolve, reject) => {
+      try {
+        if (!this.db.objectStoreNames.contains('game_modules')) {
+          return resolve(stateObj);
+        }
+        const tx = this.db.transaction('game_modules', 'readwrite');
+        const store = tx.objectStore('game_modules');
+        const toSave = {
+          ...stateObj,
+          moduleId,
+          updatedAt: new Date().toISOString(),
+        };
+        const req = store.put(toSave);
+
+        req.onsuccess = () => resolve(toSave);
+        req.onerror = () => reject(req.error);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  async getAllModuleStates() {
+    await this.init();
+    return new Promise((resolve) => {
+      try {
+        if (!this.db.objectStoreNames.contains('game_modules')) {
+          return resolve([...INITIAL_GAME_MODULES]);
+        }
+        const tx = this.db.transaction('game_modules', 'readonly');
+        const store = tx.objectStore('game_modules');
+        const req = store.getAll();
+
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => resolve([]);
+      } catch (err) {
+        resolve([]);
+      }
+    });
   }
 
   // =========================================================================
@@ -897,3 +1042,4 @@ class StorageService {
 }
 
 export const db = new StorageService();
+export const storage = db;

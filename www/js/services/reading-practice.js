@@ -58,12 +58,12 @@ export class ReadingPracticeService {
 
   async loadState() {
     try {
-      const profile = await storage.getProfile();
-      if (profile && profile.readingPractice) {
-        this.selectedLevel = profile.readingPractice.selectedLevel || 1;
-        this.wordsRead = profile.readingPractice.wordsRead || 0;
-        this.highestWpm = profile.readingPractice.highestWpm || 120;
-        this.storiesCompleted = profile.readingPractice.storiesCompleted || 0;
+      const state = await storage.getModuleState('reading_practice');
+      if (state) {
+        this.selectedLevel = state.selectedLevel || 1;
+        this.wordsRead = state.wordsRead || 0;
+        this.highestWpm = state.highestWpm || 120;
+        this.storiesCompleted = state.storiesCompleted || 0;
       }
     } catch (err) {
       console.warn('ReadingPracticeService: error loading state:', err);
@@ -74,14 +74,14 @@ export class ReadingPracticeService {
 
   async saveState() {
     try {
-      const profile = (await storage.getProfile()) || {};
-      profile.readingPractice = {
+      const payload = {
         selectedLevel: this.selectedLevel,
+        levelName: this.getCurrentLevelInfo().name,
         wordsRead: this.wordsRead,
         highestWpm: this.highestWpm,
         storiesCompleted: this.storiesCompleted,
       };
-      await storage.saveProfile(profile);
+      await storage.saveModuleState('reading_practice', payload);
     } catch (err) {
       console.warn('ReadingPracticeService: error saving state:', err);
     }

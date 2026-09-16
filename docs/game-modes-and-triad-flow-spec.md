@@ -137,38 +137,87 @@ www/js/
     └── footer.js                  # <vq-footer> (Navegación e info)
 ```
 
-### 5.2. Esquema de Datos en IndexedDB (`valenquest_db`)
-Se incorporan los siguientes estados dentro del almacén `profiles`:
+### 5.2. Esquema de Persistencia en IndexedDB (`valenquest_db` v5)
 
-```javascript
+Para garantizar aislamiento, reactividad y portabilidad de datos, cada módulo de la Tríada almacena su estado como un **objeto JSON independiente** dentro del object store dedicado `game_modules` (con `keyPath: 'moduleId'`), manteniendo sincronización con el motor de perfiles:
+
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    INDEXEDDB: valenquest_db (v5)                             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  Object Store: game_modules [keyPath: 'moduleId']                           │
+│                                                                              │
+│  ├─ Key: "adventure"         ➔ Objeto JSON: Estado de La Gran Aventura       │
+│  ├─ Key: "math_practice"     ➔ Objeto JSON: Estado de El Prisma Numérico     │
+│  └─ Key: "reading_practice"  ➔ Objeto JSON: Estado de La Pluma de la Fluidez │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 1. Documento JSON: La Gran Aventura (`moduleId: "adventure"`)
+```json
 {
-  id: "default_player",
-  stars: 120,
-  selectedCompanion: "valen",
-  
-  // 1. Estado de La Gran Aventura
-  adventure: {
-    currentTemple: 3,           // 1 al 10
-    phase: "math",              // "math" | "reading" | "portal"
-    consecutiveCorrect: 4,
-    unlockedChapters: [1, 2, 3] // Capítulos bonus disponibles en story.html
-  },
-
-  // 2. Estado de Modo Práctica: Prisma Numérico
-  mathPractice: {
-    selectedLevel: 2,           // 1 al 5
-    highestStreak: 15,
-    totalAnswered: 84
-  },
-
-  // 3. Estado de Modo Práctica: Pluma de la Fluidez
-  readingPractice: {
-    selectedLevel: 1,           // 1 al 5
-    highestWpm: 140,
-    wordsRead: 320
-  }
+  "moduleId": "adventure",
+  "currentTemple": 1,
+  "templeName": "Manantial de Rocío",
+  "phase": "math",
+  "consecutiveCorrect": 0,
+  "templeProgress": 0,
+  "unlockedChapters": [1],
+  "updatedAt": "2026-09-15T22:25:00.000Z"
 }
 ```
+* **`currentTemple` (Number 1..10):** Número del templo sagrado activo.
+* **`templeName` (String):** Nombre canónico del templo según la cosmología de Lumiria.
+* **`phase` (String):** `"math"` (resolución de cálculo), `"reading"` (decodificación lectora) o `"portal"` (encuentro con el Guardián).
+* **`consecutiveCorrect` (Number):** Racha actual dentro del templo.
+* **`templeProgress` (Number 0..100):** Porcentaje de avance hacia la apertura del Desafío de Portal.
+* **`unlockedChapters` (Array de Numbers):** Lista de IDs de capítulos canónicos desbloqueados en El Gran Libro de las Princesas (`story.html`).
+* **`updatedAt` (ISO Timestamp):** Registro de última sincronización local.
+
+#### 2. Documento JSON: El Prisma Numérico (`moduleId: "math_practice"`)
+```json
+{
+  "moduleId": "math_practice",
+  "selectedLevel": 1,
+  "levelName": "Chispas Estelares",
+  "streak": 0,
+  "highestStreak": 14,
+  "totalAnswered": 42,
+  "updatedAt": "2026-09-15T22:25:00.000Z"
+}
+```
+* **`selectedLevel` (Number 1..5):** Nivel de dificultad actualmente seleccionado por el jugador.
+* **`levelName` (String):** Título pedagógico del nivel (*Chispas Estelares, Senderos de Nubes, Enigmas de Cristal, El Salón de los Reflejos, Vórtice Cósmico*).
+* **`streak` (Number):** Racha ininterrumpida activa en la sesión.
+* **`highestStreak` (Number):** Récord histórico personal de aciertos consecutivos sin error.
+* **`totalAnswered` (Number):** Total acumulado de operaciones de cálculo resueltas.
+* **`updatedAt` (ISO Timestamp):** Fecha/hora de última modificación.
+
+#### 3. Documento JSON: La Pluma de la Fluidez (`moduleId: "reading_practice"`)
+```json
+{
+  "moduleId": "reading_practice",
+  "selectedLevel": 1,
+  "levelName": "Ecos de Rocío",
+  "wordsRead": 280,
+  "highestWpm": 135,
+  "storiesCompleted": 6,
+  "updatedAt": "2026-09-15T22:25:00.000Z"
+}
+```
+* **`selectedLevel` (Number 1..5):** Nivel de fluidez lectora seleccionado (*Ecos de Rocío, Vientos Cruzados, Pergaminos Cantarines, Vuelo Rápido RSVP, Fábulas del Grimorio*).
+* **`levelName` (String):** Nombre pedagógico del taller lingüístico.
+* **`wordsRead` (Number):** Contador acumulado de palabras decodificadas y leídas.
+* **`highestWpm` (Number):** Récord personal de velocidad en el velocímetro RSVP (Palabras Por Minuto).
+* **`storiesCompleted` (Number):** Total de cuentos o ejercicios de comprensión finalizados con éxito.
+* **`updatedAt` (ISO Timestamp):** Registro cronológico de guardado.
+
+#### 4. API de Almacenamiento en `storage.js`
+La clase `StorageService` (`import { storage } from './services/storage.js'`) expone las siguientes interfaces reactivas con promesas:
+
+* `async storage.getModuleState(moduleId)`: Recupera de forma asíncrona el documento JSON del módulo solicitado. Si el registro aún no existe, devuelve una copia íntegra de la plantilla predeterminada de `INITIAL_GAME_MODULES`.
+* `async storage.saveModuleState(moduleId, stateObj)`: Guarda o actualiza transaccionalmente el objeto JSON en el store `game_modules`, inyectando automáticamente la marca de tiempo `updatedAt`.
+* `async storage.getAllModuleStates()`: Retorna un array con los tres objetos JSON para paneles de progreso general, analíticas locales o exportación de datos familiares.
 
 ---
 

@@ -40,13 +40,13 @@ export class AdventureService {
 
   async loadState() {
     try {
-      const profile = await storage.getProfile();
-      if (profile && profile.adventure) {
-        this.currentTemple = profile.adventure.currentTemple || 1;
-        this.phase = profile.adventure.phase || 'math';
-        this.consecutiveCorrect = profile.adventure.consecutiveCorrect || 0;
-        this.templeProgress = profile.adventure.templeProgress || 0;
-        this.unlockedChapters = profile.adventure.unlockedChapters || [1];
+      const state = await storage.getModuleState('adventure');
+      if (state) {
+        this.currentTemple = state.currentTemple || 1;
+        this.phase = state.phase || 'math';
+        this.consecutiveCorrect = state.consecutiveCorrect || 0;
+        this.templeProgress = state.templeProgress || 0;
+        this.unlockedChapters = state.unlockedChapters || [1];
       }
     } catch (err) {
       console.warn('AdventureService: error loading state:', err);
@@ -57,15 +57,15 @@ export class AdventureService {
 
   async saveState() {
     try {
-      const profile = (await storage.getProfile()) || {};
-      profile.adventure = {
+      const payload = {
         currentTemple: this.currentTemple,
+        templeName: TEMPLE_NAMES[this.currentTemple - 1] || 'Templo Sagrado',
         phase: this.phase,
         consecutiveCorrect: this.consecutiveCorrect,
         templeProgress: this.templeProgress,
-        unlockedChapters: this.unlockedChapters
+        unlockedChapters: this.unlockedChapters,
       };
-      await storage.saveProfile(profile);
+      await storage.saveModuleState('adventure', payload);
     } catch (err) {
       console.warn('AdventureService: error saving state:', err);
     }
