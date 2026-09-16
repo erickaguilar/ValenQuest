@@ -15,11 +15,11 @@
 }
 
 html {
-  height: 100%;
+  min-height: 100%;
+  min-height: 100dvh;
   width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-  overscroll-behavior-y: contain;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* ==========================================================================
@@ -66,18 +66,15 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
   line-height: 1.5;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overscroll-behavior-y: contain;
   transition: background-color 0.3s ease, color 0.3s ease;
 
   /* Polka dot pastel background */
