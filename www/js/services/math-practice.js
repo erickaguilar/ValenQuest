@@ -54,13 +54,26 @@ export const MATH_LEVELS = [
 
 export class MathPracticeService {
   constructor() {
+    this.wasm = null;
+    this.session = null;
     this.selectedLevel = 1;
     this.streak = 0;
     this.highestStreak = 0;
     this.totalAnswered = 0;
     this.combo = 0; // 0% a 100%
     this.totalCombos = 0;
+    this.inputMode = 'choice'; // 'choice' | 'keypad'
+    this.keypadBuffer = '';
+    this.currentChallenge = null;
     this.listeners = [];
+  }
+
+  init(wasm) {
+    this.wasm = wasm;
+    const seed = BigInt(Date.now()) + 9999n;
+    const lvlInfo = this.getCurrentLevelInfo();
+    this.session = new wasm.MathSession(seed, lvlInfo.curriculumTier || 1);
+    this.generateChallenge();
   }
 
   async loadState() {
@@ -71,7 +84,8 @@ export class MathPracticeService {
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
         this.totalCombos = state.totalCombos || 0;
-        this.combo = 0;
+        this.combo = typeof state.combo === 'number' ? state.combo : 0;
+        if (state.inputMode) this.inputMode = state.inputMode;
       }
     } catch (err) {
       console.warn('MathPracticeService: error loading state:', err);
@@ -88,6 +102,8 @@ export class MathPracticeService {
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
         totalCombos: this.totalCombos,
+        combo: this.combo || 0,
+        inputMode: this.inputMode,
       };
       await storage.saveModuleState('math_practice', payload);
     } catch (err) {
@@ -111,8 +127,10 @@ export class MathPracticeService {
       streak: this.streak,
       highestStreak: this.highestStreak,
       totalAnswered: this.totalAnswered,
-      combo: this.combo,
-      totalCombos: this.totalCombos,
+      combo: typeof this.combo === 'number' ? this.combo : 0,
+      totalCombos: this.totalCombos || 0,
+      inputMode: this.inputMode,
+      currentChallenge: this.currentChallenge,
     };
   }
 
@@ -121,16 +139,55 @@ export class MathPracticeService {
     this.selectedLevel = validLevel;
     this.streak = 0;
     this.combo = 0;
+    this.keypadBuffer = '';
+    this.generateChallenge();
     await this.saveState();
     return this.getState();
   }
 
-  resetCombo() {
-    this.combo = 0;
-    this.notify();
+  generateChallenge() {
+    if (!this.session) return null;
+    const lvlInfo = this.getCurrentLevelInfo();
+    this.session.force_tier(lvlInfo.curriculumTier);
+    this.session.clear_portal_ready();
+
+    const op1 = this.session.get_operand1();
+    const op2 = this.session.get_operand2();
+    const op = this.session.get_operator();
+    const expr = this.session.get_expression ? this.session.get_expression() : '';
+    const answer = this.session.get_correct_answer();
+
+    let options = [];
+    try {
+      options = JSON.parse(this.session.get_options_json());
+    } catch {
+      options = [answer, answer + 1, answer + 2, Math.max(1, answer - 1)];
+    }
+
+    // GARANTÍA: La respuesta correcta SIEMPRE debe estar presente en las opciones
+    if (!options.includes(answer)) {
+      options[0] = answer;
+      options.sort(() => Math.random() - 0.5);
+    }
+
+    this.currentChallenge = {
+      op1,
+      op2,
+      operator: op,
+      expression: expr,
+      answer,
+      options,
+    };
+
+    return this.currentChallenge;
   }
 
-  async recordAnswer(isCorrect, elapsedMs = 0) {
+  async checkAnswer(userAnswer, elapsedMs = 3000) {
+    if (!this.currentChallenge) {
+      this.generateChallenge();
+    }
+
+    const isCorrect = Number(userAnswer) === this.currentChallenge.answer;
     this.totalAnswered++;
     let comboBurst = false;
 
@@ -139,13 +196,12 @@ export class MathPracticeService {
       if (this.streak > this.highestStreak) {
         this.highestStreak = this.streak;
       }
-      // Cada acierto ágil (<=4s) suma +25% de combo; respuesta pensada suma +20%
       const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
-      this.combo += gain;
+      this.combo = Math.min(100, (this.combo || 0) + gain);
 
       if (this.combo >= 100) {
         comboBurst = true;
-        this.totalCombos++;
+        this.totalCombos = (this.totalCombos || 0) + 1;
         this.combo = 0; // Se reinicia para el siguiente combo
       }
     } else {
@@ -154,14 +210,45 @@ export class MathPracticeService {
     }
 
     await this.saveState();
+
     return {
       isCorrect,
       streak: this.streak,
       highestStreak: this.highestStreak,
-      combo: this.combo,
+      combo: typeof this.combo === 'number' ? this.combo : 0,
       comboBurst,
-      totalCombos: this.totalCombos,
+      totalCombos: this.totalCombos || 0,
+      correctAnswer: this.currentChallenge.answer,
     };
+  }
+
+  resetCombo() {
+    this.combo = 0;
+    this.notify();
+  }
+
+  toggleInputMode() {
+    this.inputMode = this.inputMode === 'choice' ? 'keypad' : 'choice';
+    this.keypadBuffer = '';
+    this.saveState();
+    return this.inputMode;
+  }
+
+  keypadAppend(digit) {
+    if (this.keypadBuffer.length < 3) {
+      this.keypadBuffer += String(digit);
+    }
+    return this.keypadBuffer;
+  }
+
+  keypadBackspace() {
+    this.keypadBuffer = this.keypadBuffer.slice(0, -1);
+    return this.keypadBuffer;
+  }
+
+  keypadClear() {
+    this.keypadBuffer = '';
+    return this.keypadBuffer;
   }
 
   onChange(callback) {

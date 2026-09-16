@@ -199,7 +199,7 @@ class CompanionSystem {
   /**
    * Recharges a single power for practice mode upon completing a Combo Burst
    */
-  async rechargeOnePower(maxCharge = 1) {
+  async rechargeOnePower(maxCharge = 2) {
     const keys = ['valen', 'reni', 'zoe', 'lia'];
     const eligible = keys.filter((k) => (this.charges[k] || 0) < maxCharge);
     if (eligible.length > 0) {
@@ -293,19 +293,21 @@ class CompanionSystem {
       }, 2000);
     }
 
-    if (!mathSession) return { discarded: 0, starMultiplier: isPractice ? 1 : 2 };
+    if (context.correctAnswer === undefined && !mathSession) return { discarded: 0, starMultiplier: isPractice ? 1 : 2 };
 
     // If student was on keypad mode, switch to choice mode so discarded options are visible
     if (app && app.inputMode === 'keypad') {
       app.inputMode = 'choice';
       const modeToggle = document.getElementById('btn-toggle-mode');
       if (modeToggle) {
-        modeToggle.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar teclado numérico</span>';
+        modeToggle.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Cambiar a Teclado Numérico</span>';
       }
       app.renderInputArea();
     }
 
-    const correctAnswer = mathSession.get_correct_answer();
+    const correctAnswer = context.correctAnswer !== undefined
+      ? context.correctAnswer
+      : mathSession.get_correct_answer();
     const buttons = Array.from(document.querySelectorAll('#options-grid .option-btn'));
     let discardedCount = 0;
     const maxDiscard = isPractice ? 1 : 2; // En práctica solo descarta 1 distractor para ventaja mínima
@@ -395,7 +397,7 @@ class CompanionSystem {
     }
 
     if (isPractice) {
-      const op = mathSession ? mathSession.get_operator() : '+';
+      const op = context.operator || (mathSession ? mathSession.get_operator() : '+');
       speech.speak(`Lía enfoca el signo ${op}: ¡atenta a la operación!`);
       return { crystalFocus: true, clue: 'Pista de signo' };
     }

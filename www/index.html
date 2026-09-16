@@ -1113,21 +1113,23 @@
         </div>
       </section>
 
-      <!-- Barra de Poderes de las Amigas (In-Game Companions Bar) -->
+      <!-- Barra de Poderes de las Amigas (In-Game Companions Bar en 2 y 2) -->
       <aside class="companion-powers-bar" aria-label="Poderes de amistad del Cuarteto de la Armonía">
         <span class="powers-bar-label"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Poderes:</span></span>
-        <button id="btn-power-valen" class="power-btn" type="button" title="Valen (Alicornio): Prisma Real - Descartar 2 opciones y duplicar estrellas (2x)">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>Valen</span> <span class="power-charge-badge" id="badge-valen">2</span>
-        </button>
-        <button id="btn-power-reni" class="power-btn" type="button" title="Reni (Pegaso): Brisa Temporal - Detener tiempo para pensar sin prisa">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Reni</span> <span class="power-charge-badge" id="badge-reni">2</span>
-        </button>
-        <button id="btn-power-zoe" class="power-btn" type="button" title="Zoe (Poni Terrestre): Escudo de Raíces - Proteger racha y explicar con voz">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Zoe</span> <span class="power-charge-badge" id="badge-zoe">2</span>
-        </button>
-        <button id="btn-power-lia" class="power-btn" type="button" title="Lía (Unicornio): Foco de Cristal - Resaltar pista clave del reto">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Lía</span> <span class="power-charge-badge" id="badge-lia">2</span>
-        </button>
+        <div class="companion-powers-grid">
+          <button id="btn-power-valen" class="power-btn" type="button" title="Valen (Alicornio): Prisma Real">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>Valen</span> <span class="power-charge-badge" id="badge-valen">2</span>
+          </button>
+          <button id="btn-power-reni" class="power-btn" type="button" title="Reni (Pegaso): Brisa Temporal">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Reni</span> <span class="power-charge-badge" id="badge-reni">2</span>
+          </button>
+          <button id="btn-power-zoe" class="power-btn" type="button" title="Zoe (Poni Terrestre): Escudo de Raíces">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Zoe</span> <span class="power-charge-badge" id="badge-zoe">2</span>
+          </button>
+          <button id="btn-power-lia" class="power-btn" type="button" title="Lía (Unicornio): Foco de Cristal">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Lía</span> <span class="power-charge-badge" id="badge-lia">2</span>
+          </button>
+        </div>
       </aside>
 
       <!-- Challenge Card -->
@@ -1162,19 +1164,22 @@
             <button class="key-btn" data-val="7">7</button>
             <button class="key-btn" data-val="8">8</button>
             <button class="key-btn" data-val="9">9</button>
-            <button class="key-btn key-action-backspace" data-action="backspace" aria-label="Borrar">
+            <button class="key-btn key-action-backspace" data-action="backspace" aria-label="Borrar último dígito">
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-backspace"></use></svg>
             </button>
             <button class="key-btn" data-val="0">0</button>
+            <button class="key-btn key-action-clear" data-action="clear" aria-label="Limpiar todo">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-x"></use></svg>
+            </button>
             <button class="key-btn key-action-submit" data-action="submit" aria-label="Comprobar respuesta">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-check"></use></svg> <span>Enviar</span>
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-check"></use></svg> <span>Comprobar Respuesta</span>
             </button>
           </div>
         </div>
 
         <!-- Toggle between Multiple Choice and Keypad -->
         <button id="btn-toggle-mode" class="mode-toggle-btn" type="button">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar teclado numérico</span>
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Cambiar a Teclado Numérico</span>
         </button>
       </section>
     </section>

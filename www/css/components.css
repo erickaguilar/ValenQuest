@@ -386,31 +386,66 @@
   color: var(--vq-text);
 }
 
-.key-btn.key-action-submit {
-  grid-column: span 2;
-  background: var(--vq-mint);
+.key-btn.key-action-clear {
+  background: var(--vq-lavender-light);
   color: var(--vq-text);
+  font-size: 1.15rem;
+}
+
+.key-btn.key-action-submit {
+  grid-column: span 3; /* ¡Ocupa los tres bloques completos! */
+  height: 56px;
+  background: linear-gradient(135deg, #FFD166, #FFB703);
+  color: #4A3E56;
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
   box-shadow: 0 4px 0 var(--vq-border);
-  font-size: 1.25rem;
-  gap: 8px;
+  font-size: 1.18rem;
+  font-weight: 900;
+  gap: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="dark"] .key-btn.key-action-submit {
+  background: linear-gradient(135deg, #F72585, #7209B7);
+  color: #FFFFFF;
 }
 
 .key-btn.key-action-submit:active {
+  transform: translateY(2px);
   box-shadow: 0 1px 0 var(--vq-border);
 }
 
 .mode-toggle-btn {
-  background: transparent;
-  border: none;
-  color: var(--vq-pink-bubble);
-  font-size: 0.95rem;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: var(--vq-text);
+  font-size: 0.92rem;
   font-weight: 800;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  box-shadow: 0 3px 0 var(--vq-border);
   align-self: center;
-  padding: 6px 12px;
+  padding: 8px 20px;
+  margin: 10px auto 4px auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: inherit;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mode-toggle-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-light);
+  box-shadow: 0 5px 0 var(--vq-border);
+}
+
+.mode-toggle-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--vq-border);
 }
 
 /* ==========================================================================
@@ -1101,18 +1136,27 @@
   margin-top: 4px;
 }
 
-/* In-Game Friendship Powers Bar (Shown in challenge cards) */
+/* In-Game Friendship Powers Bar (Shown in challenge cards - 2 y 2) */
 .companion-powers-bar {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 10px 14px;
+  padding: 10px 12px;
   background: var(--vq-bg-well);
   border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
+  border-radius: var(--vq-radius-card);
   box-shadow: var(--vq-shadow-sm);
+}
+
+.companion-powers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ¡Exactamente 2 y 2! */
+  gap: 8px;
+  width: 100%;
+  max-width: 480px;
 }
 
 .powers-bar-label {
@@ -1126,16 +1170,18 @@
 }
 
 .power-btn {
+  width: 100%;
   background: var(--vq-bg-card);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
-  padding: 6px 14px;
-  font-size: 0.85rem;
+  padding: 8px 12px;
+  font-size: 0.84rem;
   font-weight: 900;
   color: var(--vq-text);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   box-shadow: 0 2px 0 var(--vq-border);
   transition: transform 0.1s ease;
@@ -1905,10 +1951,14 @@
     font-size: 1.1rem;
   }
 
-  /* In-game Powers Bar */
+  /* In-game Powers Bar (2 y 2 siempre) */
   .companion-powers-bar {
-    flex-wrap: wrap;
     padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .companion-powers-grid {
+    grid-template-columns: 1fr 1fr; /* ¡Exactamente 2 y 2! */
     gap: 6px;
   }
 
@@ -1919,7 +1969,7 @@
   }
 
   .power-btn {
-    flex: 1 1 calc(33% - 6px);
+    width: 100%;
     justify-content: center;
     padding: 6px 8px;
     font-size: 0.78rem;
