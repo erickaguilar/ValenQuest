@@ -518,6 +518,7 @@
 }
 
 .math-keypad-submit {
+  grid-column: 1 / -1;
   width: 100%;
   height: 54px;
   border-radius: var(--vq-radius-pill);
@@ -533,6 +534,7 @@
   box-shadow: var(--vq-shadow-hard);
   cursor: pointer;
   transition: transform 0.12s ease, background 0.15s ease;
+  margin-top: 4px;
 }
 
 .math-keypad-submit:hover {

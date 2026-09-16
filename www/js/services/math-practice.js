@@ -87,13 +87,22 @@ export class MathPracticeService {
         this.totalCombos = state.totalCombos || 0;
         this.diamondsEarned = state.diamondsEarned || 0;
         this.combo = typeof state.combo === 'number' ? state.combo : 0;
-        if (state.inputMode) this.inputMode = state.inputMode;
+        // Iniciar siempre en modo de selección de opciones para evitar vistas vacías
+        this.inputMode = 'choice';
       }
     } catch (err) {
       console.warn('MathPracticeService: error loading state:', err);
     }
     this.notify();
     return this.getState();
+  }
+
+  setInputMode(mode) {
+    this.inputMode = mode === 'keypad' ? 'keypad' : 'choice';
+    this.keypadBuffer = '';
+    this.saveState();
+    this.notify();
+    return this.inputMode;
   }
 
   async saveState() {
@@ -296,7 +305,7 @@ export class MathPracticeService {
     return this.currentChallenge;
   }
 
-  async checkAnswer(userAnswer, elapsedMs = 3000) {
+  checkAnswer(userAnswer, elapsedMs = 3000) {
     if (!this.currentChallenge) {
       this.generateChallenge();
     }
@@ -334,7 +343,7 @@ export class MathPracticeService {
       this.combo = 0;
     }
 
-    await this.saveState();
+    this.saveState();
 
     return {
       isCorrect,

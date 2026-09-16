@@ -57,14 +57,23 @@ class MathPageController {
       console.warn('Error loading companions/profile in math page:', err);
     }
 
-    // 5. Cargar estado del módulo de matemáticas y motor Rust WASM
+    // 5. Cargar estado del módulo de matemáticas
     try {
       await mathPractice.loadState();
-      const wasm = await loadWasm();
-      mathPractice.init(wasm);
       this.renderChallenge();
     } catch (err) {
-      console.warn('WASM engine loading in fallback mode:', err);
+      console.warn('Error loading math practice state:', err);
+    }
+
+    // 6. Cargar motor Rust WASM en segundo plano de manera no bloqueante
+    try {
+      const wasm = await loadWasm();
+      if (wasm) {
+        mathPractice.init(wasm);
+        this.renderChallenge();
+      }
+    } catch (err) {
+      console.log('Math practice using built-in JS challenge engine:', err?.message || err);
       this.renderChallenge();
     }
 
@@ -171,6 +180,8 @@ class MathPageController {
 
         if (digit === 'backspace') {
           this.keypadBuffer = this.keypadBuffer.slice(0, -1);
+        } else if (digit === 'clear') {
+          this.keypadBuffer = '';
         } else if (digit !== undefined) {
           if (this.keypadBuffer.length < 5) {
             this.keypadBuffer += digit;
@@ -243,7 +254,10 @@ class MathPageController {
     if (btnSpeak) {
       btnSpeak.onclick = () => {
         sound.playClick();
-        speech.speak(`¿Cuánto es ${challenge.op1} ${challenge.operator} ${challenge.op2}?`);
+        const speechText = challenge.expression && challenge.expression.length > 0
+          ? `¿Cuánto es ${challenge.expression}?`
+          : `¿Cuánto es ${challenge.op1} ${challenge.operator || 'más'} ${challenge.op2}?`;
+        speech.speak(speechText);
       };
     }
 
@@ -255,16 +269,25 @@ class MathPageController {
         : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Opciones 🔘</span>';
     }
 
-    // 7. Renderizar operación matemática
+    // 7. Renderizar operación matemática en el display
     const op1El = document.getElementById('math-op1');
     const operatorEl = document.getElementById('math-operator');
     const op2El = document.getElementById('math-op2');
     const previewEl = document.getElementById('math-preview-val');
 
-    if (op1El) op1El.textContent = challenge.op1;
-    if (operatorEl) operatorEl.textContent = challenge.operator;
-    if (op2El) op2El.textContent = challenge.op2;
-    if (previewEl) previewEl.textContent = state.inputMode === 'keypad' ? (this.keypadBuffer || '?') : '?';
+    if (challenge.expression && challenge.expression.length > 0) {
+      if (op1El) op1El.textContent = challenge.expression;
+      if (operatorEl) operatorEl.textContent = '';
+      if (op2El) op2El.textContent = '';
+    } else {
+      if (op1El) op1El.textContent = challenge.op1;
+      if (operatorEl) operatorEl.textContent = challenge.operator || '+';
+      if (op2El) op2El.textContent = challenge.op2;
+    }
+
+    if (previewEl) {
+      previewEl.textContent = state.inputMode === 'keypad' ? (this.keypadBuffer || '?') : '?';
+    }
 
     // 8. Opciones Múltiples vs Teclado
     const optionsContainer = document.getElementById('math-options-container');
@@ -275,7 +298,7 @@ class MathPageController {
       if (keypadContainer) keypadContainer.hidden = true;
 
       const grid = document.getElementById('math-options-grid');
-      if (grid) {
+      if (grid && Array.isArray(challenge.options)) {
         grid.innerHTML = '';
         challenge.options.forEach((optNum) => {
           const btn = document.createElement('button');
@@ -304,7 +327,7 @@ class MathPageController {
     const elapsedMs = Date.now() - this.challengeStartTime;
 
     try {
-      const res = mathPractice.checkAnswer(userAnswer, elapsedMs);
+      const res = await mathPractice.checkAnswer(userAnswer, elapsedMs);
 
       if (res.isCorrect) {
         if (buttonEl) buttonEl.classList.add('correct-choice');

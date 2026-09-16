@@ -214,9 +214,9 @@
         <!-- Área de Visualización de la Operación de Cálculo -->
         <div class="math-expression-area" id="math-expression-area">
           <div class="math-expression-display" id="math-expression-display">
-            <span class="math-op1" id="math-op1">0</span>
+            <span class="math-op1" id="math-op1">4</span>
             <span class="math-operator" id="math-operator">+</span>
-            <span class="math-op2" id="math-op2">0</span>
+            <span class="math-op2" id="math-op2">3</span>
             <span class="math-equals">=</span>
             <span class="math-target-q" id="math-preview-val">?</span>
           </div>
@@ -225,7 +225,10 @@
         <!-- Modo 1: Opciones Múltiples de Selección -->
         <div id="math-options-container" class="math-options-container">
           <div class="math-options-grid" id="math-options-grid" role="group" aria-label="Opciones de respuesta numérica">
-            <!-- Botones inyectados dinámicamente -->
+            <button type="button" class="math-choice-btn">6</button>
+            <button type="button" class="math-choice-btn">7</button>
+            <button type="button" class="math-choice-btn">8</button>
+            <button type="button" class="math-choice-btn">5</button>
           </div>
         </div>
 
@@ -243,12 +246,12 @@
             <button type="button" class="math-keypad-btn" data-digit="9">9</button>
             <button type="button" class="math-keypad-btn keypad-clear" data-digit="backspace">⌫ Borrar</button>
             <button type="button" class="math-keypad-btn" data-digit="0">0</button>
-            <button type="button" class="math-keypad-btn keypad-clear" data-digit="backspace">C</button>
+            <button type="button" class="math-keypad-btn keypad-clear" data-digit="clear">C Limpiar</button>
+            <button type="button" class="math-keypad-submit" id="btn-keypad-submit">
+              <span>Enviar Respuesta Mágica</span>
+              <span aria-hidden="true">✨</span>
+            </button>
           </div>
-          <button type="button" class="math-keypad-submit" id="btn-keypad-submit">
-            <span>Enviar Respuesta Mágica</span>
-            <span aria-hidden="true">✨</span>
-          </button>
         </div>
 
         <!-- Barra de Poderes de las Guardianas de la Armonía (Homologada) -->
