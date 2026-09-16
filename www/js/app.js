@@ -223,6 +223,22 @@ class KidsLearnApp {
       });
     });
 
+    // Selectores de nivel en caliente DENTRO del juego (El Prisma Numérico)
+    document.querySelectorAll('#math-practice-ingame-chips .level-chip-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        sound.playClick();
+        const lvl = Number(e.currentTarget.dataset.level) || 1;
+        await mathPractice.setLevel(lvl);
+        const lvlInfo = mathPractice.getCurrentLevelInfo();
+        if (this.mathSession && lvlInfo.curriculumTier) {
+          this.mathSession.force_tier(lvlInfo.curriculumTier);
+          this.renderMathChallenge();
+        }
+        this.syncTriadUI();
+        speech.speak(`Nivel ${lvlInfo.level}: ${lvlInfo.name}`);
+      });
+    });
+
     document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
       btn.addEventListener('click', async (e) => {
         sound.playClick();
@@ -250,9 +266,10 @@ class KidsLearnApp {
         this.gameMode = 'math_practice';
         const lvlInfo = mathPractice.getCurrentLevelInfo();
         if (this.mathSession && lvlInfo.curriculumTier) {
-          this.mathSession.advance_tier(lvlInfo.curriculumTier);
+          this.mathSession.force_tier(lvlInfo.curriculumTier);
           this.renderMathChallenge();
         }
+        this.syncTriadUI();
         this.switchTab('math');
       });
     }
@@ -284,6 +301,9 @@ class KidsLearnApp {
     const btnGotoReadingFromMath = document.getElementById('btn-goto-reading-from-math');
     if (btnGotoReadingFromMath) {
       btnGotoReadingFromMath.addEventListener('click', () => {
+        if (this.gameMode === 'math_practice') {
+          this.gameMode = 'reading_practice';
+        }
         this.switchTab('reading');
       });
     }
@@ -291,6 +311,14 @@ class KidsLearnApp {
     const btnGotoMathFromReading = document.getElementById('btn-goto-math-from-reading');
     if (btnGotoMathFromReading) {
       btnGotoMathFromReading.addEventListener('click', () => {
+        if (this.gameMode === 'reading_practice') {
+          this.gameMode = 'math_practice';
+          const lvlInfo = mathPractice.getCurrentLevelInfo();
+          if (this.mathSession && lvlInfo.curriculumTier) {
+            this.mathSession.force_tier(lvlInfo.curriculumTier);
+            this.renderMathChallenge();
+          }
+        }
         this.switchTab('math');
       });
     }
@@ -620,6 +648,10 @@ class KidsLearnApp {
       this.stopRsvp();
     }
 
+    if (tab === 'intro') {
+      this.syncTriadUI();
+    }
+
     // Sincronizar badge de misión según el modo activo
     const mathBadgeText = document.getElementById('math-mission-badge-text');
     const readingBadgeText = document.getElementById('reading-mission-badge-text');
@@ -655,7 +687,8 @@ class KidsLearnApp {
     const mathSummary = document.getElementById('math-level-summary');
     if (mathSummary) {
       const info = mathPractice.getCurrentLevelInfo();
-      mathSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.shortName}`;
+      const streakText = mathPractice.highestStreak > 0 ? ` • Récord: 🔥${mathPractice.highestStreak}` : '';
+      mathSummary.textContent = `${info.icon} Nivel ${info.level}: ${info.shortName}${streakText}`;
     }
 
     // 3. Nivel seleccionado en La Pluma de la Fluidez (Lectura)
@@ -757,6 +790,39 @@ class KidsLearnApp {
 
     const flameBadge = document.getElementById('streak-badge');
     flameBadge.classList.toggle('active-flame', streak >= 3);
+
+    // Modo Arcade Independiente vs Modo Campaña Aventura
+    const mathPracticeBar = document.getElementById('math-practice-bar');
+    const statsBar = document.querySelector('#math-section .stats-bar');
+
+    if (this.gameMode === 'math_practice') {
+      if (mathPracticeBar) {
+        mathPracticeBar.hidden = false;
+        const info = mathPractice.getCurrentLevelInfo();
+        const activeTitle = document.getElementById('math-practice-active-title');
+        if (activeTitle) {
+          activeTitle.textContent = `${info.icon} Nivel ${info.level}: ${info.name}`;
+        }
+        const streakVal = document.getElementById('math-practice-streak-val');
+        if (streakVal) streakVal.textContent = mathPractice.streak;
+        const recordVal = document.getElementById('math-practice-record-val');
+        if (recordVal) recordVal.textContent = mathPractice.highestStreak;
+
+        document.querySelectorAll('#math-practice-ingame-chips .level-chip-btn').forEach((btn) => {
+          btn.classList.toggle('active', Number(btn.dataset.level) === mathPractice.selectedLevel);
+        });
+      }
+      if (statsBar) {
+        statsBar.hidden = true;
+      }
+    } else {
+      if (mathPracticeBar) {
+        mathPracticeBar.hidden = true;
+      }
+      if (statsBar) {
+        statsBar.hidden = false;
+      }
+    }
 
     this.renderInputArea();
   }
@@ -884,7 +950,18 @@ class KidsLearnApp {
         display.classList.add('correct');
       }
       card.classList.add('correct-flash');
-      await companions.rewardStreak(currentStreak);
+
+      let streakForRewards = currentStreak;
+      if (this.gameMode === 'math_practice') {
+        await mathPractice.recordAnswer(true);
+        streakForRewards = mathPractice.streak;
+        const streakVal = document.getElementById('math-practice-streak-val');
+        if (streakVal) streakVal.textContent = mathPractice.streak;
+        const recordVal = document.getElementById('math-practice-record-val');
+        if (recordVal) recordVal.textContent = mathPractice.highestStreak;
+      }
+
+      await companions.rewardStreak(streakForRewards);
       this.updatePowersBadges();
 
       // Calculation of Stars:
@@ -892,7 +969,7 @@ class KidsLearnApp {
       // Streak milestone bonus: Every 3 streak grants +1 bonus star!
       // Lía's Royal Flare: Multiplies earned stars (2x) when activated!
       const baseStars = elapsedMs <= 4000 ? 2 : 1;
-      const isStreakMilestone = currentStreak > 0 && currentStreak % 3 === 0;
+      const isStreakMilestone = streakForRewards > 0 && streakForRewards % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
       const multiplier = this.starMultiplier || 1;
       const earnedStars = (baseStars + streakBonus) * multiplier;
@@ -903,7 +980,11 @@ class KidsLearnApp {
 
       if (isStreakMilestone) {
         sound.playStreak();
-        speech.speakPraise(currentStreak);
+        if (this.gameMode === 'math_practice' && streakForRewards % 5 === 0) {
+          speech.speak(`¡Racha estelar de ${streakForRewards} en el Prisma Numérico!`);
+        } else {
+          speech.speakPraise(streakForRewards);
+        }
       } else {
         sound.playCorrect();
       }
@@ -928,6 +1009,12 @@ class KidsLearnApp {
         return; // Don't advance or reset challenge, let student try again!
       }
 
+      if (this.gameMode === 'math_practice') {
+        await mathPractice.recordAnswer(false);
+        const streakVal = document.getElementById('math-practice-streak-val');
+        if (streakVal) streakVal.textContent = mathPractice.streak;
+      }
+
       card.classList.add('incorrect-shake');
       sound.playIncorrect();
     }
@@ -940,11 +1027,13 @@ class KidsLearnApp {
       display.classList.remove('correct', 'incorrect');
     }
 
-    // Check for Tier Level Up or Desafío de Portal
-    if (tierChanged === 1 || (this.mathSession && this.mathSession.is_portal_ready())) {
-      sound.playLevelUp();
-      const completedLevel = Math.max(1, this.mathSession.get_tier() - 1);
-      this.openPortalChallenge(completedLevel);
+    // Check for Tier Level Up or Desafío de Portal (exclusivo para La Gran Aventura)
+    if (this.gameMode === 'adventure') {
+      if (tierChanged === 1 || (this.mathSession && this.mathSession.is_portal_ready())) {
+        sound.playLevelUp();
+        const completedLevel = Math.max(1, this.mathSession.get_tier() - 1);
+        this.openPortalChallenge(completedLevel);
+      }
     }
 
     // Persist session metrics to IndexedDB
@@ -952,8 +1041,8 @@ class KidsLearnApp {
       tier: this.mathSession.get_tier(),
       totalAnswered: this.mathSession.get_total_answered(),
       totalCorrect: this.mathSession.get_total_correct(),
-      streak: currentStreak,
-      highestStreak: this.mathSession.get_highest_streak(),
+      streak: this.gameMode === 'math_practice' ? mathPractice.streak : currentStreak,
+      highestStreak: this.gameMode === 'math_practice' ? mathPractice.highestStreak : this.mathSession.get_highest_streak(),
       mastery: this.mathSession.get_mastery(),
     });
 

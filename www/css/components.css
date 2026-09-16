@@ -3083,5 +3083,88 @@
   background: #FFC8DD;
 }
 
+/* 4. Barra de Controles en Vivo para El Prisma Numérico */
+.math-practice-bar {
+  width: 100%;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 10px 14px;
+  box-shadow: var(--vq-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.math-practice-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.math-practice-title-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--vq-text);
+}
+
+.math-practice-streak-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #4A3E56;
+  background: #FFD166;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .math-practice-streak-tag {
+  background: #9D4EDD;
+  color: #FDF7FF;
+}
+
+.math-practice-chips-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.math-practice-chips-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--vq-text-muted);
+}
+
+@media (max-width: 600px) {
+  .math-practice-bar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 10px;
+  }
+  .math-practice-bar-info {
+    justify-content: center;
+  }
+  .math-practice-chips-wrapper {
+    justify-content: center;
+  }
+}
+
+
 
 
