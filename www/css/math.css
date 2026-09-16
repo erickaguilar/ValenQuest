@@ -310,11 +310,15 @@
 }
 
 .math-challenge-card.correct-flash {
-  animation: vqCardSuccessPulse 0.5s ease-out;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 26px rgba(16, 185, 129, 0.45), var(--vq-shadow-hard) !important;
+  animation: correctBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .math-challenge-card.incorrect-shake {
-  animation: vqShake 0.45s ease-in-out;
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4), var(--vq-shadow-hard) !important;
+  animation: shake 0.45s ease-in-out;
 }
 
 .challenge-prompt-row {
@@ -382,67 +386,113 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  font-size: clamp(2.5rem, 7vw, 4rem);
+  flex-wrap: wrap;
+  gap: clamp(10px, 3vw, 20px);
+  font-size: clamp(2.8rem, 8vw, 4.4rem);
   font-weight: 900;
   color: var(--vq-text);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
-.math-op1 { color: #32213F; }
-.math-operator { color: var(--vq-pink-bubble); }
-.math-op2 { color: #1D3557; }
-.math-equals { color: var(--vq-text-muted); }
-.math-target-q {
-  color: var(--vq-gold);
-  background: rgba(255, 209, 102, 0.2);
-  padding: 2px 14px;
-  border-radius: var(--vq-radius-card);
-  border: 2px dashed var(--vq-border);
+.math-op1,
+.math-op2 {
+  color: var(--vq-text);
+  font-weight: 900;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.math-answer-preview-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.math-operator {
+  color: var(--vq-pink-bubble);
+  font-weight: 900;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.math-answer-preview-box {
-  min-width: 110px;
-  height: 48px;
-  padding: 4px 16px;
+.math-equals {
+  color: var(--vq-text-muted);
+  font-weight: 900;
+}
+
+/* Caja de Resultado con Efectos de Luz y Verde Radiante (Homologada y Fiel al Proyecto) */
+.math-input-box {
+  min-width: 90px;
+  height: 76px;
   background: var(--vq-bg-card);
-  border: 2.5px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: var(--vq-text);
-  display: flex;
+  border: 3.5px dashed var(--vq-pink-bubble);
+  border-radius: var(--vq-radius-card);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--vq-shadow-sm);
+  font-size: clamp(2.2rem, 7vw, 3.2rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  padding: 0 16px;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: var(--vq-shadow-sm), inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.math-input-box.empty {
+  color: var(--vq-text-muted);
+  opacity: 0.65;
+}
+
+.math-input-box.preview {
+  color: var(--vq-pink-bubble);
+  border-color: var(--vq-pink-bubble);
+  border-style: solid;
+  opacity: 1;
+  transform: scale(1.06);
+  box-shadow: 0 0 16px rgba(255, 175, 204, 0.45);
+}
+
+/* EL EFECTO EN VERDE: Radiante Esmeralda con Brillo y Pulso */
+.math-input-box.correct {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border-color: #10b981 !important;
+  border-style: solid !important;
+  color: #059669 !important;
+  opacity: 1 !important;
+  transform: scale(1.12);
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.65), 0 4px 0 #059669 !important;
+}
+
+[data-theme="dark"] .math-input-box.correct {
+  background: rgba(16, 185, 129, 0.25) !important;
+  color: #34D399 !important;
+  border-color: #34D399 !important;
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.7) !important;
+}
+
+.math-input-box.incorrect {
+  background: rgba(239, 68, 68, 0.18) !important;
+  border-color: #ef4444 !important;
+  border-style: solid !important;
+  color: #ef4444 !important;
+  opacity: 1 !important;
+  transform: scale(0.95);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5) !important;
 }
 
 /* Opciones de Respuesta Múltiple (Modo 'choice') */
 .math-options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
   width: 100%;
 }
 
 .math-choice-btn {
-  padding: 18px 20px;
+  padding: 18px 16px;
   background: var(--vq-bg-card);
-  border: 2.5px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
+  border: 3px solid var(--vq-border);
+  border-radius: var(--vq-radius-card);
   font-family: inherit;
-  font-size: 1.6rem;
+  font-size: 1.85rem;
   font-weight: 900;
   color: var(--vq-text);
   cursor: pointer;
   box-shadow: var(--vq-shadow-hard);
-  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -451,7 +501,8 @@
 
 .math-choice-btn:hover:not(:disabled) {
   transform: translateY(-3px);
-  background: #FFF0C2;
+  background: var(--vq-gold-light, #FFF0C2);
+  border-color: var(--vq-border);
 }
 
 .math-choice-btn:active:not(:disabled) {
@@ -459,16 +510,29 @@
   box-shadow: 0 2px 0 var(--vq-border);
 }
 
+/* EFECTO EN VERDE EN BOTÓN DE RESPUESTA CORRECTA */
 .math-choice-btn.correct-choice {
-  background: #B8F2E6 !important;
-  color: #1E3A34 !important;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #047857 !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.6), 0 4px 0 #047857 !important;
+  animation: correctBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] .math-choice-btn.correct-choice {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #FFFFFF !important;
   border-color: #34D399 !important;
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.7) !important;
 }
 
 .math-choice-btn.incorrect-choice {
-  background: #FFC8DD !important;
-  color: #5C1D2E !important;
-  border-color: #E63946 !important;
+  background: linear-gradient(135deg, #F87171 0%, #EF4444 100%) !important;
+  color: #FFFFFF !important;
+  border-color: #B91C1C !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.5) !important;
+  animation: shake 0.4s ease;
 }
 
 /* Teclado Numérico Arcade (Modo 'keypad') */
@@ -692,18 +756,25 @@
   }
 
   .math-expression-display {
-    font-size: 1.9rem;
-    gap: 6px;
+    font-size: clamp(2.3rem, 7.5vw, 3.2rem);
+    gap: 8px;
+  }
+
+  .math-input-box {
+    min-width: 78px;
+    height: 66px;
+    font-size: clamp(2rem, 6.5vw, 2.6rem);
+    padding: 0 12px;
   }
 
   .math-options-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
   }
 
   .math-choice-btn {
-    font-size: 1.25rem;
-    padding: 10px 8px;
+    font-size: 1.65rem;
+    padding: 16px 12px;
   }
 
   .math-footer {

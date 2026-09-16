@@ -203,7 +203,13 @@ class MathPageController {
   updateKeypadDisplay() {
     const preview = document.getElementById('math-preview-val');
     if (preview) {
-      preview.textContent = this.keypadBuffer || '?';
+      if (this.keypadBuffer) {
+        preview.textContent = this.keypadBuffer;
+        preview.className = 'math-input-box preview';
+      } else {
+        preview.textContent = '?';
+        preview.className = 'math-input-box empty';
+      }
     }
   }
 
@@ -286,7 +292,13 @@ class MathPageController {
     }
 
     if (previewEl) {
-      previewEl.textContent = state.inputMode === 'keypad' ? (this.keypadBuffer || '?') : '?';
+      if (state.inputMode === 'keypad' && this.keypadBuffer) {
+        previewEl.textContent = this.keypadBuffer;
+        previewEl.className = 'math-input-box preview';
+      } else {
+        previewEl.textContent = '?';
+        previewEl.className = 'math-input-box empty';
+      }
     }
 
     // 8. Opciones Múltiples vs Teclado
@@ -305,6 +317,34 @@ class MathPageController {
           btn.type = 'button';
           btn.className = 'math-choice-btn';
           btn.textContent = optNum;
+          btn.setAttribute('aria-label', `Opción ${optNum}`);
+
+          // Preview interactivo al pasar el dedo o cursor
+          btn.addEventListener('pointerenter', () => {
+            if (!this.isSubmitting && state.inputMode === 'choice' && previewEl) {
+              previewEl.textContent = optNum;
+              previewEl.className = 'math-input-box preview';
+            }
+          });
+          btn.addEventListener('pointerleave', () => {
+            if (!this.isSubmitting && state.inputMode === 'choice' && previewEl) {
+              previewEl.textContent = '?';
+              previewEl.className = 'math-input-box empty';
+            }
+          });
+          btn.addEventListener('focus', () => {
+            if (!this.isSubmitting && state.inputMode === 'choice' && previewEl) {
+              previewEl.textContent = optNum;
+              previewEl.className = 'math-input-box preview';
+            }
+          });
+          btn.addEventListener('blur', () => {
+            if (!this.isSubmitting && state.inputMode === 'choice' && previewEl) {
+              previewEl.textContent = '?';
+              previewEl.className = 'math-input-box empty';
+            }
+          });
+
           btn.addEventListener('click', (e) => this.submitAnswer(optNum, e.currentTarget));
           grid.appendChild(btn);
         });
@@ -324,12 +364,23 @@ class MathPageController {
     this.isSubmitting = true;
 
     const card = document.getElementById('math-challenge-card');
+    const previewEl = document.getElementById('math-preview-val');
     const elapsedMs = Date.now() - this.challengeStartTime;
+
+    // Mostrar inmediatamente el número elegido en la caja de respuesta
+    if (previewEl) {
+      previewEl.textContent = userAnswer;
+      previewEl.className = 'math-input-box';
+    }
 
     try {
       const res = await mathPractice.checkAnswer(userAnswer, elapsedMs);
 
       if (res.isCorrect) {
+        // EFECTO EN VERDE: Caja de resultado, botón de opción y tarjeta
+        if (previewEl) {
+          previewEl.className = 'math-input-box correct';
+        }
         if (buttonEl) buttonEl.classList.add('correct-choice');
         if (card) card.classList.add('correct-flash');
 
@@ -380,6 +431,9 @@ class MathPageController {
           try { sound.playCorrect(); } catch (e) {}
         }
       } else {
+        if (previewEl) {
+          previewEl.className = 'math-input-box incorrect';
+        }
         if (buttonEl) buttonEl.classList.add('incorrect-choice');
         if (card) card.classList.add('incorrect-shake');
         try { sound.playIncorrect(); } catch (e) {}
@@ -399,13 +453,14 @@ class MathPageController {
         if (comboFill) comboFill.style.width = '0%';
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 550));
+      await new Promise((resolve) => setTimeout(resolve, 600));
     } catch (err) {
       console.error('Error in math submitAnswer:', err);
     } finally {
       this.isSubmitting = false;
       this.keypadBuffer = '';
       if (card) card.classList.remove('correct-flash', 'incorrect-shake');
+      if (previewEl) previewEl.className = 'math-input-box empty';
       mathPractice.generateChallenge();
       this.renderChallenge();
     }
