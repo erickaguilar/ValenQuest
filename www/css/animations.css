@@ -104,13 +104,15 @@
   100% { box-shadow: 0 0 0 10px rgba(255, 175, 204, 0); }
 }
 
-/* Feedback de Reto Matemático */
-.challenge-card.correct-flash {
+/* Feedback de Reto Matemático y Lectura */
+.math-challenge-card.correct-flash,
+.reading-challenge-card.correct-flash {
   border-color: var(--vq-mint) !important;
   animation: correctBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.challenge-card.incorrect-shake {
+.math-challenge-card.incorrect-shake,
+.reading-challenge-card.incorrect-shake {
   border-color: var(--vq-danger) !important;
   animation: shake 0.4s ease;
 }
@@ -310,10 +312,14 @@
   .vq-anim-purified,
   .gold-sparks-overlay,
   .portal-line.speaking,
-  .challenge-card.correct-flash,
-  .challenge-card.incorrect-shake,
-  .challenge-card.royal-boost,
-  .challenge-card.shield-protect {
+  .math-challenge-card.correct-flash,
+  .math-challenge-card.incorrect-shake,
+  .math-challenge-card.royal-boost,
+  .math-challenge-card.shield-protect,
+  .reading-challenge-card.correct-flash,
+  .reading-challenge-card.incorrect-shake,
+  .reading-challenge-card.royal-boost,
+  .reading-challenge-card.shield-protect {
     animation: none !important;
     transform: none !important;
   }

@@ -19,5 +19,8 @@
     "pwa"
   ],
   "author": "Erick Aguilar",
-  "license": "MIT OR Apache-2.0"
+  "license": "MIT OR Apache-2.0",
+  "devDependencies": {
+    "purgecss": "^8.0.0"
+  }
 }

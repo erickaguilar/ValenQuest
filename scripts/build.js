@@ -109,11 +109,49 @@ if (fs.existsSync(DIST_DIR)) {
 }
 ensureDir(DIST_DIR);
 
-// 2. Process CSS Files
-console.log('🎨 [1/6] Procesando y minificando hojas de estilo CSS...');
+// 2. Process CSS Files with Tree-shaking and Minification
+console.log('🎨 [1/6] Procesando, tree-shaking y minificando hojas de estilo CSS...');
 const cssSrcDir = path.join(SRC_DIR, 'css');
 const cssDistDir = path.join(DIST_DIR, 'css');
 ensureDir(cssDistDir);
+
+// Tree-shaking pass con PurgeCSS (si está disponible en node_modules)
+const purgedCssMap = new Map();
+try {
+  const { PurgeCSS } = await import('purgecss');
+  const purgeResults = await new PurgeCSS().purge({
+    content: [
+      path.join(SRC_DIR, '**/*.html'),
+      path.join(SRC_DIR, 'js/**/*.js'),
+      path.join(SRC_DIR, 'data/**/*.json'),
+      path.join(SRC_DIR, 'assets/**/*.svg')
+    ],
+    css: [path.join(SRC_DIR, 'css/*.css')],
+    keyframes: true,
+    variables: true,
+    safelist: {
+      standard: [
+        'active', 'selected', 'correct', 'wrong', 'shake', 'pop', 'hidden', 'show',
+        /^is-/, /^has-/, /^theme-/, 'dark', 'light',
+        /^level-/, /^tier-/, /^streak-/,
+        /^equipped-/, /^vq-cosmetic-/, /^vq-anim-/,
+        /^portal-/, /^power-/, /^powers-/,
+        /^math-/, /^reading-/, /^story-/, /^wardrobe-/, /^campaign-/,
+        /^status-/, /^badge-/, /^pill-/, /^item-/,
+        /star-updated/, /diamond-updated/
+      ],
+      deep: [/^kids-/, /^companion-/, /^luces-/, /^dialog/, /^modal/],
+      greedy: [/:hover/, /:focus/, /:active/, /:disabled/]
+    }
+  });
+  for (const res of purgeResults) {
+    const fileName = path.basename(res.file);
+    purgedCssMap.set(fileName, res.css);
+  }
+  console.log('  ✓ PurgeCSS tree-shaking completado con éxito.');
+} catch (purgeErr) {
+  console.log('  ℹ️ PurgeCSS no ejecutado, procediendo con minificación directa.');
+}
 
 if (fs.existsSync(cssSrcDir)) {
   const cssFiles = fs.readdirSync(cssSrcDir).filter((f) => f.endsWith('.css'));
@@ -122,7 +160,8 @@ if (fs.existsSync(cssSrcDir)) {
     const origContent = fs.readFileSync(origPath, 'utf8');
     totalOrigBytes += Buffer.byteLength(origContent);
 
-    const minified = minifyCss(origContent);
+    const contentToMinify = purgedCssMap.get(file) || origContent;
+    const minified = minifyCss(contentToMinify);
     const hash = computeHash(minified);
     const baseName = path.basename(file, '.css');
     const hashedFileName = `${baseName}.${hash}.css`;

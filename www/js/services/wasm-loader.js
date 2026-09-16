@@ -17,12 +17,33 @@ export async function loadWasm() {
 
   initPromise = (async () => {
     try {
-      // Dynamic import of the wasm-pack generated ES module
+      // 1. Iniciar inmediatamente la descarga del binario WASM en streaming
+      const wasmUrl = new URL('../../pkg/kidslearn_wasm_bg.wasm', import.meta.url);
+      const wasmFetchPromise = fetch(wasmUrl);
+
+      // 2. Importar el pegamento JavaScript en paralelo
       const module = await import('../../pkg/kidslearn_wasm.js');
-      // Initialize WebAssembly memory instance
-      await module.default();
+
+      // 3. Compilación en streaming: WebAssembly.instantiateStreaming(fetch(...))
+      // Si el navegador o el MIME-type fallan en streaming, caer en fallback a ArrayBuffer
+      if (typeof WebAssembly.instantiateStreaming === 'function') {
+        try {
+          await module.default({ module_or_path: wasmFetchPromise });
+        } catch (streamingErr) {
+          console.warn('⚠️ [KidsLearn-WASM] Fallback de compilación en streaming:', streamingErr);
+          const fallbackResponse = await fetch(wasmUrl);
+          const bytes = await fallbackResponse.arrayBuffer();
+          await module.default({ module_or_path: bytes });
+        }
+      } else {
+        // Entornos sin soporte de streaming directo
+        const response = await wasmFetchPromise;
+        const bytes = await response.arrayBuffer();
+        await module.default({ module_or_path: bytes });
+      }
+
       wasmModule = module;
-      console.log('✅ [KidsLearn-WASM] Engine initialized:', module.get_engine_version ? module.get_engine_version() : 'OK');
+      console.log('✅ [KidsLearn-WASM] Engine initialized (streaming):', module.get_engine_version ? module.get_engine_version() : 'OK');
       return wasmModule;
     } catch (err) {
       console.error('❌ [KidsLearn-WASM] Failed to load WebAssembly module:', err);

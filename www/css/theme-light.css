@@ -1,0 +1,88 @@
+/**
+ * ValenQuest: Modo Día Pastel de Lumiria (theme-light.css)
+ * Paleta de colores diurnos inspirada en la magia de la amistad,
+ * contrastes suaves, fondos pasteles limpios y tipografía nítida (WCAG AA/AAA).
+ */
+
+:root,
+html,
+body,
+:root[data-theme="light"],
+html[data-theme="light"],
+body[data-theme="light"],
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* ========================================================================
+     1. LIENZO Y SUPERFICIES (MODO DÍA PASTEL)
+     ======================================================================== */
+  --vq-bg-canvas: #FDF7FF;
+  --vq-bg-card: #FFFFFF;
+  --vq-bg-well: #F4EEF8;
+  --vq-bg-dialogue: #FFFFFF;
+
+  /* ========================================================================
+     2. TINTAS, CONTRASTES Y BORDES (MODO DÍA)
+     ======================================================================== */
+  --vq-border: #4A3E56;
+  --vq-text: #32213F;
+  --vq-text-muted: #645475;
+
+  /* ========================================================================
+     3. ACENTOS MÁGICOS Y PASTEL (HEROÍNAS DE LUMIRIA)
+     ======================================================================== */
+  --vq-pink-bubble: #FFAFCC;
+  --vq-pink-light: #FFC8DD;
+  --vq-lavender: #CDB4DB;
+  --vq-lavender-light: #F0E6F6;
+  --vq-sky: #A2D2FF;
+  --vq-sky-light: #BDE0FE;
+  --vq-cloud: #FDF7FF;
+  --vq-gold: #FFD166;
+  --vq-gold-light: #FFF0C2;
+  --vq-mint: #B8F2E6;
+  --vq-mint-light: #E4FBF6;
+  --vq-danger: #F87171;
+  --vq-danger-light: #FEE2E2;
+
+  /* 4ª Heroína: Lía la Alicornio Real */
+  --vq-alicorn-purple: #7B2CBF;
+  --vq-alicorn-purple-light: #9D4EDD;
+  --vq-alicorn-gold: #FFD166;
+  --vq-alicorn-aura: rgba(123, 44, 191, 0.25);
+
+  /* ========================================================================
+     4. SOMBRAS Y ELEVACIONES DIURNAS
+     ======================================================================== */
+  --vq-shadow-hard: 0 6px 0 var(--vq-border);
+  --vq-shadow-active: 0 2px 0 var(--vq-border);
+  --vq-shadow-sm: 0 3px 0 var(--vq-border);
+  --vq-shadow-key: 0 4px 0 #CBD5E1;
+  --vq-shadow-soft: 0 8px 24px rgba(74, 62, 86, 0.08);
+
+  /* ========================================================================
+     5. BARRAS DE DESPLAZAMIENTO (MODO DÍA)
+     ======================================================================== */
+  --scrollbar-track: var(--vq-bg-well);
+  --scrollbar-thumb: var(--vq-pink-bubble);
+  --scrollbar-thumb-hover: #F472B6;
+  --scrollbar-border: var(--vq-border);
+}
+
+/* Fondo diurno de Lumiria con destellos pasteles sutiles */
+:root:not([data-theme="dark"]) body,
+[data-theme="light"] body {
+  background-color: var(--vq-bg-canvas);
+  background-image: 
+    radial-gradient(#FFAFCC 1px, transparent 1px),
+    radial-gradient(#A2D2FF 1px, transparent 1px);
+  background-size: 80px 80px, 120px 120px;
+  background-position: 0 0, 40px 60px;
+}
+
+/* Scrollbars nativas para el Modo Día */
+:root:not([data-theme="dark"]),
+:root[data-theme="light"] *,
+[data-theme="light"] {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}

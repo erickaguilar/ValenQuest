@@ -1,10 +1,60 @@
 /**
- * ValenQuest Dark Theme (Modo Noche Astral de Lumiria)
- * Specific contrast, neon pastel glows and starry night background
+ * ValenQuest: Modo Noche Astral de Lumiria (theme-dark.css)
+ * Paleta nocturna inmersiva con fondos índigo/violeta profundo,
+ * acentos neón pastel de alta luminosidad y estrellas titilantes (WCAG AA/AAA).
  */
 
+/* ==========================================================================
+   1. TOKENS ASTRALES POR PREFERENCIA DEL SISTEMA OPERATIVO
+   ========================================================================== */
 @media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]),
+  html:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --vq-bg-canvas: #130E1F;
+    --vq-bg-card: #201633;
+    --vq-bg-well: #1A122A;
+    --vq-bg-dialogue: #281C3F;
+
+    --vq-border: #8975A3;
+    --vq-text: #F8F5FC;
+    --vq-text-muted: #C0B4D1;
+
+    /* Acentos Lumniscentes Astrales */
+    --vq-pink-bubble: #F472B6;
+    --vq-pink-light: #831843;
+    --vq-lavender: #A78BFA;
+    --vq-lavender-light: #4C1D95;
+    --vq-sky: #60A5FA;
+    --vq-sky-light: #1E3A8A;
+    --vq-cloud: #1A122A;
+    --vq-gold: #FBBF24;
+    --vq-gold-light: #78350F;
+    --vq-mint: #34D399;
+    --vq-mint-light: #064E3B;
+    --vq-danger: #F87171;
+    --vq-danger-light: #450A0A;
+
+    --vq-alicorn-purple: #9D4EDD;
+    --vq-alicorn-purple-light: #C77DFF;
+    --vq-alicorn-gold: #FBBF24;
+    --vq-alicorn-aura: rgba(157, 78, 221, 0.35);
+
+    --vq-shadow-hard: 0 6px 0 #584470;
+    --vq-shadow-active: 0 2px 0 #584470;
+    --vq-shadow-sm: 0 3px 0 #584470;
+    --vq-shadow-key: 0 4px 0 #43335A;
+    --vq-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    --scrollbar-track: #1A122A;
+    --scrollbar-thumb: #8975A3;
+    --scrollbar-thumb-hover: #A78BFA;
+    --scrollbar-border: #584470;
+  }
+
   :root:not([data-theme="light"]) body {
+    background-color: var(--vq-bg-canvas);
     background-image: 
       radial-gradient(#A78BFA 1px, transparent 1px),
       radial-gradient(#F472B6 1.2px, transparent 1.2px),
@@ -14,7 +64,58 @@
   }
 }
 
-:root[data-theme="dark"] body {
+/* ==========================================================================
+   2. REEMPLAZO MANUAL INCONDICIONAL (BOTÓN DE SOL/LUNA)
+   ========================================================================== */
+:root[data-theme="dark"],
+html[data-theme="dark"],
+body[data-theme="dark"],
+[data-theme="dark"] {
+  color-scheme: dark !important;
+
+  --vq-bg-canvas: #130E1F !important;
+  --vq-bg-card: #201633 !important;
+  --vq-bg-well: #1A122A !important;
+  --vq-bg-dialogue: #281C3F !important;
+
+  --vq-border: #8975A3 !important;
+  --vq-text: #F8F5FC !important;
+  --vq-text-muted: #C0B4D1 !important;
+
+  --vq-pink-bubble: #F472B6 !important;
+  --vq-pink-light: #831843 !important;
+  --vq-lavender: #A78BFA !important;
+  --vq-lavender-light: #4C1D95 !important;
+  --vq-sky: #60A5FA !important;
+  --vq-sky-light: #1E3A8A !important;
+  --vq-cloud: #1A122A !important;
+  --vq-gold: #FBBF24 !important;
+  --vq-gold-light: #78350F !important;
+  --vq-mint: #34D399 !important;
+  --vq-mint-light: #064E3B !important;
+  --vq-danger: #F87171 !important;
+  --vq-danger-light: #450A0A !important;
+
+  --vq-alicorn-purple: #9D4EDD !important;
+  --vq-alicorn-purple-light: #C77DFF !important;
+  --vq-alicorn-gold: #FBBF24 !important;
+  --vq-alicorn-aura: rgba(157, 78, 221, 0.35) !important;
+
+  --vq-shadow-hard: 0 6px 0 #584470 !important;
+  --vq-shadow-active: 0 2px 0 #584470 !important;
+  --vq-shadow-sm: 0 3px 0 #584470 !important;
+  --vq-shadow-key: 0 4px 0 #43335A !important;
+  --vq-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+
+  --scrollbar-track: #1A122A !important;
+  --scrollbar-thumb: #8975A3 !important;
+  --scrollbar-thumb-hover: #A78BFA !important;
+  --scrollbar-border: #584470 !important;
+}
+
+:root[data-theme="dark"] body,
+[data-theme="dark"] body {
+  background-color: var(--vq-bg-canvas);
   background-image: 
     radial-gradient(#A78BFA 1px, transparent 1px),
     radial-gradient(#F472B6 1.2px, transparent 1.2px),
@@ -23,20 +124,27 @@
   background-position: 0 0, 40px 60px, 100px 30px;
 }
 
-/* Dark mode glows for stickers and interactive elements */
-:root[data-theme="dark"] .vq-card,
-:root[data-theme="dark"] .challenge-card,
-:root[data-theme="dark"] .journey-hero-card {
+/* ==========================================================================
+   3. RESPLANDORES Y RELIEVES ASTRALES NOCTURNOS
+   ========================================================================== */
+:root[data-theme="dark"] .math-challenge-card,
+:root[data-theme="dark"] .reading-challenge-card,
+:root[data-theme="dark"] .journey-hero-card,
+[data-theme="dark"] .math-challenge-card,
+[data-theme="dark"] .reading-challenge-card,
+[data-theme="dark"] .journey-hero-card {
   box-shadow: 0 6px 0 #584470, 0 0 20px rgba(167, 139, 250, 0.12);
 }
 
-:root[data-theme="dark"] .vq-icon {
+:root[data-theme="dark"] .vq-icon,
+[data-theme="dark"] .vq-icon {
   filter: drop-shadow(0 2px 0 #584470);
 }
 
-/* Dark Mode Scrollbars */
+/* Scrollbars para el Modo Noche */
 :root[data-theme="dark"] *,
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+[data-theme="dark"] *,
+[data-theme="dark"] {
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
-

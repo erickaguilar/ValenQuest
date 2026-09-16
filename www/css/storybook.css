@@ -363,13 +363,7 @@
   margin-top: 2px;
 }
 
-/* Indicador de Lectura en Voz Alta Activa */
-.speaking-sentence-highlight {
-  background: rgba(255, 209, 102, 0.4);
-  border-radius: 4px;
-  padding: 0 2px;
-  transition: background 0.3s ease;
-}
+
 
 /* ==========================================================================
    4. BARRA DE NAVEGACIÓN Y ACCIÓN INFERIOR DEL LIBRO

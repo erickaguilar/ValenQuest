@@ -332,7 +332,9 @@ class CompanionSystem {
       const correctAnswer = context.correctAnswer !== undefined
         ? context.correctAnswer
         : (mathSession ? mathSession.get_correct_answer() : 0);
-      const buttons = Array.from(document.querySelectorAll('#options-grid .option-btn'));
+      const buttons = Array.from(document.querySelectorAll(
+        '#options-grid .option-btn, #portal-options-grid .portal-option-btn, #math-options-grid .math-option-btn, #reading-options-grid .reading-option-btn'
+      ));
       const maxDiscard = isPractice ? 1 : 2; // En práctica solo descarta 1 distractor para ventaja mínima
 
       for (const btn of buttons) {

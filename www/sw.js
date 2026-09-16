@@ -15,10 +15,11 @@ const CORE_PRECACHE_URLS = [
   '/manifest.json',
   '/favicon.svg',
   '/css/tokens.css',
+  '/css/theme-light.css',
+  '/css/theme-dark.css',
   '/css/base.css',
   '/css/animations.css',
   '/css/components.css',
-  '/css/theme-dark.css',
   '/js/app.js',
   '/js/components/header.js',
   '/js/components/footer.js',
@@ -37,7 +38,9 @@ const CORE_PRECACHE_URLS = [
   '/data/game-modules.json',
   '/assets/icons.svg',
   '/assets/heroines.svg',
-  '/assets/icon-192.png'
+  '/assets/icon-192.png',
+  '/assets/fonts/fredoka-latin.woff2',
+  '/assets/fonts/fredoka-latin-ext.woff2'
 ];
 
 self.addEventListener('install', (event) => {
