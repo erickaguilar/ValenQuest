@@ -8,6 +8,7 @@
    1. CONTENEDOR GENERAL
    ========================================================================== */
 .reading-app {
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 12px 16px 40px;
@@ -15,17 +16,22 @@
   flex-direction: column;
   gap: 16px;
   min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* ==========================================================================
-   2. BARRA DE NAVEGACIÓN SUPERIOR Y CRUZADA
+   2. BARRA DE NAVEGACIÓN SUPERIOR
    ========================================================================== */
 .reading-top-nav {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   padding: 10px 16px;
   background: var(--vq-bg-card);
   border: var(--vq-border-width) solid var(--vq-border);
@@ -48,44 +54,7 @@
   transform: scale(1.02);
 }
 
-.cross-nav-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--vq-bg-well);
-  padding: 4px 8px;
-  border-radius: var(--vq-radius-pill);
-  border: 1.5px solid var(--vq-border);
-}
 
-.cross-nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 11px;
-  border-radius: var(--vq-radius-pill);
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--vq-text);
-  opacity: 0.75;
-  text-decoration: none;
-  transition: all 0.15s ease;
-}
-
-.cross-nav-link:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.45);
-  transform: translateY(-1px);
-}
-
-.cross-nav-link.active {
-  opacity: 1;
-  background: var(--vq-gold-light, #FFF0C2);
-  color: var(--vq-text);
-  border: 1.5px solid var(--vq-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  font-weight: 900;
-}
 
 .reading-top-actions {
   display: flex;
@@ -125,6 +94,9 @@
    3. BARRA ARCADE EN VIVO (NIVEL, RACHA, DIAMANTES Y COMBO)
    ========================================================================== */
 .reading-practice-bar {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: var(--vq-bg-card);
   border: var(--vq-border-width) solid var(--vq-border);
   border-radius: var(--vq-radius-bubble);
@@ -136,6 +108,9 @@
 }
 
 .reading-bar-row {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,6 +123,8 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .reading-title-tag {
@@ -161,6 +138,10 @@
   font-size: 0.88rem;
   font-weight: 800;
   color: var(--vq-text);
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .reading-streak-tag {
@@ -600,8 +581,11 @@
    5. PIE DE PÁGINA Y NAVEGACIÓN CRUZADA
    ========================================================================== */
 .reading-footer {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 10px;
   padding: 16px 0;
 }
@@ -622,6 +606,9 @@
   box-shadow: var(--vq-shadow-sm);
   transition: transform 0.12s ease, background 0.15s ease;
   text-align: center;
+  box-sizing: border-box;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .reading-nav-link-btn:hover {
@@ -629,43 +616,124 @@
   background: var(--vq-sky-light);
 }
 
-/* Responsive */
-@media (max-width: 680px) {
-  .cross-nav-bar {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-    overflow-x: auto;
-  }
-}
-
+/* Responsive Mobile-First */
 @media (max-width: 600px) {
   .reading-app {
-    padding: 8px 10px 30px;
-    gap: 12px;
+    padding: 8px 8px 24px;
+    gap: 10px;
+  }
+
+  .reading-top-nav {
+    padding: 8px 10px;
+    border-radius: var(--vq-radius-card);
+  }
+
+  .reading-brand-badge {
+    font-size: 0.92rem;
+  }
+
+  .reading-top-actions {
+    gap: 4px;
+  }
+
+  .reading-stars-pill,
+  .reading-diamonds-pill {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
   }
 
   .reading-practice-bar,
   .reading-challenge-card {
-    padding: 14px;
+    padding: 12px 10px;
     border-radius: var(--vq-radius-card);
   }
 
+  .reading-bar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .reading-bar-info {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .reading-title-tag {
+    font-size: 0.8rem;
+    text-align: center;
+    justify-content: center;
+    padding: 4px 8px;
+  }
+
+  .reading-streak-tag,
+  .reading-diamonds-tag {
+    font-size: 0.78rem;
+    padding: 3px 8px;
+  }
+
+  .reading-chips-wrapper {
+    justify-content: center;
+  }
+
+  .level-chips-row {
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .level-chip-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.82rem;
+  }
+
+  .challenge-prompt-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .btn-speak-orion {
+    font-size: 0.82rem;
+    padding: 6px 12px;
+  }
+
   .syl {
-    font-size: 1.6rem;
-    padding: 6px 14px;
+    font-size: 1.4rem;
+    padding: 5px 12px;
   }
 
   .sentence-text {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
+    word-break: break-word;
+  }
+
+  .reading-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .reading-choice-btn {
-    font-size: 1rem;
-    padding: 12px 14px;
+    font-size: 0.95rem;
+    padding: 10px 6px;
   }
 
   .reading-footer {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .reading-nav-link-btn {
+    font-size: 0.76rem;
+    padding: 8px 4px;
+    gap: 4px;
   }
 }

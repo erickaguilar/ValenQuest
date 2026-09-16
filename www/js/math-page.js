@@ -25,20 +25,22 @@ class MathPageController {
   async init() {
     console.log('💎 [ValenQuest] Inicializando Taller Matemático: El Prisma Numérico...');
 
-    // 1. Configurar eventos de cabecera y controles globales
-    this.setupHeaderControls();
-
-    // 2. Configurar chips de nivel, alternador de modo y teclado
-    this.setupLevelChips();
-    this.setupInputModeToggle();
-    this.setupKeypadButtons();
-    this.setupPowersBadges();
-
-    // 3. Renderizar inmediatamente el reto inicial (sin esperar a red/DB)
-    if (!mathPractice.currentChallenge) {
-      mathPractice.generateChallenge();
+    // 1. Renderizar inmediatamente el reto inicial (sin esperar a red/DB/wasm)
+    try {
+      if (!mathPractice.currentChallenge) {
+        mathPractice.generateChallenge();
+      }
+      this.renderChallenge();
+    } catch (err) {
+      console.error('MathPage: Error in initial render:', err);
     }
-    this.renderChallenge();
+
+    // 2. Configurar eventos de cabecera y controles interactivos
+    try { this.setupHeaderControls(); } catch (err) { console.warn(err); }
+    try { this.setupLevelChips(); } catch (err) { console.warn(err); }
+    try { this.setupInputModeToggle(); } catch (err) { console.warn(err); }
+    try { this.setupKeypadButtons(); } catch (err) { console.warn(err); }
+    try { this.setupPowersBadges(); } catch (err) { console.warn(err); }
 
     // 4. Cargar estado de las guardianas y perfil desde IndexedDB
     try {

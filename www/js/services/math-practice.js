@@ -245,47 +245,52 @@ export class MathPracticeService {
       this.notify();
       return this.currentChallenge;
     }
-    const lvlInfo = this.getCurrentLevelInfo();
-    this.session.force_tier(lvlInfo.curriculumTier);
-    this.session.clear_portal_ready();
-
-    let op1 = this.session.get_operand1();
-    let op2 = this.session.get_operand2();
-    let op = this.session.get_operator();
-    let expr = this.session.get_expression ? this.session.get_expression() : '';
-    let answer = this.session.get_correct_answer();
-
-    // Si los operandos son exactamente los mismos del reto anterior, refrescar para mayor variedad
-    if (this.currentChallenge && this.currentChallenge.op1 === op1 && this.currentChallenge.op2 === op2 && this.currentChallenge.operator === op) {
-      this.session.generate_next_challenge();
-      op1 = this.session.get_operand1();
-      op2 = this.session.get_operand2();
-      op = this.session.get_operator();
-      expr = this.session.get_expression ? this.session.get_expression() : '';
-      answer = this.session.get_correct_answer();
-    }
-
-    let options = [];
     try {
-      options = JSON.parse(this.session.get_options_json());
-    } catch {
-      options = [answer, answer + 1, answer + 2, Math.max(1, answer - 1)];
-    }
+      const lvlInfo = this.getCurrentLevelInfo();
+      this.session.force_tier(lvlInfo.curriculumTier);
+      this.session.clear_portal_ready();
 
-    // GARANTÍA: La respuesta correcta SIEMPRE debe estar presente en las opciones
-    if (!options.includes(answer)) {
-      options[0] = answer;
-      options.sort(() => Math.random() - 0.5);
-    }
+      let op1 = this.session.get_operand1();
+      let op2 = this.session.get_operand2();
+      let op = this.session.get_operator();
+      let expr = this.session.get_expression ? this.session.get_expression() : '';
+      let answer = this.session.get_correct_answer();
 
-    this.currentChallenge = {
-      op1,
-      op2,
-      operator: op,
-      expression: expr,
-      answer,
-      options,
-    };
+      // Si los operandos son exactamente los mismos del reto anterior, refrescar para mayor variedad
+      if (this.currentChallenge && this.currentChallenge.op1 === op1 && this.currentChallenge.op2 === op2 && this.currentChallenge.operator === op) {
+        this.session.generate_next_challenge();
+        op1 = this.session.get_operand1();
+        op2 = this.session.get_operand2();
+        op = this.session.get_operator();
+        expr = this.session.get_expression ? this.session.get_expression() : '';
+        answer = this.session.get_correct_answer();
+      }
+
+      let options = [];
+      try {
+        options = JSON.parse(this.session.get_options_json());
+      } catch {
+        options = [answer, answer + 1, answer + 2, Math.max(1, answer - 1)];
+      }
+
+      // GARANTÍA: La respuesta correcta SIEMPRE debe estar presente en las opciones
+      if (!options.includes(answer)) {
+        options[0] = answer;
+        options.sort(() => Math.random() - 0.5);
+      }
+
+      this.currentChallenge = {
+        op1,
+        op2,
+        operator: op,
+        expression: expr,
+        answer,
+        options,
+      };
+    } catch (err) {
+      console.warn('WASM session error, using fallback challenge:', err);
+      this.currentChallenge = this.generateFallbackChallenge();
+    }
 
     this.notify();
     return this.currentChallenge;

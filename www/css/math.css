@@ -9,6 +9,7 @@
    1. CONTENEDOR GENERAL (HOMOLOGADO)
    ========================================================================== */
 .math-app {
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 12px 16px 40px;
@@ -16,17 +17,22 @@
   flex-direction: column;
   gap: 16px;
   min-height: 100vh;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* ==========================================================================
-   2. BARRA DE NAVEGACIÓN SUPERIOR Y CRUZADA
+   2. BARRA DE NAVEGACIÓN SUPERIOR
    ========================================================================== */
 .math-top-nav {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   padding: 10px 16px;
   background: var(--vq-bg-card);
   border: var(--vq-border-width) solid var(--vq-border);
@@ -49,44 +55,7 @@
   transform: scale(1.02);
 }
 
-.cross-nav-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--vq-bg-well);
-  padding: 4px 8px;
-  border-radius: var(--vq-radius-pill);
-  border: 1.5px solid var(--vq-border);
-}
 
-.cross-nav-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 11px;
-  border-radius: var(--vq-radius-pill);
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--vq-text);
-  opacity: 0.75;
-  text-decoration: none;
-  transition: all 0.15s ease;
-}
-
-.cross-nav-link:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.45);
-  transform: translateY(-1px);
-}
-
-.cross-nav-link.active {
-  opacity: 1;
-  background: var(--vq-gold-light, #FFF0C2);
-  color: var(--vq-text);
-  border: 1.5px solid var(--vq-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  font-weight: 900;
-}
 
 .math-top-actions {
   display: flex;
@@ -126,6 +95,9 @@
    3. BARRA ARCADE EN VIVO (HOMOLOGADA CON READING)
    ========================================================================== */
 .math-practice-bar {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: var(--vq-bg-card);
   border: var(--vq-border-width) solid var(--vq-border);
   border-radius: var(--vq-radius-bubble);
@@ -137,6 +109,9 @@
 }
 
 .math-bar-row {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -149,6 +124,8 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .math-title-tag {
@@ -162,6 +139,10 @@
   font-size: 0.88rem;
   font-weight: 800;
   color: var(--vq-text);
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .math-streak-tag {
@@ -582,8 +563,11 @@
    5. PIE DE PÁGINA Y NAVEGACIÓN CRUZADA (HOMOLOGADO CON READING)
    ========================================================================== */
 .math-footer {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 10px;
   padding: 16px 0;
 }
@@ -604,6 +588,9 @@
   box-shadow: var(--vq-shadow-sm);
   transition: transform 0.12s ease, background 0.15s ease;
   text-align: center;
+  box-sizing: border-box;
+  min-width: 0;
+  word-break: break-word;
 }
 
 .math-nav-link-btn:hover {
@@ -611,39 +598,121 @@
   background: var(--vq-sky-light);
 }
 
-/* Responsive */
-@media (max-width: 680px) {
-  .cross-nav-bar {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-    overflow-x: auto;
-  }
-}
-
+/* Responsive Mobile-First */
 @media (max-width: 600px) {
   .math-app {
-    padding: 8px 10px 30px;
-    gap: 12px;
+    padding: 8px 8px 24px;
+    gap: 10px;
+  }
+
+  .math-top-nav {
+    padding: 8px 10px;
+    border-radius: var(--vq-radius-card);
+  }
+
+  .math-brand-badge {
+    font-size: 0.92rem;
+  }
+
+  .math-top-actions {
+    gap: 4px;
+  }
+
+  .math-stars-pill,
+  .math-diamonds-pill {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    gap: 4px;
+  }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
   }
 
   .math-practice-bar,
   .math-challenge-card {
-    padding: 14px;
+    padding: 12px 10px;
     border-radius: var(--vq-radius-card);
   }
 
-  .math-expression-display {
-    font-size: 2.2rem;
+  .math-bar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .math-bar-info {
+    justify-content: center;
     gap: 6px;
   }
 
+  .math-title-tag {
+    font-size: 0.8rem;
+    text-align: center;
+    justify-content: center;
+    padding: 4px 8px;
+  }
+
+  .math-streak-tag,
+  .math-diamonds-tag {
+    font-size: 0.78rem;
+    padding: 3px 8px;
+  }
+
+  .math-chips-wrapper {
+    justify-content: center;
+  }
+
+  .level-chips-row {
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .level-chip-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.82rem;
+  }
+
+  .challenge-prompt-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .challenge-prompt-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .math-expression-display {
+    font-size: 1.9rem;
+    gap: 6px;
+  }
+
+  .math-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
   .math-choice-btn {
-    font-size: 1.3rem;
-    padding: 12px 14px;
+    font-size: 1.25rem;
+    padding: 10px 8px;
   }
 
   .math-footer {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .math-nav-link-btn {
+    font-size: 0.76rem;
+    padding: 8px 4px;
+    gap: 4px;
   }
 }

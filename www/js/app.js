@@ -672,6 +672,14 @@ class KidsLearnApp {
       this.stopRsvp();
     }
 
+    if (tab === 'math') {
+      this.renderMathChallenge();
+    } else if (tab === 'reading') {
+      if (this.readingSession) {
+        this.renderReadingCatalog();
+      }
+    }
+
     if (tab === 'intro') {
       this.syncTriadUI();
     }

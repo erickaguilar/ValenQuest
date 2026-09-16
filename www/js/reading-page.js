@@ -24,16 +24,20 @@ class ReadingPageController {
   async init() {
     console.log('🪶 [ValenQuest] Inicializando Taller de Lectura: La Pluma de la Fluidez...');
 
-    // 1. Configurar eventos de cabecera y controles globales
-    this.setupHeaderControls();
-    this.setupLevelChips();
-    this.setupPowersBadges();
-
-    // 2. Renderizar inmediatamente el reto inicial (sin esperar a red/DB)
-    if (!readingPractice.currentChallenge) {
-      readingPractice.generateChallenge();
+    // 1. Renderizar inmediatamente el reto inicial (sin esperar a red/DB)
+    try {
+      if (!readingPractice.currentChallenge) {
+        readingPractice.generateChallenge();
+      }
+      this.renderChallenge();
+    } catch (err) {
+      console.error('ReadingPage: Error in initial render:', err);
     }
-    this.renderChallenge();
+
+    // 2. Configurar eventos de cabecera y controles interactivos
+    try { this.setupHeaderControls(); } catch (err) { console.warn(err); }
+    try { this.setupLevelChips(); } catch (err) { console.warn(err); }
+    try { this.setupPowersBadges(); } catch (err) { console.warn(err); }
 
     // 3. Cargar estado de las guardianas y perfil desde IndexedDB
     try {

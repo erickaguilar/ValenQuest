@@ -126,6 +126,28 @@ class CompanionSystem {
     return this.isGated;
   }
 
+  getAll() {
+    return Object.values(HEROINES).map((hero) => ({
+      ...hero,
+      charges: this.charges[hero.id] ?? 2,
+      available: (this.charges[hero.id] ?? 2) > 0,
+      avatarEmoji: hero.emoji || '✨',
+    }));
+  }
+
+  usePower(heroineId, context = {}) {
+    const res = this.activatePower(heroineId, context);
+    if (!res || !res.success) {
+      return { success: false, reason: res?.reason || 'No disponible' };
+    }
+    return {
+      success: true,
+      powerName: res.heroine?.powerName || 'Poder de la Armonía',
+      description: res.heroine?.powerDescription || '',
+      heroine: res.heroine,
+    };
+  }
+
   getActive() {
     return HEROINES[this.activeId];
   }
@@ -285,7 +307,7 @@ class CompanionSystem {
       app.starMultiplier = isPractice ? 1 : 2;
     }
 
-    const card = document.getElementById('math-challenge-card');
+    const card = typeof document !== 'undefined' ? document.getElementById('math-challenge-card') : null;
     if (card) {
       card.classList.add('royal-boost');
       setTimeout(() => {
@@ -295,32 +317,34 @@ class CompanionSystem {
 
     if (context.correctAnswer === undefined && !mathSession) return { discarded: 0, starMultiplier: isPractice ? 1 : 2 };
 
-    // If student was on keypad mode, switch to choice mode so discarded options are visible
-    if (app && app.inputMode === 'keypad') {
-      app.inputMode = 'choice';
-      const modeToggle = document.getElementById('btn-toggle-mode');
-      if (modeToggle) {
-        modeToggle.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Cambiar a Teclado Numérico</span>';
-      }
-      app.renderInputArea();
-    }
-
-    const correctAnswer = context.correctAnswer !== undefined
-      ? context.correctAnswer
-      : mathSession.get_correct_answer();
-    const buttons = Array.from(document.querySelectorAll('#options-grid .option-btn'));
     let discardedCount = 0;
-    const maxDiscard = isPractice ? 1 : 2; // En práctica solo descarta 1 distractor para ventaja mínima
+    if (typeof document !== 'undefined') {
+      // If student was on keypad mode, switch to choice mode so discarded options are visible
+      if (app && app.inputMode === 'keypad') {
+        app.inputMode = 'choice';
+        const modeToggle = document.getElementById('btn-toggle-mode');
+        if (modeToggle) {
+          modeToggle.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Cambiar a Teclado Numérico</span>';
+        }
+        app.renderInputArea();
+      }
 
-    for (const btn of buttons) {
-      const val = parseInt(btn.textContent, 10);
-      if (val !== correctAnswer && !btn.disabled) {
-        btn.disabled = true;
-        btn.style.opacity = '0.3';
-        btn.style.textDecoration = 'line-through';
-        btn.style.transform = 'scale(0.9)';
-        discardedCount += 1;
-        if (discardedCount >= maxDiscard) break;
+      const correctAnswer = context.correctAnswer !== undefined
+        ? context.correctAnswer
+        : (mathSession ? mathSession.get_correct_answer() : 0);
+      const buttons = Array.from(document.querySelectorAll('#options-grid .option-btn'));
+      const maxDiscard = isPractice ? 1 : 2; // En práctica solo descarta 1 distractor para ventaja mínima
+
+      for (const btn of buttons) {
+        const val = parseInt(btn.textContent, 10);
+        if (val !== correctAnswer && !btn.disabled) {
+          btn.disabled = true;
+          btn.style.opacity = '0.3';
+          btn.style.textDecoration = 'line-through';
+          btn.style.transform = 'scale(0.9)';
+          discardedCount += 1;
+          if (discardedCount >= maxDiscard) break;
+        }
       }
     }
 
@@ -336,7 +360,7 @@ class CompanionSystem {
     if (app) {
       app.challengeStartTime = performance.now();
     }
-    const card = document.getElementById('math-challenge-card');
+    const card = typeof document !== 'undefined' ? document.getElementById('math-challenge-card') : null;
     if (card) {
       card.style.boxShadow = '0 0 25px var(--vq-sky), 0 6px 0 var(--vq-border)';
       setTimeout(() => {
@@ -375,7 +399,7 @@ class CompanionSystem {
       speech.speak(hint, { rate: 0.88, pitch: 1.15 });
     }
 
-    const card = document.getElementById('math-challenge-card');
+    const card = typeof document !== 'undefined' ? document.getElementById('math-challenge-card') : null;
     if (card) {
       card.classList.add('shield-protect');
       setTimeout(() => {
@@ -388,7 +412,7 @@ class CompanionSystem {
 
   applyLiaPower(context) {
     const { mathSession, isPractice } = context;
-    const card = document.getElementById('math-challenge-card');
+    const card = typeof document !== 'undefined' ? document.getElementById('math-challenge-card') : null;
     if (card) {
       card.classList.add('crystal-focus');
       setTimeout(() => {
