@@ -1,0 +1,638 @@
+/**
+ * ValenQuest: Estilos de la Página de Lectura (reading.css)
+ * Taller interactivo de lectura fonológica y fluidez para La Pluma de la Fluidez.
+ * Estética pastel-gacha con soporte Día Pastel / Noche Astral y Mobile-First.
+ */
+
+/* ==========================================================================
+   1. CONTENEDOR GENERAL
+   ========================================================================== */
+.reading-app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   2. BARRA DE NAVEGACIÓN SUPERIOR (TOP NAV)
+   ========================================================================== */
+.reading-top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.reading-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.reading-back-btn:hover {
+  background: var(--vq-sky-light);
+  transform: translateY(-2px);
+}
+
+.reading-back-btn:active {
+  transform: translateY(1px);
+}
+
+.reading-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--vq-text);
+}
+
+.reading-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reading-stars-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-gold-light, #FFF0C2);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.reading-diamonds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+/* ==========================================================================
+   3. BARRA ARCADE EN VIVO (NIVEL, RACHA, DIAMANTES Y COMBO)
+   ========================================================================== */
+.reading-practice-bar {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 14px 18px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reading-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reading-bar-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reading-title-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--vq-text);
+}
+
+.reading-streak-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #4A3E56;
+  background: #FFD166;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .reading-streak-tag {
+  background: #9D4EDD;
+  color: #FDF7FF;
+}
+
+.reading-diamonds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #1D3557;
+  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 12px;
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .reading-diamonds-tag {
+  background: linear-gradient(135deg, #2A4365 0%, #1A365D 100%);
+  color: #FDF7FF;
+}
+
+.reading-chips-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reading-chips-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--vq-text-muted);
+}
+
+.level-chips-row {
+  display: flex;
+  gap: 4px;
+}
+
+.level-chip-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--vq-border);
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+  font-weight: 900;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.level-chip-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-pink-light);
+}
+
+.level-chip-btn.active {
+  background: var(--vq-pink-bubble);
+  border-color: var(--vq-border);
+  box-shadow: var(--vq-shadow-active);
+  transform: translateY(-1px);
+}
+
+/* Barra de Combo Lírico */
+.reading-combo-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reading-combo-wrapper.combo-burst-burst {
+  animation: vqComboAstralBurst 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reading-combo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reading-combo-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.reading-combo-badge {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: var(--vq-radius-pill);
+  background: var(--vq-gold);
+  border: 1px solid var(--vq-border);
+  color: var(--vq-text);
+}
+
+.reading-combo-pct {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+}
+
+.reading-combo-track {
+  height: 10px;
+  border-radius: var(--vq-radius-pill);
+  background: rgba(74, 62, 86, 0.15);
+  border: 1.5px solid var(--vq-border);
+  overflow: hidden;
+}
+
+.reading-combo-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #A2D2FF 0%, #FFAFCC 50%, #FFD166 100%);
+  border-radius: var(--vq-radius-pill);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   4. TARJETA PRINCIPAL DEL DESAFÍO LECTOR
+   ========================================================================== */
+.reading-challenge-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 24px;
+  box-shadow: var(--vq-shadow-hard);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 380px;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.reading-challenge-card.correct-flash {
+  animation: vqCardSuccessPulse 0.5s ease-out;
+}
+
+.reading-challenge-card.incorrect-shake {
+  animation: vqShake 0.45s ease-in-out;
+}
+
+.challenge-prompt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.challenge-prompt-text {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-speak-orion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.btn-speak-orion:hover {
+  background: var(--vq-sky-light);
+  transform: translateY(-2px);
+}
+
+/* Zona de Visualización del Contenido Lector */
+.challenge-content-area {
+  background: var(--vq-bg-well);
+  border: 2.5px dashed var(--vq-border);
+  border-radius: var(--vq-radius-card);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  min-height: 140px;
+}
+
+/* Nivel 1: Burbujas de Sílabas */
+.syllable-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.syl {
+  padding: 10px 20px;
+  border-radius: var(--vq-radius-bubble);
+  border: 2.5px solid var(--vq-border);
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  box-shadow: var(--vq-shadow-sm);
+  animation: vqSoftFloat 3s ease-in-out infinite;
+}
+
+.syl-1 { background: #FFC8DD; color: #32213F; }
+.syl-2 { background: #BDE0FE; color: #1D3557; animation-delay: 0.3s; }
+.syl-3 { background: #B8F2E6; color: #1E3A34; animation-delay: 0.6s; }
+
+.syl-sep {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--vq-text-muted);
+}
+
+/* Nivel 2: Grupos Consonánticos */
+.blend-highlight {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 0 var(--vq-border);
+  animation: vqStarPulse 2s infinite ease-in-out;
+}
+
+/* Nivel 3: Oraciones y Rimas */
+.sentence-text {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  line-height: 1.45;
+  max-width: 680px;
+}
+
+.sentence-question {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-purple-astral);
+  margin-top: 4px;
+}
+
+/* Nivel 4: Taquistoscopio RSVP */
+.rsvp-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.rsvp-word-box {
+  width: 100%;
+  max-width: 480px;
+  height: 80px;
+  background: var(--vq-bg-card);
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-hard);
+}
+
+.rsvp-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-rsvp-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: var(--vq-sky-light);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: #1D3557;
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease;
+}
+
+.btn-rsvp-play:hover {
+  transform: translateY(-2px);
+}
+
+/* Nivel 5: Fábulas del Grimorio */
+.fable-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  max-width: 720px;
+}
+
+.fable-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.fable-text {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--vq-text);
+  margin: 0;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 12px 16px;
+  border-radius: var(--vq-radius-card);
+  border: 1px dashed var(--vq-border);
+}
+
+[data-theme="dark"] .fable-text {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.fable-question {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--vq-purple-astral);
+  margin-top: 6px;
+}
+
+/* Opciones de Respuesta Múltiple */
+.reading-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.reading-choice-btn {
+  padding: 16px 20px;
+  background: var(--vq-bg-card);
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-hard);
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.reading-choice-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  background: #FFF0C2;
+}
+
+.reading-choice-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--vq-border);
+}
+
+.reading-choice-btn.correct-choice {
+  background: #B8F2E6 !important;
+  color: #1E3A34 !important;
+  border-color: #34D399 !important;
+}
+
+.reading-choice-btn.incorrect-choice {
+  background: #FFC8DD !important;
+  color: #5C1D2E !important;
+  border-color: #E63946 !important;
+}
+
+/* Barra de Poderes de las Princesas */
+.reading-powers-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  border-top: 2px dashed var(--vq-border);
+}
+
+/* ==========================================================================
+   5. PIE DE PÁGINA
+   ========================================================================== */
+.reading-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.reading-nav-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.12s ease;
+}
+
+.reading-nav-link-btn:hover {
+  transform: translateY(-2px);
+  background: var(--vq-sky-light);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .reading-app {
+    padding: 8px 10px 30px;
+    gap: 12px;
+  }
+
+  .reading-practice-bar,
+  .reading-challenge-card {
+    padding: 14px;
+    border-radius: var(--vq-radius-card);
+  }
+
+  .syl {
+    font-size: 1.6rem;
+    padding: 6px 14px;
+  }
+
+  .sentence-text {
+    font-size: 1.15rem;
+  }
+
+  .reading-choice-btn {
+    font-size: 1rem;
+    padding: 12px 14px;
+  }
+}

@@ -3,12 +3,13 @@
  * Offline-first caching engine for 100% offline play in Lumiria.
  */
 
-const CACHE_NAME = 'valenquest-v1.7.0';
+const CACHE_NAME = 'valenquest-v1.8.0';
 
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/campaign.html',
+  '/reading.html',
   '/story.html',
   '/wardrobe.html',
   '/manifest.json',
@@ -21,8 +22,10 @@ const PRECACHE_URLS = [
   '/css/storybook.css',
   '/css/wardrobe.css',
   '/css/campaign.css',
+  '/css/reading.css',
   '/js/app.js',
   '/js/campaign-page.js',
+  '/js/reading-page.js',
   '/js/storybook.js',
   '/js/wardrobe-page.js',
   '/js/components/header.js',

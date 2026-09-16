@@ -119,22 +119,33 @@ Es el **taller intensivo de decodificación fonética y comprensión lingüísti
 
 ## ⚙️ 5. Arquitectura de Software y Persistencia
 
-### 5.1. Orquestación Frontend (`www/js/`)
-El frontend administra la transición entre estos tres modos mediante módulos especializados:
+### 5.1. Orquestación Frontend Desacoplada (`www/`)
+El frontend desacopla por completo los tres pilares de juego para evitar colisiones de estado:
 
 ```text
-www/js/
-├── app.js                         # Controlador principal y enrutador de vistas
-├── services/
-│   ├── adventure.js               # [NUEVO] Orquestador híbrido de La Gran Aventura
-│   ├── math-practice.js           # [NUEVO] Gestor de los 5 niveles del Prisma Numérico
-│   ├── reading-practice.js        # [NUEVO] Gestor de los 5 niveles de La Pluma
-│   ├── companions.js              # Poderes del Cuarteto de la Armonía
-│   ├── speech.js                  # Voz de Orión (TTS)
-│   └── storage.js                 # Motor IndexedDB v4 (valenquest_db)
-└── components/
-    ├── header.js                  # <vq-header> (Ajustes, estrellas y heroína)
-    └── footer.js                  # <vq-footer> (Navegación e info)
+www/
+├── index.html                     # Salón Principal (Hub) y El Prisma Numérico (Matemáticas)
+├── campaign.html                  # [DESACOPLADO] La Gran Aventura (Campaña Troncal)
+├── reading.html                   # [DESACOPLADO] La Pluma de la Fluidez (Taller de Lectura)
+├── story.html                     # El Gran Libro de las Princesas (Crónicas y Cuentos)
+├── wardrobe.html                  # El Ropero Mágico y Boutique de Lumiria
+├── css/
+│   ├── campaign.css               # Estilos del modo campaña y roadmap de templos
+│   ├── reading.css                # [NUEVO] Estilos dedicados de La Pluma de la Fluidez
+│   ├── wardrobe.css               # Probador y boutique
+│   └── components.css             # Componentes transversales
+├── js/
+│   ├── app.js                     # Controlador principal del Hub y Prisma Numérico
+│   ├── campaign-page.js           # Controlador dedicado de la Campaña
+│   ├── reading-page.js            # [NUEVO] Controlador dedicado de La Pluma de la Fluidez
+│   ├── wardrobe-page.js           # Controlador de la Boutique
+│   └── services/
+│       ├── adventure.js           # Orquestador híbrido de La Gran Aventura
+│       ├── math-practice.js       # Gestor arcade de los 5 niveles del Prisma Numérico
+│       ├── reading-practice.js    # Gestor arcade de los 5 niveles de La Pluma de la Fluidez
+│       ├── companions.js          # Poderes del Cuarteto de la Armonía
+│       ├── speech.js              # Voz de Orión (TTS)
+│       └── storage.js             # Motor IndexedDB v5 (valenquest_db)
 ```
 
 ### 5.2. Esquema de Persistencia en IndexedDB (`valenquest_db` v5)
@@ -180,17 +191,23 @@ Para garantizar aislamiento, reactividad y portabilidad de datos, cada módulo d
   "moduleId": "math_practice",
   "selectedLevel": 1,
   "levelName": "Chispas Estelares",
-  "streak": 0,
+  "streak": 5,
   "highestStreak": 14,
   "totalAnswered": 42,
+  "combo": 45,
+  "totalCombos": 2,
+  "diamondsEarned": 35,
   "updatedAt": "2026-09-15T22:25:00.000Z"
 }
 ```
 * **`selectedLevel` (Number 1..5):** Nivel de dificultad actualmente seleccionado por el jugador.
-* **`levelName` (String):** Título pedagógico del nivel (*Chispas Estelares, Senderos de Nubes, Enigmas de Cristal, El Salón de los Reflejos, Vórtice Cósmico*).
+* **`levelName` (String):** Título pedagógico del nivel.
 * **`streak` (Number):** Racha ininterrumpida activa en la sesión.
 * **`highestStreak` (Number):** Récord histórico personal de aciertos consecutivos sin error.
 * **`totalAnswered` (Number):** Total acumulado de operaciones de cálculo resueltas.
+* **`combo` (Number 0..100):** Carga actual de la barra de Combo Astral.
+* **`totalCombos` (Number):** Cantidad de ráfagas de combo al 100% completadas.
+* **`diamondsEarned` (Number):** Total de diamantes ganados para el Ropero Mágico.
 * **`updatedAt` (ISO Timestamp):** Fecha/hora de última modificación.
 
 #### 3. Documento JSON: La Pluma de la Fluidez (`moduleId: "reading_practice"`)
@@ -199,17 +216,27 @@ Para garantizar aislamiento, reactividad y portabilidad de datos, cada módulo d
   "moduleId": "reading_practice",
   "selectedLevel": 1,
   "levelName": "Ecos de Rocío",
+  "streak": 4,
+  "highestStreak": 12,
+  "totalAnswered": 30,
+  "combo": 60,
+  "totalCombos": 1,
+  "diamondsEarned": 28,
   "wordsRead": 280,
   "highestWpm": 135,
-  "storiesCompleted": 6,
   "updatedAt": "2026-09-15T22:25:00.000Z"
 }
 ```
 * **`selectedLevel` (Number 1..5):** Nivel de fluidez lectora seleccionado (*Ecos de Rocío, Vientos Cruzados, Pergaminos Cantarines, Vuelo Rápido RSVP, Fábulas del Grimorio*).
 * **`levelName` (String):** Nombre pedagógico del taller lingüístico.
+* **`streak` (Number):** Racha de aciertos en ejercicios de lectura.
+* **`highestStreak` (Number):** Récord histórico de racha lectora.
+* **`totalAnswered` (Number):** Total acumulado de desafíos lectores respondidos.
+* **`combo` (Number 0..100):** Carga de la barra de Combo Lírico.
+* **`totalCombos` (Number):** Cantidad de combos líricos al 100% alcanzados (+10 diamantes por burst).
+* **`diamondsEarned` (Number):** Total de diamantes ganados para el Ropero Mágico.
 * **`wordsRead` (Number):** Contador acumulado de palabras decodificadas y leídas.
 * **`highestWpm` (Number):** Récord personal de velocidad en el velocímetro RSVP (Palabras Por Minuto).
-* **`storiesCompleted` (Number):** Total de cuentos o ejercicios de comprensión finalizados con éxito.
 * **`updatedAt` (ISO Timestamp):** Registro cronológico de guardado.
 
 #### 4. API de Almacenamiento en `storage.js`
