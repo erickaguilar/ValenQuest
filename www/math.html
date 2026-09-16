@@ -49,6 +49,42 @@
       <circle cx="32" cy="18" r="4" fill="#A2D2FF"/>
     </symbol>
 
+    <!-- Ala Celestial de Reni (Pegaso - Brisa) -->
+    <symbol id="vq-icon-wing" viewBox="0 0 64 64">
+      <path d="M12,46 C6,34 10,20 22,12 C36,4 52,10 56,22 C60,34 50,44 42,48 C34,52 24,52 18,50 Z" 
+            fill="#BDE0FE" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M16,42 C12,32 16,22 26,16 C38,10 50,16 52,24 C54,34 46,42 38,44" 
+            fill="#A2D2FF" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M22,38 C20,30 26,22 34,18 C42,14 48,20 48,26 C46,34 38,38 30,40" 
+            fill="#FFAFCC" stroke="#4A3E56" stroke-width="2.5"/>
+      <circle cx="46" cy="22" r="2.5" fill="#FFD166"/>
+      <path d="M28,20 C32,16 38,16 42,18" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Hojas y Raíces de Zoe (Poni Terrestre - Escudo) -->
+    <symbol id="vq-icon-leaf" viewBox="0 0 64 64">
+      <path d="M16,54 C20,44 26,36 34,28" stroke="#4A3E56" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <path d="M12,42 C8,28 18,16 34,16 C36,32 26,44 12,42 Z" 
+            fill="#34D399" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M14,40 C18,30 24,24 32,20" stroke="#B8F2E6" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M30,32 C32,18 44,12 54,16 C52,32 38,38 30,32 Z" 
+            fill="#B8F2E6" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+      <circle cx="36" cy="18" r="4" fill="#FFAFCC" stroke="#4A3E56" stroke-width="2"/>
+      <circle cx="36" cy="18" r="1.5" fill="#FFD166"/>
+    </symbol>
+
+    <!-- Cristal Cósmico de Lía (Unicornio - Foco) -->
+    <symbol id="vq-icon-crystal" viewBox="0 0 64 64">
+      <polygon points="32,6 50,22 42,54 22,54 14,22" 
+               fill="#9D4EDD" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+      <polygon points="32,6 42,22 32,54 22,22" fill="#CDB4DB" stroke="#4A3E56" stroke-width="2.5"/>
+      <polygon points="32,6 22,22 14,22" fill="#7B2CBF" stroke="#4A3E56" stroke-width="2"/>
+      <polygon points="32,6 42,22 50,22" fill="#E4C1F9" stroke="#4A3E56" stroke-width="2"/>
+      <polygon points="22,22 32,54 22,54" fill="#5A189A"/>
+      <polygon points="42,22 32,54 42,54" fill="#9D4EDD"/>
+      <polygon points="32,10 34,16 38,17 34,19 32,24 30,19 26,17 30,16" fill="#FFFFFF"/>
+    </symbol>
+
     <symbol id="vq-icon-star" viewBox="0 0 64 64">
       <polygon points="32,6 39,23 58,24 43,36 48,54 32,43 16,54 21,36 6,24 25,23" 
                fill="#FFD166" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
@@ -254,9 +290,34 @@
           </div>
         </div>
 
-        <!-- Barra de Poderes de las Guardianas de la Armonía (Homologada) -->
-        <div class="math-powers-bar" id="math-powers-bar" aria-label="Poderes de amistad de las princesas">
-          <!-- Chips de poderes inyectados dinámicamente -->
+        <!-- Barra de Poderes del Cuarteto de la Armonía (Prisma, Brisa, Escudo, Foco) -->
+        <div class="companion-powers-bar math-powers-bar" id="math-powers-bar" aria-label="Poderes de amistad del Cuarteto de la Armonía">
+          <span class="powers-bar-label">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+            <span>Poderes de Lumiria:</span>
+          </span>
+          <div class="companion-powers-grid">
+            <button id="btn-power-valen" class="power-btn" type="button" title="Valen (Alicornio): Prisma Real - Descarta opciones incorrectas">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
+              <span>Prisma</span>
+              <span class="power-charge-badge" id="badge-valen">2</span>
+            </button>
+            <button id="btn-power-reni" class="power-btn" type="button" title="Reni (Pegaso): Brisa Temporal - Tiempo extra y calma">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg>
+              <span>Brisa</span>
+              <span class="power-charge-badge" id="badge-reni">2</span>
+            </button>
+            <button id="btn-power-zoe" class="power-btn" type="button" title="Zoe (Poni Terrestre): Escudo de Raíces - Protege tu racha ante error">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
+              <span>Escudo</span>
+              <span class="power-charge-badge" id="badge-zoe">2</span>
+            </button>
+            <button id="btn-power-lia" class="power-btn" type="button" title="Lía (Unicornio): Foco de Cristal - Resalta la pista clave">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg>
+              <span>Foco</span>
+              <span class="power-charge-badge" id="badge-lia">2</span>
+            </button>
+          </div>
         </div>
 
       </article>

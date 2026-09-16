@@ -384,32 +384,31 @@ class ReadingPageController {
   }
 
   // =========================================================================
-  // Poderes del Cuarteto de la Armonía
+  // Poderes del Cuarteto de la Armonía (Prisma, Brisa, Escudo, Foco)
   // =========================================================================
   setupPowersBadges() {
-    const powerBar = document.getElementById('reading-powers-bar');
-    if (!powerBar) return;
-
-    powerBar.innerHTML = '';
-    const heroinesList = companions.getAll();
-
-    heroinesList.forEach((hero) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `heroine-power-chip ${hero.available ? 'ready' : 'charging'}`;
-      btn.title = `${hero.name}: ${hero.powerName} (${hero.available ? 'Listo' : 'Recargando'})`;
-      btn.innerHTML = `
-        <span class="power-icon">${hero.avatarEmoji || '✨'}</span>
-        <span class="power-name">${hero.powerName}</span>
-      `;
-
-      btn.addEventListener('click', () => this.handlePowerTrigger(hero.id));
-      powerBar.appendChild(btn);
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const btn = document.getElementById(`btn-power-${id}`);
+      if (btn && !btn._powerBound) {
+        btn._powerBound = true;
+        btn.addEventListener('click', () => this.handlePowerTrigger(id));
+      }
     });
+
+    this.updatePowersBadges();
   }
 
   updatePowersBadges() {
-    this.setupPowersBadges();
+    ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const badge = document.getElementById(`badge-${id}`);
+      const btn = document.getElementById(`btn-power-${id}`);
+      const charges = companions.getCharges(id);
+      if (badge) badge.textContent = charges;
+      if (btn) {
+        btn.disabled = charges <= 0;
+        btn.setAttribute('aria-disabled', charges <= 0 ? 'false' : 'true');
+      }
+    });
   }
 
   async handlePowerTrigger(heroineId) {
@@ -423,22 +422,57 @@ class ReadingPageController {
     sound.playStreak();
     speech.speak(`¡${result.powerName}! ${result.description}`);
 
+    const card = document.getElementById('reading-challenge-card');
+    const btn = document.getElementById(`btn-power-${heroineId}`);
+    if (btn) {
+      btn.classList.add('power-activated');
+      setTimeout(() => btn.classList.remove('power-activated'), 700);
+    }
+
     if (heroineId === 'zoe') {
       this.streakShieldActive = true;
+      if (card) {
+        card.classList.add('shield-protect');
+        setTimeout(() => card.classList.remove('shield-protect'), 1600);
+      }
     } else if (heroineId === 'valen') {
-      // Descarta una opción incorrecta
+      // Prisma: Descarta una opción incorrecta
+      if (card) {
+        card.classList.add('royal-boost');
+        setTimeout(() => card.classList.remove('royal-boost'), 1600);
+      }
       const challenge = readingPractice.getState().currentChallenge;
       if (challenge) {
         const optionBtns = document.querySelectorAll('.reading-choice-btn');
         let discarded = false;
         optionBtns.forEach((btn) => {
-          if (!discarded && btn.textContent !== challenge.answer) {
+          if (!discarded && btn.textContent !== challenge.answer && !btn.disabled) {
             btn.disabled = true;
             btn.style.opacity = '0.35';
             btn.style.textDecoration = 'line-through';
             discarded = true;
           }
         });
+      }
+    } else if (heroineId === 'reni') {
+      // Brisa: Calma temporal
+      if (card) {
+        card.classList.add('royal-boost');
+        setTimeout(() => card.classList.remove('royal-boost'), 1600);
+      }
+    } else if (heroineId === 'lia') {
+      // Foco: Resalta la pista / palabra clave
+      if (card) {
+        card.classList.add('crystal-focus');
+        setTimeout(() => card.classList.remove('crystal-focus'), 1600);
+      }
+      const promptArea = document.querySelector('.reading-prompt-display');
+      if (promptArea) {
+        promptArea.style.transform = 'scale(1.05)';
+        promptArea.style.transition = 'transform 0.3s ease';
+        setTimeout(() => {
+          promptArea.style.transform = 'none';
+        }, 1500);
       }
     }
 

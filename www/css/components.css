@@ -1172,10 +1172,10 @@
 .power-btn {
   width: 100%;
   background: var(--vq-bg-card);
-  border: 2px solid var(--vq-border);
+  border: 2.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
-  padding: 8px 12px;
-  font-size: 0.84rem;
+  padding: 9px 12px;
+  font-size: 0.88rem;
   font-weight: 900;
   color: var(--vq-text);
   cursor: pointer;
@@ -1184,24 +1184,112 @@
   justify-content: center;
   gap: 6px;
   box-shadow: 0 2px 0 var(--vq-border);
-  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
   font-family: inherit;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-@media (hover: hover) {
-  .power-btn:hover {
-    transform: translateY(-2px);
-    background: var(--vq-pink-light);
-  }
-  #btn-power-reni:hover {
-    background: var(--vq-sky-light);
-  }
-  #btn-power-zoe:hover {
-    background: var(--vq-mint-light);
-  }
-  #btn-power-lia:hover {
-    background: var(--vq-alicorn-aura);
-  }
+/* 1. Prisma Real (Valen - Rosa Pastel / Oro) */
+#btn-power-valen {
+  background: #FFF0F5;
+  border-color: #F472B6;
+  color: #831843;
+}
+#btn-power-valen:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #FCE7F3;
+  border-color: #EC4899;
+}
+#btn-power-valen .power-charge-badge {
+  background: #F472B6;
+  border-color: #BE185D;
+  color: #FFFFFF;
+}
+
+/* 2. Brisa Temporal (Reni - Azul Cielo / Viento) */
+#btn-power-reni {
+  background: #F0F9FF;
+  border-color: #60A5FA;
+  color: #1E3A8A;
+}
+#btn-power-reni:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #E0F2FE;
+  border-color: #3B82F6;
+}
+#btn-power-reni .power-charge-badge {
+  background: #60A5FA;
+  border-color: #1D4ED8;
+  color: #FFFFFF;
+}
+
+/* 3. Escudo de Raíces (Zoe - Verde Menta / Naturaleza) */
+#btn-power-zoe {
+  background: #F0FDF4;
+  border-color: #34D399;
+  color: #064E3B;
+}
+#btn-power-zoe:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #D1FAE5;
+  border-color: #10B981;
+}
+#btn-power-zoe .power-charge-badge {
+  background: #10B981;
+  border-color: #047857;
+  color: #FFFFFF;
+}
+
+/* 4. Foco de Cristal (Lía - Lavanda Astral / Cristal) */
+#btn-power-lia {
+  background: #FAF5FF;
+  border-color: #C084FC;
+  color: #581C87;
+}
+#btn-power-lia:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #F3E8FF;
+  border-color: #9D4EDD;
+}
+#btn-power-lia .power-charge-badge {
+  background: #A855F7;
+  border-color: #7E22CE;
+  color: #FFFFFF;
+}
+
+/* Modo Noche Astral para Botones de Poder */
+[data-theme="dark"] #btn-power-valen {
+  background: rgba(244, 114, 182, 0.22);
+  border-color: #F472B6;
+  color: #FDF2F8;
+}
+[data-theme="dark"] #btn-power-valen:hover:not(:disabled) {
+  background: rgba(244, 114, 182, 0.35);
+}
+[data-theme="dark"] #btn-power-reni {
+  background: rgba(96, 165, 250, 0.22);
+  border-color: #60A5FA;
+  color: #EFF6FF;
+}
+[data-theme="dark"] #btn-power-reni:hover:not(:disabled) {
+  background: rgba(96, 165, 250, 0.35);
+}
+[data-theme="dark"] #btn-power-zoe {
+  background: rgba(52, 211, 153, 0.22);
+  border-color: #34D399;
+  color: #ECFDF5;
+}
+[data-theme="dark"] #btn-power-zoe:hover:not(:disabled) {
+  background: rgba(52, 211, 153, 0.35);
+}
+[data-theme="dark"] #btn-power-lia {
+  background: rgba(192, 132, 252, 0.22);
+  border-color: #C084FC;
+  color: #FAF5FF;
+}
+[data-theme="dark"] #btn-power-lia:hover:not(:disabled) {
+  background: rgba(192, 132, 252, 0.35);
 }
 
 .power-btn:active {
@@ -1211,31 +1299,39 @@
 
 .power-btn.power-activated {
   animation: vqPowerPulse 0.6s ease;
-  border-color: var(--vq-gold);
-  background: var(--vq-gold);
-  color: #32213F;
+  border-color: var(--vq-gold) !important;
+  background: var(--vq-gold) !important;
+  color: #32213F !important;
+  box-shadow: 0 0 16px rgba(255, 209, 102, 0.8) !important;
 }
 
 #btn-power-lia.power-activated {
-  border-color: var(--vq-alicorn-purple);
-  background: var(--vq-alicorn-purple);
-  color: #FFFFFF;
+  border-color: var(--vq-alicorn-purple) !important;
+  background: var(--vq-alicorn-purple) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 16px rgba(157, 78, 221, 0.8) !important;
 }
 
-/* Feedback de Poderes en Tarjeta de Reto */
-.challenge-card.royal-boost {
+/* Feedback de Poderes en Tarjeta de Reto (Soporte Universal para Hub, Math y Reading) */
+.challenge-card.royal-boost,
+.math-challenge-card.royal-boost,
+.reading-challenge-card.royal-boost {
   border-color: var(--vq-pink-bubble) !important;
   box-shadow: 0 0 30px rgba(255, 175, 204, 0.7), 0 0 15px var(--vq-gold), 0 6px 0 var(--vq-border) !important;
   animation: royalBoostPulse 1.2s ease-in-out infinite alternate;
 }
 
-.challenge-card.crystal-focus {
+.challenge-card.crystal-focus,
+.math-challenge-card.crystal-focus,
+.reading-challenge-card.crystal-focus {
   border-color: var(--vq-alicorn-purple) !important;
   box-shadow: 0 0 25px var(--vq-alicorn-aura), 0 0 15px #FFD166, 0 6px 0 var(--vq-border) !important;
   animation: crystalFocusGlow 1s ease-in-out infinite alternate;
 }
 
-.challenge-card.shield-protect {
+.challenge-card.shield-protect,
+.math-challenge-card.shield-protect,
+.reading-challenge-card.shield-protect {
   border-color: var(--vq-mint) !important;
   box-shadow: 0 0 25px rgba(52, 211, 153, 0.6), 0 6px 0 var(--vq-border) !important;
   animation: vqChibiBounce 0.6s ease;
