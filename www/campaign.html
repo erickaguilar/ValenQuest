@@ -133,17 +133,36 @@
 
   <div class="campaign-app">
     
-    <!-- Barra Superior de Navegación -->
+    <!-- Barra Superior de Navegación Cruzada -->
     <header class="campaign-top-nav" role="banner">
-      <a href="index.html" class="campaign-back-btn" id="btn-back-to-hub" aria-label="Volver al Salón Principal">
-        <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-        <span>← Volver a ValenQuest</span>
-      </a>
-
-      <div class="campaign-brand-badge">
+      <a href="index.html" class="campaign-brand-badge" title="Ir al Salón Principal de ValenQuest">
         <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
         <span>La Gran Aventura</span>
-      </div>
+      </a>
+
+      <!-- Barra de Navegación Cruzada Rápida -->
+      <nav class="cross-nav-bar" aria-label="Navegación entre reinos de Lumiria">
+        <a href="index.html" class="cross-nav-link" title="Salón Principal">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>Salón</span>
+        </a>
+        <a href="campaign.html" class="cross-nav-link active" title="La Gran Aventura (Campaña)">
+          <span aria-hidden="true">🚀</span>
+          <span>Campaña</span>
+        </a>
+        <a href="math.html" class="cross-nav-link" title="El Prisma Numérico (Cálculo)">
+          <span aria-hidden="true">💎</span>
+          <span>Cálculo</span>
+        </a>
+        <a href="reading.html" class="cross-nav-link" title="La Pluma de la Fluidez (Lectura)">
+          <span aria-hidden="true">🪶</span>
+          <span>Lectura</span>
+        </a>
+        <a href="wardrobe.html" class="cross-nav-link" title="Ropero Mágico y Boutique">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
+          <span>Ropero</span>
+        </a>
+      </nav>
 
       <div class="campaign-top-actions">
         <!-- Saldo de Estrellas de Campaña -->

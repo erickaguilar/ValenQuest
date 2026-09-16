@@ -10,7 +10,7 @@ import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
-import { wasmLoader } from './services/wasm-loader.js';
+import { loadWasm, wasmLoader } from './services/wasm-loader.js';
 
 class MathPageController {
   constructor() {
@@ -28,37 +28,43 @@ class MathPageController {
     // 1. Configurar eventos de cabecera y controles globales
     this.setupHeaderControls();
 
-    // 2. Cargar estado de las guardianas y perfil desde IndexedDB
-    await companions.loadState();
-    const profile = await db.getProfile();
-    if (profile?.selectedCompanion) {
-      this.activeHeroineId = profile.selectedCompanion;
-    } else if (companions.activeId) {
-      this.activeHeroineId = companions.activeId;
-    }
-
-    // 3. Cargar motor Rust WASM y estado del módulo de matemáticas (game_modules)
-    try {
-      const wasm = await wasmLoader.load();
-      await mathPractice.loadState();
-      mathPractice.init(wasm);
-    } catch (err) {
-      console.error('Error initializing WASM in math page:', err);
-    }
-
-    // 4. Renderizar balances de cabecera
-    this.renderBalances(profile);
-
-    // 5. Configurar chips de nivel y alternador de modo teclado
+    // 2. Configurar chips de nivel, alternador de modo y teclado
     this.setupLevelChips();
     this.setupInputModeToggle();
     this.setupKeypadButtons();
-
-    // 6. Configurar poderes de heroínas
     this.setupPowersBadges();
 
-    // 7. Renderizar primer reto
+    // 3. Renderizar inmediatamente el reto inicial (sin esperar a red/DB)
+    if (!mathPractice.currentChallenge) {
+      mathPractice.generateChallenge();
+    }
     this.renderChallenge();
+
+    // 4. Cargar estado de las guardianas y perfil desde IndexedDB
+    try {
+      await companions.loadState();
+      const profile = await db.getProfile();
+      if (profile?.selectedCompanion) {
+        this.activeHeroineId = profile.selectedCompanion;
+      } else if (companions.activeId) {
+        this.activeHeroineId = companions.activeId;
+      }
+      this.renderBalances(profile);
+      this.updatePowersBadges();
+    } catch (err) {
+      console.warn('Error loading companions/profile in math page:', err);
+    }
+
+    // 5. Cargar estado del módulo de matemáticas y motor Rust WASM
+    try {
+      await mathPractice.loadState();
+      const wasm = await loadWasm();
+      mathPractice.init(wasm);
+      this.renderChallenge();
+    } catch (err) {
+      console.warn('WASM engine loading in fallback mode:', err);
+      this.renderChallenge();
+    }
 
     // Saludo inicial de Orión
     speech.speak('¡Bienvenida a El Prisma Numérico! Elige tu nivel de cálculo y que la luz guíe tu camino.');
@@ -451,8 +457,12 @@ class MathPageController {
   }
 }
 
-// Inicialización automática
+// Inicialización automática y resiliente
 const controller = new MathPageController();
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    controller.init();
+  });
+} else {
   controller.init();
-});
+}

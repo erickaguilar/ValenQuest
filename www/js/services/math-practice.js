@@ -65,8 +65,8 @@ export class MathPracticeService {
     this.diamondsEarned = 0;
     this.inputMode = 'choice'; // 'choice' | 'keypad'
     this.keypadBuffer = '';
-    this.currentChallenge = null;
     this.listeners = [];
+    this.currentChallenge = this.generateFallbackChallenge();
   }
 
   init(wasm) {
@@ -127,6 +127,9 @@ export class MathPracticeService {
   }
 
   getState() {
+    if (!this.currentChallenge) {
+      this.generateChallenge();
+    }
     return {
       selectedLevel: this.selectedLevel,
       levelInfo: this.getCurrentLevelInfo(),
@@ -152,8 +155,96 @@ export class MathPracticeService {
     return this.getState();
   }
 
+  generateFallbackChallenge() {
+    const lvl = this.selectedLevel || 1;
+    let op1 = 1, op2 = 1, op = '+', expr = '', answer = 2;
+
+    switch (lvl) {
+      case 1: { // Chispas Estelares: Sumas 1..10
+        op1 = Math.floor(Math.random() * 8) + 1;
+        op2 = Math.floor(Math.random() * (10 - op1)) + 1;
+        op = '+';
+        answer = op1 + op2;
+        break;
+      }
+      case 2: { // Senderos de Nubes: Sumas y restas hasta 20
+        const isSub = Math.random() > 0.5;
+        if (isSub) {
+          op1 = Math.floor(Math.random() * 11) + 10;
+          op2 = Math.floor(Math.random() * 9) + 1;
+          op = '-';
+          answer = op1 - op2;
+        } else {
+          op1 = Math.floor(Math.random() * 10) + 1;
+          op2 = Math.floor(Math.random() * 10) + 1;
+          op = '+';
+          answer = op1 + op2;
+        }
+        break;
+      }
+      case 3: { // Enigmas de Cristal: Acarreo y desagrupación hasta 50
+        const isSub = Math.random() > 0.5;
+        if (isSub) {
+          op1 = Math.floor(Math.random() * 25) + 25;
+          op2 = Math.floor(Math.random() * 15) + 8;
+          op = '-';
+          answer = op1 - op2;
+        } else {
+          op1 = Math.floor(Math.random() * 20) + 15;
+          op2 = Math.floor(Math.random() * 15) + 8;
+          op = '+';
+          answer = op1 + op2;
+        }
+        break;
+      }
+      case 4: { // El Salón de los Reflejos: Tablas 2, 3, 5 y 10
+        const tables = [2, 3, 5, 10];
+        op1 = tables[Math.floor(Math.random() * tables.length)];
+        op2 = Math.floor(Math.random() * 9) + 2;
+        op = '×';
+        answer = op1 * op2;
+        break;
+      }
+      case 5: // Vórtice Cósmico: Tablas 4, 6, 7, 8, 9
+      default: {
+        const tables = [4, 6, 7, 8, 9];
+        op1 = tables[Math.floor(Math.random() * tables.length)];
+        op2 = Math.floor(Math.random() * 8) + 2;
+        op = '×';
+        answer = op1 * op2;
+        break;
+      }
+    }
+
+    const distractorSet = new Set([answer]);
+    const offsets = [-2, -1, 1, 2, 3, -3, 4];
+    for (const offset of offsets) {
+      if (distractorSet.size >= 4) break;
+      const candidate = answer + offset;
+      if (candidate >= 0) distractorSet.add(candidate);
+    }
+    while (distractorSet.size < 4) {
+      distractorSet.add(answer + distractorSet.size + 1);
+    }
+
+    const options = Array.from(distractorSet).sort(() => Math.random() - 0.5);
+
+    return {
+      op1,
+      op2,
+      operator: op,
+      expression: expr,
+      answer,
+      options,
+    };
+  }
+
   generateChallenge() {
-    if (!this.session) return null;
+    if (!this.session) {
+      this.currentChallenge = this.generateFallbackChallenge();
+      this.notify();
+      return this.currentChallenge;
+    }
     const lvlInfo = this.getCurrentLevelInfo();
     this.session.force_tier(lvlInfo.curriculumTier);
     this.session.clear_portal_ready();
@@ -196,6 +287,7 @@ export class MathPracticeService {
       options,
     };
 
+    this.notify();
     return this.currentChallenge;
   }
 

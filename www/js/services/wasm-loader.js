@@ -49,3 +49,7 @@ function showWasmErrorBanner(err) {
     `;
   }
 }
+
+export const wasmLoader = {
+  load: loadWasm,
+};

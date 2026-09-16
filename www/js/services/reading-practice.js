@@ -361,8 +361,8 @@ export class ReadingPracticeService {
     this.diamondsEarned = 0;
     this.wordsRead = 0;
     this.highestWpm = 120;
-    this.currentChallenge = null;
     this.listeners = [];
+    this.currentChallenge = this.generateChallenge();
   }
 
   async loadState() {
@@ -419,6 +419,9 @@ export class ReadingPracticeService {
   }
 
   getState() {
+    if (!this.currentChallenge) {
+      this.generateChallenge();
+    }
     return {
       selectedLevel: this.selectedLevel,
       levelInfo: this.getCurrentLevelInfo(),

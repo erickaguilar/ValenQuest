@@ -19,7 +19,7 @@
 }
 
 /* ==========================================================================
-   2. BARRA DE NAVEGACIÓN SUPERIOR (TOP NAV)
+   2. BARRA DE NAVEGACIÓN SUPERIOR Y CRUZADA
    ========================================================================== */
 .math-top-nav {
   display: flex;
@@ -34,31 +34,6 @@
   box-shadow: var(--vq-shadow-sm);
 }
 
-.math-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: var(--vq-bg-well);
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  color: var(--vq-text);
-  font-weight: 900;
-  font-size: 0.88rem;
-  text-decoration: none;
-  box-shadow: var(--vq-shadow-sm);
-  transition: transform 0.12s ease, background 0.15s ease;
-}
-
-.math-back-btn:hover {
-  background: var(--vq-sky-light);
-  transform: translateY(-2px);
-}
-
-.math-back-btn:active {
-  transform: translateY(1px);
-}
-
 .math-brand-badge {
   display: inline-flex;
   align-items: center;
@@ -66,6 +41,51 @@
   font-weight: 900;
   font-size: 1.05rem;
   color: var(--vq-text);
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.math-brand-badge:hover {
+  transform: scale(1.02);
+}
+
+.cross-nav-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--vq-bg-well);
+  padding: 4px 8px;
+  border-radius: var(--vq-radius-pill);
+  border: 1.5px solid var(--vq-border);
+}
+
+.cross-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  opacity: 0.75;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.cross-nav-link:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+.cross-nav-link.active {
+  opacity: 1;
+  background: var(--vq-gold-light, #FFF0C2);
+  color: var(--vq-text);
+  border: 1.5px solid var(--vq-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-weight: 900;
 }
 
 .math-top-actions {
@@ -558,29 +578,32 @@
 /* ==========================================================================
    5. PIE DE PÁGINA (HOMOLOGADO CON READING)
    ========================================================================== */
+/* ==========================================================================
+   5. PIE DE PÁGINA Y NAVEGACIÓN CRUZADA (HOMOLOGADO CON READING)
+   ========================================================================== */
 .math-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
   padding: 16px 0;
 }
 
 .math-nav-link-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 18px;
+  padding: 11px 14px;
   background: var(--vq-bg-card);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 900;
   color: var(--vq-text);
   text-decoration: none;
   box-shadow: var(--vq-shadow-sm);
-  transition: transform 0.12s ease;
+  transition: transform 0.12s ease, background 0.15s ease;
+  text-align: center;
 }
 
 .math-nav-link-btn:hover {
@@ -589,6 +612,15 @@
 }
 
 /* Responsive */
+@media (max-width: 680px) {
+  .cross-nav-bar {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+  }
+}
+
 @media (max-width: 600px) {
   .math-app {
     padding: 8px 10px 30px;
@@ -609,5 +641,9 @@
   .math-choice-btn {
     font-size: 1.3rem;
     padding: 12px 14px;
+  }
+
+  .math-footer {
+    grid-template-columns: 1fr;
   }
 }

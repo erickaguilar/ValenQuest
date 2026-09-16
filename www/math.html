@@ -111,17 +111,36 @@
 
   <div class="math-app">
     
-    <!-- Barra Superior de Navegación (Homologada) -->
+    <!-- Barra Superior de Navegación Cruzada -->
     <header class="math-top-nav" role="banner">
-      <a href="index.html" class="math-back-btn" id="btn-back-to-hub" aria-label="Volver al Salón Principal">
-        <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-        <span>← Volver a ValenQuest</span>
-      </a>
-
-      <div class="math-brand-badge">
+      <a href="index.html" class="math-brand-badge" title="Ir al Salón Principal de ValenQuest">
         <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
         <span>El Prisma Numérico</span>
-      </div>
+      </a>
+
+      <!-- Barra de Navegación Cruzada Rápida -->
+      <nav class="cross-nav-bar" aria-label="Navegación entre reinos de Lumiria">
+        <a href="index.html" class="cross-nav-link" title="Salón Principal">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>Salón</span>
+        </a>
+        <a href="campaign.html" class="cross-nav-link" title="La Gran Aventura (Campaña)">
+          <span aria-hidden="true">🚀</span>
+          <span>Campaña</span>
+        </a>
+        <a href="math.html" class="cross-nav-link active" title="El Prisma Numérico (Cálculo)">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
+          <span>Cálculo</span>
+        </a>
+        <a href="reading.html" class="cross-nav-link" title="La Pluma de la Fluidez (Lectura)">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
+          <span>Lectura</span>
+        </a>
+        <a href="wardrobe.html" class="cross-nav-link" title="Ropero Mágico y Boutique">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
+          <span>Ropero</span>
+        </a>
+      </nav>
 
       <div class="math-top-actions">
         <!-- Saldo de Estrellas de Campaña -->
@@ -264,21 +283,26 @@
       </article>
     </main>
 
-    <!-- Pie de Navegación Rápida (Homologado) -->
-    <footer class="math-footer">
-      <a href="index.html" class="math-nav-link-btn">
+    <!-- Pie de Navegación Cruzada Completa -->
+    <footer class="math-footer" role="navigation" aria-label="Navegación rápida de pie">
+      <a href="index.html" class="math-nav-link-btn" title="Ir al Salón Principal">
         <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-        <span>← Salón Principal</span>
+        <span>Salón Principal</span>
       </a>
 
       <a href="reading.html" class="math-nav-link-btn" title="Pasar al entrenamiento de lectura">
         <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
-        <span>La Pluma de la Fluidez (💎) →</span>
+        <span>La Pluma de la Fluidez (💎)</span>
       </a>
 
-      <a href="wardrobe.html" class="math-nav-link-btn">
+      <a href="campaign.html" class="math-nav-link-btn" title="Ir a la campaña La Gran Aventura">
+        <span aria-hidden="true">🚀</span>
+        <span>La Gran Aventura (⭐)</span>
+      </a>
+
+      <a href="wardrobe.html" class="math-nav-link-btn" title="Ir al ropero y boutique mágica">
         <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
-        <span>Ropero Mágico (💎) →</span>
+        <span>Ropero Mágico (💎)</span>
       </a>
     </footer>
 

@@ -3406,6 +3406,57 @@
   }
 }
 
+/* ==========================================================================
+   24. BARRA DE NAVEGACIÓN CRUZADA GLOBAL (CROSS-NAV SYSTEM)
+   ========================================================================== */
+.cross-nav-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--vq-bg-well);
+  padding: 4px 8px;
+  border-radius: var(--vq-radius-pill);
+  border: 1.5px solid var(--vq-border);
+}
+
+.cross-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  opacity: 0.75;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.cross-nav-link:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+.cross-nav-link.active {
+  opacity: 1;
+  background: var(--vq-gold-light, #FFF0C2);
+  color: var(--vq-text);
+  border: 1.5px solid var(--vq-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-weight: 900;
+}
+
+@media (max-width: 680px) {
+  .cross-nav-bar {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+  }
+}
+
 
 
 

@@ -26,31 +26,37 @@ class ReadingPageController {
 
     // 1. Configurar eventos de cabecera y controles globales
     this.setupHeaderControls();
-
-    // 2. Cargar estado de las guardianas y perfil desde IndexedDB
-    await companions.loadState();
-    const profile = await db.getProfile();
-    if (profile?.selectedCompanion) {
-      this.activeHeroineId = profile.selectedCompanion;
-    } else if (companions.activeId) {
-      this.activeHeroineId = companions.activeId;
-    }
-
-    // 3. Cargar estado del módulo de lectura desde IndexedDB (game_modules)
-    await readingPractice.loadState();
-
-    // 4. Renderizar balances de cabecera
-    this.renderBalances(profile);
-
-    // 5. Configurar chips de nivel
     this.setupLevelChips();
-
-    // 6. Configurar poderes de heroínas
     this.setupPowersBadges();
 
-    // 7. Generar y renderizar primer reto
-    readingPractice.generateChallenge();
+    // 2. Renderizar inmediatamente el reto inicial (sin esperar a red/DB)
+    if (!readingPractice.currentChallenge) {
+      readingPractice.generateChallenge();
+    }
     this.renderChallenge();
+
+    // 3. Cargar estado de las guardianas y perfil desde IndexedDB
+    try {
+      await companions.loadState();
+      const profile = await db.getProfile();
+      if (profile?.selectedCompanion) {
+        this.activeHeroineId = profile.selectedCompanion;
+      } else if (companions.activeId) {
+        this.activeHeroineId = companions.activeId;
+      }
+      this.renderBalances(profile);
+      this.updatePowersBadges();
+    } catch (err) {
+      console.warn('Error loading companions/profile in reading page:', err);
+    }
+
+    // 4. Cargar estado del módulo de lectura desde IndexedDB (game_modules)
+    try {
+      await readingPractice.loadState();
+      this.renderChallenge();
+    } catch (err) {
+      console.warn('Error loading reading practice state:', err);
+    }
 
     // Saludo inicial de Orión
     speech.speak('¡Bienvenida a La Pluma de la Fluidez! Elige tu nivel y leamos juntos.');
@@ -436,8 +442,12 @@ class ReadingPageController {
   }
 }
 
-// Inicialización automática
+// Inicialización automática y resiliente
 const controller = new ReadingPageController();
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    controller.init();
+  });
+} else {
   controller.init();
-});
+}
