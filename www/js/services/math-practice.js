@@ -357,11 +357,11 @@ export class MathPracticeService {
       // con bonificación acelerada (+3%) si la racha es >= 3
       masteryGain = this.streak >= 3 ? 3 : 2;
 
-      const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
+      const gain = elapsedMs > 0 && elapsedMs <= 5000 ? 25 : 20;
       const nextCombo = Math.min(100, (this.combo || 0) + gain);
 
-      // Cálculo de Diamantes base
-      const baseDiamonds = elapsedMs > 0 && elapsedMs <= 4000 ? 2 : 1;
+      // Cálculo de Diamantes base (5 segundos de bonificación ágil)
+      const baseDiamonds = elapsedMs > 0 && elapsedMs <= 5000 ? 2 : 1;
       const isStreakMilestone = this.streak > 0 && this.streak % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
       earnedDiamonds = baseDiamonds + streakBonus;

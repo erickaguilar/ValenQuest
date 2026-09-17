@@ -76,8 +76,8 @@
         </div>
       </div>
 
-      <!-- Barras de Progreso: Maestría del Nivel Actual y Combo Astral -->
-      <div class="math-progress-dual-grid">
+      <!-- Barras de Progreso: Maestría del Nivel Actual, Combo Astral y Tiempo Ágil -->
+      <div class="math-progress-dual-grid math-progress-grid" id="math-progress-grid">
         <!-- 1. Barra de Maestría del Nivel Actual (Hacia la Corona 👑) -->
         <div class="math-mastery-wrapper" id="math-mastery-wrapper" aria-label="Progreso de Maestría del Nivel">
           <div class="math-mastery-header">
@@ -107,6 +107,20 @@
             <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
           </div>
         </div>
+
+        <!-- 3. Barra de Brisa y Bonificación Ágil (Reni - 5 segundos) -->
+        <div class="math-timer-wrapper math-timer-bar-wrap" id="math-timer-bar-wrap" aria-label="Tiempo de bonificación ágil">
+          <div class="math-timer-header">
+            <span class="math-timer-title">
+              <span class="timer-icon" id="math-timer-icon" aria-hidden="true">⏱️</span>
+              <strong id="math-timer-text">Brisa Ágil: +2 💎</strong>
+            </span>
+            <span class="math-timer-status" id="math-timer-status">5.0s</span>
+          </div>
+          <div class="math-timer-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-timer-fill" id="math-timer-fill" style="width: 100%"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -131,20 +145,6 @@
               <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
               <span>Usar Teclado 🔢</span>
             </button>
-          </div>
-        </div>
-
-        <!-- Barra de Brisa y Bonificación Ágil (Reni) -->
-        <div class="math-timer-bar-wrap" id="math-timer-bar-wrap" aria-label="Tiempo de bonificación ágil">
-          <div class="math-timer-track">
-            <div class="math-timer-fill" id="math-timer-fill" style="width: 100%"></div>
-          </div>
-          <div class="math-timer-info">
-            <span class="math-timer-badge" id="math-timer-badge">
-              <span class="timer-icon" id="math-timer-icon" aria-hidden="true">⏱️</span>
-              <span id="math-timer-text">Brisa Ágil: +2 💎</span>
-            </span>
-            <span class="math-timer-status" id="math-timer-status">4.0s</span>
           </div>
         </div>
 

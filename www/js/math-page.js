@@ -921,13 +921,13 @@ class MathPageController {
         if (fill) fill.style.width = '100%';
         if (wrap) wrap.classList.add('timer-frozen');
         if (icon) icon.textContent = '❄️';
-        if (text) text.textContent = 'Brisa de Reni: ¡Tiempo congelado! (+2 💎)';
+        if (text) text.textContent = 'Brisa de Reni (+2 💎)';
         if (status) status.textContent = '❄️ Pausa';
         return;
       }
 
       const elapsed = Date.now() - this.challengeStartTime;
-      const TOTAL_BONUS_MS = 4000;
+      const TOTAL_BONUS_MS = 5000;
 
       if (elapsed <= TOTAL_BONUS_MS) {
         const remaining = TOTAL_BONUS_MS - elapsed;
@@ -935,13 +935,13 @@ class MathPageController {
         if (fill) fill.style.width = `${pct}%`;
         if (wrap) wrap.classList.remove('timer-frozen');
         if (icon) icon.textContent = '⏱️';
-        if (text) text.textContent = 'Brisa Ágil: +2 💎 (+25% combo)';
+        if (text) text.textContent = 'Brisa Ágil: +2 💎';
         if (status) status.textContent = `${(remaining / 1000).toFixed(1)}s`;
       } else {
         if (fill) fill.style.width = '0%';
         if (wrap) wrap.classList.remove('timer-frozen');
         if (icon) icon.textContent = '🍃';
-        if (text) text.textContent = 'Modo Calma: +1 💎 (+20% combo)';
+        if (text) text.textContent = 'Modo Calma: +1 💎';
         if (status) status.textContent = '🍃 Sin prisa';
       }
     };
@@ -968,7 +968,7 @@ class MathPageController {
     if (wrap) wrap.classList.add('timer-frozen');
     if (fill) fill.style.width = '100%';
     if (icon) icon.textContent = '❄️';
-    if (text) text.textContent = 'Brisa de Reni: ¡Tiempo congelado! (+2 💎)';
+    if (text) text.textContent = 'Brisa de Reni (+2 💎)';
     if (status) status.textContent = '❄️ Pausa';
   }
 }

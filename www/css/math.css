@@ -271,19 +271,37 @@
 }
 
 /* ==========================================================================
-   DUAL PROGRESS: MAESTRÍA DEL NIVEL + COMBO ASTRAL
+   PROGRESS METERS: MAESTRÍA DEL NIVEL + COMBO ASTRAL + TIEMPO ÁGIL
    ========================================================================== */
-.math-progress-dual-grid {
+.math-progress-dual-grid,
+.math-progress-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
   width: 100%;
 }
 
-@media (min-width: 680px) {
-  .math-progress-dual-grid {
-    grid-template-columns: 1fr 1fr;
+@media (min-width: 600px) and (max-width: 959px) {
+  .math-progress-dual-grid,
+  .math-progress-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .math-timer-wrapper {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .math-progress-dual-grid,
+  .math-progress-grid {
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+  }
+
+  .math-timer-wrapper {
+    grid-column: auto;
   }
 }
 
@@ -1030,21 +1048,49 @@
 }
 
 /* ==========================================================================
-   CRONÓMETRO ÁGIL Y BRISA TEMPORAL DE RENI
+   CRONÓMETRO ÁGIL Y BRISA TEMPORAL DE RENI (5 SEGUNDOS)
    ========================================================================== */
+.math-timer-wrapper,
 .math-timer-bar-wrap {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin: 6px 0 10px;
-  transition: all 0.25s ease;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.25s ease;
+  margin: 0;
+}
+
+.math-timer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.math-timer-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.math-timer-status {
+  font-size: 0.82rem;
+  font-weight: 900;
+  font-family: monospace;
+  color: var(--vq-text);
 }
 
 .math-timer-track {
   width: 100%;
-  height: 8px;
-  background: var(--vq-bg-well);
+  height: 10px;
+  background: var(--vq-bg-card);
   border: 1.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   overflow: hidden;
@@ -1058,45 +1104,36 @@
   background: linear-gradient(90deg, #38BDF8 0%, #60A5FA 50%, #818CF8 100%);
   border-radius: var(--vq-radius-pill);
   transition: width 0.08s linear, background-color 0.25s ease;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-}
-
-.math-timer-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--vq-text-muted);
-  padding: 0 4px;
-}
-
-.math-timer-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.math-timer-status {
-  font-family: monospace;
-  font-weight: 900;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
 }
 
 /* Estado de Tiempo Congelado por Brisa de Reni */
-.math-timer-bar-wrap.timer-frozen .math-timer-track {
+.math-timer-wrapper.timer-frozen,
+.math-timer-bar-wrap.timer-frozen {
   border-color: #38BDF8;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.6), inset 0 0 6px rgba(56, 189, 248, 0.3);
   animation: freezeGlow 1.5s ease-in-out infinite alternate;
 }
 
+.math-timer-wrapper.timer-frozen .math-timer-fill,
 .math-timer-bar-wrap.timer-frozen .math-timer-fill {
   background: linear-gradient(90deg, #BAE6FD 0%, #38BDF8 50%, #0284C7 100%) !important;
   box-shadow: 0 0 15px rgba(56, 189, 248, 0.85);
 }
 
-.math-timer-bar-wrap.timer-frozen .math-timer-badge {
+.math-timer-wrapper.timer-frozen .math-timer-title,
+.math-timer-wrapper.timer-frozen .math-timer-status,
+.math-timer-bar-wrap.timer-frozen .math-timer-title,
+.math-timer-bar-wrap.timer-frozen .math-timer-status {
   color: #0284C7;
   font-weight: 900;
+}
+
+[data-theme="dark"] .math-timer-wrapper.timer-frozen .math-timer-title,
+[data-theme="dark"] .math-timer-wrapper.timer-frozen .math-timer-status,
+[data-theme="dark"] .math-timer-bar-wrap.timer-frozen .math-timer-title,
+[data-theme="dark"] .math-timer-bar-wrap.timer-frozen .math-timer-status {
+  color: #7DD3FC;
 }
 
 @keyframes freezeGlow {
