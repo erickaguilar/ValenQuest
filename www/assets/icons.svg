@@ -501,4 +501,91 @@
     <path d="M44,14 C46,12 48,12 50,13" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
   </symbol>
 
+  <!-- 7. NUEVOS ICONOS SISTEMA MATEMÁTICAS & ARCADE -->
+  <!-- Cronómetro / Temporizador Ágil -->
+  <symbol id="vq-icon-timer" viewBox="0 0 64 64">
+    <circle cx="32" cy="35" r="23" fill="#BDE0FE" stroke="#4A3E56" stroke-width="3.5"/>
+    <circle cx="32" cy="35" r="18" fill="#FDF7FF" stroke="#4A3E56" stroke-width="2"/>
+    <rect x="29" y="5" width="6" height="7" rx="2" fill="#FFD166" stroke="#4A3E56" stroke-width="2.5"/>
+    <rect x="26" y="3" width="12" height="4" rx="2" fill="#FFAFCC" stroke="#4A3E56" stroke-width="2"/>
+    <line x1="32" y1="35" x2="32" y2="23" stroke="#4A3E56" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="32" y1="35" x2="41" y2="35" stroke="#F472B6" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="32" cy="35" r="3.5" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
+    <circle cx="32" cy="19" r="1.8" fill="#CDB4DB"/>
+    <circle cx="48" cy="35" r="1.8" fill="#CDB4DB"/>
+    <circle cx="32" cy="51" r="1.8" fill="#CDB4DB"/>
+    <circle cx="16" cy="35" r="1.8" fill="#CDB4DB"/>
+    <ellipse cx="23" cy="27" rx="3.5" ry="1.8" transform="rotate(-35 23 27)" fill="#FFFFFF" opacity="0.85"/>
+  </symbol>
+
+  <!-- Arcoíris Prisma de Valen -->
+  <symbol id="vq-icon-rainbow" viewBox="0 0 64 64">
+    <path d="M10,48 C10,24 20,12 32,12 C44,12 54,24 54,48" fill="none" stroke="#FFAFCC" stroke-width="6" stroke-linecap="round"/>
+    <path d="M16,48 C16,30 23,19 32,19 C41,19 48,30 48,48" fill="none" stroke="#FFD166" stroke-width="5" stroke-linecap="round"/>
+    <path d="M22,48 C22,35 26,26 32,26 C38,26 42,35 42,48" fill="none" stroke="#A2D2FF" stroke-width="5" stroke-linecap="round"/>
+    <ellipse cx="14" cy="48" rx="8" ry="6" fill="#FDF7FF" stroke="#4A3E56" stroke-width="2.5"/>
+    <circle cx="11" cy="45" r="5" fill="#FDF7FF"/>
+    <circle cx="17" cy="44" r="5.5" fill="#FDF7FF"/>
+    <ellipse cx="50" cy="48" rx="8" ry="6" fill="#FDF7FF" stroke="#4A3E56" stroke-width="2.5"/>
+    <circle cx="47" cy="44" r="5.5" fill="#FDF7FF"/>
+    <circle cx="53" cy="45" r="5.5" fill="#FDF7FF"/>
+    <polygon points="32,5 33.5,8.5 37,9 34.5,11.5 35,15 32,13 29,15 29.5,11.5 27,9 30.5,8.5" fill="#FFD166"/>
+  </symbol>
+
+  <!-- Bombilla Mágica / Idea de Lumiria -->
+  <symbol id="vq-icon-lightbulb" viewBox="0 0 64 64">
+    <path d="M20,26 C20,14 25,6 32,6 C39,6 44,14 44,26 C44,33 39,38 38,42 L26,42 C25,38 20,33 20,26 Z" 
+          fill="#FFD166" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M24,24 C24,16 28,10 32,10" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M29,26 C28,24 26,24 26,26 C26,28 32,33 32,33 C32,33 38,28 38,26 C38,24 36,24 35,26 C34,27 33,28 32,29 C31,28 30,27 29,26 Z" 
+          fill="#FFAFCC" stroke="#4A3E56" stroke-width="1.5"/>
+    <rect x="25" y="44" width="14" height="4" rx="2" fill="#CDB4DB" stroke="#4A3E56" stroke-width="2"/>
+    <rect x="27" y="50" width="10" height="4" rx="2" fill="#CDB4DB" stroke="#4A3E56" stroke-width="2"/>
+    <ellipse cx="32" cy="56" rx="3" ry="2" fill="#4A3E56"/>
+    <line x1="32" y1="1" x2="32" y2="4" stroke="#FFAFCC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="14" y1="10" x2="16" y2="13" stroke="#FFAFCC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="50" y1="10" x2="48" y2="13" stroke="#FFAFCC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="8" y1="26" x2="12" y2="26" stroke="#FFAFCC" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="56" y1="26" x2="52" y2="26" stroke="#FFAFCC" stroke-width="2.5" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Copo de Nieve / Brisa Helada de Reni -->
+  <symbol id="vq-icon-snowflake" viewBox="0 0 64 64">
+    <line x1="32" y1="6" x2="32" y2="58" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="6" y1="32" x2="58" y2="32" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="14" y1="14" x2="50" y2="50" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+    <line x1="14" y1="50" x2="50" y2="14" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
+    <path d="M26,14 L32,20 L38,14 M26,50 L32,44 L38,50" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M14,26 L20,32 L14,38 M50,26 L44,32 L50,38" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <circle cx="32" cy="32" r="5" fill="#FDF7FF" stroke="#4A3E56" stroke-width="2"/>
+    <circle cx="32" cy="32" r="2.5" fill="#BAE6FD"/>
+  </symbol>
+
+  <!-- Nube Mágica de Lumiria -->
+  <symbol id="vq-icon-cloud" viewBox="0 0 64 64">
+    <path d="M18,48 C12,48 8,43 8,37 C8,31 12,27 18,27 C19,20 25,14 33,14 C41,14 47,20 48,27 C53,27 57,31 57,37 C57,43 53,48 47,48 Z" 
+          fill="#BDE0FE" stroke="#4A3E56" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M20,44 C16,44 13,41 13,37 C13,33 16,30 20,30 C21,24 26,19 33,19 C40,19 45,24 46,30 C49,30 52,33 52,37 C52,41 49,44 45,44 Z" 
+          fill="#FDF7FF"/>
+    <circle cx="26" cy="34" r="2.5" fill="#4A3E56"/>
+    <circle cx="40" cy="34" r="2.5" fill="#4A3E56"/>
+    <circle cx="25" cy="33" r="0.9" fill="#FFFFFF"/>
+    <circle cx="39" cy="33" r="0.9" fill="#FFFFFF"/>
+    <ellipse cx="20" cy="38" rx="2.5" ry="1.2" fill="#FFAFCC"/>
+    <ellipse cx="46" cy="38" rx="2.5" ry="1.2" fill="#FFAFCC"/>
+    <path d="M31,37 Q33,39 35,37" fill="none" stroke="#4A3E56" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Vórtice Cósmico / Galaxia Astral -->
+  <symbol id="vq-icon-galaxy" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="26" fill="#3B0764" stroke="#4A3E56" stroke-width="3.5"/>
+    <path d="M32,10 C44,10 52,18 52,28 C52,40 38,48 24,46 C14,44 10,34 14,24 C18,14 30,14 38,18 C44,22 44,30 40,36 C36,42 28,42 24,38" 
+          fill="none" stroke="#C084FC" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M32,16 C40,16 46,22 46,28 C46,36 36,42 26,40" 
+          fill="none" stroke="#FFD166" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="4.5" fill="#FDF7FF" stroke="#FFD166" stroke-width="1.5"/>
+    <circle cx="18" cy="18" r="1.5" fill="#FFAFCC"/>
+    <circle cx="48" cy="44" r="1.5" fill="#A2D2FF"/>
+    <circle cx="46" cy="18" r="2" fill="#FFD166"/>
+  </symbol>
 </svg>

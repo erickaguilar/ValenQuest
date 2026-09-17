@@ -12,6 +12,7 @@ export const MATH_LEVELS = [
     shortName: 'Conteo y Sumas 1..10',
     description: 'Sumas directas y conteo visual hasta 10.',
     icon: '✨',
+    svgIcon: 'sparkles',
     curriculumTier: 1,
   },
   {
@@ -21,6 +22,7 @@ export const MATH_LEVELS = [
     shortName: 'Sumas y Restas hasta 20',
     description: 'Operaciones básicas sin acarreo hasta 20.',
     icon: '☁️',
+    svgIcon: 'cloud',
     curriculumTier: 2,
   },
   {
@@ -30,6 +32,7 @@ export const MATH_LEVELS = [
     shortName: 'Acarreo y Desagrupación',
     description: 'Sumas y restas con transformación hasta 50.',
     icon: '💎',
+    svgIcon: 'gem',
     curriculumTier: 3,
   },
   {
@@ -39,6 +42,7 @@ export const MATH_LEVELS = [
     shortName: 'Tablas 2, 3, 5 y 10',
     description: 'Multiplicación introductoria y matrices de luz.',
     icon: '🦁',
+    svgIcon: 'prism',
     curriculumTier: 5,
   },
   {
@@ -48,6 +52,7 @@ export const MATH_LEVELS = [
     shortName: 'Tablas Avanzadas y Desafíos',
     description: 'Tablas 4, 6, 7, 8, 9, cálculo ágil y combinadas.',
     icon: '🌌',
+    svgIcon: 'galaxy',
     curriculumTier: 6,
   },
 ];

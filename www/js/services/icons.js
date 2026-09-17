@@ -51,9 +51,12 @@ export async function loadSvgSprites() {
     };
 
     // 1. Inyección ultrarrápida desde caché de sesión si está disponible (0ms)
+    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_4';
+    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_4';
+
     try {
-      const cachedIcons = sessionStorage.getItem('vq_icons_svg');
-      const cachedHeroines = sessionStorage.getItem('vq_heroines_svg');
+      const cachedIcons = sessionStorage.getItem(ICONS_CACHE_KEY);
+      const cachedHeroines = sessionStorage.getItem(HEROINES_CACHE_KEY);
       if (cachedIcons && cachedHeroines) {
         doInject(cachedIcons + cachedHeroines);
         return;
@@ -79,7 +82,7 @@ export async function loadSvgSprites() {
         const iconsText = await iconsRes.text();
         combinedSvg += iconsText;
         try {
-          sessionStorage.setItem('vq_icons_svg', iconsText);
+          sessionStorage.setItem(ICONS_CACHE_KEY, iconsText);
         } catch (_) {}
       }
 
@@ -87,7 +90,7 @@ export async function loadSvgSprites() {
         const heroinesText = await heroinesRes.text();
         combinedSvg += heroinesText;
         try {
-          sessionStorage.setItem('vq_heroines_svg', heroinesText);
+          sessionStorage.setItem(HEROINES_CACHE_KEY, heroinesText);
         } catch (_) {}
       }
 

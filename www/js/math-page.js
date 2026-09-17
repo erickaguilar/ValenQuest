@@ -267,7 +267,7 @@ class MathPageController {
       if (card) card.classList.add('shield-protected');
       if (shieldBadge) {
         shieldBadge.hidden = false;
-        shieldBadge.textContent = '🛡️ Protegida';
+        shieldBadge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>Protegida</span>';
       }
     } else {
       if (card) card.classList.remove('shield-protected', 'shield-absorbed-impact');
@@ -278,9 +278,12 @@ class MathPageController {
     const opEl = document.getElementById('math-operator');
     if (opEl) opEl.className = 'math-operator';
     const op1El = document.getElementById('math-op1');
-    if (op1El) op1El.className = 'math-op1';
     const op2El = document.getElementById('math-op2');
-    if (op2El) op2El.className = 'math-op2';
+
+    const optionsGrid = document.getElementById('math-options-grid');
+    if (optionsGrid) {
+      optionsGrid.classList.remove('lia-hint-grid-active');
+    }
     document.querySelectorAll('.math-choice-btn').forEach((b) => {
       b.classList.remove('crystal-choice-hint', 'prism-discarded', 'prism-blessed');
     });
@@ -288,7 +291,8 @@ class MathPageController {
     // 1. Sincronizar título e info del nivel (HOMOLOGADO)
     const titleTag = document.getElementById('math-active-title');
     if (titleTag && state.levelInfo) {
-      titleTag.textContent = `${state.levelInfo.icon} Nivel ${state.selectedLevel}: ${state.levelInfo.name} (${state.levelInfo.shortName})`;
+      const svgName = state.levelInfo.svgIcon || 'sparkles';
+      titleTag.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-${svgName}"></use></svg> <span>Nivel ${state.selectedLevel}: ${state.levelInfo.name} (${state.levelInfo.shortName})</span>`;
     }
 
     // 2. Sincronizar racha, récord y diamantes en barra arcade
@@ -316,10 +320,10 @@ class MathPageController {
       chip.setAttribute('aria-disabled', !isUnlocked ? 'true' : 'false');
 
       if (!isUnlocked) {
-        chip.innerHTML = '🔒';
+        chip.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg>';
         chip.title = `Nivel ${chipLvl} (Bloqueado: Corona el Nivel ${Math.max(1, chipLvl - 1)} al 100% para abrir)`;
       } else if (isMastered) {
-        chip.innerHTML = `${chipLvl}<span>👑</span>`;
+        chip.innerHTML = `${chipLvl}<span class="chip-crown-badge"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></span>`;
         chip.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;
       } else {
         chip.innerHTML = `${chipLvl}`;
@@ -339,7 +343,8 @@ class MathPageController {
     if (comboPct) comboPct.textContent = `${state.combo}%`;
     if (comboFill) comboFill.style.width = `${state.combo}%`;
     if (comboBadge) {
-      comboBadge.textContent = state.totalCombos > 0 ? `⚡ x${state.totalCombos + 1}` : '⚡ x1';
+      const comboNum = state.totalCombos > 0 ? state.totalCombos + 1 : 1;
+      comboBadge.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>x${comboNum}</span>`;
     }
 
     // 5. Botón de narración por voz con Orión
@@ -358,8 +363,8 @@ class MathPageController {
     const btnToggleMode = document.getElementById('btn-toggle-math-mode');
     if (btnToggleMode) {
       btnToggleMode.innerHTML = state.inputMode === 'choice'
-        ? '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Usar Teclado 🔢</span>'
-        : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Opciones 🔘</span>';
+        ? '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Usar Teclado</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg>'
+        : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Opciones</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bubble"></use></svg>';
     }
 
     // 7. Renderizar operación matemática en el display
@@ -501,7 +506,8 @@ class MathPageController {
         if (comboPct) comboPct.textContent = `${res.combo}%`;
         if (comboFill) comboFill.style.width = `${res.combo}%`;
         if (comboBadge) {
-          comboBadge.textContent = res.totalCombos > 0 ? `⚡ x${res.totalCombos + 1}` : '⚡ x1';
+          const comboNum = res.totalCombos > 0 ? res.totalCombos + 1 : 1;
+          comboBadge.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>x${comboNum}</span>`;
         }
 
         // Ventaja de racha con princesas
@@ -559,7 +565,7 @@ class MathPageController {
 
           const shieldBadge = document.getElementById('math-shield-badge');
           if (shieldBadge) {
-            shieldBadge.textContent = '🛡️ ¡Absorbido!';
+            shieldBadge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>¡Absorbido!</span>';
             setTimeout(() => { if (shieldBadge) shieldBadge.hidden = true; }, 1600);
           }
 
@@ -568,7 +574,7 @@ class MathPageController {
           const icon = document.getElementById('math-zoe-banner-icon');
           if (zoeBanner && clueText) {
             zoeBanner._isAbsorbing = true;
-            if (icon) icon.textContent = '🛡️';
+            if (icon) icon.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>';
             clueText.textContent = `¡El Escudo de Zoe resistió el impacto! Tu racha de ${res.streak} quedó 100% a salvo.`;
             zoeBanner.hidden = false;
             setTimeout(() => {
@@ -625,14 +631,14 @@ class MathPageController {
       const nextInfo = MATH_LEVELS.find((l) => l.level === res.newlyUnlockedLevel);
       if (rewardUnlockedCard) rewardUnlockedCard.hidden = false;
       if (rewardUnlockedTitle && nextInfo) {
-        rewardUnlockedTitle.textContent = `Nivel ${nextInfo.level}: ${nextInfo.name}`;
+        rewardUnlockedTitle.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-${nextInfo.svgIcon || 'sparkles'}"></use></svg> <span>Nivel ${nextInfo.level}: ${nextInfo.name}</span>`;
       }
       if (btnNext) btnNext.hidden = false;
     } else {
       if (currentLevel >= 5) {
         if (rewardUnlockedCard) rewardUnlockedCard.hidden = false;
         if (rewardUnlockedTitle) {
-          rewardUnlockedTitle.textContent = '¡Has coronado todos los niveles del Prisma Numérico! 🌌';
+          rewardUnlockedTitle.innerHTML = '<span>¡Has coronado todos los niveles del Prisma Numérico!</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-galaxy"></use></svg>';
         }
         if (btnNext) btnNext.hidden = true;
       } else {
@@ -677,17 +683,17 @@ class MathPageController {
     if (masteryStatus) {
       const approxCount = Math.min(50, Math.round(currentMastery / 2));
       if (isCurrentMastered || currentMastery >= 100) {
-        masteryStatus.textContent = '👑 ¡Coronado! (50/50)';
+        masteryStatus.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>¡Coronado! (50/50)</span>';
       } else if (currentMastery >= 90) {
-        masteryStatus.textContent = `🔥 ${approxCount}/50 aciertos`;
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-flame"></use></svg> <span>${approxCount}/50 aciertos</span>`;
       } else if (currentMastery >= 60) {
-        masteryStatus.textContent = `⚡ ${approxCount}/50 aciertos`;
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>${approxCount}/50 aciertos</span>`;
       } else if (currentMastery >= 30) {
-        masteryStatus.textContent = `🌟 ${approxCount}/50 aciertos`;
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> <span>${approxCount}/50 aciertos</span>`;
       } else if (currentMastery > 0) {
-        masteryStatus.textContent = `🌱 ${approxCount}/50 aciertos`;
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>${approxCount}/50 aciertos</span>`;
       } else {
-        masteryStatus.textContent = '✨ 0/50 aciertos';
+        masteryStatus.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>0/50 aciertos</span>';
       }
     }
   }
@@ -771,8 +777,8 @@ class MathPageController {
         btn.setAttribute('aria-disabled', 'false');
         if (charges <= 0) {
           btn.classList.add('power-empty-rechargeable');
-          if (badge) badge.textContent = '💎10';
-          btn.title = `${heroine?.name || id} (0/2 cargas): ¡Toca para recargar por 10 diamantes 💎!`;
+          if (badge) badge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>10';
+          btn.title = `${heroine?.name || id} (0/2 cargas): ¡Toca para recargar por 10 diamantes!`;
         } else {
           btn.classList.remove('power-empty-rechargeable');
           if (badge) badge.textContent = charges;
@@ -882,14 +888,14 @@ class MathPageController {
     const shieldBadge = document.getElementById('math-shield-badge');
     if (shieldBadge) {
       shieldBadge.hidden = false;
-      shieldBadge.textContent = '🛡️ Protegida';
+      shieldBadge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>Protegida</span>';
     }
 
     const zoeBanner = document.getElementById('math-zoe-banner');
     const clueText = document.getElementById('math-zoe-clue-text');
     const icon = document.getElementById('math-zoe-banner-icon');
     if (zoeBanner && clueText) {
-      if (icon) icon.textContent = '🌿';
+      if (icon) icon.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>';
       clueText.textContent = '¡Escudo de Raíces de Zoe! Una barrera sagrada protegerá tu racha y combo ante cualquier fallo.';
       zoeBanner.hidden = false;
       if (!zoeBanner._closeBound) {
@@ -1027,9 +1033,9 @@ class MathPageController {
       if (this.isTimerFrozen) {
         if (fill) fill.style.width = '100%';
         if (wrap) wrap.classList.add('timer-frozen');
-        if (icon) icon.textContent = '❄️';
-        if (text) text.textContent = 'Brisa de Reni (+2 💎)';
-        if (status) status.textContent = '❄️ Pausa';
+        if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg>';
+        if (text) text.innerHTML = 'Brisa de Reni (+2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>)';
+        if (status) status.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg> <span>Pausa</span>';
         return;
       }
 
@@ -1041,15 +1047,15 @@ class MathPageController {
         const pct = Math.max(0, (remaining / TOTAL_BONUS_MS) * 100);
         if (fill) fill.style.width = `${pct}%`;
         if (wrap) wrap.classList.remove('timer-frozen');
-        if (icon) icon.textContent = '⏱️';
-        if (text) text.textContent = 'Brisa Ágil: +2 💎';
+        if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-timer"></use></svg>';
+        if (text) text.innerHTML = 'Brisa Ágil: +2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>';
         if (status) status.textContent = `${(remaining / 1000).toFixed(1)}s`;
       } else {
         if (fill) fill.style.width = '0%';
         if (wrap) wrap.classList.remove('timer-frozen');
-        if (icon) icon.textContent = '🍃';
-        if (text) text.textContent = 'Modo Calma: +1 💎';
-        if (status) status.textContent = '🍃 Sin prisa';
+        if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>';
+        if (text) text.innerHTML = 'Modo Calma: +1 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>';
+        if (status) status.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Sin prisa</span>';
       }
     };
 
@@ -1074,9 +1080,9 @@ class MathPageController {
 
     if (wrap) wrap.classList.add('timer-frozen');
     if (fill) fill.style.width = '100%';
-    if (icon) icon.textContent = '❄️';
-    if (text) text.textContent = 'Brisa de Reni (+2 💎)';
-    if (status) status.textContent = '❄️ Pausa';
+    if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg>';
+    if (text) text.innerHTML = 'Brisa de Reni (+2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>)';
+    if (status) status.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg> <span>Pausa</span>';
   }
 }
 

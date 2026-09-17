@@ -96,7 +96,7 @@ dependencies = [
 
 [[package]]
 name = "kidslearn-wasm"
-version = "2.1.3"
+version = "2.1.4"
 dependencies = [
  "serde",
  "serde_json",

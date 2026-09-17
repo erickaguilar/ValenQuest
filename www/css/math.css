@@ -1529,4 +1529,191 @@
   border-radius: var(--vq-radius-pill);
   font-size: 0.72rem;
   font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* ==========================================================================
+   HOMOLOGACIÓN DE ICONOS SVG EN MÓDULO MATEMÁTICO (REEMPLAZO DE EMOJIS)
+   ========================================================================== */
+#math-active-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#math-active-title .vq-icon {
+  width: 1em;
+  height: 1em;
+  color: #F59E0B;
+  flex-shrink: 0;
+}
+
+.math-streak-tag .vq-icon {
+  width: 1.15em;
+  height: 1.15em;
+  color: #F59E0B;
+  flex-shrink: 0;
+}
+
+.math-diamonds-tag .vq-icon {
+  width: 1.15em;
+  height: 1.15em;
+  color: #38BDF8;
+  flex-shrink: 0;
+}
+
+.math-shield-badge .vq-icon {
+  width: 1em;
+  height: 1em;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.mastery-crown-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mastery-crown-icon .vq-icon {
+  width: 1.1em;
+  height: 1.1em;
+  color: #F59E0B;
+}
+
+.math-mastery-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.math-mastery-status .vq-icon {
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--vq-text-muted);
+}
+
+.math-combo-badge .vq-icon {
+  width: 0.95em;
+  height: 0.95em;
+  color: #4A3E56;
+}
+
+.timer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-icon .vq-icon {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.level-chip-btn .chip-crown-badge {
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.level-chip-btn .chip-crown-badge .vq-icon {
+  width: 0.9em;
+  height: 0.9em;
+  color: #F59E0B;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+}
+
+.level-chip-btn.locked .vq-icon {
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--vq-text-muted);
+}
+
+.valen-banner-icon,
+.zoe-banner-icon,
+.lia-crystal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.valen-banner-icon .vq-icon,
+.zoe-banner-icon .vq-icon,
+.lia-crystal-icon .vq-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.big-crown-emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.big-crown-emoji .vq-icon {
+  width: 3.4rem;
+  height: 3.4rem;
+  color: #F59E0B;
+  filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.45));
+}
+
+.sparkle-orbit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sparkle-orbit .vq-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.mastery-reward-card .reward-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mastery-reward-card .reward-icon .vq-icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.recharge-cost-pill .vq-icon {
+  width: 0.95em;
+  height: 0.95em;
+  color: #FFFFFF;
+}
+
+.power-guide-tip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.power-guide-tip-icon .vq-icon {
+  width: 1.3em;
+  height: 1.3em;
+  color: #F59E0B;
+}
+
+.powers-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.powers-info-icon .vq-icon {
+  width: 1.1em;
+  height: 1.1em;
 }
