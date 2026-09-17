@@ -336,10 +336,14 @@ totalOrigBytes += Buffer.byteLength(swContent);
 // Compute a global build hash from manifest values
 const globalBuildHash = computeHash(JSON.stringify(manifest));
 
-// Replace cache version with build hash
+// Read dynamic app version from package.json
+const pkgData = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'package.json'), 'utf8'));
+const appVersion = pkgData.version || '2.1.0';
+
+// Replace cache version with app version and build hash
 swContent = swContent.replace(
   /const CACHE_VERSION = '[^']+';/,
-  `const CACHE_VERSION = 'v2.1.0-${globalBuildHash}';`
+  `const CACHE_VERSION = 'v${appVersion}-${globalBuildHash}';`
 );
 
 // Update CORE_PRECACHE_URLS entries with hashed asset paths where available
@@ -352,7 +356,7 @@ for (const [orig, hashed] of Object.entries(manifest)) {
 const swMinified = minifyJs(swContent);
 fs.writeFileSync(path.join(DIST_DIR, 'sw.js'), swMinified, 'utf8');
 totalDistBytes += Buffer.byteLength(swMinified);
-console.log(`  ✓ sw.js generado con CACHE_VERSION = 'v2.1.0-${globalBuildHash}'`);
+console.log(`  ✓ sw.js generado con CACHE_VERSION = 'v${appVersion}-${globalBuildHash}'`);
 
 // 7. Write Asset Manifest
 console.log('\n📋 [6/6] Escribiendo asset-manifest.json...');

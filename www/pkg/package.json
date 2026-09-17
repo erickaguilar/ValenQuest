@@ -5,7 +5,7 @@
     "KidsLearn Engineering Team"
   ],
   "description": "Adaptive learning engine in Rust + WASM for primary education",
-  "version": "1.1.0",
+  "version": "2.1.0",
   "license": "MIT OR Apache-2.0",
   "files": [
     "kidslearn_wasm_bg.wasm",

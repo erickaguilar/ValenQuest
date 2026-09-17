@@ -505,13 +505,45 @@ button,
 }
 
 .footer-bottom {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.74rem;
+  font-weight: 700;
   color: var(--vq-text-muted);
 }
 
 .footer-bottom p {
   margin: 0;
+}
+
+.footer-dedication {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--vq-pink-bubble, #ec4899);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 2px 0 0 0;
+  padding: 4px 14px;
+  background: var(--vq-bg-well);
+  border: 1.5px dashed var(--vq-border);
+  border-radius: var(--vq-radius-pill, 999px);
+}
+
+.footer-heart-icon {
+  width: 15px;
+  height: 15px;
+  color: #f43f5e;
+  fill: #f43f5e;
+  animation: pulseHeart 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseHeart {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.22);
+  }
 }
 
 .footer-license-link {

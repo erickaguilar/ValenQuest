@@ -1,12 +1,12 @@
 /**
  * ValenQuest Web Component: <vq-footer>
  * Componente nativo encapsulado para el pie de página de la aplicación.
- * Muestra las insignias de confiabilidad (Rust + WASM, Privacidad Offline, RAE), enlaces rápidos y licencias.
+ * Muestra las insignias de confiabilidad, la versión actual oficial y la dedicatoria con amor.
  */
 export class VqFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-    <!-- Footer Compacto y Sin Duplicados: Reino de Lumiria -->
+    <!-- Footer Compacto: Reino de Lumiria -->
     <footer class="app-footer" role="contentinfo">
       <div class="footer-top">
         <div class="footer-brand">
@@ -36,37 +36,18 @@ export class VqFooter extends HTMLElement {
         </span>
       </div>
 
-      <!-- Enlaces útiles no duplicados -->
-      <div class="footer-links-row" aria-label="Enlaces rápidos">
-        <a href="wardrobe.html" class="footer-link">
-          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
-          <span>Ropero Mágico</span>
-        </a>
-        <span class="footer-dot-sep" aria-hidden="true">•</span>
-        <a href="story.html" class="footer-link">
-          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
-          <span>El Gran Libro</span>
-        </a>
-        <span class="footer-dot-sep" aria-hidden="true">•</span>
-        <button type="button" class="footer-link" id="btn-footer-scroll-top" title="Volver al inicio">
-          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-arrow-up"></use></svg>
-          <span>Subir</span>
-        </button>
-      </div>
+      <!-- Dedicatoria con amor para mis hijas -->
+      <p class="footer-dedication">
+        <svg class="vq-icon vq-icon--xs footer-heart-icon" aria-hidden="true"><use href="#vq-icon-heart"></use></svg>
+        <span>Hecho con amor para mis hijas</span>
+      </p>
 
-      <!-- Pie de página final con licencias duales -->
+      <!-- Pie de página final con versión real actual -->
       <div class="footer-bottom">
-        <p>ValenQuest v1.1.0 © 2026 • Licencias código abierto <a href="LICENSE.md" target="_blank" class="footer-license-link">MIT &amp; Apache-2.0</a></p>
+        <p>ValenQuest v2.1.0 • Edición Lumiria © 2026</p>
       </div>
     </footer>
     `;
-
-    const btnScrollTop = this.querySelector('#btn-footer-scroll-top');
-    if (btnScrollTop) {
-      btnScrollTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
   }
 }
 

@@ -26,6 +26,7 @@ docs/
 │
 └── 🚀 GOBERNANZA, ROADMAP Y DESARROLLO
     ├── gitflow-workflow.md                    # Flujo de trabajo GitFlow, ramas y remotos duales (GitHub + GitLab)
+    ├── versioning-policy-spec.md              # [NUEVO] Política y Homologación de Versionado en ValenQuest (SemVer y PWA)
     └── opportunities-and-roadmap-spec.md      # Oportunidades de madurez, CLT Sweller y hoja de ruta técnica
 ```
 
@@ -133,7 +134,18 @@ docs/
 
 ---
 
-### 10. 🔮 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
+### 10. 🏷️ [Política y Homologación de Versionado](./versioning-policy-spec.md)
+* **Propósito:** Garantizar que cada incremento de versión SemVer sea atómico y homologado en todo el repositorio.
+* **Contenido Principal:**
+  * Esquema SemVer 2.0.0 (MAJOR.MINOR.PATCH) adaptado a ValenQuest.
+  * Mapa canónico de 8 archivos que contienen la versión (`package.json`, `Cargo.toml`, `sw.js`, `footer.js`, HTMLs).
+  * Utilidad automatizada `npm run version:bump <nueva_version>`.
+  * Protocolo de invalidación de caché PWA en el Service Worker mediante hash determinista SHA-256.
+  * Checklist paso a paso para releases oficiales y etiquetado Git (`git tag`).
+
+---
+
+### 11. 🔮 [Oportunidades, Sugerencias y Hoja de Ruta de Evolución](./opportunities-and-roadmap-spec.md)
 * **Propósito:** Visión de futuro, madurez tecnológica y mitigación de sobrecarga cognitiva.
 * **Contenido Principal:**
   * Portales bifásicos basados en la Teoría de Carga Cognitiva de Sweller (CLT).
