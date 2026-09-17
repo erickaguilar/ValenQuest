@@ -342,18 +342,15 @@ class MathPageController {
     }
 
     // 7. Renderizar operación matemática en el display
-    const op1El = document.getElementById('math-op1');
-    const operatorEl = document.getElementById('math-operator');
-    const op2El = document.getElementById('math-op2');
     const previewEl = document.getElementById('math-preview-val');
 
     if (challenge.expression && challenge.expression.length > 0) {
       if (op1El) op1El.textContent = challenge.expression;
-      if (operatorEl) operatorEl.textContent = '';
+      if (opEl) opEl.textContent = '';
       if (op2El) op2El.textContent = '';
     } else {
       if (op1El) op1El.textContent = challenge.op1;
-      if (operatorEl) operatorEl.textContent = challenge.operator || '+';
+      if (opEl) opEl.textContent = challenge.operator || '+';
       if (op2El) op2El.textContent = challenge.op2;
     }
 
@@ -840,6 +837,14 @@ class MathPageController {
     if (liaBanner && clueText) {
       clueText.textContent = message;
       liaBanner.hidden = false;
+      if (!liaBanner._closeBound) {
+        liaBanner._closeBound = true;
+        liaBanner.style.cursor = 'pointer';
+        liaBanner.title = 'Toca para cerrar esta pista';
+        liaBanner.addEventListener('click', () => {
+          liaBanner.hidden = true;
+        });
+      }
     }
 
     // 3. En modo opciones, resaltar sutilmente la respuesta correcta con aura de cristal
