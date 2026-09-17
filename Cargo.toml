@@ -1,6 +1,6 @@
 [package]
 name = "kidslearn-wasm"
-version = "2.1.4"
+version = "2.1.5"
 edition = "2021"
 authors = ["KidsLearn Engineering Team"]
 description = "Adaptive learning engine in Rust + WASM for primary education"

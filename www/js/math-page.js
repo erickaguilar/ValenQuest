@@ -292,7 +292,7 @@ class MathPageController {
     const titleTag = document.getElementById('math-active-title');
     if (titleTag && state.levelInfo) {
       const svgName = state.levelInfo.svgIcon || 'sparkles';
-      titleTag.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-${svgName}"></use></svg> <span>Nivel ${state.selectedLevel}: ${state.levelInfo.name} (${state.levelInfo.shortName})</span>`;
+      titleTag.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-${svgName}"></use></svg> <span>${state.levelInfo.name}</span>`;
     }
 
     // 2. Sincronizar racha, récord y diamantes en barra arcade
@@ -363,8 +363,8 @@ class MathPageController {
     const btnToggleMode = document.getElementById('btn-toggle-math-mode');
     if (btnToggleMode) {
       btnToggleMode.innerHTML = state.inputMode === 'choice'
-        ? '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Usar Teclado</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg>'
-        : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Opciones</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bubble"></use></svg>';
+        ? '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-keypad"></use></svg> <span>Usar Teclado</span>'
+        : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bubble"></use></svg> <span>Opciones</span>';
     }
 
     // 7. Renderizar operación matemática en el display
