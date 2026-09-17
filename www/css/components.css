@@ -731,48 +731,61 @@
 }
 
 .powers-bar-label {
-  font-size: 0.8rem;
-  font-weight: 900;
-  color: var(--vq-text-muted);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.powers-info-btn {
+  gap: 6px;
   background: var(--vq-bg-card);
   border: 1.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
-  padding: 4px 10px;
-  font-size: 0.76rem;
-  font-weight: 800;
+  padding: 3px 10px;
+  font-size: 0.82rem;
+  font-weight: 900;
   color: var(--vq-text);
+  box-shadow: 0 1px 0 var(--vq-border);
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.powers-bar-label .vq-icon {
+  color: var(--vq-gold);
+  flex-shrink: 0;
+}
+
+.powers-info-btn {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 3px 12px;
+  font-size: 0.76rem;
+  font-weight: 900;
+  color: #92400E;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  box-shadow: 0 1px 0 var(--vq-border);
-  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.12s ease;
   font-family: inherit;
   flex-shrink: 0;
+  white-space: nowrap;
   user-select: none;
   -webkit-user-select: none;
 }
 
 .powers-info-btn:hover {
   transform: translateY(-1px);
-  background: var(--vq-gold-light, #FFF0C2);
-  border-color: var(--vq-border);
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  box-shadow: 0 3px 0 var(--vq-border);
 }
 
 .powers-info-btn:active {
   transform: translateY(1px);
-  box-shadow: none;
+  box-shadow: 0 1px 0 var(--vq-border);
 }
 
 .powers-info-icon {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   line-height: 1;
 }
 
@@ -948,15 +961,17 @@
 }
 
 [data-theme="dark"] .powers-info-btn {
-  background: #281C3F !important;
-  border-color: #8975A3 !important;
-  color: #F8F5FC !important;
+  background: linear-gradient(135deg, #78350F 0%, #451A03 100%) !important;
+  border-color: #B45309 !important;
+  color: #FEF3C7 !important;
+  box-shadow: 0 2px 0 #1A122A !important;
 }
 
 [data-theme="dark"] .powers-info-btn:hover {
-  background: #3B2A59 !important;
+  background: linear-gradient(135deg, #92400E 0%, #78350F 100%) !important;
   border-color: #FBBF24 !important;
   color: #FFFFFF !important;
+  box-shadow: 0 3px 0 #1A122A !important;
 }
 
 [data-theme="dark"] #btn-close-powers-guide {
@@ -1951,9 +1966,15 @@
   }
 
   .powers-bar-label {
-    width: 100%;
-    justify-content: center;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
+    padding: 2px 8px;
+    gap: 4px;
+  }
+
+  .powers-info-btn {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    gap: 4px;
   }
 
   .power-btn {
@@ -1977,6 +1998,18 @@
   }
 
 
+
+  .powers-bar-label {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+    gap: 3px;
+  }
+
+  .powers-info-btn {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+    gap: 3px;
+  }
 
   .power-btn {
     font-size: 0.72rem;
