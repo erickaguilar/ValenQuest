@@ -41,8 +41,8 @@ export class MathSession {
      */
     get_state_json(): string;
     get_streak(): number;
-    get_tier_changed(): number;
     get_tier(): number;
+    get_tier_changed(): number;
     get_tier_name(): string;
     get_total_answered(): number;
     get_total_correct(): number;
