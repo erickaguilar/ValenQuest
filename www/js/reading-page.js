@@ -1,6 +1,7 @@
 /**
  * ValenQuest: Controlador de la Pluma de la Fluidez (reading-page.js)
  * Maneja la sesión independiente de práctica lectora con 5 niveles en caliente,
+ * bloqueo y desbloqueo progresivo por aciertos, maestría de nivel, modal de coronación,
  * racha, combo lírico, recompensas en Diamantes (💎) y poderes de amistad.
  */
 
@@ -40,6 +41,7 @@ class ReadingPageController {
     // 2. Configurar eventos de cabecera y controles interactivos
     try { this.setupHeaderControls(); } catch (err) { console.warn(err); }
     try { this.setupLevelChips(); } catch (err) { console.warn(err); }
+    try { this.setupLevelMasteryModal(); } catch (err) { console.warn(err); }
     try { this.setupPowersBadges(); } catch (err) { console.warn(err); }
 
     // 3. Cargar estado de las guardianas y perfil desde IndexedDB
@@ -93,19 +95,72 @@ class ReadingPageController {
   }
 
   // =========================================================================
-  // Selector de Niveles (Chips en Caliente 1..5)
+  // Selector de Niveles (Chips en Caliente 1..5 con Bloqueo y Desbloqueo)
   // =========================================================================
   setupLevelChips() {
     const chips = document.querySelectorAll('.level-chip-btn');
     chips.forEach((chip) => {
       chip.addEventListener('click', async (e) => {
-        sound.playClick();
         const lvl = Number(e.currentTarget.dataset.level) || 1;
-        await readingPractice.setLevel(lvl);
+        const res = await readingPractice.setLevel(lvl);
+
+        if (!res.success && res.reason === 'locked') {
+          sound.playIncorrect();
+          const targetBtn = e.currentTarget;
+          targetBtn.classList.add('locked-shake');
+          setTimeout(() => targetBtn.classList.remove('locked-shake'), 400);
+          const prevLvl = Math.max(1, lvl - 1);
+          speech.speak(`¡Este santuario aún duerme! Corona el Nivel ${prevLvl} con tus aciertos para abrirlo.`);
+          return;
+        }
+
+        sound.playClick();
         this.renderChallenge();
         const info = readingPractice.getCurrentLevelInfo();
         speech.speak(`Nivel ${lvl}: ${info.name}. ${info.shortName}.`);
       });
+    });
+  }
+
+  // =========================================================================
+  // Modal de Coronación de Nivel Lector y Desbloqueo
+  // =========================================================================
+  setupLevelMasteryModal() {
+    const modal = document.getElementById('level-mastery-modal');
+    const btnNext = document.getElementById('btn-mastery-next-level');
+    const btnStay = document.getElementById('btn-mastery-stay');
+
+    if (btnNext) {
+      btnNext.addEventListener('click', async () => {
+        sound.playClick();
+        if (modal) modal.hidden = true;
+        const currentLvl = readingPractice.selectedLevel;
+        if (currentLvl < 5) {
+          await readingPractice.setLevel(currentLvl + 1);
+          this.renderChallenge();
+          const info = readingPractice.getCurrentLevelInfo();
+          speech.speak(`¡Avanzando al Nivel ${info.level}: ${info.name}!`);
+        }
+      });
+    }
+
+    if (btnStay) {
+      btnStay.addEventListener('click', () => {
+        sound.playClick();
+        if (modal) modal.hidden = true;
+      });
+    }
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.hidden = true;
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.hidden) {
+        modal.hidden = true;
+      }
     });
   }
 
@@ -119,10 +174,14 @@ class ReadingPageController {
 
     this.challengeStartTime = Date.now();
 
-    // 1. Sincronizar título e info del nivel
+    // 1. Sincronizar título e icono del nivel activo
     const titleTag = document.getElementById('reading-active-title');
+    const activeIcon = document.getElementById('reading-active-icon');
     if (titleTag && state.levelInfo) {
-      titleTag.textContent = `${state.levelInfo.icon || '💧'} Nivel ${state.selectedLevel}: ${state.levelInfo.name} (${state.levelInfo.shortName})`;
+      titleTag.textContent = state.levelInfo.name;
+    }
+    if (activeIcon && state.levelInfo) {
+      activeIcon.setAttribute('href', `#vq-icon-${state.levelInfo.svgIcon || 'quill'}`);
     }
 
     // 2. Sincronizar racha, récord y diamantes en barra arcade
@@ -135,29 +194,55 @@ class ReadingPageController {
     const diamondsVal = document.getElementById('reading-diamonds-val');
     if (diamondsVal) diamondsVal.textContent = state.diamondsEarned || 0;
 
-    // 3. Sincronizar chips activos
+    // 3. Sincronizar chips de nivel (bloqueo, coronación y estado activo)
+    const unlockedLevels = state.unlockedLevels || [1];
+    const masteredLevels = state.masteredLevels || [];
     document.querySelectorAll('.level-chip-btn').forEach((chip) => {
       const chipLvl = Number(chip.dataset.level);
-      chip.classList.toggle('active', chipLvl === state.selectedLevel);
+      const isUnlocked = unlockedLevels.includes(chipLvl);
+      const isMastered = masteredLevels.includes(chipLvl);
+      const isActive = chipLvl === state.selectedLevel;
+
+      chip.classList.toggle('active', isActive);
+      chip.classList.toggle('locked', !isUnlocked);
+      chip.classList.toggle('mastered', isMastered);
+      chip.setAttribute('aria-disabled', !isUnlocked ? 'true' : 'false');
+
+      if (!isUnlocked) {
+        chip.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg>';
+        chip.title = `Nivel ${chipLvl} (Bloqueado: Corona el Nivel ${Math.max(1, chipLvl - 1)} para abrir)`;
+      } else if (isMastered) {
+        chip.innerHTML = `${chipLvl}<span class="chip-crown-badge"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></span>`;
+        chip.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;
+      } else {
+        chip.innerHTML = `${chipLvl}`;
+        chip.title = `Nivel ${chipLvl}`;
+      }
     });
 
-    // 4. Sincronizar combo bar
+    // 4. Sincronizar Barra de Maestría Lectora
+    const currentMastery = state.currentMastery || 0;
+    const isCurrentMastered = state.isCurrentMastered || currentMastery >= 100;
+    this.updateMasteryDisplay(currentMastery, isCurrentMastered);
+
+    // 5. Sincronizar barra de combo lírico
     const comboPct = document.getElementById('reading-combo-pct');
     const comboFill = document.getElementById('reading-combo-fill');
     const comboBadge = document.getElementById('reading-combo-badge');
     if (comboPct) comboPct.textContent = `${state.combo}%`;
     if (comboFill) comboFill.style.width = `${state.combo}%`;
     if (comboBadge) {
-      comboBadge.textContent = state.totalCombos > 0 ? `⚡ x${state.totalCombos + 1}` : '⚡ x1';
+      const comboNum = state.totalCombos > 0 ? state.totalCombos + 1 : 1;
+      comboBadge.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>x${comboNum}</span>`;
     }
 
-    // 5. Renderizar consigna
+    // 6. Renderizar consigna
     const promptText = document.getElementById('challenge-prompt-text');
     if (promptText) {
       promptText.textContent = challenge.prompt;
     }
 
-    // 6. Botón de narración por voz con Orión
+    // 7. Botón de narración por voz con Orión
     const btnSpeak = document.getElementById('btn-speak-challenge');
     if (btnSpeak) {
       btnSpeak.onclick = () => {
@@ -166,7 +251,7 @@ class ReadingPageController {
       };
     }
 
-    // 7. Renderizar contenido específico del nivel
+    // 8. Renderizar contenido específico del nivel
     const contentArea = document.getElementById('challenge-content-area');
     if (contentArea) {
       contentArea.innerHTML = '';
@@ -178,7 +263,7 @@ class ReadingPageController {
       } else if (challenge.type === 'sentence') {
         contentArea.innerHTML = `
           <div class="sentence-text">«${challenge.sentence}»</div>
-          <div class="sentence-question">❓ ${challenge.question}</div>
+          <div class="sentence-question"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>${challenge.question}</span></div>
         `;
       } else if (challenge.type === 'rsvp') {
         contentArea.innerHTML = `
@@ -189,7 +274,7 @@ class ReadingPageController {
                 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
                 <span>¡Iniciar Velocímetro!</span>
               </button>
-              <div class="sentence-question" id="rsvp-question-tag" style="display:none;">❓ ${challenge.question}</div>
+              <div class="sentence-question" id="rsvp-question-tag" style="display:none;"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>${challenge.question}</span></div>
             </div>
           </div>
         `;
@@ -199,13 +284,13 @@ class ReadingPageController {
           <div class="fable-box">
             <h4 class="fable-title"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg> ${challenge.title}</h4>
             <p class="fable-text">${challenge.text}</p>
-            <div class="fable-question">❓ ${challenge.question}</div>
+            <div class="fable-question"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>${challenge.question}</span></div>
           </div>
         `;
       }
     }
 
-    // 8. Renderizar opciones múltiples
+    // 9. Renderizar opciones múltiples
     const optionsGrid = document.getElementById('reading-options-grid');
     if (optionsGrid) {
       optionsGrid.innerHTML = '';
@@ -217,6 +302,38 @@ class ReadingPageController {
         btn.addEventListener('click', (e) => this.submitAnswer(optText, e.currentTarget));
         optionsGrid.appendChild(btn);
       });
+    }
+  }
+
+  // =========================================================================
+  // Actualización de la Barra de Maestría Lectora
+  // =========================================================================
+  updateMasteryDisplay(currentMastery = 0, isCurrentMastered = false) {
+    const masteryBadge = document.getElementById('reading-mastery-badge');
+    const masteryFill = document.getElementById('reading-mastery-fill');
+    const masteryStatus = document.getElementById('reading-mastery-status');
+
+    if (masteryBadge) masteryBadge.textContent = `${currentMastery}%`;
+    if (masteryFill) {
+      masteryFill.style.width = `${currentMastery}%`;
+      masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', currentMastery);
+    }
+    if (masteryStatus) {
+      const targetAciertos = readingPractice.targetAciertos || 15;
+      const approxCount = Math.min(targetAciertos, Math.round((currentMastery / 100) * targetAciertos));
+      if (isCurrentMastered || currentMastery >= 100) {
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>¡Coronado! (${targetAciertos}/${targetAciertos})</span>`;
+      } else if (currentMastery >= 90) {
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-flame"></use></svg> <span>${approxCount}/${targetAciertos} aciertos</span>`;
+      } else if (currentMastery >= 60) {
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>${approxCount}/${targetAciertos} aciertos</span>`;
+      } else if (currentMastery >= 30) {
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> <span>${approxCount}/${targetAciertos} aciertos</span>`;
+      } else if (currentMastery > 0) {
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>${approxCount}/${targetAciertos} aciertos</span>`;
+      } else {
+        masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>0/${targetAciertos} aciertos</span>`;
+      }
     }
   }
 
@@ -246,7 +363,7 @@ class ReadingPageController {
         } else {
           clearInterval(this.rsvpTimer);
           this.isRsvpPlaying = false;
-          box.textContent = '✨ ¡Lectura Completa!';
+          box.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>¡Lectura Completa!</span>';
           if (questionTag) questionTag.style.display = 'block';
           btnPlay.disabled = false;
         }
@@ -283,9 +400,14 @@ class ReadingPageController {
           console.warn('Error saving diamonds in reading:', e);
         }
 
-        // Sincronizar barra arcade
+        // Sincronizar barra arcade y maestría
         const diamondsVal = document.getElementById('reading-diamonds-val');
         if (diamondsVal) diamondsVal.textContent = res.totalDiamonds;
+
+        this.updateMasteryDisplay(
+          res.currentMastery,
+          res.currentMastery >= 100 || (res.masteredLevels && res.masteredLevels.includes(readingPractice.selectedLevel))
+        );
 
         const comboPct = document.getElementById('reading-combo-pct');
         const comboFill = document.getElementById('reading-combo-fill');
@@ -293,7 +415,8 @@ class ReadingPageController {
         if (comboPct) comboPct.textContent = `${res.combo}%`;
         if (comboFill) comboFill.style.width = `${res.combo}%`;
         if (comboBadge) {
-          comboBadge.textContent = res.totalCombos > 0 ? `⚡ x${res.totalCombos + 1}` : '⚡ x1';
+          const comboNum = res.totalCombos > 0 ? res.totalCombos + 1 : 1;
+          comboBadge.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>x${comboNum}</span>`;
         }
 
         // Ventaja de racha con princesas
@@ -302,7 +425,19 @@ class ReadingPageController {
           this.updatePowersBadges();
         } catch (e) {}
 
-        if (res.comboBurst) {
+        if (res.justMastered) {
+          if (res.comboBurst) {
+            const comboWrapper = document.getElementById('reading-combo-wrapper');
+            if (comboWrapper) {
+              comboWrapper.classList.add('combo-burst-burst');
+              setTimeout(() => comboWrapper.classList.remove('combo-burst-burst'), 1200);
+            }
+            readingPractice.resetCombo();
+            if (comboPct) comboPct.textContent = '0%';
+            if (comboFill) comboFill.style.width = '0%';
+          }
+          this.showLevelMasteryCelebration(res);
+        } else if (res.comboBurst) {
           const comboWrapper = document.getElementById('reading-combo-wrapper');
           if (comboWrapper) {
             comboWrapper.classList.add('combo-burst-burst');
@@ -351,6 +486,54 @@ class ReadingPageController {
       readingPractice.generateChallenge();
       this.renderChallenge();
     }
+  }
+
+  showLevelMasteryCelebration(res) {
+    const modal = document.getElementById('level-mastery-modal');
+    const subtitle = document.getElementById('level-mastery-subtitle');
+    const rewardUnlockedCard = document.getElementById('reward-unlocked-card');
+    const rewardUnlockedTitle = document.getElementById('reward-unlocked-title');
+    const btnNext = document.getElementById('btn-mastery-next-level');
+
+    const currentLevel = readingPractice.selectedLevel;
+    const currentInfo = readingPractice.getCurrentLevelInfo();
+
+    if (subtitle) {
+      subtitle.innerHTML = `¡Has dominado el <strong>Nivel ${currentLevel}: ${currentInfo.name}</strong> al 100%!`;
+    }
+
+    if (res.newlyUnlockedLevel) {
+      const nextInfo = READING_LEVELS.find((l) => l.level === res.newlyUnlockedLevel);
+      if (rewardUnlockedCard) rewardUnlockedCard.hidden = false;
+      if (rewardUnlockedTitle && nextInfo) {
+        rewardUnlockedTitle.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-${nextInfo.svgIcon || 'scroll'}"></use></svg> <span>Nivel ${nextInfo.level}: ${nextInfo.name}</span>`;
+      }
+      if (btnNext) btnNext.hidden = false;
+    } else {
+      if (currentLevel >= 5) {
+        if (rewardUnlockedCard) rewardUnlockedCard.hidden = false;
+        if (rewardUnlockedTitle) {
+          rewardUnlockedTitle.innerHTML = '<span>¡Has coronado todos los santuarios de la Pluma de la Fluidez!</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>';
+        }
+        if (btnNext) btnNext.hidden = true;
+      } else {
+        if (rewardUnlockedCard) rewardUnlockedCard.hidden = true;
+        if (btnNext) btnNext.hidden = false;
+      }
+    }
+
+    if (modal) {
+      modal.hidden = false;
+    }
+
+    try { sound.playLevelUp(); } catch (e) {}
+    try { sound.playStreak(); } catch (e) {}
+    try {
+      const orionMsg = res.newlyUnlockedLevel
+        ? `¡Extraordinario! Has coronado el Nivel ${currentLevel}. Se ha abierto el Nivel ${res.newlyUnlockedLevel} y recibes quince diamantes para tu ropero.`
+        : `¡Maravilloso! Has alcanzado la maestría máxima del Nivel ${currentLevel}. ¡Quince diamantes para ti!`;
+      speech.speak(orionMsg);
+    } catch (e) {}
   }
 
   updateDiamondsDisplay(diamonds) {
@@ -479,7 +662,7 @@ class ReadingPageController {
         card.classList.add('crystal-focus');
         setTimeout(() => card.classList.remove('crystal-focus'), 1600);
       }
-      const promptArea = document.querySelector('.reading-prompt-display');
+      const promptArea = document.querySelector('.challenge-prompt-text');
       if (promptArea) {
         promptArea.style.transform = 'scale(1.05)';
         promptArea.style.transition = 'transform 0.3s ease';

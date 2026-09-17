@@ -1,7 +1,8 @@
 /**
  * ValenQuest: Reading Practice Service (La Pluma de la Fluidez)
  * Orquestador del taller de lenguaje y fluidez estructurado en 5 niveles de maestría.
- * Implementa generador de retos, cálculo de racha, Combo Lírico (0% a 100%)
+ * Implementa generador de retos, cálculo de racha, Combo Lírico (0% a 100%),
+ * progresión de maestría (desbloqueo de niveles por aciertos)
  * y recompensas en Diamantes (💎) con persistencia en IndexedDB (valenquest_db).
  */
 import { storage } from './storage.js';
@@ -14,6 +15,7 @@ export const READING_LEVELS = [
     shortName: 'Palabras Directas',
     description: 'Silabeo básico y palabras bisílabas (ma-pa, lu-na).',
     icon: '💧',
+    svgIcon: 'quill',
   },
   {
     level: 2,
@@ -22,6 +24,7 @@ export const READING_LEVELS = [
     shortName: 'Sílabas Trabadas',
     description: 'Grupos consonánticos inseparables (bra, pla, tro, glu).',
     icon: '🍃',
+    svgIcon: 'leaf',
   },
   {
     level: 3,
@@ -30,6 +33,7 @@ export const READING_LEVELS = [
     shortName: 'Oraciones con Orión',
     description: 'Frases completas con lectura asistida en voz alta.',
     icon: '📜',
+    svgIcon: 'scroll',
   },
   {
     level: 4,
@@ -38,6 +42,7 @@ export const READING_LEVELS = [
     shortName: 'Velocímetro RSVP',
     description: 'Entrenamiento de velocidad visual palabra a palabra.',
     icon: '⚡',
+    svgIcon: 'bolt',
   },
   {
     level: 5,
@@ -46,10 +51,11 @@ export const READING_LEVELS = [
     shortName: 'Comprensión Lectora',
     description: 'Micro-cuentos, inferencias, sinónimos y rimas.',
     icon: '📖',
+    svgIcon: 'reading',
   },
 ];
 
-// Banco Curado de Retos Lingüísticos por Nivel
+// Banco Curado y Extenso de Retos Lingüísticos por Nivel
 const CHALLENGES_BY_LEVEL = {
   1: [
     {
@@ -133,6 +139,69 @@ const CHALLENGES_BY_LEVEL = {
       answer: 'Estrella',
       hint: 'Ilumina los cielos de las princesas.',
     },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra se forma al unir las sílabas?',
+      displayHtml: '<span class="syl syl-1">BO</span> <span class="syl-sep">•</span> <span class="syl syl-2">LA</span>',
+      speakText: 'Bo... la...',
+      options: ['Bola', 'Bota', 'Boca'],
+      answer: 'Bola',
+      hint: 'Objeto redondo para jugar en el jardín.',
+    },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra se forma al unir las sílabas?',
+      displayHtml: '<span class="syl syl-1">PI</span> <span class="syl-sep">•</span> <span class="syl syl-2">NO</span>',
+      speakText: 'Pi... no...',
+      options: ['Pino', 'Pipa', 'Piso'],
+      answer: 'Pino',
+      hint: 'Árbol alto y verde del bosque sagrado.',
+    },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra se forma al unir las sílabas?',
+      displayHtml: '<span class="syl syl-1">VA</span> <span class="syl-sep">•</span> <span class="syl syl-2">SO</span>',
+      speakText: 'Va... so...',
+      options: ['Vaso', 'Vela', 'Vino'],
+      answer: 'Vaso',
+      hint: 'Recipiente para beber agua fresca.',
+    },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra se forma al unir las sílabas?',
+      displayHtml: '<span class="syl syl-1">LE</span> <span class="syl-sep">•</span> <span class="syl syl-2">CHE</span>',
+      speakText: 'Le... che...',
+      options: ['Leche', 'Lente', 'Lema'],
+      answer: 'Leche',
+      hint: 'Bebida blanca y nutritiva.',
+    },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra se forma al unir las sílabas?',
+      displayHtml: '<span class="syl syl-1">MO</span> <span class="syl-sep">•</span> <span class="syl syl-2">NO</span>',
+      speakText: 'Mo... no...',
+      options: ['Mono', 'Moro', 'Moto'],
+      answer: 'Mono',
+      hint: 'Animalito ágil que salta de rama en rama.',
+    },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra se forma al unir las sílabas?',
+      displayHtml: '<span class="syl syl-1">FA</span> <span class="syl-sep">•</span> <span class="syl syl-2">RO</span>',
+      speakText: 'Fa... ro...',
+      options: ['Faro', 'Faja', 'Fama'],
+      answer: 'Faro',
+      hint: 'Torre con luz que guía a los barcos.',
+    },
+    {
+      type: 'syllables',
+      prompt: '¿Qué palabra mágica tiene tres sílabas?',
+      displayHtml: '<span class="syl syl-1">CO</span> <span class="syl-sep">•</span> <span class="syl syl-2">NE</span> <span class="syl-sep">•</span> <span class="syl syl-3">JO</span>',
+      speakText: 'Co... ne... jo...',
+      options: ['Conejo', 'Consejo', 'Cofre'],
+      answer: 'Conejo',
+      hint: 'Amiguito de orejas largas que come zanahoria.',
+    },
   ],
   2: [
     {
@@ -207,6 +276,60 @@ const CHALLENGES_BY_LEVEL = {
       answer: 'Blanco',
       hint: 'El color de las nubes del solsticio.',
     },
+    {
+      type: 'blend',
+      prompt: '¿Qué palabra tiene el grupo consonántico "PR"?',
+      displayHtml: '<span class="blend-highlight">PR</span>',
+      speakText: '¿Cuál palabra tiene el sonido PR?',
+      options: ['Princesa', 'Pesa', 'Plaza'],
+      answer: 'Princesa',
+      hint: 'Guardián noble del reino de Lumiria.',
+    },
+    {
+      type: 'blend',
+      prompt: '¿Qué palabra tiene el grupo consonántico "GR"?',
+      displayHtml: '<span class="blend-highlight">GR</span>',
+      speakText: '¿Cuál palabra tiene el sonido GR?',
+      options: ['Grillo', 'Gallo', 'Giro'],
+      answer: 'Grillo',
+      hint: 'Insecto que canta alegre en las noches de verano.',
+    },
+    {
+      type: 'blend',
+      prompt: '¿Qué palabra tiene el grupo consonántico "CL"?',
+      displayHtml: '<span class="blend-highlight">CL</span>',
+      speakText: '¿Cuál palabra tiene el sonido CL?',
+      options: ['Clavo', 'Caldo', 'Cavo'],
+      answer: 'Clavo',
+      hint: 'Pieza de metal que une maderas firmes.',
+    },
+    {
+      type: 'blend',
+      prompt: '¿Qué palabra tiene el grupo consonántico "FL"?',
+      displayHtml: '<span class="blend-highlight">FL</span>',
+      speakText: '¿Cuál palabra tiene el sonido FL?',
+      options: ['Flor', 'Faro', 'Fila'],
+      answer: 'Flor',
+      hint: 'Brota con hermosos pétalos de colores.',
+    },
+    {
+      type: 'blend',
+      prompt: '¿Qué palabra se forma con: FRE - SA?',
+      displayHtml: '<span class="syl syl-1">FRE</span> <span class="syl-sep">•</span> <span class="syl syl-2">SA</span>',
+      speakText: 'Fre... sa...',
+      options: ['Fresa', 'Fosa', 'Fila'],
+      answer: 'Fresa',
+      hint: 'Fruta roja y dulce que le encanta a Zoe.',
+    },
+    {
+      type: 'blend',
+      prompt: '¿Qué palabra tiene el grupo consonántico "TR"?',
+      displayHtml: '<span class="blend-highlight">TR</span>',
+      speakText: '¿Cuál palabra tiene el sonido TR?',
+      options: ['Tren', 'Toro', 'Tela'],
+      answer: 'Tren',
+      hint: 'Vehículo que viaja veloz sobre las vías.',
+    },
   ],
   3: [
     {
@@ -259,6 +382,56 @@ const CHALLENGES_BY_LEVEL = {
       answer: 'En la biblioteca',
       hint: 'El lugar lleno de estantes y pergaminos.',
     },
+    {
+      type: 'sentence',
+      prompt: 'Lee la oración con Orión y responde:',
+      sentence: 'Valen descubrió un cristal brillante en la orilla del lago azul.',
+      question: '¿Qué descubrió Valen?',
+      speakText: 'Valen descubrió un cristal brillante en la orilla del lago azul. ¿Qué descubrió Valen?',
+      options: ['Un cristal brillante', 'Una bota vieja', 'Una llave de madera'],
+      answer: 'Un cristal brillante',
+      hint: 'Brillaba con la luz del amanecer.',
+    },
+    {
+      type: 'sentence',
+      prompt: 'Lee la oración con Orión y responde:',
+      sentence: 'Reni ayuda a los pajaritos a construir sus nidos en el gran roble.',
+      question: '¿A quiénes ayuda Reni?',
+      speakText: 'Reni ayuda a los pajaritos a construir sus nidos en el gran roble. ¿A quiénes ayuda Reni?',
+      options: ['A los pajaritos', 'A los peces', 'A los topos'],
+      answer: 'A los pajaritos',
+      hint: 'Tienen plumas y cantan alegremente.',
+    },
+    {
+      type: 'sentence',
+      prompt: 'Lee la oración con Orión y responde:',
+      sentence: 'Zoe prepara una merienda deliciosa de fresas y miel para sus amigas.',
+      question: '¿Qué prepara Zoe?',
+      speakText: 'Zoe prepara una merienda deliciosa de fresas y miel. ¿Qué prepara Zoe?',
+      options: ['Fresas y miel', 'Sopa de cebolla', 'Pan duro'],
+      answer: 'Fresas y miel',
+      hint: 'Un manjar dulce del jardín.',
+    },
+    {
+      type: 'sentence',
+      prompt: 'Lee la oración con Orión y responde:',
+      sentence: 'Lía dibuja constelaciones luminosas en su cuaderno de magia.',
+      question: '¿Qué dibuja Lía?',
+      speakText: 'Lía dibuja constelaciones luminosas en su cuaderno de magia. ¿Qué dibuja Lía?',
+      options: ['Constelaciones luminosas', 'Coches de carreras', 'Peces nadando'],
+      answer: 'Constelaciones luminosas',
+      hint: 'Figuras trazadas con estrellas.',
+    },
+    {
+      type: 'sentence',
+      prompt: 'Lee la oración con Orión y responde:',
+      sentence: 'El puente de arcoíris conecta el bosque encantado con el Palacio Real.',
+      question: '¿Qué conecta el puente de arcoíris?',
+      speakText: 'El puente de arcoíris conecta el bosque encantado con el Palacio Real. ¿Qué conecta el puente?',
+      options: ['El bosque encantado con el Palacio', 'La cueva con el río', 'El molino con el mar'],
+      answer: 'El bosque encantado con el Palacio',
+      hint: 'Une dos lugares mágicos de Lumiria.',
+    },
   ],
   4: [
     {
@@ -301,6 +474,56 @@ const CHALLENGES_BY_LEVEL = {
       answer: 'Un cometa',
       hint: 'Un cuerpo celeste con cola luminosa.',
     },
+    {
+      type: 'rsvp',
+      prompt: '¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:',
+      words: ['La', 'estrella', 'polar', 'guía', 'a', 'los', 'viajeros'],
+      question: '¿A quiénes guía la estrella polar?',
+      speakText: '¿A quiénes guía la estrella polar?',
+      options: ['A los viajeros', 'A los osos', 'A las nubes'],
+      answer: 'A los viajeros',
+      hint: 'Personas que exploran nuevos caminos.',
+    },
+    {
+      type: 'rsvp',
+      prompt: '¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:',
+      words: ['El', 'unicornio', 'blanco', 'bebe', 'agua', 'cristalina'],
+      question: '¿Qué bebe el unicornio blanco?',
+      speakText: '¿Qué bebe el unicornio blanco?',
+      options: ['Agua cristalina', 'Jugo de uva', 'Té caliente'],
+      answer: 'Agua cristalina',
+      hint: 'El agua pura y limpia del manantial.',
+    },
+    {
+      type: 'rsvp',
+      prompt: '¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:',
+      words: ['Zoe', 'planta', 'un', 'girasol', 'gigante', 'y', 'dorado'],
+      question: '¿Qué planta Zoe?',
+      speakText: '¿Qué planta Zoe?',
+      options: ['Un girasol gigante', 'Un pino pequeño', 'Un cactus seco'],
+      answer: 'Un girasol gigante',
+      hint: 'Una flor amarilla que sigue al sol.',
+    },
+    {
+      type: 'rsvp',
+      prompt: '¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:',
+      words: ['Un', 'delfín', 'rosado', 'salta', 'sobre', 'las', 'olas'],
+      question: '¿Quién salta sobre las olas?',
+      speakText: '¿Quién salta sobre las olas?',
+      options: ['Un delfín rosado', 'Un oso polar', 'Un caracol'],
+      answer: 'Un delfín rosado',
+      hint: 'Un amigo acuático alegre y juguetón.',
+    },
+    {
+      type: 'rsvp',
+      prompt: '¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:',
+      words: ['La', 'llave', 'dorada', 'abre', 'el', 'gran', 'cofre'],
+      question: '¿Qué abre la llave dorada?',
+      speakText: '¿Qué abre la llave dorada?',
+      options: ['El gran cofre', 'La ventana rota', 'El libro cerrado'],
+      answer: 'El gran cofre',
+      hint: 'La caja donde se guardan los tesoros.',
+    },
   ],
   5: [
     {
@@ -329,7 +552,7 @@ const CHALLENGES_BY_LEVEL = {
       type: 'fable',
       prompt: 'Lee la pequeña fábula y encuentra la respuesta sabia:',
       title: 'La Semilla de Zoe',
-      text: 'Zoe encontró una pequeña semilla en el corazón del bosque. En lugar de guardarla en una caja, la plantó en tierra fértil y la regó cada mañana con paciencia. Con el tiempo, creció un árbol frutal gigante que dio sombra y alimento a todos los animales.',
+      text: 'Zoe encontró una pequeña semilla en el corazón del bosque. En lugar de guardarla en una caja, la plantó en tierra féil y la regó cada mañana con paciencia. Con el tiempo, creció un árbol frutal gigante que dio sombra y alimento a todos los animales.',
       question: '¿Qué lección nos enseña la acción de Zoe?',
       speakText: 'Zoe plantó la semilla y la cuidó con paciencia hasta crecer un gran árbol. ¿Qué lección nos enseña la acción de Zoe?',
       options: ['La paciencia y compartir dan frutos', 'Es mejor guardar las cosas', 'Los árboles no necesitan agua'],
@@ -347,12 +570,38 @@ const CHALLENGES_BY_LEVEL = {
       answer: 'Los protegió con sus alas valientes',
       hint: 'El valor de ayudar a quienes lo necesitan.',
     },
+    {
+      type: 'fable',
+      prompt: 'Lee la pequeña fábula y encuentra la respuesta sabia:',
+      title: 'La Luciérnaga Tímida',
+      text: 'Lili era una luciérnaga que sentía que su luz era muy pequeña comparada con la luna. Una noche sin estrellas, un conejito se perdió en la espesura. Lili se acercó y con su destello suave guió al conejito hasta su madriguera, descubriendo que toda luz, por pequeña que sea, es valiosa.',
+      question: '¿Qué descubrió Lili sobre su luz?',
+      speakText: 'Lili era una luciérnaga que pensaba que su luz era pequeña, pero guió a un conejito perdido. ¿Qué descubrió Lili sobre su luz?',
+      options: ['Toda luz es valiosa para ayudar', 'Que la luna es más útil', 'Que era mejor apagarse'],
+      answer: 'Toda luz es valiosa para ayudar',
+      hint: 'Ayudar a un amigo demuestra tu verdadero brillo.',
+    },
+    {
+      type: 'fable',
+      prompt: 'Lee la pequeña fábula y encuentra la respuesta sabia:',
+      title: 'El Caracol y la Montaña',
+      text: 'Todos los animales le decían al caracol Tito que la montaña era demasiado alta para él. Tito sonrió y avanzó paso a pasito, disfrutando cada hoja del sendero y descansando cuando era necesario. Una mañana de sol, Tito llegó a la cima y contempló todo el reino de Lumiria.',
+      question: '¿Cómo logró Tito llegar a la cima de la montaña?',
+      speakText: 'Tito el caracol avanzó paso a pasito disfrutando el camino. ¿Cómo logró Tito llegar a la cima?',
+      options: ['Con constancia y paciencia paso a paso', 'Pidiendo que lo llevaran volando', 'Rindiéndose en la primera colina'],
+      answer: 'Con constancia y paciencia paso a paso',
+      hint: 'No rendirse y avanzar poco a poco permite lograr grandes metas.',
+    },
   ],
 };
 
 export class ReadingPracticeService {
   constructor() {
     this.selectedLevel = 1;
+    this.unlockedLevels = [1];
+    this.masteredLevels = [];
+    this.levelMastery = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    this.targetAciertos = 15;
     this.streak = 0;
     this.highestStreak = 0;
     this.totalAnswered = 0;
@@ -374,6 +623,21 @@ export class ReadingPracticeService {
       const state = await storage.getModuleState('reading_practice');
       if (state) {
         this.selectedLevel = state.selectedLevel || 1;
+        this.unlockedLevels = Array.isArray(state.unlockedLevels) && state.unlockedLevels.length > 0
+          ? state.unlockedLevels
+          : [1];
+        if (!this.unlockedLevels.includes(1)) {
+          this.unlockedLevels.push(1);
+        }
+        this.masteredLevels = Array.isArray(state.masteredLevels) ? state.masteredLevels : [];
+        this.levelMastery = state.levelMastery && typeof state.levelMastery === 'object'
+          ? { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, ...state.levelMastery }
+          : { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+        if (!this.unlockedLevels.includes(this.selectedLevel)) {
+          this.selectedLevel = Math.max(...this.unlockedLevels);
+        }
+
         this.streak = state.streak || 0;
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
@@ -394,6 +658,9 @@ export class ReadingPracticeService {
     try {
       const payload = {
         selectedLevel: this.selectedLevel,
+        unlockedLevels: this.unlockedLevels,
+        masteredLevels: this.masteredLevels,
+        levelMastery: this.levelMastery,
         levelName: this.getCurrentLevelInfo().name,
         streak: this.streak,
         highestStreak: this.highestStreak,
@@ -429,6 +696,12 @@ export class ReadingPracticeService {
     return {
       selectedLevel: this.selectedLevel,
       levelInfo: this.getCurrentLevelInfo(),
+      unlockedLevels: this.unlockedLevels,
+      masteredLevels: this.masteredLevels,
+      levelMastery: this.levelMastery,
+      currentMastery: this.levelMastery[this.selectedLevel] || 0,
+      isCurrentMastered: this.masteredLevels.includes(this.selectedLevel) || ((this.levelMastery[this.selectedLevel] || 0) >= 100),
+      targetAciertos: this.targetAciertos,
       streak: this.streak,
       highestStreak: this.highestStreak,
       totalAnswered: this.totalAnswered,
@@ -443,10 +716,15 @@ export class ReadingPracticeService {
 
   async setLevel(level) {
     const validLevel = Math.max(1, Math.min(5, Number(level) || 1));
+    if (!this.unlockedLevels.includes(validLevel)) {
+      return { success: false, reason: 'locked', level: validLevel };
+    }
     this.selectedLevel = validLevel;
+    this.streak = 0;
+    this.combo = 0;
     this.generateChallenge();
     await this.saveState();
-    return this.getState();
+    return { success: true, state: this.getState() };
   }
 
   generateChallenge() {
@@ -484,6 +762,9 @@ export class ReadingPracticeService {
     this.totalAnswered++;
     let comboBurst = false;
     let earnedDiamonds = 0;
+    let masteryGain = 0;
+    let justMastered = false;
+    let newlyUnlockedLevel = null;
 
     if (isCorrect) {
       this.streak++;
@@ -492,10 +773,14 @@ export class ReadingPracticeService {
       }
       this.wordsRead += 4; // Promedio de palabras consolidadas por reto
 
+      // Progreso de Maestría Lector: Base +7% (~15 aciertos para completar el 100%),
+      // con bonificación acelerada (+10%) si la racha es >= 3
+      masteryGain = this.streak >= 3 ? 10 : 7;
+
       const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
       const nextCombo = Math.min(100, (this.combo || 0) + gain);
 
-      // Cálculo de Diamantes (Igual que en matemáticas: Práctica Libre da Diamantes estéticos)
+      // Cálculo de Diamantes (Práctica Libre da Diamantes estéticos)
       const baseDiamonds = elapsedMs > 0 && elapsedMs <= 4000 ? 2 : 1;
       const isStreakMilestone = this.streak > 0 && this.streak % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
@@ -506,14 +791,40 @@ export class ReadingPracticeService {
         this.totalCombos = (this.totalCombos || 0) + 1;
         this.combo = 100; // Se mantiene en 100% para visualización del burst en UI
         earnedDiamonds += 10; // +10 Diamantes bonus por Súper Combo Lírico
+
+        // Súper Combo Lírico otorga un impulso de +10% de maestría adicional
+        masteryGain += 10;
       } else {
         this.combo = nextCombo;
       }
+
+      // Actualizar la maestría del nivel actual (máximo 100%)
+      const currentMastery = this.levelMastery[this.selectedLevel] || 0;
+      const newMastery = Math.min(100, currentMastery + masteryGain);
+      this.levelMastery[this.selectedLevel] = newMastery;
+
+      // Evaluar coronación del nivel si alcanza el 100%
+      if (newMastery >= 100 && !this.masteredLevels.includes(this.selectedLevel)) {
+        justMastered = true;
+        this.masteredLevels.push(this.selectedLevel);
+        earnedDiamonds += 15; // Cofre de recompensa especial: +15 diamantes al coronar el nivel
+
+        // Desbloquear el siguiente nivel si existe
+        if (this.selectedLevel < 5) {
+          const nextLvl = this.selectedLevel + 1;
+          if (!this.unlockedLevels.includes(nextLvl)) {
+            this.unlockedLevels.push(nextLvl);
+            newlyUnlockedLevel = nextLvl;
+          }
+        }
+      }
+
       this.diamondsEarned = (this.diamondsEarned || 0) + earnedDiamonds;
     } else {
       if (isShieldActive) {
         // Escudo de Zoe: Racha y combo protegidos
       } else {
+        // Pedagogía sin castigo: Racha y combo a 0, pero la maestría acumulada se mantiene intacta
         this.streak = 0;
         this.combo = 0;
       }
@@ -530,6 +841,12 @@ export class ReadingPracticeService {
       combo: typeof this.combo === 'number' ? this.combo : 0,
       comboBurst,
       totalCombos: this.totalCombos || 0,
+      masteryGain,
+      currentMastery: this.levelMastery[this.selectedLevel] || 0,
+      justMastered,
+      newlyUnlockedLevel,
+      unlockedLevels: this.unlockedLevels,
+      masteredLevels: this.masteredLevels,
       earnedDiamonds,
       totalDiamonds: this.diamondsEarned,
       correctAnswer: this.currentChallenge.answer,

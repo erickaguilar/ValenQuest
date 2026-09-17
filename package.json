@@ -1,6 +1,6 @@
 {
   "name": "valenquest",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "KidsLearn-WASM: Plataforma interactiva en Rust WebAssembly y Vanilla JS para el aprendizaje infantil en Lumiria",
   "type": "module",
   "scripts": {
