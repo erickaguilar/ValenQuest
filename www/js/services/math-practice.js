@@ -57,7 +57,7 @@ export class MathPracticeService {
     this.wasm = null;
     this.session = null;
     this.selectedLevel = 1;
-    this.unlockedLevels = [1];
+    this.unlockedLevels = [1, 2, 3, 4, 5];
     this.masteredLevels = [];
     this.levelMastery = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     this.streak = 0;
@@ -70,6 +70,10 @@ export class MathPracticeService {
     this.keypadBuffer = '';
     this.listeners = [];
     this.currentChallenge = this.generateFallbackChallenge();
+  }
+
+  get currentLevel() {
+    return this.selectedLevel;
   }
 
   init(wasm) {
@@ -85,20 +89,12 @@ export class MathPracticeService {
       const state = await storage.getModuleState('math_practice');
       if (state) {
         this.selectedLevel = state.selectedLevel || 1;
-        this.unlockedLevels = Array.isArray(state.unlockedLevels) && state.unlockedLevels.length > 0
-          ? state.unlockedLevels
-          : [1];
-        if (!this.unlockedLevels.includes(1)) {
-          this.unlockedLevels.push(1);
-        }
+        // Todos los 5 niveles desbloqueados para práctica accesible
+        this.unlockedLevels = [1, 2, 3, 4, 5];
         this.masteredLevels = Array.isArray(state.masteredLevels) ? state.masteredLevels : [];
         this.levelMastery = state.levelMastery && typeof state.levelMastery === 'object'
           ? { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, ...state.levelMastery }
           : { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-
-        if (!this.unlockedLevels.includes(this.selectedLevel)) {
-          this.selectedLevel = Math.max(...this.unlockedLevels);
-        }
 
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
@@ -181,9 +177,6 @@ export class MathPracticeService {
 
   async setLevel(level) {
     const validLevel = Math.max(1, Math.min(5, Number(level) || 1));
-    if (!this.unlockedLevels.includes(validLevel)) {
-      return { success: false, reason: 'locked', level: validLevel };
-    }
     this.selectedLevel = validLevel;
     this.streak = 0;
     this.combo = 0;

@@ -4,7 +4,7 @@
  * y Runtime Caching con Stale-While-Revalidate para el resto de páginas y módulos.
  */
 
-const CACHE_VERSION = 'v2.1.1';
+const CACHE_VERSION = 'v2.1.2';
 const CORE_CACHE_NAME = `valenquest-core-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `valenquest-runtime-${CACHE_VERSION}`;
 

@@ -189,9 +189,22 @@ class KidsLearnApp {
   }
 
   updateMathChipsUI(lvl) {
+    const masteredLevels = mathPractice.masteredLevels || [];
     document.querySelectorAll('#math-level-chips .level-chip-btn').forEach((btn) => {
-      const active = Number(btn.dataset.level) === lvl;
+      const chipLvl = Number(btn.dataset.level);
+      const active = chipLvl === lvl;
+      const isMastered = masteredLevels.includes(chipLvl);
       btn.classList.toggle('active', active);
+      btn.classList.toggle('mastered', isMastered);
+      btn.classList.remove('locked');
+      btn.removeAttribute('aria-disabled');
+      if (isMastered) {
+        btn.innerHTML = `${chipLvl}<span>👑</span>`;
+        btn.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;
+      } else {
+        btn.innerHTML = `${chipLvl}`;
+        btn.title = `Nivel ${chipLvl}`;
+      }
     });
     const summary = document.getElementById('math-level-summary');
     if (summary) {
@@ -202,8 +215,11 @@ class KidsLearnApp {
 
   updateReadingChipsUI(lvl) {
     document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
-      const active = Number(btn.dataset.level) === lvl;
+      const chipLvl = Number(btn.dataset.level);
+      const active = chipLvl === lvl;
       btn.classList.toggle('active', active);
+      btn.classList.remove('locked');
+      btn.removeAttribute('aria-disabled');
     });
     const summary = document.getElementById('reading-level-summary');
     if (summary) {
@@ -222,12 +238,12 @@ class KidsLearnApp {
 
     // 2. Estado del Prisma Numérico
     await mathPractice.loadState();
-    const mathLvl = mathPractice.currentLevel || 1;
+    const mathLvl = mathPractice.selectedLevel || mathPractice.currentLevel || 1;
     this.updateMathChipsUI(mathLvl);
 
     // 3. Estado de la Pluma de la Fluidez
     await readingPractice.loadState();
-    const readLvl = readingPractice.currentLevel || 1;
+    const readLvl = readingPractice.selectedLevel || readingPractice.currentLevel || 1;
     this.updateReadingChipsUI(readLvl);
   }
 

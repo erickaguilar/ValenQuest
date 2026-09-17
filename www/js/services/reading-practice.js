@@ -365,6 +365,10 @@ export class ReadingPracticeService {
     this.currentChallenge = this.generateChallenge();
   }
 
+  get currentLevel() {
+    return this.selectedLevel;
+  }
+
   async loadState() {
     try {
       const state = await storage.getModuleState('reading_practice');

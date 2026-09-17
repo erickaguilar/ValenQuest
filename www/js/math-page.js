@@ -302,7 +302,7 @@ class MathPageController {
     if (diamondsVal) diamondsVal.textContent = state.diamondsEarned || 0;
 
     // 3. Sincronizar chips de nivel (bloqueo, coronación y estado activo)
-    const unlockedLevels = state.unlockedLevels || [1];
+    const unlockedLevels = state.unlockedLevels || [1, 2, 3, 4, 5];
     const masteredLevels = state.masteredLevels || [];
     document.querySelectorAll('.level-chip-btn').forEach((chip) => {
       const chipLvl = Number(chip.dataset.level);

@@ -178,15 +178,15 @@ export class MathSession {
     /**
      * @returns {number}
      */
-    get_tier() {
-        const ret = wasm.mathsession_get_tier(this.__wbg_ptr);
+    get_tier_changed() {
+        const ret = wasm.mathsession_get_tier_changed(this.__wbg_ptr);
         return ret;
     }
     /**
      * @returns {number}
      */
-    get_tier_changed() {
-        const ret = wasm.mathsession_get_tier_changed(this.__wbg_ptr);
+    get_tier() {
+        const ret = wasm.mathsession_get_tier(this.__wbg_ptr);
         return ret;
     }
     /**
