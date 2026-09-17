@@ -353,8 +353,9 @@ export class MathPracticeService {
         this.highestStreak = this.streak;
       }
 
-      // Progreso de Maestría: Base +10%, con bonificación acelerada (+15%) si la racha es >= 3
-      masteryGain = this.streak >= 3 ? 15 : 10;
+      // Progreso de Maestría: Base +2% (50 aciertos base para alcanzar el 100%),
+      // con bonificación acelerada (+3%) si la racha es >= 3
+      masteryGain = this.streak >= 3 ? 3 : 2;
 
       const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
       const nextCombo = Math.min(100, (this.combo || 0) + gain);
@@ -371,8 +372,8 @@ export class MathPracticeService {
         this.combo = 100; // Se mantiene en 100% para visualización del burst en UI
         earnedDiamonds += 10; // +10 Diamantes bonus por Súper Combo Astral
 
-        // Súper Combo Astral otorga un impulso masivo de +25% de maestría
-        masteryGain += 25;
+        // Súper Combo Astral otorga un impulso de +5% de maestría (equivalente a 2.5 aciertos)
+        masteryGain += 5;
       } else {
         this.combo = nextCombo;
       }

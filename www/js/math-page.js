@@ -293,31 +293,10 @@ class MathPageController {
       }
     });
 
-    // 4. Sincronizar Barra de Maestría del Nivel Actual
+    // 4. Sincronizar Barra de Maestría del Nivel Actual (Meta: 50 aciertos base)
     const currentMastery = state.currentMastery || 0;
     const isCurrentMastered = state.isCurrentMastered || currentMastery >= 100;
-    const masteryBadge = document.getElementById('math-mastery-badge');
-    const masteryFill = document.getElementById('math-mastery-fill');
-    const masteryStatus = document.getElementById('math-mastery-status');
-
-    if (masteryBadge) masteryBadge.textContent = `${currentMastery}%`;
-    if (masteryFill) {
-      masteryFill.style.width = `${currentMastery}%`;
-      masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', currentMastery);
-    }
-    if (masteryStatus) {
-      if (isCurrentMastered) {
-        masteryStatus.textContent = '👑 ¡Nivel Coronado!';
-      } else if (currentMastery >= 75) {
-        masteryStatus.textContent = '🔥 ¡Casi coronado!';
-      } else if (currentMastery >= 40) {
-        masteryStatus.textContent = '⚡ Avanzando con poder';
-      } else if (currentMastery > 0) {
-        masteryStatus.textContent = '🌱 En camino';
-      } else {
-        masteryStatus.textContent = '✨ Comienza a practicar';
-      }
-    }
+    this.updateMasteryDisplay(currentMastery, isCurrentMastered);
 
     // 5. Sincronizar combo bar
     const comboPct = document.getElementById('math-combo-pct');
@@ -471,25 +450,10 @@ class MathPageController {
         if (diamondsVal) diamondsVal.textContent = res.totalDiamonds;
 
         // Actualizar barra de maestría en caliente
-        const masteryBadge = document.getElementById('math-mastery-badge');
-        const masteryFill = document.getElementById('math-mastery-fill');
-        const masteryStatus = document.getElementById('math-mastery-status');
-        if (masteryBadge) masteryBadge.textContent = `${res.currentMastery}%`;
-        if (masteryFill) {
-          masteryFill.style.width = `${res.currentMastery}%`;
-          masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', res.currentMastery);
-        }
-        if (masteryStatus) {
-          if (res.currentMastery >= 100 || (res.masteredLevels && res.masteredLevels.includes(mathPractice.selectedLevel))) {
-            masteryStatus.textContent = '👑 ¡Nivel Coronado!';
-          } else if (res.currentMastery >= 75) {
-            masteryStatus.textContent = '🔥 ¡Casi coronado!';
-          } else if (res.currentMastery >= 40) {
-            masteryStatus.textContent = '⚡ Avanzando con poder';
-          } else {
-            masteryStatus.textContent = '🌱 En camino';
-          }
-        }
+        this.updateMasteryDisplay(
+          res.currentMastery,
+          res.currentMastery >= 100 || (res.masteredLevels && res.masteredLevels.includes(mathPractice.selectedLevel))
+        );
 
         const comboPct = document.getElementById('math-combo-pct');
         const comboFill = document.getElementById('math-combo-fill');
@@ -628,6 +592,34 @@ class MathPageController {
 
     const arcadeDiamonds = document.getElementById('math-diamonds-val');
     if (arcadeDiamonds) arcadeDiamonds.textContent = diamonds;
+  }
+
+  updateMasteryDisplay(currentMastery = 0, isCurrentMastered = false) {
+    const masteryBadge = document.getElementById('math-mastery-badge');
+    const masteryFill = document.getElementById('math-mastery-fill');
+    const masteryStatus = document.getElementById('math-mastery-status');
+
+    if (masteryBadge) masteryBadge.textContent = `${currentMastery}%`;
+    if (masteryFill) {
+      masteryFill.style.width = `${currentMastery}%`;
+      masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', currentMastery);
+    }
+    if (masteryStatus) {
+      const approxCount = Math.min(50, Math.round(currentMastery / 2));
+      if (isCurrentMastered || currentMastery >= 100) {
+        masteryStatus.textContent = '👑 ¡Coronado! (50/50)';
+      } else if (currentMastery >= 90) {
+        masteryStatus.textContent = `🔥 ${approxCount}/50 aciertos`;
+      } else if (currentMastery >= 60) {
+        masteryStatus.textContent = `⚡ ${approxCount}/50 aciertos`;
+      } else if (currentMastery >= 30) {
+        masteryStatus.textContent = `🌟 ${approxCount}/50 aciertos`;
+      } else if (currentMastery > 0) {
+        masteryStatus.textContent = `🌱 ${approxCount}/50 aciertos`;
+      } else {
+        masteryStatus.textContent = '✨ 0/50 aciertos';
+      }
+    }
   }
 
   // =========================================================================
