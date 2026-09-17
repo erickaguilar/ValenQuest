@@ -470,12 +470,13 @@ export class ReadingPracticeService {
     return this.currentChallenge;
   }
 
-  checkAnswer(userAnswer, elapsedMs = 0) {
+  checkAnswer(userAnswer, elapsedMs = 0, options = {}) {
     if (!this.currentChallenge) {
       this.generateChallenge();
     }
 
     const isCorrect = String(userAnswer).trim().toLowerCase() === String(this.currentChallenge.answer).trim().toLowerCase();
+    const isShieldActive = Boolean(options?.shieldActive);
     this.totalAnswered++;
     let comboBurst = false;
     let earnedDiamonds = 0;
@@ -506,8 +507,12 @@ export class ReadingPracticeService {
       }
       this.diamondsEarned = (this.diamondsEarned || 0) + earnedDiamonds;
     } else {
-      this.streak = 0;
-      this.combo = 0;
+      if (isShieldActive) {
+        // Escudo de Zoe: Racha y combo protegidos
+      } else {
+        this.streak = 0;
+        this.combo = 0;
+      }
     }
 
     this.saveState();
@@ -515,6 +520,7 @@ export class ReadingPracticeService {
 
     return {
       isCorrect,
+      shieldAbsorbed: !isCorrect && isShieldActive,
       streak: this.streak,
       highestStreak: this.highestStreak,
       combo: typeof this.combo === 'number' ? this.combo : 0,

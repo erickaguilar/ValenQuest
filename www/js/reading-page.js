@@ -264,8 +264,12 @@ class ReadingPageController {
     const card = document.getElementById('reading-challenge-card');
     const elapsedMs = Date.now() - this.challengeStartTime;
 
+    const wasShieldActive = Boolean(this.streakShieldActive);
+
     try {
-      const res = readingPractice.checkAnswer(userAnswer, elapsedMs);
+      const res = readingPractice.checkAnswer(userAnswer, elapsedMs, {
+        shieldActive: wasShieldActive,
+      });
 
       if (res.isCorrect) {
         if (buttonEl) buttonEl.classList.add('correct-choice');
@@ -320,21 +324,22 @@ class ReadingPageController {
       } else {
         if (buttonEl) buttonEl.classList.add('incorrect-choice');
         if (card) card.classList.add('incorrect-shake');
-        try { sound.playIncorrect(); } catch (e) {}
 
         // Protección de Raíces de Zoe
-        if (this.streakShieldActive) {
+        if (res.shieldAbsorbed) {
           this.streakShieldActive = false;
           try { sound.playStreak(); } catch (e) {}
-          try { speech.speak('¡El Escudo de Zoe protegió tu racha de lectura!'); } catch (e) {}
+          try { speech.speak(`¡El Escudo de Zoe protegió tu racha de lectura! Tu racha de ${res.streak} sigue a salvo.`); } catch (e) {}
+        } else {
+          try { sound.playIncorrect(); } catch (e) {}
         }
 
         const streakVal = document.getElementById('reading-streak-val');
         if (streakVal) streakVal.textContent = res.streak;
         const comboPct = document.getElementById('reading-combo-pct');
         const comboFill = document.getElementById('reading-combo-fill');
-        if (comboPct) comboPct.textContent = '0%';
-        if (comboFill) comboFill.style.width = '0%';
+        if (comboPct) comboPct.textContent = `${res.combo}%`;
+        if (comboFill) comboFill.style.width = `${res.combo}%`;
       }
 
       await new Promise((resolve) => setTimeout(resolve, 600));

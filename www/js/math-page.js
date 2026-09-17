@@ -456,6 +456,8 @@ class MathPageController {
     const actualElapsed = Date.now() - this.challengeStartTime;
     const elapsedMs = this.isTimerFrozen ? 1500 : actualElapsed;
 
+    const wasShieldActive = Boolean(this.streakShieldActive);
+
     // Mostrar inmediatamente el número elegido en la caja de respuesta
     if (previewEl) {
       previewEl.textContent = userAnswer;
@@ -463,7 +465,9 @@ class MathPageController {
     }
 
     try {
-      const res = await mathPractice.checkAnswer(userAnswer, elapsedMs);
+      const res = await mathPractice.checkAnswer(userAnswer, elapsedMs, {
+        shieldActive: wasShieldActive,
+      });
 
       if (res.isCorrect) {
         // EFECTO EN VERDE: Caja de resultado, botón de opción y tarjeta
@@ -544,7 +548,7 @@ class MathPageController {
         if (buttonEl) buttonEl.classList.add('incorrect-choice');
 
         // Protección heroica de Raíces de Zoe
-        if (this.streakShieldActive) {
+        if (res.shieldAbsorbed) {
           this.streakShieldActive = false;
           if (card) {
             card.classList.remove('shield-protected', 'incorrect-shake');
@@ -585,8 +589,8 @@ class MathPageController {
         if (streakVal) streakVal.textContent = res.streak;
         const comboPct = document.getElementById('math-combo-pct');
         const comboFill = document.getElementById('math-combo-fill');
-        if (comboPct) comboPct.textContent = '0%';
-        if (comboFill) comboFill.style.width = '0%';
+        if (comboPct) comboPct.textContent = `${res.combo}%`;
+        if (comboFill) comboFill.style.width = `${res.combo}%`;
       }
 
       await new Promise((resolve) => setTimeout(resolve, 600));

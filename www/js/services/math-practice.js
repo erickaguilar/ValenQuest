@@ -334,12 +334,13 @@ export class MathPracticeService {
     return this.currentChallenge;
   }
 
-  checkAnswer(userAnswer, elapsedMs = 3000) {
+  checkAnswer(userAnswer, elapsedMs = 3000, options = {}) {
     if (!this.currentChallenge) {
       this.generateChallenge();
     }
 
     const isCorrect = Number(userAnswer) === this.currentChallenge.answer;
+    const isShieldActive = Boolean(options?.shieldActive);
     this.totalAnswered++;
     let comboBurst = false;
     let earnedDiamonds = 0;
@@ -401,15 +402,21 @@ export class MathPracticeService {
 
       this.diamondsEarned = (this.diamondsEarned || 0) + earnedDiamonds;
     } else {
-      // Pedagogía sin castigo: Racha y combo a 0, pero la maestría acumulada se mantiene intacta
-      this.streak = 0;
-      this.combo = 0;
+      if (isShieldActive) {
+        // ¡El Escudo de Raíces de Zoe protege la racha y el combo!
+        // No se incrementa la racha, pero se conserva intacta sin caer a 0.
+      } else {
+        // Pedagogía sin castigo: Racha y combo a 0, pero la maestría acumulada se mantiene intacta
+        this.streak = 0;
+        this.combo = 0;
+      }
     }
 
     this.saveState();
 
     return {
       isCorrect,
+      shieldAbsorbed: !isCorrect && isShieldActive,
       streak: this.streak,
       highestStreak: this.highestStreak,
       combo: typeof this.combo === 'number' ? this.combo : 0,
