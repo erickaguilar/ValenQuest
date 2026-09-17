@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/storybook.css">
+  <script type="module" src="js/components/header.js"></script>
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
@@ -43,32 +44,20 @@
 
   <div class="storybook-app">
     
-    <!-- Barra Superior de Navegación del Lector -->
-    <header class="storybook-top-nav" role="banner">
-      <a href="index.html" class="back-to-quest-btn" aria-label="Volver a la pantalla principal">
-        <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-        <span>← Volver a ValenQuest</span>
-      </a>
+    <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+    <vq-header current="story"></vq-header>
 
-      <div class="storybook-nav-actions">
-        <!-- Música de Princesas (Cajita Musical Procedural) -->
-        <button type="button" id="btn-toggle-music" class="back-to-quest-btn" aria-label="Música mágica de princesas">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-          <span>Cajita Musical</span>
-        </button>
-
-        <!-- Narración en Voz Alta con Orión -->
-        <button type="button" id="btn-read-aloud" class="back-to-quest-btn" aria-label="Escuchar relato con el Maestro Orión" title="Escuchar relato con el Maestro Orión">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
-          <span>Voz de Orión</span>
-        </button>
-
-        <!-- Selector Modo Noche / Día -->
-        <button type="button" id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
-        </button>
-      </div>
-    </header>
+    <!-- Barra de Herramientas de Lectura del Gran Libro -->
+    <div class="storybook-toolbar" role="toolbar" aria-label="Controles del cuento">
+      <button type="button" id="btn-toggle-music" class="storybook-action-btn" aria-label="Música mágica de princesas">
+        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+        <span>Cajita Musical</span>
+      </button>
+      <button type="button" id="btn-read-aloud" class="storybook-action-btn" aria-label="Escuchar relato con el Maestro Orión" title="Escuchar relato con el Maestro Orión">
+        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
+        <span>Voz de Orión</span>
+      </button>
+    </div>
 
     <!-- Marco Hardcover del Libro de Princesas -->
     <main class="fairytale-book" id="fairytale-book" role="main">

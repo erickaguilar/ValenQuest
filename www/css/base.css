@@ -209,6 +209,127 @@ button,
   margin: 0;
 }
 
+.header-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Badge de Sección / Módulo Actual en el Header */
+.header-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--vq-radius-pill, 999px);
+  border: 1.5px solid var(--vq-border);
+  background: var(--vq-bg-card);
+  color: var(--vq-text);
+  box-shadow: 0 2px 0 var(--vq-border);
+  white-space: nowrap;
+}
+
+.header-section-badge .vq-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.header-section-badge--math {
+  border-color: #3b82f6;
+  color: #2563eb;
+  background: rgba(59, 130, 246, 0.08);
+}
+[data-theme="dark"] .header-section-badge--math {
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.header-section-badge--reading {
+  border-color: #10b981;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.08);
+}
+[data-theme="dark"] .header-section-badge--reading {
+  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.18);
+}
+
+.header-section-badge--wardrobe {
+  border-color: #ec4899;
+  color: #db2777;
+  background: rgba(236, 72, 153, 0.08);
+}
+[data-theme="dark"] .header-section-badge--wardrobe {
+  color: #f472b6;
+  background: rgba(236, 72, 153, 0.18);
+}
+
+.header-section-badge--campaign {
+  border-color: #8b5cf6;
+  color: #7c3aed;
+  background: rgba(139, 92, 246, 0.08);
+}
+[data-theme="dark"] .header-section-badge--campaign {
+  color: #c4b5fd;
+  background: rgba(139, 92, 246, 0.18);
+}
+
+.header-section-badge--story {
+  border-color: #f59e0b;
+  color: #d97706;
+  background: rgba(245, 158, 11, 0.08);
+}
+[data-theme="dark"] .header-section-badge--story {
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.18);
+}
+
+@media (max-width: 480px) {
+  .header-section-badge span {
+    display: none;
+  }
+  .header-section-badge {
+    padding: 4px 6px;
+  }
+}
+
+.storybook-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0 6px 0;
+}
+
+.storybook-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill, 999px);
+  color: var(--vq-text);
+  font-size: 0.85rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.1s ease, background-color 0.15s ease;
+}
+
+.storybook-action-btn:hover {
+  background: var(--vq-pink-bubble);
+  transform: translateY(-2px);
+}
+
+.storybook-action-btn.active {
+  background: var(--vq-gold);
+}
+
 /* ==========================================================================
    UNIFIED WARDROBE HEADER BUTTON (ROPERO MÁGICO)
    ========================================================================== */

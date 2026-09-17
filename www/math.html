@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/math.css">
+  <script type="module" src="js/components/header.js"></script>
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
@@ -43,37 +44,8 @@
 
   <div class="math-app">
     
-    <!-- Barra Superior de Navegación Cruzada -->
-    <header class="math-top-nav" role="banner">
-      <a href="index.html" class="math-brand-badge" title="Ir al Salón Principal de ValenQuest">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-prism"></use></svg>
-        <span>El Prisma Numérico</span>
-      </a>
-
-      <div class="math-top-actions">
-        <!-- Saldo de Estrellas de Campaña -->
-        <div class="math-stars-pill" title="Tus estrellas de campaña en Lumiria">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-          <strong id="math-star-balance">0</strong>
-        </div>
-
-        <!-- Saldo de Diamantes de Práctica -->
-        <a href="wardrobe.html" class="math-diamonds-pill" title="Tus diamantes ganados en práctica — ¡Toca para ir a la boutique!" style="text-decoration:none;">
-          <span aria-hidden="true">💎</span>
-          <strong id="math-diamond-balance">0</strong>
-        </a>
-
-        <!-- Silenciar Sonido -->
-        <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar sonido" title="Silenciar efectos">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
-        </button>
-
-        <!-- Modo Noche / Día -->
-        <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
-        </button>
-      </div>
-    </header>
+    <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+    <vq-header current="math"></vq-header>
 
     <!-- Barra Arcade de Matemáticas en Vivo (Nivel, Racha, Diamantes y Combo) -->
     <section class="math-practice-bar" id="math-practice-bar" aria-label="Controles del modo práctica de cálculo">

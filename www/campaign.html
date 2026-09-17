@@ -35,6 +35,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/campaign.css">
+  <script type="module" src="js/components/header.js"></script>
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
@@ -43,37 +44,8 @@
 
   <div class="campaign-app">
     
-    <!-- Barra Superior de Navegación Cruzada -->
-    <header class="campaign-top-nav" role="banner">
-      <a href="index.html" class="campaign-brand-badge" title="Ir al Salón Principal de ValenQuest">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
-        <span>La Gran Aventura</span>
-      </a>
-
-      <div class="campaign-top-actions">
-        <!-- Saldo de Estrellas de Campaña -->
-        <div class="campaign-stars-pill" title="Tus estrellas de campaña en Lumiria">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-          <strong id="campaign-star-balance">0</strong>
-        </div>
-
-        <!-- Saldo de Diamantes de Práctica -->
-        <div class="campaign-diamonds-pill" title="Tus diamantes del Prisma Numérico">
-          <span aria-hidden="true">💎</span>
-          <strong id="campaign-diamond-balance">0</strong>
-        </div>
-
-        <!-- Silenciar Sonido -->
-        <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar sonido" title="Silenciar efectos">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
-        </button>
-
-        <!-- Modo Noche / Día -->
-        <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
-        </button>
-      </div>
-    </header>
+    <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+    <vq-header current="campaign"></vq-header>
 
     <!-- Banner Principal: Estado de Construcción Mágica -->
     <main class="campaign-main-layout" role="main">

@@ -118,14 +118,12 @@ class WardrobePageController {
     const currentDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
     // Saldo de estrellas y diamantes
-    const starBalanceEl = document.getElementById('wardrobe-star-balance');
-    if (starBalanceEl) {
-      starBalanceEl.textContent = currentStars;
-    }
-    const diamondBalanceEl = document.getElementById('wardrobe-diamond-balance');
-    if (diamondBalanceEl) {
-      diamondBalanceEl.textContent = currentDiamonds;
-    }
+    document.querySelectorAll('#player-stars-count, #wardrobe-star-balance').forEach((el) => {
+      el.textContent = currentStars;
+    });
+    document.querySelectorAll('#player-diamonds-count, #wardrobe-diamond-balance').forEach((el) => {
+      el.textContent = currentDiamonds;
+    });
 
     // Actualizar estado activo en pestañas de heroínas
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {

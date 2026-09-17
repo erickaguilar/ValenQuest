@@ -81,11 +81,15 @@ class ReadingPageController {
   }
 
   renderBalances(profile) {
-    const starEl = document.getElementById('reading-star-balance');
-    if (starEl) starEl.textContent = profile?.stars || 0;
+    const stars = profile?.stars || 0;
+    const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
-    const diamondEl = document.getElementById('reading-diamond-balance');
-    if (diamondEl) diamondEl.textContent = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
+    document.querySelectorAll('#player-stars-count, #reading-star-balance').forEach((el) => {
+      el.textContent = stars;
+    });
+    document.querySelectorAll('#player-diamonds-count, #reading-diamond-balance').forEach((el) => {
+      el.textContent = diamonds;
+    });
   }
 
   // =========================================================================
@@ -345,8 +349,9 @@ class ReadingPageController {
   }
 
   updateDiamondsDisplay(diamonds) {
-    const headerDiamonds = document.getElementById('reading-diamond-balance');
-    if (headerDiamonds) headerDiamonds.textContent = diamonds;
+    document.querySelectorAll('#player-diamonds-count, #reading-diamond-balance').forEach((el) => {
+      el.textContent = diamonds;
+    });
 
     const arcadeDiamonds = document.getElementById('reading-diamonds-val');
     if (arcadeDiamonds) arcadeDiamonds.textContent = diamonds;

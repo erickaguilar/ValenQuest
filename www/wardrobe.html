@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/wardrobe.css">
+  <script type="module" src="js/components/header.js"></script>
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
@@ -47,41 +48,8 @@
 
   <div class="wardrobe-app">
     
-    <!-- Barra Superior de Navegación del Ropero -->
-    <header class="wardrobe-top-nav" role="banner">
-      <a href="index.html" class="back-to-quest-btn" id="btn-back-to-quest" aria-label="Volver al juego principal">
-        <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-        <span>← Volver a ValenQuest</span>
-      </a>
-
-      <div class="wardrobe-brand-badge">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
-        <span>Ropero Mágico</span>
-      </div>
-
-      <div class="wardrobe-top-actions">
-        <!-- Indicadores de Saldo: Estrellas (Campaña) y Diamantes (Práctica) -->
-        <div class="wardrobe-stars-pill" title="Tus estrellas acumuladas en La Gran Aventura">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-          <strong id="wardrobe-star-balance">0</strong>
-        </div>
-
-        <div class="wardrobe-diamonds-pill" title="Tus diamantes acumulados en El Prisma Numérico">
-          <span class="wardrobe-diamond-icon" aria-hidden="true">💎</span>
-          <strong id="wardrobe-diamond-balance">0</strong>
-        </div>
-
-        <!-- Efectos de Audio Web Audio API -->
-        <button id="btn-toggle-mute" class="icon-btn" aria-label="Alternar sonido" title="Silenciar efectos">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
-        </button>
-
-        <!-- Modo Noche / Día -->
-        <button id="btn-toggle-theme" class="icon-btn" aria-label="Cambiar tema día/noche" title="Modo Noche Astral">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
-        </button>
-      </div>
-    </header>
+    <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+    <vq-header current="wardrobe"></vq-header>
 
     <!-- Layout Principal del Ropero -->
     <main class="wardrobe-main-layout" role="main">

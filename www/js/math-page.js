@@ -96,11 +96,15 @@ class MathPageController {
   }
 
   renderBalances(profile) {
-    const starEl = document.getElementById('math-star-balance');
-    if (starEl) starEl.textContent = profile?.stars || 0;
+    const stars = profile?.stars || 0;
+    const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
-    const diamondEl = document.getElementById('math-diamond-balance');
-    if (diamondEl) diamondEl.textContent = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
+    document.querySelectorAll('#player-stars-count, #math-star-balance').forEach((el) => {
+      el.textContent = stars;
+    });
+    document.querySelectorAll('#player-diamonds-count, #math-diamond-balance').forEach((el) => {
+      el.textContent = diamonds;
+    });
   }
 
   // =========================================================================
@@ -436,8 +440,9 @@ class MathPageController {
   }
 
   updateDiamondsDisplay(diamonds) {
-    const headerDiamonds = document.getElementById('math-diamond-balance');
-    if (headerDiamonds) headerDiamonds.textContent = diamonds;
+    document.querySelectorAll('#player-diamonds-count, #math-diamond-balance').forEach((el) => {
+      el.textContent = diamonds;
+    });
 
     const arcadeDiamonds = document.getElementById('math-diamonds-val');
     if (arcadeDiamonds) arcadeDiamonds.textContent = diamonds;

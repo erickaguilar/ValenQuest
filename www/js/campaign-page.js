@@ -105,11 +105,15 @@ class CampaignPageController {
   // Renderizado de Información y Diálogo Gacha
   // =========================================================================
   renderBalances(profile) {
-    const starEl = document.getElementById('campaign-star-balance');
-    if (starEl) starEl.textContent = profile?.stars || 0;
+    const stars = profile?.stars || 0;
+    const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
-    const diamondEl = document.getElementById('campaign-diamond-balance');
-    if (diamondEl) diamondEl.textContent = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
+    document.querySelectorAll('#player-stars-count, #campaign-star-balance').forEach((el) => {
+      el.textContent = stars;
+    });
+    document.querySelectorAll('#player-diamonds-count, #campaign-diamond-balance').forEach((el) => {
+      el.textContent = diamonds;
+    });
   }
 
   renderHeroineInfo() {

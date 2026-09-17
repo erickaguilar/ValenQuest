@@ -12,22 +12,61 @@ import { loadSvgSprites } from '../services/icons.js';
 export class VqHeader extends HTMLElement {
   connectedCallback() {
     loadSvgSprites();
+
+    const currentSection = (this.getAttribute('current') || '').toLowerCase().trim();
+
+    let sectionBadgeHtml = '';
+    if (currentSection === 'math') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--math" title="Módulo actual: El Prisma Numérico (Matemáticas)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-math"></use></svg>
+          <span>Matemáticas</span>
+        </span>`;
+    } else if (currentSection === 'reading') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--reading" title="Módulo actual: La Pluma de la Fluidez (Lectura)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
+          <span>Lectura</span>
+        </span>`;
+    } else if (currentSection === 'wardrobe') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--wardrobe" title="Módulo actual: Ropero Mágico de Lumiria">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
+          <span>Ropero</span>
+        </span>`;
+    } else if (currentSection === 'campaign') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--campaign" title="Módulo actual: La Gran Aventura (Los 10 Templos)">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
+          <span>Aventura</span>
+        </span>`;
+    } else if (currentSection === 'story') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--story" title="Módulo actual: El Gran Libro de las Princesas">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+          <span>Cuentos</span>
+        </span>`;
+    }
+
     this.innerHTML = `
     <!-- App Header (Optimizado Mobile-First) -->
     <header class="app-header" role="banner">
-      <!-- Fila Superior: Identidad (Logo + Nombre) y Acceso al Ropero Mágico -->
+      <!-- Fila Superior: Identidad (Logo + Nombre + Badge de Módulo) y Acceso al Ropero Mágico -->
       <div class="header-main-row">
-        <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
-          <span class="brand-icon" aria-hidden="true">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-          </span>
-          <div class="brand-info">
-            <h1 class="brand-title">ValenQuest</h1>
-          </div>
-        </a>
+        <div class="header-brand-group">
+          <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
+            <span class="brand-icon" aria-hidden="true">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+            </span>
+            <div class="brand-info">
+              <h1 class="brand-title">ValenQuest</h1>
+            </div>
+          </a>
+          ${sectionBadgeHtml}
+        </div>
 
         <!-- Botón Unificado del Ropero Mágico con Contadores de Estrellas y Diamantes -->
-        <a href="wardrobe.html" id="header-wardrobe-btn" class="wardrobe-header-btn" title="Entrar al Ropero Mágico (Vestuario, coronas y cosméticos)" aria-label="Ropero Mágico: Estrellas y Diamantes" style="text-decoration:none; color:inherit;">
+        <a href="wardrobe.html" id="header-wardrobe-btn" class="wardrobe-header-btn ${currentSection === 'wardrobe' ? 'active' : ''}" title="Entrar al Ropero Mágico (Vestuario, coronas y cosméticos)" aria-label="Ropero Mágico: Estrellas y Diamantes" style="text-decoration:none; color:inherit;">
           <span class="wardrobe-header-icon" aria-hidden="true">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
           </span>
@@ -48,12 +87,12 @@ export class VqHeader extends HTMLElement {
       <!-- Dock de Acciones y Herramientas Mágicas -->
       <div class="header-actions" aria-label="Herramientas y ajustes mágicos">
         <!-- Conocer a las Heroínas (Redirección a La Gran Aventura) -->
-        <a href="campaign.html#heroines-section" id="btn-header-heroines" class="icon-btn" aria-label="Conocer a las Heroínas" title="Conocer a las 4 Heroínas de Lumiria">
+        <a href="campaign.html#heroines-section" id="btn-header-heroines" class="icon-btn ${currentSection === 'campaign' ? 'active' : ''}" aria-label="Conocer a las Heroínas" title="Conocer a las 4 Heroínas de Lumiria">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
         </a>
 
         <!-- Historia del Reino (Redirección al Gran Libro de las Princesas) -->
-        <a href="story.html" id="btn-show-intro" class="icon-btn" aria-label="Historia de Lumiria" title="Ver el Gran Libro de las Princesas">
+        <a href="story.html" id="btn-show-intro" class="icon-btn ${currentSection === 'story' ? 'active' : ''}" aria-label="Historia de Lumiria" title="Ver el Gran Libro de las Princesas">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
         </a>
 
@@ -471,14 +510,18 @@ export class VqHeader extends HTMLElement {
   async syncBalances() {
     try {
       const profile = await db.getProfile();
-      const starsEl = this.querySelector('#player-stars-count');
-      if (starsEl && typeof profile?.stars === 'number') {
-        starsEl.textContent = profile.stars;
-      }
-      const diamondsEl = this.querySelector('#player-diamonds-count');
-      if (diamondsEl && typeof profile?.diamonds === 'number') {
-        diamondsEl.textContent = profile.diamonds;
-      }
+      const stars = typeof profile?.stars === 'number' ? profile.stars : 0;
+      const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
+
+      const starSelectors = '#player-stars-count, #math-star-balance, #reading-star-balance, #wardrobe-star-balance, #campaign-star-balance';
+      const diamondSelectors = '#player-diamonds-count, #math-diamond-balance, #reading-diamond-balance, #wardrobe-diamond-balance, #campaign-diamond-balance';
+
+      document.querySelectorAll(starSelectors).forEach((el) => {
+        el.textContent = stars;
+      });
+      document.querySelectorAll(diamondSelectors).forEach((el) => {
+        el.textContent = diamonds;
+      });
     } catch (_) {}
   }
 }
