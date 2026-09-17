@@ -142,27 +142,7 @@ class KidsLearnApp {
       });
     }
 
-    // 3. Selectores de nivel de Matemáticas en el Salón Principal
-    document.querySelectorAll('#math-level-chips .level-chip-btn').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
-        sound.playClick();
-        const lvl = Number(e.currentTarget.dataset.level) || 1;
-        await mathPractice.setLevel(lvl);
-        this.updateMathChipsUI(lvl);
-      });
-    });
-
-    // 4. Selectores de nivel de Lectura en el Salón Principal
-    document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
-        sound.playClick();
-        const lvl = Number(e.currentTarget.dataset.level) || 1;
-        await readingPractice.setLevel(lvl);
-        this.updateReadingChipsUI(lvl);
-      });
-    });
-
-    // 5. Efectos de sonido en los botones de acción de entrada
+    // 3. Efectos de sonido en los botones de acción de entrada
     const btnStartQuest = document.getElementById('btn-start-quest');
     if (btnStartQuest) {
       btnStartQuest.addEventListener('click', () => sound.playLevelUp());
@@ -188,46 +168,6 @@ class KidsLearnApp {
     }
   }
 
-  updateMathChipsUI(lvl) {
-    const masteredLevels = mathPractice.masteredLevels || [];
-    document.querySelectorAll('#math-level-chips .level-chip-btn').forEach((btn) => {
-      const chipLvl = Number(btn.dataset.level);
-      const active = chipLvl === lvl;
-      const isMastered = masteredLevels.includes(chipLvl);
-      btn.classList.toggle('active', active);
-      btn.classList.toggle('mastered', isMastered);
-      btn.classList.remove('locked');
-      btn.removeAttribute('aria-disabled');
-      if (isMastered) {
-        btn.innerHTML = `${chipLvl}<span>👑</span>`;
-        btn.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;
-      } else {
-        btn.innerHTML = `${chipLvl}`;
-        btn.title = `Nivel ${chipLvl}`;
-      }
-    });
-    const summary = document.getElementById('math-level-summary');
-    if (summary) {
-      const lvlInfo = mathPractice.getCurrentLevelInfo();
-      summary.textContent = `✨ Nivel ${lvlInfo.level}: ${lvlInfo.name} (${lvlInfo.subtitle})`;
-    }
-  }
-
-  updateReadingChipsUI(lvl) {
-    document.querySelectorAll('#reading-level-chips .level-chip-btn').forEach((btn) => {
-      const chipLvl = Number(btn.dataset.level);
-      const active = chipLvl === lvl;
-      btn.classList.toggle('active', active);
-      btn.classList.remove('locked');
-      btn.removeAttribute('aria-disabled');
-    });
-    const summary = document.getElementById('reading-level-summary');
-    if (summary) {
-      const lvlInfo = readingPractice.getCurrentLevelInfo();
-      summary.textContent = `💧 Nivel ${lvlInfo.level}: ${lvlInfo.name} (${lvlInfo.subtitle})`;
-    }
-  }
-
   async syncTriadUI() {
     // 1. Estado de la Campaña (Aventura)
     const advState = await adventure.loadState();
@@ -238,13 +178,9 @@ class KidsLearnApp {
 
     // 2. Estado del Prisma Numérico
     await mathPractice.loadState();
-    const mathLvl = mathPractice.selectedLevel || mathPractice.currentLevel || 1;
-    this.updateMathChipsUI(mathLvl);
 
     // 3. Estado de la Pluma de la Fluidez
     await readingPractice.loadState();
-    const readLvl = readingPractice.selectedLevel || readingPractice.currentLevel || 1;
-    this.updateReadingChipsUI(readLvl);
   }
 
   selectCompanion(id, speak = true) {
