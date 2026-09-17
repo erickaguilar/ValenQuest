@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/campaign.css">
   <script type="module" src="js/components/header.js"></script>
+  <script type="module" src="js/components/footer.js"></script>
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
@@ -424,17 +425,10 @@
         </div>
       </section>
 
-      <!-- Pie de Página -->
-      <footer class="campaign-footer">
-        <a href="index.html" class="campaign-footer-cta">
-          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-          <span>← Volver al Salón Principal (ValenQuest)</span>
-        </a>
-        <p class="campaign-footer-meta">
-          ValenQuest v2.1.0 • Módulo de Campaña La Gran Aventura • Edición Lumiria Offline
-        </p>
-      </footer>
     </main>
+
+    <!-- Pie de Página Modular Homologado (Web Component: vq-footer) -->
+    <vq-footer></vq-footer>
 
   </div>
 

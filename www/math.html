@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/math.css">
   <script type="module" src="js/components/header.js"></script>
+  <script type="module" src="js/components/footer.js"></script>
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
@@ -197,28 +198,8 @@
       </article>
     </main>
 
-    <!-- Pie de Navegación Cruzada Completa -->
-    <footer class="math-footer" role="navigation" aria-label="Navegación rápida de pie">
-      <a href="index.html" class="math-nav-link-btn" title="Ir al Salón Principal">
-        <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
-        <span>Salón Principal</span>
-      </a>
-
-      <a href="reading.html" class="math-nav-link-btn" title="Pasar al entrenamiento de lectura">
-        <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-quill"></use></svg>
-        <span>La Pluma de la Fluidez (💎)</span>
-      </a>
-
-      <a href="campaign.html" class="math-nav-link-btn" title="Ir a la campaña La Gran Aventura">
-        <span aria-hidden="true">🚀</span>
-        <span>La Gran Aventura (⭐)</span>
-      </a>
-
-      <a href="wardrobe.html" class="math-nav-link-btn" title="Ir al ropero y boutique mágica">
-        <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
-        <span>Ropero Mágico (💎)</span>
-      </a>
-    </footer>
+    <!-- Pie de Página Modular Homologado (Web Component: vq-footer) -->
+    <vq-footer></vq-footer>
 
   </div>
 

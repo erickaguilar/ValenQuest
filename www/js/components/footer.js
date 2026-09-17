@@ -3,8 +3,11 @@
  * Componente nativo encapsulado para el pie de página de la aplicación.
  * Muestra las insignias de confiabilidad, la versión actual oficial y la dedicatoria con amor.
  */
+import { loadSvgSprites } from '../services/icons.js';
+
 export class VqFooter extends HTMLElement {
   connectedCallback() {
+    loadSvgSprites();
     this.innerHTML = `
     <!-- Footer Compacto: Reino de Lumiria -->
     <footer class="app-footer" role="contentinfo">
