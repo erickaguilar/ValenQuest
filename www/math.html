@@ -76,18 +76,36 @@
         </div>
       </div>
 
-      <!-- Barra de Combo Astral -->
-      <div class="math-combo-wrapper" id="math-combo-wrapper" aria-label="Barra de Combo Astral">
-        <div class="math-combo-header">
-          <span class="math-combo-title">
-            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-            <strong>Combo Astral</strong>
-            <span class="math-combo-badge" id="math-combo-badge">⚡ x1</span>
-          </span>
-          <span class="math-combo-pct" id="math-combo-pct">0%</span>
+      <!-- Barras de Progreso: Maestría del Nivel Actual y Combo Astral -->
+      <div class="math-progress-dual-grid">
+        <!-- 1. Barra de Maestría del Nivel Actual (Hacia la Corona 👑) -->
+        <div class="math-mastery-wrapper" id="math-mastery-wrapper" aria-label="Progreso de Maestría del Nivel">
+          <div class="math-mastery-header">
+            <span class="math-mastery-title">
+              <span class="mastery-crown-icon" aria-hidden="true">👑</span>
+              <strong>Maestría del Nivel</strong>
+              <span class="math-mastery-badge" id="math-mastery-badge">0%</span>
+            </span>
+            <span class="math-mastery-status" id="math-mastery-status">🌱 En camino</span>
+          </div>
+          <div class="math-mastery-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-mastery-fill" id="math-mastery-fill" style="width: 0%"></div>
+          </div>
         </div>
-        <div class="math-combo-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-          <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
+
+        <!-- 2. Barra de Combo Astral -->
+        <div class="math-combo-wrapper" id="math-combo-wrapper" aria-label="Barra de Combo Astral">
+          <div class="math-combo-header">
+            <span class="math-combo-title">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <strong>Combo Astral</strong>
+              <span class="math-combo-badge" id="math-combo-badge">⚡ x1</span>
+            </span>
+            <span class="math-combo-pct" id="math-combo-pct">0%</span>
+          </div>
+          <div class="math-combo-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -285,6 +303,52 @@
         <span>¡Entendido, a jugar!</span>
         <span aria-hidden="true">✨</span>
       </button>
+    </div>
+  </div>
+
+  <!-- Modal Accesible: Coronación de Nivel y Desbloqueo Astral -->
+  <div id="level-mastery-modal" class="modal-backdrop level-mastery-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="level-mastery-title">
+    <div class="modal-content level-mastery-modal-content">
+      <div class="level-mastery-crown-wrap" aria-hidden="true">
+        <span class="big-crown-emoji">👑</span>
+        <span class="sparkle-orbit orbit-1">✨</span>
+        <span class="sparkle-orbit orbit-2">🌟</span>
+        <span class="sparkle-orbit orbit-3">💎</span>
+      </div>
+
+      <h2 id="level-mastery-title" class="level-mastery-title">¡Nivel Coronado con Éxito!</h2>
+      <p class="level-mastery-subtitle" id="level-mastery-subtitle">
+        ¡Has dominado el <strong>Nivel 1: Chispas Estelares</strong>!
+      </p>
+
+      <div class="level-mastery-rewards">
+        <div class="mastery-reward-card" id="reward-unlocked-card">
+          <span class="reward-icon" aria-hidden="true">🔓</span>
+          <div class="reward-info">
+            <span class="reward-label">Nuevo Santuario Abierto</span>
+            <strong class="reward-val" id="reward-unlocked-title">Nivel 2: Senderos de Nubes</strong>
+          </div>
+        </div>
+
+        <div class="mastery-reward-card">
+          <span class="reward-icon" aria-hidden="true">💎</span>
+          <div class="reward-info">
+            <span class="reward-label">Cofre de Recompensa</span>
+            <strong class="reward-val">+15 Diamantes para el Ropero</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-mastery-actions">
+        <button type="button" id="btn-mastery-next-level" class="action-btn action-btn--primary">
+          <span>Avanzar al Siguiente Nivel</span>
+          <span aria-hidden="true">🚀</span>
+        </button>
+        <button type="button" id="btn-mastery-stay" class="action-btn action-btn--secondary">
+          <span>Seguir practicando aquí</span>
+          <span aria-hidden="true">✨</span>
+        </button>
+      </div>
     </div>
   </div>
 

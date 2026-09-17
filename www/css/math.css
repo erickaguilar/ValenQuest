@@ -214,11 +214,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   box-shadow: var(--vq-shadow-sm);
-  transition: transform 0.12s ease, background 0.15s ease;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
-.level-chip-btn:hover {
+.level-chip-btn:hover:not(.locked) {
   transform: translateY(-2px);
   background: var(--vq-pink-light);
 }
@@ -230,7 +231,125 @@
   transform: translateY(-1px);
 }
 
-/* Barra de Combo Astral */
+.level-chip-btn.locked {
+  background: rgba(120, 110, 130, 0.15);
+  border-style: dashed;
+  border-color: var(--vq-text-muted);
+  opacity: 0.7;
+  cursor: not-allowed;
+  color: var(--vq-text-muted);
+  font-size: 0.75rem;
+}
+
+.level-chip-btn.locked:hover {
+  transform: none;
+}
+
+.level-chip-btn.mastered {
+  border-color: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5), var(--vq-shadow-sm);
+}
+
+.level-chip-btn.mastered span {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  font-size: 0.7rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes lockedShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.level-chip-btn.locked-shake {
+  animation: lockedShake 0.35s ease-in-out;
+  border-color: #ef4444 !important;
+}
+
+/* ==========================================================================
+   DUAL PROGRESS: MAESTRÍA DEL NIVEL + COMBO ASTRAL
+   ========================================================================== */
+.math-progress-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+@media (min-width: 680px) {
+  .math-progress-dual-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+/* 1. Barra de Maestría del Nivel */
+.math-mastery-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 6px 14px;
+  transition: border-color 0.2s ease;
+}
+
+.math-mastery-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.math-mastery-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.mastery-crown-icon {
+  font-size: 0.95rem;
+}
+
+.math-mastery-badge {
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: var(--vq-radius-pill);
+  background: #f59e0b;
+  color: #fff;
+  font-weight: 900;
+}
+
+.math-mastery-status {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.math-mastery-track {
+  height: 10px;
+  border-radius: var(--vq-radius-pill);
+  background: rgba(74, 62, 86, 0.15);
+  border: 1.5px solid var(--vq-border);
+  overflow: hidden;
+}
+
+.math-mastery-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #10b981 0%, #3b82f6 55%, #f59e0b 100%);
+  border-radius: var(--vq-radius-pill);
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 2. Barra de Combo Astral */
 .math-combo-wrapper {
   display: flex;
   flex-direction: column;
@@ -785,4 +904,127 @@
     padding: 8px 4px;
     gap: 4px;
   }
+}
+
+/* ==========================================================================
+   MODAL DE CORONACIÓN DE NIVEL Y ASCENSO
+   ========================================================================== */
+.level-mastery-content {
+  max-width: 440px;
+  text-align: center;
+  padding: 30px 24px 24px;
+  position: relative;
+  overflow: visible;
+  border-radius: var(--vq-radius-bubble);
+  animation: vqModalPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.level-mastery-crown-wrap {
+  width: 90px;
+  height: 90px;
+  margin: -65px auto 14px auto;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #f59e0b 100%);
+  border: 4px solid var(--vq-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.45), var(--vq-shadow-hard);
+  position: relative;
+}
+
+.big-crown-emoji {
+  font-size: 3rem;
+  animation: crownFloating 2.2s ease-in-out infinite;
+}
+
+.sparkle-orbit {
+  position: absolute;
+  font-size: 1.2rem;
+  animation: orbitRotate 3s linear infinite;
+}
+
+.orbit-1 { top: -6px; left: 10px; animation-delay: 0s; }
+.orbit-2 { top: 12px; right: -8px; animation-delay: 1s; }
+.orbit-3 { bottom: -6px; right: 14px; animation-delay: 2s; }
+
+@keyframes crownFloating {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.08); }
+}
+
+@keyframes orbitRotate {
+  0% { transform: rotate(0deg) scale(0.9); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(0.9); }
+}
+
+.level-mastery-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin-bottom: 6px;
+}
+
+.level-mastery-subtitle {
+  font-size: 0.92rem;
+  color: var(--vq-text-muted);
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.level-mastery-rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.mastery-reward-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  text-align: left;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.mastery-reward-card .reward-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.mastery-reward-card .reward-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mastery-reward-card .reward-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--vq-text-muted);
+}
+
+.mastery-reward-card .reward-val {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--vq-text);
+}
+
+.level-mastery-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.level-mastery-actions .action-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+  font-size: 0.95rem;
 }

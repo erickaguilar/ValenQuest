@@ -41,6 +41,7 @@ class MathPageController {
     // 2. Configurar eventos de cabecera y controles interactivos
     try { this.setupHeaderControls(); } catch (err) { console.warn(err); }
     try { this.setupLevelChips(); } catch (err) { console.warn(err); }
+    try { this.setupLevelMasteryModal(); } catch (err) { console.warn(err); }
     try { this.setupInputModeToggle(); } catch (err) { console.warn(err); }
     try { this.setupKeypadButtons(); } catch (err) { console.warn(err); }
     try { this.setupPowersBadges(); } catch (err) { console.warn(err); }
@@ -108,20 +109,74 @@ class MathPageController {
   }
 
   // =========================================================================
-  // Selector de Niveles (Chips en Caliente 1..5)
+  // Selector de Niveles (Chips en Caliente 1..5 con Desbloqueo y Candados)
   // =========================================================================
   setupLevelChips() {
     const chips = document.querySelectorAll('.level-chip-btn');
     chips.forEach((chip) => {
       chip.addEventListener('click', async (e) => {
-        sound.playClick();
         const lvl = Number(e.currentTarget.dataset.level) || 1;
-        await mathPractice.setLevel(lvl);
+        const res = await mathPractice.setLevel(lvl);
+
+        if (!res.success && res.reason === 'locked') {
+          sound.playIncorrect();
+          const targetBtn = e.currentTarget;
+          targetBtn.classList.add('locked-shake');
+          setTimeout(() => targetBtn.classList.remove('locked-shake'), 400);
+          const prevLvl = Math.max(1, lvl - 1);
+          speech.speak(`¡Este nivel aún duerme! Corona el Nivel ${prevLvl} al cien por ciento para abrirlo.`);
+          return;
+        }
+
+        sound.playClick();
         this.keypadBuffer = '';
         this.renderChallenge();
         const info = mathPractice.getCurrentLevelInfo();
         speech.speak(`Nivel ${lvl}: ${info.name}. ${info.shortName}.`);
       });
+    });
+  }
+
+  // =========================================================================
+  // Modal de Coronación de Nivel y Desbloqueo de Santuarios
+  // =========================================================================
+  setupLevelMasteryModal() {
+    const modal = document.getElementById('level-mastery-modal');
+    const btnNext = document.getElementById('btn-mastery-next-level');
+    const btnStay = document.getElementById('btn-mastery-stay');
+
+    if (btnNext) {
+      btnNext.addEventListener('click', async () => {
+        sound.playClick();
+        if (modal) modal.hidden = true;
+        const currentLvl = mathPractice.selectedLevel;
+        if (currentLvl < 5) {
+          await mathPractice.setLevel(currentLvl + 1);
+          this.keypadBuffer = '';
+          this.renderChallenge();
+          const info = mathPractice.getCurrentLevelInfo();
+          speech.speak(`¡Avanzando al Nivel ${info.level}: ${info.name}!`);
+        }
+      });
+    }
+
+    if (btnStay) {
+      btnStay.addEventListener('click', () => {
+        sound.playClick();
+        if (modal) modal.hidden = true;
+      });
+    }
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.hidden = true;
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.hidden) {
+        modal.hidden = true;
+      }
     });
   }
 
@@ -212,13 +267,59 @@ class MathPageController {
     const diamondsVal = document.getElementById('math-diamonds-val');
     if (diamondsVal) diamondsVal.textContent = state.diamondsEarned || 0;
 
-    // 3. Sincronizar chips activos
+    // 3. Sincronizar chips de nivel (bloqueo, coronación y estado activo)
+    const unlockedLevels = state.unlockedLevels || [1];
+    const masteredLevels = state.masteredLevels || [];
     document.querySelectorAll('.level-chip-btn').forEach((chip) => {
       const chipLvl = Number(chip.dataset.level);
-      chip.classList.toggle('active', chipLvl === state.selectedLevel);
+      const isUnlocked = unlockedLevels.includes(chipLvl);
+      const isMastered = masteredLevels.includes(chipLvl);
+      const isActive = chipLvl === state.selectedLevel;
+
+      chip.classList.toggle('active', isActive);
+      chip.classList.toggle('locked', !isUnlocked);
+      chip.classList.toggle('mastered', isMastered);
+      chip.setAttribute('aria-disabled', !isUnlocked ? 'true' : 'false');
+
+      if (!isUnlocked) {
+        chip.innerHTML = '🔒';
+        chip.title = `Nivel ${chipLvl} (Bloqueado: Corona el Nivel ${Math.max(1, chipLvl - 1)} al 100% para abrir)`;
+      } else if (isMastered) {
+        chip.innerHTML = `${chipLvl}<span>👑</span>`;
+        chip.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;
+      } else {
+        chip.innerHTML = `${chipLvl}`;
+        chip.title = `Nivel ${chipLvl}`;
+      }
     });
 
-    // 4. Sincronizar combo bar
+    // 4. Sincronizar Barra de Maestría del Nivel Actual
+    const currentMastery = state.currentMastery || 0;
+    const isCurrentMastered = state.isCurrentMastered || currentMastery >= 100;
+    const masteryBadge = document.getElementById('math-mastery-badge');
+    const masteryFill = document.getElementById('math-mastery-fill');
+    const masteryStatus = document.getElementById('math-mastery-status');
+
+    if (masteryBadge) masteryBadge.textContent = `${currentMastery}%`;
+    if (masteryFill) {
+      masteryFill.style.width = `${currentMastery}%`;
+      masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', currentMastery);
+    }
+    if (masteryStatus) {
+      if (isCurrentMastered) {
+        masteryStatus.textContent = '👑 ¡Nivel Coronado!';
+      } else if (currentMastery >= 75) {
+        masteryStatus.textContent = '🔥 ¡Casi coronado!';
+      } else if (currentMastery >= 40) {
+        masteryStatus.textContent = '⚡ Avanzando con poder';
+      } else if (currentMastery > 0) {
+        masteryStatus.textContent = '🌱 En camino';
+      } else {
+        masteryStatus.textContent = '✨ Comienza a practicar';
+      }
+    }
+
+    // 5. Sincronizar combo bar
     const comboPct = document.getElementById('math-combo-pct');
     const comboFill = document.getElementById('math-combo-fill');
     const comboBadge = document.getElementById('math-combo-badge');
@@ -369,6 +470,27 @@ class MathPageController {
         const diamondsVal = document.getElementById('math-diamonds-val');
         if (diamondsVal) diamondsVal.textContent = res.totalDiamonds;
 
+        // Actualizar barra de maestría en caliente
+        const masteryBadge = document.getElementById('math-mastery-badge');
+        const masteryFill = document.getElementById('math-mastery-fill');
+        const masteryStatus = document.getElementById('math-mastery-status');
+        if (masteryBadge) masteryBadge.textContent = `${res.currentMastery}%`;
+        if (masteryFill) {
+          masteryFill.style.width = `${res.currentMastery}%`;
+          masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', res.currentMastery);
+        }
+        if (masteryStatus) {
+          if (res.currentMastery >= 100 || (res.masteredLevels && res.masteredLevels.includes(mathPractice.selectedLevel))) {
+            masteryStatus.textContent = '👑 ¡Nivel Coronado!';
+          } else if (res.currentMastery >= 75) {
+            masteryStatus.textContent = '🔥 ¡Casi coronado!';
+          } else if (res.currentMastery >= 40) {
+            masteryStatus.textContent = '⚡ Avanzando con poder';
+          } else {
+            masteryStatus.textContent = '🌱 En camino';
+          }
+        }
+
         const comboPct = document.getElementById('math-combo-pct');
         const comboFill = document.getElementById('math-combo-fill');
         const comboBadge = document.getElementById('math-combo-badge');
@@ -384,7 +506,19 @@ class MathPageController {
           this.updatePowersBadges();
         } catch (e) {}
 
-        if (res.comboBurst) {
+        if (res.justMastered) {
+          if (res.comboBurst) {
+            const comboWrapper = document.getElementById('math-combo-wrapper');
+            if (comboWrapper) {
+              comboWrapper.classList.add('combo-burst-burst');
+              setTimeout(() => comboWrapper.classList.remove('combo-burst-burst'), 1200);
+            }
+            mathPractice.resetCombo();
+            if (comboPct) comboPct.textContent = '0%';
+            if (comboFill) comboFill.style.width = '0%';
+          }
+          this.showLevelMasteryCelebration(res);
+        } else if (res.comboBurst) {
           const comboWrapper = document.getElementById('math-combo-wrapper');
           if (comboWrapper) {
             comboWrapper.classList.add('combo-burst-burst');
@@ -437,6 +571,54 @@ class MathPageController {
       mathPractice.generateChallenge();
       this.renderChallenge();
     }
+  }
+
+  showLevelMasteryCelebration(res) {
+    const modal = document.getElementById('level-mastery-modal');
+    const subtitle = document.getElementById('level-mastery-subtitle');
+    const rewardUnlockedCard = document.getElementById('reward-unlocked-card');
+    const rewardUnlockedTitle = document.getElementById('reward-unlocked-title');
+    const btnNext = document.getElementById('btn-mastery-next-level');
+
+    const currentLevel = mathPractice.selectedLevel;
+    const currentInfo = mathPractice.getCurrentLevelInfo();
+
+    if (subtitle) {
+      subtitle.innerHTML = `¡Has dominado el <strong>Nivel ${currentLevel}: ${currentInfo.name}</strong> al 100%!`;
+    }
+
+    if (res.newlyUnlockedLevel) {
+      const nextInfo = MATH_LEVELS.find((l) => l.level === res.newlyUnlockedLevel);
+      if (rewardUnlockedCard) rewardUnlockedCard.hidden = false;
+      if (rewardUnlockedTitle && nextInfo) {
+        rewardUnlockedTitle.textContent = `Nivel ${nextInfo.level}: ${nextInfo.name}`;
+      }
+      if (btnNext) btnNext.hidden = false;
+    } else {
+      if (currentLevel >= 5) {
+        if (rewardUnlockedCard) rewardUnlockedCard.hidden = false;
+        if (rewardUnlockedTitle) {
+          rewardUnlockedTitle.textContent = '¡Has coronado todos los niveles del Prisma Numérico! 🌌';
+        }
+        if (btnNext) btnNext.hidden = true;
+      } else {
+        if (rewardUnlockedCard) rewardUnlockedCard.hidden = true;
+        if (btnNext) btnNext.hidden = false;
+      }
+    }
+
+    if (modal) {
+      modal.hidden = false;
+    }
+
+    try { sound.playLevelUp(); } catch (e) {}
+    try { sound.playStreak(); } catch (e) {}
+    try {
+      const orionMsg = res.newlyUnlockedLevel
+        ? `¡Enhorabuena! Has coronado el Nivel ${currentLevel}. Se ha abierto el Nivel ${res.newlyUnlockedLevel} y recibes quince diamantes estelares para tu ropero.`
+        : `¡Extraordinario! Has alcanzado la maestría máxima del Nivel ${currentLevel}. ¡Quince diamantes para ti!`;
+      speech.speak(orionMsg);
+    } catch (e) {}
   }
 
   updateDiamondsDisplay(diamonds) {

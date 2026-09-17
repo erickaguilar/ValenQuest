@@ -57,6 +57,9 @@ export class MathPracticeService {
     this.wasm = null;
     this.session = null;
     this.selectedLevel = 1;
+    this.unlockedLevels = [1];
+    this.masteredLevels = [];
+    this.levelMastery = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     this.streak = 0;
     this.highestStreak = 0;
     this.totalAnswered = 0;
@@ -82,6 +85,21 @@ export class MathPracticeService {
       const state = await storage.getModuleState('math_practice');
       if (state) {
         this.selectedLevel = state.selectedLevel || 1;
+        this.unlockedLevels = Array.isArray(state.unlockedLevels) && state.unlockedLevels.length > 0
+          ? state.unlockedLevels
+          : [1];
+        if (!this.unlockedLevels.includes(1)) {
+          this.unlockedLevels.push(1);
+        }
+        this.masteredLevels = Array.isArray(state.masteredLevels) ? state.masteredLevels : [];
+        this.levelMastery = state.levelMastery && typeof state.levelMastery === 'object'
+          ? { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, ...state.levelMastery }
+          : { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+        if (!this.unlockedLevels.includes(this.selectedLevel)) {
+          this.selectedLevel = Math.max(...this.unlockedLevels);
+        }
+
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
         this.totalCombos = state.totalCombos || 0;
@@ -109,6 +127,9 @@ export class MathPracticeService {
     try {
       const payload = {
         selectedLevel: this.selectedLevel,
+        unlockedLevels: this.unlockedLevels,
+        masteredLevels: this.masteredLevels,
+        levelMastery: this.levelMastery,
         levelName: this.getCurrentLevelInfo().name,
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
@@ -142,6 +163,11 @@ export class MathPracticeService {
     return {
       selectedLevel: this.selectedLevel,
       levelInfo: this.getCurrentLevelInfo(),
+      unlockedLevels: this.unlockedLevels,
+      masteredLevels: this.masteredLevels,
+      levelMastery: this.levelMastery,
+      currentMastery: this.levelMastery[this.selectedLevel] || 0,
+      isCurrentMastered: this.masteredLevels.includes(this.selectedLevel),
       streak: this.streak,
       highestStreak: this.highestStreak,
       totalAnswered: this.totalAnswered,
@@ -155,13 +181,16 @@ export class MathPracticeService {
 
   async setLevel(level) {
     const validLevel = Math.max(1, Math.min(5, Number(level) || 1));
+    if (!this.unlockedLevels.includes(validLevel)) {
+      return { success: false, reason: 'locked', level: validLevel };
+    }
     this.selectedLevel = validLevel;
     this.streak = 0;
     this.combo = 0;
     this.keypadBuffer = '';
     this.generateChallenge();
     await this.saveState();
-    return this.getState();
+    return { success: true, state: this.getState() };
   }
 
   generateFallbackChallenge() {
@@ -314,16 +343,23 @@ export class MathPracticeService {
     this.totalAnswered++;
     let comboBurst = false;
     let earnedDiamonds = 0;
+    let masteryGain = 0;
+    let justMastered = false;
+    let newlyUnlockedLevel = null;
 
     if (isCorrect) {
       this.streak++;
       if (this.streak > this.highestStreak) {
         this.highestStreak = this.streak;
       }
+
+      // Progreso de Maestría: Base +10%, con bonificación acelerada (+15%) si la racha es >= 3
+      masteryGain = this.streak >= 3 ? 15 : 10;
+
       const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
       const nextCombo = Math.min(100, (this.combo || 0) + gain);
 
-      // Calculo de Diamantes (Práctica Libre NO otorga estrellas de campaña)
+      // Cálculo de Diamantes base
       const baseDiamonds = elapsedMs > 0 && elapsedMs <= 4000 ? 2 : 1;
       const isStreakMilestone = this.streak > 0 && this.streak % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
@@ -334,11 +370,37 @@ export class MathPracticeService {
         this.totalCombos = (this.totalCombos || 0) + 1;
         this.combo = 100; // Se mantiene en 100% para visualización del burst en UI
         earnedDiamonds += 10; // +10 Diamantes bonus por Súper Combo Astral
+
+        // Súper Combo Astral otorga un impulso masivo de +25% de maestría
+        masteryGain += 25;
       } else {
         this.combo = nextCombo;
       }
+
+      // Actualizar la maestría del nivel actual (máximo 100%)
+      const currentMastery = this.levelMastery[this.selectedLevel] || 0;
+      const newMastery = Math.min(100, currentMastery + masteryGain);
+      this.levelMastery[this.selectedLevel] = newMastery;
+
+      // Evaluar coronación del nivel si alcanza el 100%
+      if (newMastery >= 100 && !this.masteredLevels.includes(this.selectedLevel)) {
+        justMastered = true;
+        this.masteredLevels.push(this.selectedLevel);
+        earnedDiamonds += 15; // Cofre de recompensa especial: +15 diamantes al coronar el nivel
+
+        // Desbloquear el siguiente nivel si existe
+        if (this.selectedLevel < 5) {
+          const nextLvl = this.selectedLevel + 1;
+          if (!this.unlockedLevels.includes(nextLvl)) {
+            this.unlockedLevels.push(nextLvl);
+            newlyUnlockedLevel = nextLvl;
+          }
+        }
+      }
+
       this.diamondsEarned = (this.diamondsEarned || 0) + earnedDiamonds;
     } else {
+      // Pedagogía sin castigo: Racha y combo a 0, pero la maestría acumulada se mantiene intacta
       this.streak = 0;
       this.combo = 0;
     }
@@ -352,6 +414,12 @@ export class MathPracticeService {
       combo: typeof this.combo === 'number' ? this.combo : 0,
       comboBurst,
       totalCombos: this.totalCombos || 0,
+      masteryGain,
+      currentMastery: this.levelMastery[this.selectedLevel] || 0,
+      justMastered,
+      newlyUnlockedLevel,
+      unlockedLevels: this.unlockedLevels,
+      masteredLevels: this.masteredLevels,
       earnedDiamonds,
       totalDiamonds: this.diamondsEarned,
       correctAnswer: this.currentChallenge.answer,
