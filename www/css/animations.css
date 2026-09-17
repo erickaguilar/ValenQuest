@@ -290,6 +290,12 @@
   }
 }
 
+/* Congelamiento de Tiempo por Brisa de Reni */
+@keyframes freezeGlow {
+  0% { box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+  100% { box-shadow: 0 0 18px rgba(56, 189, 248, 0.8); }
+}
+
 /* ==========================================================================
    3. ACCESIBILIDAD Y REDUCED MOTION
    ========================================================================== */
@@ -319,7 +325,11 @@
   .reading-challenge-card.correct-flash,
   .reading-challenge-card.incorrect-shake,
   .reading-challenge-card.royal-boost,
-  .reading-challenge-card.shield-protect {
+  .reading-challenge-card.shield-protect,
+  .math-timer-wrapper.timer-frozen,
+  .math-timer-bar-wrap.timer-frozen,
+  .reading-timer-wrapper.timer-frozen,
+  .reading-timer-bar-wrap.timer-frozen {
     animation: none !important;
     transform: none !important;
   }

@@ -138,7 +138,7 @@ try {
         /^portal-/, /^power-/, /^powers-/,
         /^math-/, /^reading-/, /^story-/, /^wardrobe-/, /^campaign-/,
         /^status-/, /^badge-/, /^pill-/, /^item-/,
-        /star-updated/, /diamond-updated/
+        /^timer-/, /star-updated/, /diamond-updated/
       ],
       deep: [/^kids-/, /^companion-/, /^luces-/, /^dialog/, /^modal/],
       greedy: [/:hover/, /:focus/, /:active/, /:disabled/]
@@ -310,6 +310,9 @@ for (const file of htmlFiles) {
     if (orig.endsWith('.css')) {
       content = content.replaceAll(`"${orig}"`, `"${hashed}"`);
       content = content.replaceAll(`'${orig}'`, `'${hashed}'`);
+      const escaped = orig.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      content = content.replace(new RegExp(`"${escaped}(?:\\?[^"]*)?"`, 'g'), `"${hashed}"`);
+      content = content.replace(new RegExp(`'${escaped}(?:\\?[^']*)?'`, 'g'), `'${hashed}'`);
     }
   }
 
@@ -318,6 +321,9 @@ for (const file of htmlFiles) {
     if (orig.endsWith('.js')) {
       content = content.replaceAll(`"${orig}"`, `"${hashed}"`);
       content = content.replaceAll(`'${orig}'`, `'${hashed}'`);
+      const escaped = orig.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      content = content.replace(new RegExp(`"${escaped}(?:\\?[^"]*)?"`, 'g'), `"${hashed}"`);
+      content = content.replace(new RegExp(`'${escaped}(?:\\?[^']*)?'`, 'g'), `'${hashed}'`);
     }
   }
 

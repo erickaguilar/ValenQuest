@@ -22,6 +22,8 @@ class ReadingPageController {
     this.isRsvpPlaying = false;
     this.streakShieldActive = false;
     this.starMultiplier = 1;
+    this.isTimerFrozen = false;
+    this.timerInterval = null;
   }
 
   async init() {
@@ -303,6 +305,9 @@ class ReadingPageController {
         optionsGrid.appendChild(btn);
       });
     }
+
+    // Iniciar cronómetro visual del reto actual
+    this.startTimer();
   }
 
   // =========================================================================
@@ -377,15 +382,18 @@ class ReadingPageController {
   async submitAnswer(userAnswer, buttonEl) {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
+    this.stopTimer();
 
     const card = document.getElementById('reading-challenge-card');
-    const elapsedMs = Date.now() - this.challengeStartTime;
+    const actualElapsed = Date.now() - this.challengeStartTime;
+    const elapsedMs = this.isTimerFrozen ? 1500 : actualElapsed;
 
     const wasShieldActive = Boolean(this.streakShieldActive);
 
     try {
       const res = readingPractice.checkAnswer(userAnswer, elapsedMs, {
         shieldActive: wasShieldActive,
+        timerFrozen: this.isTimerFrozen,
       });
 
       if (res.isCorrect) {
@@ -482,6 +490,7 @@ class ReadingPageController {
       console.error('Error in reading submitAnswer:', err);
     } finally {
       this.isSubmitting = false;
+      this.isTimerFrozen = false;
       if (card) card.classList.remove('correct-flash', 'incorrect-shake');
       readingPractice.generateChallenge();
       this.renderChallenge();
@@ -652,10 +661,12 @@ class ReadingPageController {
       }
     } else if (heroineId === 'reni') {
       // Brisa: Calma temporal
+      this.freezeTimer();
       if (card) {
         card.classList.add('royal-boost');
         setTimeout(() => card.classList.remove('royal-boost'), 1600);
       }
+      speech.speak('¡Brisa Temporal activada! Reni ha congelado el cronómetro: tus 2 diamantes y bonificación ágil están asegurados.');
     } else if (heroineId === 'lia') {
       // Foco: Resalta la pista / palabra clave
       if (card) {
@@ -673,6 +684,77 @@ class ReadingPageController {
     }
 
     this.updatePowersBadges();
+  }
+
+  // =========================================================================
+  // Cronómetro Ágil y Modo Calma (Reni - 6 Segundos)
+  // =========================================================================
+  startTimer() {
+    this.stopTimer();
+    this.isTimerFrozen = false;
+
+    const wrap = document.getElementById('reading-timer-bar-wrap');
+    if (wrap) wrap.classList.remove('timer-frozen');
+
+    const updateUI = () => {
+      const fill = document.getElementById('reading-timer-fill');
+      const text = document.getElementById('reading-timer-text');
+      const status = document.getElementById('reading-timer-status');
+      const icon = document.getElementById('reading-timer-icon');
+
+      if (this.isTimerFrozen) {
+        if (fill) fill.style.width = '100%';
+        if (wrap) wrap.classList.add('timer-frozen');
+        if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg>';
+        if (text) text.innerHTML = 'Brisa de Reni (+2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>)';
+        if (status) status.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg> <span>Pausa</span>';
+        return;
+      }
+
+      const elapsed = Date.now() - this.challengeStartTime;
+      const TOTAL_BONUS_MS = 6000;
+
+      if (elapsed <= TOTAL_BONUS_MS) {
+        const remaining = TOTAL_BONUS_MS - elapsed;
+        const pct = Math.max(0, (remaining / TOTAL_BONUS_MS) * 100);
+        if (fill) fill.style.width = `${pct}%`;
+        if (wrap) wrap.classList.remove('timer-frozen');
+        if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-timer"></use></svg>';
+        if (text) text.innerHTML = 'Brisa Ágil: +2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>';
+        if (status) status.textContent = `${(remaining / 1000).toFixed(1)}s`;
+      } else {
+        if (fill) fill.style.width = '0%';
+        if (wrap) wrap.classList.remove('timer-frozen');
+        if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>';
+        if (text) text.innerHTML = 'Modo Calma: +1 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>';
+        if (status) status.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Sin prisa</span>';
+      }
+    };
+
+    updateUI();
+    this.timerInterval = setInterval(updateUI, 50);
+  }
+
+  stopTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  freezeTimer() {
+    this.isTimerFrozen = true;
+    const wrap = document.getElementById('reading-timer-bar-wrap');
+    const fill = document.getElementById('reading-timer-fill');
+    const text = document.getElementById('reading-timer-text');
+    const status = document.getElementById('reading-timer-status');
+    const icon = document.getElementById('reading-timer-icon');
+
+    if (wrap) wrap.classList.add('timer-frozen');
+    if (fill) fill.style.width = '100%';
+    if (icon) icon.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg>';
+    if (text) text.innerHTML = 'Brisa de Reni (+2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>)';
+    if (status) status.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg> <span>Pausa</span>';
   }
 }
 

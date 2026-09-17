@@ -777,11 +777,13 @@ export class ReadingPracticeService {
       // con bonificación acelerada (+10%) si la racha es >= 3
       masteryGain = this.streak >= 3 ? 10 : 7;
 
-      const gain = elapsedMs > 0 && elapsedMs <= 4000 ? 25 : 20;
+      const isTimerFrozen = Boolean(options?.timerFrozen);
+      const isAgile = isTimerFrozen || (elapsedMs > 0 && elapsedMs <= 6000);
+      const gain = isAgile ? 25 : 20;
       const nextCombo = Math.min(100, (this.combo || 0) + gain);
 
-      // Cálculo de Diamantes (Práctica Libre da Diamantes estéticos)
-      const baseDiamonds = elapsedMs > 0 && elapsedMs <= 4000 ? 2 : 1;
+      // Cálculo de Diamantes (Brisa Ágil 6s o Congelado da 2 diamantes, Modo Calma sin prisa da 1)
+      const baseDiamonds = isAgile ? 2 : 1;
       const isStreakMilestone = this.streak > 0 && this.streak % 3 === 0;
       const streakBonus = isStreakMilestone ? 1 : 0;
       earnedDiamonds = baseDiamonds + streakBonus;

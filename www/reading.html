@@ -78,8 +78,8 @@
         </div>
       </div>
 
-      <!-- Barras de Progreso: Maestría Lectora y Combo Lírico -->
-      <div class="reading-progress-dual-grid" id="reading-progress-grid">
+      <!-- Barras de Progreso: Maestría Lectora, Combo Lírico y Modo Calma / Brisa Ágil -->
+      <div class="reading-progress-dual-grid reading-progress-grid" id="reading-progress-grid">
         <!-- 1. Barra de Maestría del Nivel Actual (Hacia la Corona) -->
         <div class="reading-mastery-wrapper" id="reading-mastery-wrapper" aria-label="Progreso de Maestría del Nivel">
           <div class="reading-mastery-header">
@@ -115,6 +115,22 @@
           </div>
           <div class="reading-combo-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
             <div class="reading-combo-fill" id="reading-combo-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- 3. Barra de Brisa y Modo Calma (Reni - Bonificación Ágil y Calma sin prisa) -->
+        <div class="reading-timer-wrapper reading-timer-bar-wrap" id="reading-timer-bar-wrap" aria-label="Tiempo de bonificación ágil y modo calma">
+          <div class="reading-timer-header">
+            <span class="reading-timer-title">
+              <span class="timer-icon" id="reading-timer-icon" aria-hidden="true">
+                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-timer"></use></svg>
+              </span>
+              <strong id="reading-timer-text">Brisa Ágil: +2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg></strong>
+            </span>
+            <span class="reading-timer-status" id="reading-timer-status">6.0s</span>
+          </div>
+          <div class="reading-timer-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            <div class="reading-timer-fill" id="reading-timer-fill" style="width: 100%"></div>
           </div>
         </div>
       </div>
