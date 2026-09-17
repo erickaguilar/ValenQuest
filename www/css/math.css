@@ -1222,6 +1222,225 @@
 }
 
 /* ==========================================================================
+   PRISMA REAL DE VALEN: REFRACCIÓN DE LUZ Y DESINTEGRACIÓN DE OPCIONES
+   ========================================================================== */
+.math-valen-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(251, 191, 36, 0.18) 100%);
+  border: 2px solid #F472B6;
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: 0 0 16px rgba(244, 114, 182, 0.4);
+  animation: valenBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: left;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .math-valen-banner {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(251, 191, 36, 0.22) 100%);
+  border-color: #EC4899;
+}
+
+.math-valen-banner .valen-banner-icon {
+  font-size: 1.4rem;
+  animation: prismSpin 1.8s ease-in-out infinite alternate;
+}
+
+.math-valen-banner .valen-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #BE185D;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .math-valen-banner .valen-clue-text {
+  color: #FCE7F3;
+}
+
+@keyframes valenBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes prismSpin {
+  0% { transform: scale(1) rotate(-8deg); }
+  100% { transform: scale(1.15) rotate(8deg); }
+}
+
+/* Efecto de destello arcoíris en la tarjeta de reto */
+.math-challenge-card.prism-rainbow-beam {
+  position: relative;
+  overflow: hidden;
+  border-color: #F472B6 !important;
+  box-shadow: 0 0 28px rgba(244, 114, 182, 0.55), 0 0 14px rgba(251, 191, 36, 0.4), var(--vq-shadow-hard) !important;
+  animation: prismCardPulse 1.2s ease-in-out;
+}
+
+.math-challenge-card.prism-rainbow-beam::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(115deg, transparent 30%, rgba(244, 114, 182, 0.35) 45%, rgba(251, 191, 36, 0.45) 50%, rgba(56, 189, 248, 0.35) 55%, transparent 70%);
+  transform: rotate(25deg);
+  animation: prismBeamSweep 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes prismBeamSweep {
+  0% { transform: translate(-80%, -80%) rotate(25deg); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(60%, 60%) rotate(25deg); opacity: 0; }
+}
+
+@keyframes prismCardPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Opciones descartadas con desintegración mágica */
+.math-choice-btn.prism-discarded {
+  position: relative;
+  opacity: 0.28 !important;
+  filter: grayscale(0.9) blur(0.3px) !important;
+  transform: scale(0.9) !important;
+  border-color: #9CA3AF !important;
+  background: rgba(156, 163, 175, 0.2) !important;
+  text-decoration: line-through 2px #EF4444 !important;
+  pointer-events: none !important;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  animation: prismShatter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes prismShatter {
+  0% { transform: scale(1.08) rotate(-4deg); filter: brightness(1.6) hue-rotate(180deg); }
+  40% { transform: scale(0.95) rotate(3deg); filter: brightness(1.2); }
+  100% { transform: scale(0.9) rotate(0deg); opacity: 0.28; }
+}
+
+/* Opciones restantes iluminadas con bendición de prisma */
+.math-choice-btn.prism-blessed {
+  border-color: #F472B6 !important;
+  box-shadow: 0 0 14px rgba(244, 114, 182, 0.6), var(--vq-shadow-md) !important;
+  animation: prismBlessPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes prismBlessPulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(244, 114, 182, 0.5); }
+  100% { transform: scale(1.03); box-shadow: 0 0 18px rgba(251, 191, 36, 0.7); }
+}
+
+/* ==========================================================================
+   ESCUDO DE RAÍCES DE ZOE: BARRERA PERSISTENTE, BADGE Y ABSORCIÓN DE IMPACTO
+   ========================================================================== */
+.math-zoe-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.2) 100%);
+  border: 2px solid #34D399;
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
+  animation: zoeBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: left;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .math-zoe-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.22) 100%);
+  border-color: #10B981;
+}
+
+.math-zoe-banner .zoe-banner-icon {
+  font-size: 1.4rem;
+  animation: shieldLeafFloat 1.5s ease-in-out infinite alternate;
+}
+
+.math-zoe-banner .zoe-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #065F46;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .math-zoe-banner .zoe-clue-text {
+  color: #D1FAE5;
+}
+
+@keyframes zoeBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shieldLeafFloat {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-4px) scale(1.12); }
+}
+
+/* Badge persistente de Escudo Activo en la Racha */
+.math-shield-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #059669;
+  color: #FFFFFF;
+  border: 1.5px solid #34D399;
+  border-radius: var(--vq-radius-pill);
+  padding: 2px 8px;
+  font-size: 0.74rem;
+  font-weight: 900;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  animation: shieldBadgePulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes shieldBadgePulse {
+  0% { transform: scale(1); box-shadow: 0 0 6px rgba(16, 185, 129, 0.4); }
+  100% { transform: scale(1.05); box-shadow: 0 0 14px rgba(52, 211, 153, 0.8); }
+}
+
+/* Estado de Escudo de Raíces ACTIVO en la Tarjeta de Reto (Domo de Protección) */
+.math-challenge-card.shield-protected {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.55), inset 0 0 12px rgba(16, 185, 129, 0.2), var(--vq-shadow-hard) !important;
+  animation: shieldDomeBreath 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes shieldDomeBreath {
+  0% {
+    border-color: #10B981;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.4), inset 0 0 8px rgba(16, 185, 129, 0.15), var(--vq-shadow-hard);
+  }
+  100% {
+    border-color: #34D399;
+    box-shadow: 0 0 28px rgba(52, 211, 153, 0.7), inset 0 0 16px rgba(52, 211, 153, 0.3), var(--vq-shadow-hard);
+  }
+}
+
+/* Absorción y Deflexión Heroica del Impacto al Cometer Error */
+.math-challenge-card.shield-absorbed-impact {
+  border-color: #34D399 !important;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.25) 100%) !important;
+  box-shadow: 0 0 35px rgba(52, 211, 153, 0.9), inset 0 0 20px rgba(16, 185, 129, 0.4) !important;
+  animation: shieldDeflectionFlash 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes shieldDeflectionFlash {
+  0% { transform: scale(1); filter: brightness(1.6); }
+  20% { transform: scale(1.04); filter: brightness(1.8) drop-shadow(0 0 15px #34D399); }
+  50% { transform: scale(0.99); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* ==========================================================================
    RECARGA DE PODERES CON DIAMANTES (TOPES DE 2 CARGAS)
    ========================================================================== */
 .power-btn.power-empty-rechargeable {

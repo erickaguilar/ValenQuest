@@ -253,16 +253,37 @@ class MathPageController {
 
     this.challengeStartTime = Date.now();
 
-    // Limpiar efectos visuales y pista del Foco de Lía
+    // Limpiar efectos visuales de poderes (Foco de Lía y Prisma de Valen)
     const liaBanner = document.getElementById('math-lia-banner');
     if (liaBanner) liaBanner.hidden = true;
+    const valenBanner = document.getElementById('math-valen-banner');
+    if (valenBanner) valenBanner.hidden = true;
+
+    // Sincronizar estado persistente del Escudo de Raíces de Zoe
+    const card = document.getElementById('math-challenge-card');
+    const shieldBadge = document.getElementById('math-shield-badge');
+    const zoeBanner = document.getElementById('math-zoe-banner');
+    if (this.streakShieldActive) {
+      if (card) card.classList.add('shield-protected');
+      if (shieldBadge) {
+        shieldBadge.hidden = false;
+        shieldBadge.textContent = '🛡️ Protegida';
+      }
+    } else {
+      if (card) card.classList.remove('shield-protected', 'shield-absorbed-impact');
+      if (shieldBadge) shieldBadge.hidden = true;
+      if (zoeBanner && !zoeBanner._isAbsorbing) zoeBanner.hidden = true;
+    }
+
     const opEl = document.getElementById('math-operator');
     if (opEl) opEl.className = 'math-operator';
     const op1El = document.getElementById('math-op1');
     if (op1El) op1El.className = 'math-op1';
     const op2El = document.getElementById('math-op2');
     if (op2El) op2El.className = 'math-op2';
-    document.querySelectorAll('.math-choice-btn').forEach((b) => b.classList.remove('crystal-choice-hint'));
+    document.querySelectorAll('.math-choice-btn').forEach((b) => {
+      b.classList.remove('crystal-choice-hint', 'prism-discarded', 'prism-blessed');
+    });
 
     // 1. Sincronizar título e info del nivel (HOMOLOGADO)
     const titleTag = document.getElementById('math-active-title');
@@ -521,14 +542,43 @@ class MathPageController {
           previewEl.className = 'math-input-box incorrect';
         }
         if (buttonEl) buttonEl.classList.add('incorrect-choice');
-        if (card) card.classList.add('incorrect-shake');
-        try { sound.playIncorrect(); } catch (e) {}
 
-        // Protección de Raíces de Zoe
+        // Protección heroica de Raíces de Zoe
         if (this.streakShieldActive) {
           this.streakShieldActive = false;
+          if (card) {
+            card.classList.remove('shield-protected', 'incorrect-shake');
+            void card.offsetWidth;
+            card.classList.add('shield-absorbed-impact');
+            setTimeout(() => card.classList.remove('shield-absorbed-impact'), 1800);
+          }
+
+          const shieldBadge = document.getElementById('math-shield-badge');
+          if (shieldBadge) {
+            shieldBadge.textContent = '🛡️ ¡Absorbido!';
+            setTimeout(() => { if (shieldBadge) shieldBadge.hidden = true; }, 1600);
+          }
+
+          const zoeBanner = document.getElementById('math-zoe-banner');
+          const clueText = document.getElementById('math-zoe-clue-text');
+          const icon = document.getElementById('math-zoe-banner-icon');
+          if (zoeBanner && clueText) {
+            zoeBanner._isAbsorbing = true;
+            if (icon) icon.textContent = '🛡️';
+            clueText.textContent = `¡El Escudo de Zoe resistió el impacto! Tu racha de ${res.streak} quedó 100% a salvo.`;
+            zoeBanner.hidden = false;
+            setTimeout(() => {
+              zoeBanner._isAbsorbing = false;
+              if (!this.streakShieldActive) zoeBanner.hidden = true;
+            }, 3200);
+          }
+
           try { sound.playStreak(); } catch (e) {}
-          try { speech.speak('¡El Escudo de Zoe protegió tu racha de cálculo!'); } catch (e) {}
+          try { sound.playLevelUp(); } catch (e) {}
+          try { speech.speak(`¡El Escudo de Raíces de Zoe absorbió el golpe! Tu racha de ${res.streak} continúa a salvo.`); } catch (e) {}
+        } else {
+          if (card) card.classList.add('incorrect-shake');
+          try { sound.playIncorrect(); } catch (e) {}
         }
 
         const streakVal = document.getElementById('math-streak-val');
@@ -754,30 +804,9 @@ class MathPageController {
     }
 
     if (heroineId === 'zoe') {
-      this.streakShieldActive = true;
-      if (card) {
-        card.classList.add('shield-protect');
-        setTimeout(() => card.classList.remove('shield-protect'), 1600);
-      }
+      this.activateZoeVisuals();
     } else if (heroineId === 'valen') {
-      // Prisma: Descarta hasta dos opciones incorrectas
-      if (card) {
-        card.classList.add('royal-boost');
-        setTimeout(() => card.classList.remove('royal-boost'), 1600);
-      }
-      const challenge = mathPractice.getState().currentChallenge;
-      if (challenge) {
-        const optionBtns = document.querySelectorAll('.math-choice-btn');
-        let discardedCount = 0;
-        optionBtns.forEach((btn) => {
-          if (discardedCount < 2 && Number(btn.textContent) !== challenge.answer && !btn.disabled) {
-            btn.disabled = true;
-            btn.style.opacity = '0.35';
-            btn.style.textDecoration = 'line-through';
-            discardedCount++;
-          }
-        });
-      }
+      this.activateValenVisuals();
     } else if (heroineId === 'reni') {
       // Brisa Temporal: Congela el cronómetro y asegura el bono ágil
       this.freezeTimer();
@@ -792,6 +821,80 @@ class MathPageController {
     }
 
     this.updatePowersBadges();
+  }
+
+  activateValenVisuals() {
+    const card = document.getElementById('math-challenge-card');
+    if (card) {
+      card.classList.remove('prism-rainbow-beam');
+      void card.offsetWidth;
+      card.classList.add('prism-rainbow-beam');
+      setTimeout(() => card.classList.remove('prism-rainbow-beam'), 1600);
+    }
+
+    const valenBanner = document.getElementById('math-valen-banner');
+    const clueText = document.getElementById('math-valen-clue-text');
+    if (valenBanner && clueText) {
+      valenBanner.hidden = false;
+      if (!valenBanner._closeBound) {
+        valenBanner._closeBound = true;
+        valenBanner.addEventListener('click', () => { valenBanner.hidden = true; });
+      }
+    }
+
+    const challenge = mathPractice.getState().currentChallenge;
+    const state = mathPractice.getState();
+
+    let discardedCount = 0;
+    if (challenge && state.inputMode === 'choice') {
+      const optionBtns = document.querySelectorAll('.math-choice-btn');
+      optionBtns.forEach((btn) => {
+        if (discardedCount < 2 && Number(btn.textContent) !== challenge.answer && !btn.disabled) {
+          btn.disabled = true;
+          btn.classList.add('prism-discarded');
+          btn.setAttribute('aria-disabled', 'true');
+          discardedCount++;
+        } else if (Number(btn.textContent) === challenge.answer || !btn.disabled) {
+          btn.classList.add('prism-blessed');
+        }
+      });
+      if (clueText) {
+        clueText.textContent = `¡Prisma Real de Valen! La luz refractó y desintegró ${discardedCount} opciones falsas. ¡Elige entre las restantes!`;
+      }
+    } else if (clueText) {
+      clueText.textContent = '¡Prisma Real de Valen! La luz mágica despeja tus pensamientos para calcular sin distracciones.';
+    }
+
+    speech.speak('¡Prisma Real de Valen! La luz descompone las ilusiones y desintegra opciones erróneas.');
+  }
+
+  activateZoeVisuals() {
+    this.streakShieldActive = true;
+    const card = document.getElementById('math-challenge-card');
+    if (card) {
+      card.classList.add('shield-protected');
+    }
+
+    const shieldBadge = document.getElementById('math-shield-badge');
+    if (shieldBadge) {
+      shieldBadge.hidden = false;
+      shieldBadge.textContent = '🛡️ Protegida';
+    }
+
+    const zoeBanner = document.getElementById('math-zoe-banner');
+    const clueText = document.getElementById('math-zoe-clue-text');
+    const icon = document.getElementById('math-zoe-banner-icon');
+    if (zoeBanner && clueText) {
+      if (icon) icon.textContent = '🌿';
+      clueText.textContent = '¡Escudo de Raíces de Zoe! Una barrera sagrada protegerá tu racha y combo ante cualquier fallo.';
+      zoeBanner.hidden = false;
+      if (!zoeBanner._closeBound) {
+        zoeBanner._closeBound = true;
+        zoeBanner.addEventListener('click', () => { zoeBanner.hidden = true; });
+      }
+    }
+
+    speech.speak('¡Escudo de Raíces de Zoe activado! Una barrera sagrada protegerá tu racha y combo de cualquier tropiezo.');
   }
 
   activateLiaVisuals() {
