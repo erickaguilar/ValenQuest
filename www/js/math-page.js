@@ -22,6 +22,8 @@ class MathPageController {
     this.streakShieldActive = false;
     this.starMultiplier = 1;
     this.keypadBuffer = '';
+    this.isTimerFrozen = false;
+    this.timerInterval = null;
   }
 
   async init() {
@@ -251,6 +253,17 @@ class MathPageController {
 
     this.challengeStartTime = Date.now();
 
+    // Limpiar efectos visuales y pista del Foco de Lía
+    const liaBanner = document.getElementById('math-lia-banner');
+    if (liaBanner) liaBanner.hidden = true;
+    const opEl = document.getElementById('math-operator');
+    if (opEl) opEl.className = 'math-operator';
+    const op1El = document.getElementById('math-op1');
+    if (op1El) op1El.className = 'math-op1';
+    const op2El = document.getElementById('math-op2');
+    if (op2El) op2El.className = 'math-op2';
+    document.querySelectorAll('.math-choice-btn').forEach((b) => b.classList.remove('crystal-choice-hint'));
+
     // 1. Sincronizar título e info del nivel (HOMOLOGADO)
     const titleTag = document.getElementById('math-active-title');
     if (titleTag && state.levelInfo) {
@@ -407,6 +420,9 @@ class MathPageController {
       if (keypadContainer) keypadContainer.hidden = false;
       this.updateKeypadDisplay();
     }
+
+    // Iniciar cronómetro visual del reto actual
+    this.startTimer();
   }
 
   // =========================================================================
@@ -415,10 +431,12 @@ class MathPageController {
   async submitAnswer(userAnswer, buttonEl = null) {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
+    this.stopTimer();
 
     const card = document.getElementById('math-challenge-card');
     const previewEl = document.getElementById('math-preview-val');
-    const elapsedMs = Date.now() - this.challengeStartTime;
+    const actualElapsed = Date.now() - this.challengeStartTime;
+    const elapsedMs = this.isTimerFrozen ? 1500 : actualElapsed;
 
     // Mostrar inmediatamente el número elegido en la caja de respuesta
     if (previewEl) {
@@ -529,6 +547,7 @@ class MathPageController {
       console.error('Error in math submitAnswer:', err);
     } finally {
       this.isSubmitting = false;
+      this.isTimerFrozen = false;
       this.keypadBuffer = '';
       if (card) card.classList.remove('correct-flash', 'incorrect-shake');
       if (previewEl) previewEl.className = 'math-input-box empty';
@@ -634,6 +653,17 @@ class MathPageController {
       }
     });
 
+    // Enlazar botones de recarga en el modal de guía de poderes
+    document.querySelectorAll('.btn-guide-recharge').forEach((btn) => {
+      if (!btn._rechargeBound) {
+        btn._rechargeBound = true;
+        btn.addEventListener('click', (e) => {
+          const heroId = e.currentTarget.dataset.heroine;
+          if (heroId) this.handlePowerRecharge(heroId);
+        });
+      }
+    });
+
     this.setupPowersGuideModal();
     this.updatePowersBadges();
   }
@@ -649,8 +679,9 @@ class MathPageController {
 
     const openModal = () => {
       sound.playClick();
+      this.updatePowersBadges();
       modal.hidden = false;
-      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda de una forma mágica.'); } catch (e) {}
+      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda y puedes recargar sus cargas con 10 diamantes.'); } catch (e) {}
     };
 
     const closeModal = () => {
@@ -673,22 +704,45 @@ class MathPageController {
 
   updatePowersBadges() {
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const heroine = HEROINES[id];
       const badge = document.getElementById(`badge-${id}`);
       const btn = document.getElementById(`btn-power-${id}`);
       const charges = companions.getCharges(id);
-      if (badge) badge.textContent = charges;
+
+      // Actualizar modal de guía de poderes
+      const guideLabel = document.getElementById(`guide-charges-${id}`);
+      if (guideLabel) guideLabel.textContent = `Cargas: ${charges}/2`;
+      const guideBtn = document.querySelector(`.btn-guide-recharge[data-heroine="${id}"]`);
+      if (guideBtn) guideBtn.disabled = charges >= 2;
+
       if (btn) {
-        btn.disabled = charges <= 0;
-        btn.setAttribute('aria-disabled', charges <= 0 ? 'false' : 'true');
+        btn.disabled = false; // Siempre interactivo para poder activar o recargar
+        btn.setAttribute('aria-disabled', 'false');
+        if (charges <= 0) {
+          btn.classList.add('power-empty-rechargeable');
+          if (badge) badge.textContent = '💎10';
+          btn.title = `${heroine?.name || id} (0/2 cargas): ¡Toca para recargar por 10 diamantes 💎!`;
+        } else {
+          btn.classList.remove('power-empty-rechargeable');
+          if (badge) badge.textContent = charges;
+          btn.title = `${heroine?.name || id} (${charges}/2 cargas): ${heroine?.powerName || ''}`;
+        }
       }
     });
   }
 
   async handlePowerTrigger(heroineId) {
     sound.playClick();
+    const currentCharges = companions.getCharges(heroineId);
+
+    // Si tiene 0 cargas, activar directamente la recarga por 10 diamantes
+    if (currentCharges <= 0) {
+      return this.handlePowerRecharge(heroineId);
+    }
+
     const result = companions.usePower(heroineId);
     if (!result.success) {
-      speech.speak(result.reason || 'El poder aún se está cargando con tu racha.');
+      speech.speak(result.reason || 'El poder no está disponible.');
       return;
     }
 
@@ -728,25 +782,189 @@ class MathPageController {
         });
       }
     } else if (heroineId === 'reni') {
-      // Brisa: Aliento y calma temporal
+      // Brisa Temporal: Congela el cronómetro y asegura el bono ágil
+      this.freezeTimer();
       if (card) {
         card.classList.add('royal-boost');
         setTimeout(() => card.classList.remove('royal-boost'), 1600);
       }
+      speech.speak('¡Brisa Temporal activada! Reni ha congelado el cronómetro: tus 2 diamantes y bonificación ágil están asegurados.');
     } else if (heroineId === 'lia') {
-      // Foco: Resalta la pista con destello de cristal
-      if (card) {
-        card.classList.add('crystal-focus');
-        setTimeout(() => card.classList.remove('crystal-focus'), 1600);
-      }
-      const previewEl = document.getElementById('math-preview-val');
-      if (previewEl) {
-        previewEl.classList.add('preview');
-        setTimeout(() => previewEl.classList.remove('preview'), 2000);
-      }
+      // Foco de Cristal: Resaltado visual intenso en pantalla y banner
+      this.activateLiaVisuals();
     }
 
     this.updatePowersBadges();
+  }
+
+  activateLiaVisuals() {
+    const card = document.getElementById('math-challenge-card');
+    if (card) {
+      card.classList.add('crystal-focus');
+      setTimeout(() => card.classList.remove('crystal-focus'), 1600);
+    }
+
+    const state = mathPractice.getState();
+    const challenge = state.currentChallenge;
+    if (!challenge) return;
+
+    // 1. Resaltar operador y operandos
+    const opEl = document.getElementById('math-operator');
+    const op1El = document.getElementById('math-op1');
+    const op2El = document.getElementById('math-op2');
+    if (opEl) opEl.classList.add('crystal-operator-pulse');
+    if (op1El) op1El.classList.add('crystal-operand-glow');
+    if (op2El) op2El.classList.add('crystal-operand-glow');
+
+    // 2. Banner interactivo explicativo
+    const liaBanner = document.getElementById('math-lia-banner');
+    const clueText = document.getElementById('math-lia-clue-text');
+    const op = challenge.operator || '+';
+
+    let message = '';
+    let speechMessage = '';
+    if (op === '+') {
+      message = `¡Foco de Lía! Operación SUMA (+): Junta ${challenge.op1} y ${challenge.op2}. ¡Cuenta hacia adelante desde el mayor para hallar el resultado!`;
+      speechMessage = `¡Lía enfoca la operación! Es una suma: junta ${challenge.op1} más ${challenge.op2}.`;
+    } else if (op === '-') {
+      message = `¡Foco de Lía! Operación RESTA (−): A ${challenge.op1} le quitas ${challenge.op2}. ¡Cuenta hacia atrás para hallar la diferencia!`;
+      speechMessage = `¡Lía enfoca la operación! Es una resta: a ${challenge.op1} le quitas ${challenge.op2}.`;
+    } else if (op === '×' || op === '*') {
+      message = `¡Foco de Lía! MULTIPLICACIÓN (×): Son ${challenge.op1} grupos de ${challenge.op2}.`;
+      speechMessage = `¡Lía enfoca la operación! Es una multiplicación: son ${challenge.op1} veces ${challenge.op2}.`;
+    } else {
+      message = `¡Foco de Lía! Observa con calma la expresión: ${challenge.expression || ''}`;
+      speechMessage = `¡Lía enfoca la expresión! Observa la pista en pantalla.`;
+    }
+
+    if (liaBanner && clueText) {
+      clueText.textContent = message;
+      liaBanner.hidden = false;
+    }
+
+    // 3. En modo opciones, resaltar sutilmente la respuesta correcta con aura de cristal
+    if (state.inputMode === 'choice') {
+      const optionBtns = document.querySelectorAll('.math-choice-btn');
+      optionBtns.forEach((btn) => {
+        if (Number(btn.textContent) === challenge.answer) {
+          btn.classList.add('crystal-choice-hint');
+        }
+      });
+    }
+
+    speech.speak(speechMessage);
+  }
+
+  async handlePowerRecharge(heroineId) {
+    sound.playClick();
+    const heroine = HEROINES[heroineId];
+    if (!heroine) return;
+
+    const currentCharges = companions.getCharges(heroineId);
+    if (currentCharges >= 2) {
+      speech.speak(`¡${heroine.name} ya tiene sus 2 poderes cargados al máximo!`);
+      return;
+    }
+
+    const RECHARGE_COST = 10;
+    const profile = await db.getProfile();
+    const currentDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
+
+    if (currentDiamonds < RECHARGE_COST) {
+      sound.playIncorrect();
+      const btn = document.getElementById(`btn-power-${heroineId}`);
+      if (btn) {
+        btn.classList.add('locked-shake');
+        setTimeout(() => btn.classList.remove('locked-shake'), 400);
+      }
+      speech.speak(`¡El poder de ${heroine.name} necesita ${RECHARGE_COST} diamantes para recargarse! Tienes ${currentDiamonds} diamantes. Sigue calculando para reunirlos.`);
+      return;
+    }
+
+    // Descontar 10 diamantes
+    const newBalance = await db.addDiamonds(-RECHARGE_COST);
+    this.updateDiamondsDisplay(newBalance);
+    await companions.rechargeHeroine(heroineId, 1);
+
+    sound.playLevelUp();
+    sound.playStreak();
+
+    const btn = document.getElementById(`btn-power-${heroineId}`);
+    if (btn) {
+      btn.classList.add('power-recharged-burst');
+      setTimeout(() => btn.classList.remove('power-recharged-burst'), 1000);
+    }
+
+    this.updatePowersBadges();
+    speech.speak(`¡Amistad renovada! Has recargado el poder de ${heroine.name} con diez diamantes.`);
+  }
+
+  startTimer() {
+    this.stopTimer();
+    this.isTimerFrozen = false;
+
+    const wrap = document.getElementById('math-timer-bar-wrap');
+    if (wrap) wrap.classList.remove('timer-frozen');
+
+    const updateUI = () => {
+      const fill = document.getElementById('math-timer-fill');
+      const text = document.getElementById('math-timer-text');
+      const status = document.getElementById('math-timer-status');
+      const icon = document.getElementById('math-timer-icon');
+
+      if (this.isTimerFrozen) {
+        if (fill) fill.style.width = '100%';
+        if (wrap) wrap.classList.add('timer-frozen');
+        if (icon) icon.textContent = '❄️';
+        if (text) text.textContent = 'Brisa de Reni: ¡Tiempo congelado! (+2 💎)';
+        if (status) status.textContent = '❄️ Pausa';
+        return;
+      }
+
+      const elapsed = Date.now() - this.challengeStartTime;
+      const TOTAL_BONUS_MS = 4000;
+
+      if (elapsed <= TOTAL_BONUS_MS) {
+        const remaining = TOTAL_BONUS_MS - elapsed;
+        const pct = Math.max(0, (remaining / TOTAL_BONUS_MS) * 100);
+        if (fill) fill.style.width = `${pct}%`;
+        if (wrap) wrap.classList.remove('timer-frozen');
+        if (icon) icon.textContent = '⏱️';
+        if (text) text.textContent = 'Brisa Ágil: +2 💎 (+25% combo)';
+        if (status) status.textContent = `${(remaining / 1000).toFixed(1)}s`;
+      } else {
+        if (fill) fill.style.width = '0%';
+        if (wrap) wrap.classList.remove('timer-frozen');
+        if (icon) icon.textContent = '🍃';
+        if (text) text.textContent = 'Modo Calma: +1 💎 (+20% combo)';
+        if (status) status.textContent = '🍃 Sin prisa';
+      }
+    };
+
+    updateUI();
+    this.timerInterval = setInterval(updateUI, 50);
+  }
+
+  stopTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  freezeTimer() {
+    this.isTimerFrozen = true;
+    const wrap = document.getElementById('math-timer-bar-wrap');
+    const fill = document.getElementById('math-timer-fill');
+    const text = document.getElementById('math-timer-text');
+    const status = document.getElementById('math-timer-status');
+    const icon = document.getElementById('math-timer-icon');
+
+    if (wrap) wrap.classList.add('timer-frozen');
+    if (fill) fill.style.width = '100%';
+    if (icon) icon.textContent = '❄️';
+    if (text) text.textContent = 'Brisa de Reni: ¡Tiempo congelado! (+2 💎)';
+    if (status) status.textContent = '❄️ Pausa';
   }
 }
 

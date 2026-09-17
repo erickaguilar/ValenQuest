@@ -1028,3 +1028,249 @@
   padding: 12px;
   font-size: 0.95rem;
 }
+
+/* ==========================================================================
+   CRONÓMETRO ÁGIL Y BRISA TEMPORAL DE RENI
+   ========================================================================== */
+.math-timer-bar-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 6px 0 10px;
+  transition: all 0.25s ease;
+}
+
+.math-timer-track {
+  width: 100%;
+  height: 8px;
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.math-timer-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #38BDF8 0%, #60A5FA 50%, #818CF8 100%);
+  border-radius: var(--vq-radius-pill);
+  transition: width 0.08s linear, background-color 0.25s ease;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.math-timer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+  padding: 0 4px;
+}
+
+.math-timer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.math-timer-status {
+  font-family: monospace;
+  font-weight: 900;
+}
+
+/* Estado de Tiempo Congelado por Brisa de Reni */
+.math-timer-bar-wrap.timer-frozen .math-timer-track {
+  border-color: #38BDF8;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6), inset 0 0 6px rgba(56, 189, 248, 0.3);
+  animation: freezeGlow 1.5s ease-in-out infinite alternate;
+}
+
+.math-timer-bar-wrap.timer-frozen .math-timer-fill {
+  background: linear-gradient(90deg, #BAE6FD 0%, #38BDF8 50%, #0284C7 100%) !important;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.85);
+}
+
+.math-timer-bar-wrap.timer-frozen .math-timer-badge {
+  color: #0284C7;
+  font-weight: 900;
+}
+
+@keyframes freezeGlow {
+  0% { box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+  100% { box-shadow: 0 0 18px rgba(56, 189, 248, 0.8); }
+}
+
+/* ==========================================================================
+   FOCO DE CRISTAL DE LÍA: RESALTADO VISUAL Y BANNER
+   ========================================================================== */
+.math-lia-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(217, 70, 239, 0.15) 100%);
+  border: 2px solid #C084FC;
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: 0 0 16px rgba(192, 132, 252, 0.4);
+  animation: liaBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: left;
+}
+
+[data-theme="dark"] .math-lia-banner {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(217, 70, 239, 0.25) 100%);
+  border-color: #A855F7;
+}
+
+.math-lia-banner .lia-crystal-icon {
+  font-size: 1.4rem;
+  animation: crystalBob 1.2s ease-in-out infinite alternate;
+}
+
+.math-lia-banner .lia-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #7E22CE;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .math-lia-banner .lia-clue-text {
+  color: #E9D5FF;
+}
+
+@keyframes liaBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes crystalBob {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(8deg); }
+}
+
+/* Pulso y brillo de operador con cristal de Lía */
+.math-operator.crystal-operator-pulse {
+  display: inline-block;
+  color: #A855F7 !important;
+  transform: scale(1.4) !important;
+  text-shadow: 0 0 16px rgba(168, 85, 247, 0.85), 0 0 28px rgba(217, 70, 239, 0.6);
+  animation: crystalOpPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes crystalOpPulse {
+  0% { transform: scale(1.25); filter: drop-shadow(0 0 6px #A855F7); }
+  100% { transform: scale(1.5); filter: drop-shadow(0 0 16px #D946EF); }
+}
+
+.math-op1.crystal-operand-glow,
+.math-op2.crystal-operand-glow {
+  color: #7E22CE !important;
+  text-decoration: underline wavy #C084FC !important;
+  text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
+}
+
+[data-theme="dark"] .math-op1.crystal-operand-glow,
+[data-theme="dark"] .math-op2.crystal-operand-glow {
+  color: #F3E8FF !important;
+}
+
+.math-choice-btn.crystal-choice-hint {
+  border-color: #A855F7 !important;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.65), var(--vq-shadow-hard) !important;
+  animation: correctBounce 0.6s ease;
+}
+
+/* ==========================================================================
+   RECARGA DE PODERES CON DIAMANTES (TOPES DE 2 CARGAS)
+   ========================================================================== */
+.power-btn.power-empty-rechargeable {
+  border-style: dashed !important;
+  opacity: 0.9 !important;
+  background: var(--vq-bg-well) !important;
+  position: relative;
+  cursor: pointer !important;
+}
+
+.power-btn.power-empty-rechargeable:hover {
+  transform: translateY(-2px) !important;
+  border-color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+}
+
+.power-btn.power-empty-rechargeable .power-charge-badge {
+  background: #F59E0B !important;
+  color: #FFFFFF !important;
+  border-color: #B45309 !important;
+  font-size: 0.72rem;
+  width: auto;
+  min-width: 20px;
+  padding: 0 4px;
+  border-radius: var(--vq-radius-pill);
+}
+
+@keyframes powerRecharged {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 rgba(16, 185, 129, 0); }
+  50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(16, 185, 129, 0.9); }
+  100% { transform: scale(1); box-shadow: 0 2px 0 var(--vq-border); }
+}
+
+.power-btn.power-recharged-burst {
+  animation: powerRecharged 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-color: #10B981 !important;
+}
+
+/* Fila de acción de recarga en el modal de guía */
+.power-guide-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--vq-border);
+}
+
+.power-guide-charges-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.btn-guide-recharge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--vq-bg-card);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.btn-guide-recharge:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--vq-gold-light, #FFF0C2);
+}
+
+.btn-guide-recharge:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.recharge-cost-pill {
+  background: #F59E0B;
+  color: #FFFFFF;
+  padding: 1px 6px;
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.72rem;
+  font-weight: 900;
+}

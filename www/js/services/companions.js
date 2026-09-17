@@ -103,7 +103,7 @@ class CompanionSystem {
         this.states = allStates;
         ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
           if (allStates[id] && typeof allStates[id].charges === 'number') {
-            this.charges[id] = allStates[id].charges;
+            this.charges[id] = Math.min(2, allStates[id].charges);
           }
         });
       }
@@ -207,7 +207,7 @@ class CompanionSystem {
 
     if (streak > 0 && streak % 3 === 0) {
       for (const key of Object.keys(this.charges)) {
-        if (this.charges[key] < 3) {
+        if (this.charges[key] < 2) {
           this.charges[key] += 1;
           await db.updateCompanionCharges(key, this.charges[key]).catch(() => {});
         }
@@ -216,6 +216,19 @@ class CompanionSystem {
       speech.speak('¡La amistad brilla! Tus heroínas han recargado sus poderes mágicos.');
       this.notifyListeners();
     }
+  }
+
+  /**
+   * Directly recharges charges for a specific heroine using diamonds (clamped to max 2)
+   */
+  async rechargeHeroine(heroineId, amount = 1) {
+    if (!HEROINES[heroineId]) return false;
+    const current = this.charges[heroineId] || 0;
+    const newCharges = Math.min(2, current + amount);
+    this.charges[heroineId] = newCharges;
+    await db.updateCompanionCharges(heroineId, newCharges).catch(() => {});
+    this.notifyListeners();
+    return newCharges;
   }
 
   /**

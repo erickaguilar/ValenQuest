@@ -134,6 +134,20 @@
           </div>
         </div>
 
+        <!-- Barra de Brisa y Bonificación Ágil (Reni) -->
+        <div class="math-timer-bar-wrap" id="math-timer-bar-wrap" aria-label="Tiempo de bonificación ágil">
+          <div class="math-timer-track">
+            <div class="math-timer-fill" id="math-timer-fill" style="width: 100%"></div>
+          </div>
+          <div class="math-timer-info">
+            <span class="math-timer-badge" id="math-timer-badge">
+              <span class="timer-icon" id="math-timer-icon" aria-hidden="true">⏱️</span>
+              <span id="math-timer-text">Brisa Ágil: +2 💎</span>
+            </span>
+            <span class="math-timer-status" id="math-timer-status">4.0s</span>
+          </div>
+        </div>
+
         <!-- Área de Visualización de la Operación de Cálculo -->
         <div class="math-expression-area" id="math-expression-area">
           <div class="math-expression-display" id="math-expression-display">
@@ -142,6 +156,12 @@
             <span class="math-op2" id="math-op2">3</span>
             <span class="math-equals">=</span>
             <div class="math-input-box empty" id="math-preview-val">?</div>
+          </div>
+
+          <!-- Banner Visual del Foco de Cristal (Lía) -->
+          <div id="math-lia-banner" class="math-lia-banner" hidden aria-live="polite">
+            <span class="lia-crystal-icon" aria-hidden="true">🔮</span>
+            <span id="math-lia-clue-text" class="lia-clue-text">¡Foco de Lía iluminando el camino!</span>
           </div>
         </div>
 
@@ -248,6 +268,13 @@
               <span class="power-guide-heroine">Valen (Alicornio)</span>
             </div>
             <p class="power-guide-desc"><strong>Descarta opciones incorrectas</strong> para que te sea mucho más fácil encontrar la respuesta correcta.</p>
+            <div class="power-guide-action-row">
+              <span class="power-guide-charges-label" id="guide-charges-valen">Cargas: 2/2</span>
+              <button type="button" class="btn-guide-recharge" data-heroine="valen" title="Recargar 1 carga de Valen por 10 diamantes">
+                <span>+1 Carga</span>
+                <span class="recharge-cost-pill">💎 10</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -261,7 +288,14 @@
               <span class="power-guide-name">Brisa Temporal</span>
               <span class="power-guide-heroine">Reni (Pegaso)</span>
             </div>
-            <p class="power-guide-desc"><strong>Te da tiempo y calma</strong> para pensar tranquilamente y resolver el ejercicio a tu propio ritmo.</p>
+            <p class="power-guide-desc"><strong>Congela el cronómetro</strong> y te da calma total asegurando tus 2 diamantes y bonificación ágil.</p>
+            <div class="power-guide-action-row">
+              <span class="power-guide-charges-label" id="guide-charges-reni">Cargas: 2/2</span>
+              <button type="button" class="btn-guide-recharge" data-heroine="reni" title="Recargar 1 carga de Reni por 10 diamantes">
+                <span>+1 Carga</span>
+                <span class="recharge-cost-pill">💎 10</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -276,6 +310,13 @@
               <span class="power-guide-heroine">Zoe (Poni Terrestre)</span>
             </div>
             <p class="power-guide-desc"><strong>Protege tu racha</strong>: si te equivocas, ¡el escudo absorbe el error y tu racha no se reinicia!</p>
+            <div class="power-guide-action-row">
+              <span class="power-guide-charges-label" id="guide-charges-zoe">Cargas: 2/2</span>
+              <button type="button" class="btn-guide-recharge" data-heroine="zoe" title="Recargar 1 carga de Zoe por 10 diamantes">
+                <span>+1 Carga</span>
+                <span class="recharge-cost-pill">💎 10</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -289,14 +330,21 @@
               <span class="power-guide-name">Foco de Cristal</span>
               <span class="power-guide-heroine">Lía (Unicornio)</span>
             </div>
-            <p class="power-guide-desc"><strong>Ilumina la pista clave</strong> del reto para ayudarte a encontrar el secreto del problema.</p>
+            <p class="power-guide-desc"><strong>Ilumina la operación</strong> con destello amatista y muestra una pista explicativa de cristal en pantalla.</p>
+            <div class="power-guide-action-row">
+              <span class="power-guide-charges-label" id="guide-charges-lia">Cargas: 2/2</span>
+              <button type="button" class="btn-guide-recharge" data-heroine="lia" title="Recargar 1 carga de Lía por 10 diamantes">
+                <span>+1 Carga</span>
+                <span class="recharge-cost-pill">💎 10</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="power-guide-tip">
         <span aria-hidden="true">💡</span>
-        <span><strong>¿Cómo se recargan?</strong> Cada poder tiene 2 cargas. Al acertar respuestas seguidas y mantener tu racha, ¡las princesas recargan sus poderes automáticamente!</span>
+        <span><strong>¿Cómo se recargan?</strong> Cada princesa almacena hasta <strong>2 poderes</strong>. Si las agotas, puedes recargarlas tocando su botón o aquí con <strong>10 Diamantes 💎</strong> ganados con tu práctica.</span>
       </div>
 
       <button type="button" class="action-btn powers-guide-ok-btn" id="btn-powers-guide-ok">

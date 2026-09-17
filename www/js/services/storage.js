@@ -706,7 +706,7 @@ class StorageService {
       equipped: { head: null, wings: null, charm: null },
     };
 
-    state.charges = Math.max(0, Math.min(3, charges));
+    state.charges = Math.max(0, Math.min(2, charges));
     return this.saveCompanionState(state);
   }
 
