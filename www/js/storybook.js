@@ -13,6 +13,10 @@
  * - Navegación Táctil (Swipe), Cintas Marcadoras y Atajos de Teclado
  */
 
+import { sound } from './services/audio.js';
+import { speech } from './services/speech.js';
+import { db } from './services/storage.js';
+import { companions, HEROINES } from './services/companions.js';
 import { theme } from './services/theme.js';
 import { loadSvgSprites } from './services/icons.js';
 
@@ -176,10 +180,11 @@ class StorybookManager {
     this.musicTimer = null;
     this.particles = [];
     this.sceneAngle = 0;
+    this.activeHeroineId = 'valen';
   }
 
-  init() {
-    loadSvgSprites();
+  async init() {
+    await loadSvgSprites();
     this.canvas = document.getElementById('mirror-canvas');
     if (this.canvas) {
       this.ctx = this.canvas.getContext('2d');
@@ -191,6 +196,48 @@ class StorybookManager {
     this.renderChapter(0);
     this.setupEventListeners();
     this.syncThemeButton();
+
+    // Sincronizar estado de voz del servicio central con el botón de Orión
+    speech.onSpeakingChange((speaking) => {
+      this.isSpeaking = speaking;
+      const btn = document.getElementById('btn-read-aloud');
+      if (btn) {
+        if (speaking) {
+          btn.classList.add('active');
+          btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg> <span>Pausar a Orión</span>';
+        } else {
+          btn.classList.remove('active');
+          btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg> <span>Voz de Orión</span>';
+        }
+      }
+    });
+
+    // Cargar perfil y compañera activa para personalizar el saludo
+    try {
+      await companions.loadState();
+      const profile = await db.getProfile();
+      if (profile?.selectedCompanion) {
+        this.activeHeroineId = profile.selectedCompanion;
+      } else if (companions.activeId) {
+        this.activeHeroineId = companions.activeId;
+      }
+    } catch (err) {
+      console.warn('[Storybook] No se pudo cargar perfil:', err);
+    }
+
+    // Saludo sonoro y de bienvenida al entrar, idéntico a La Gran Aventura
+    this.playWelcomeGreeting();
+  }
+
+  playWelcomeGreeting() {
+    try {
+      sound.playStreak();
+    } catch (_) {}
+
+    const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
+    speech.speak(
+      `¡Bienvenida ${hero.name} a El Gran Libro de las Princesas! Explora las leyendas sagradas de Lumiria y pulsa la Voz de Orión para escuchar cada capítulo.`
+    );
   }
 
   initParticles() {
@@ -455,51 +502,18 @@ class StorybookManager {
   }
 
   readCurrentChapter() {
-    if (!('speechSynthesis' in window)) {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       alert('Tu navegador no admite síntesis de voz.');
       return;
     }
 
-    window.speechSynthesis.cancel();
     const ch = CHAPTERS[this.currentChapterIndex];
     const fullText = `${ch.title}. ${ch.paragraphs.join(' ')} ${ch.quote}`;
-
-    const utterance = new SpeechSynthesisUtterance(fullText);
-    utterance.lang = 'es-ES';
-    utterance.rate = 0.92;
-    utterance.pitch = 1.05;
-
-    const btn = document.getElementById('btn-read-aloud');
-
-    utterance.onstart = () => {
-      this.isSpeaking = true;
-      if (btn) {
-        btn.classList.add('active');
-        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-off"></use></svg> <span>Pausar a Orión</span>';
-      }
-    };
-
-    utterance.onend = utterance.onerror = () => {
-      this.isSpeaking = false;
-      if (btn) {
-        btn.classList.remove('active');
-        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg> <span>Voz de Orión</span>';
-      }
-    };
-
-    window.speechSynthesis.speak(utterance);
+    speech.speak(fullText, { rate: 0.92, pitch: 1.05 });
   }
 
   stopSpeech() {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    this.isSpeaking = false;
-    const btn = document.getElementById('btn-read-aloud');
-    if (btn) {
-      btn.classList.remove('active');
-      btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg> <span>Voz de Orión</span>';
-    }
+    speech.cancel();
   }
 
   playPageTurnSound() {
