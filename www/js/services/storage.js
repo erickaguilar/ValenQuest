@@ -734,9 +734,9 @@ class StorageService {
   }
 
   /**
-   * Unlocks an item by spending player diamonds or stars in an atomic transaction
+   * Unlocks an item by spending player stars in an atomic transaction
    */
-  async unlockCosmetic(itemId, preferredCurrency = 'auto') {
+  async unlockCosmetic(itemId) {
     await this.init();
     const profile = await this.getProfile();
     const catalog = await this.getCosmeticsCatalog();
@@ -746,44 +746,19 @@ class StorageService {
     if (item.unlocked) return { success: true, item, alreadyUnlocked: true };
 
     const currentStars = profile.stars || 0;
-    const currentDiamonds = typeof profile.diamonds === 'number' ? profile.diamonds : 0;
-    const costDiamonds = item.costDiamonds !== undefined ? item.costDiamonds : (item.costStars || 15);
     const costStars = item.costStars || 0;
 
-    let useDiamonds = false;
-    if (preferredCurrency === 'diamonds') {
-      useDiamonds = true;
-    } else if (preferredCurrency === 'stars') {
-      useDiamonds = false;
-    } else {
-      // Auto: prefer diamonds if player has enough (aesthetic rewards from practice)
-      useDiamonds = costDiamonds > 0 && currentDiamonds >= costDiamonds;
+    if (currentStars < costStars) {
+      return {
+        success: false,
+        reason: `Necesitas ${costStars} estrellas de Lumiria (tienes ${currentStars})`,
+        required: costStars,
+        current: currentStars,
+        currency: 'stars',
+      };
     }
 
-    if (useDiamonds) {
-      if (currentDiamonds < costDiamonds) {
-        return {
-          success: false,
-          reason: `Necesitas ${costDiamonds} 💎 (tienes ${currentDiamonds} 💎)`,
-          required: costDiamonds,
-          current: currentDiamonds,
-          currency: 'diamonds',
-        };
-      }
-      profile.diamonds = currentDiamonds - costDiamonds;
-    } else {
-      if (currentStars < costStars) {
-        return {
-          success: false,
-          reason: `Necesitas ${costStars} ⭐ (tienes ${currentStars} ⭐)`,
-          required: costStars,
-          current: currentStars,
-          currency: 'stars',
-        };
-      }
-      profile.stars = currentStars - costStars;
-    }
-
+    profile.stars = currentStars - costStars;
     item.unlocked = true;
     await this.saveProfile(profile);
 
@@ -795,11 +770,11 @@ class StorageService {
         resolve({
           success: true,
           item,
-          currencyUsed: useDiamonds ? 'diamonds' : 'stars',
+          currencyUsed: 'stars',
           remainingStars: profile.stars,
-          remainingDiamonds: profile.diamonds,
         });
       };
+      tx.onerror = () => resolve({ success: false, reason: 'Error en la transacción de estrellas' });
     });
   }
 

@@ -106,13 +106,9 @@ class CampaignPageController {
   // =========================================================================
   renderBalances(profile) {
     const stars = profile?.stars || 0;
-    const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
-    document.querySelectorAll('#player-stars-count, #campaign-star-balance').forEach((el) => {
+    document.querySelectorAll('#player-stars-count, #campaign-star-balance, #campaign-wardrobe-stars').forEach((el) => {
       el.textContent = stars;
-    });
-    document.querySelectorAll('#player-diamonds-count, #campaign-diamond-balance, #campaign-wardrobe-diamonds').forEach((el) => {
-      el.textContent = diamonds;
     });
   }
 

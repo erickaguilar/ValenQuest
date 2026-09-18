@@ -66,15 +66,11 @@ export class VqHeader extends HTMLElement {
 
       <!-- Fila de Utilidades: Balances a la izquierda + Botones de Acción juntos a la derecha -->
       <div class="header-tools-row">
-        <!-- Balances del Jugador (Estrellas y Diamantes) en el Header -->
-        <div class="header-balances-pill" title="Tus Estrellas y Diamantes de Lumiria" aria-label="Estrellas y Diamantes del jugador">
+        <!-- Balances del Jugador (Estrellas de Lumiria) en el Header -->
+        <div class="header-balances-pill" title="Tus Estrellas de Lumiria" aria-label="Estrellas del jugador">
           <span class="header-balance-item" title="Estrellas de Campaña">
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
             <span id="player-stars-count">0</span>
-          </span>
-          <span class="header-balance-item" title="Diamantes del Prisma">
-            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>
-            <span id="player-diamonds-count">0</span>
           </span>
         </div>
 
@@ -539,8 +535,8 @@ export class VqHeader extends HTMLElement {
       const stars = typeof profile?.stars === 'number' ? profile.stars : 0;
       const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
-      const starSelectors = '#player-stars-count, #math-star-balance, #reading-star-balance, #wardrobe-star-balance, #campaign-star-balance';
-      const diamondSelectors = '#player-diamonds-count, #math-diamond-balance, #reading-diamond-balance, #wardrobe-diamond-balance, #campaign-diamond-balance, #campaign-wardrobe-diamonds';
+      const starSelectors = '#player-stars-count, #math-star-balance, #reading-star-balance, #wardrobe-star-balance, #campaign-star-balance, #campaign-wardrobe-stars';
+      const diamondSelectors = '#math-diamond-balance, #reading-diamond-balance';
 
       document.querySelectorAll(starSelectors).forEach((el) => {
         el.textContent = stars;
