@@ -151,9 +151,14 @@
 .ribbon-tab.active-ribbon {
   background: var(--vq-gold);
   border-color: var(--vq-border);
-  color: var(--vq-text);
+  color: #32213F;
   font-weight: 900;
   box-shadow: 0 0 8px rgba(255, 209, 102, 0.6), 0 2px 0 var(--vq-border);
+}
+
+:root[data-theme="dark"] .ribbon-tab.active-ribbon {
+  background: #FBBF24;
+  color: #1A1026;
 }
 
 /* ==========================================================================
@@ -356,6 +361,10 @@
   gap: 10px;
 }
 
+:root[data-theme="dark"] .heroine-lore-quote {
+  border-left-color: var(--vq-gold);
+}
+
 .heroine-lore-quote .vq-icon {
   flex-shrink: 0;
   width: 20px;
@@ -432,11 +441,16 @@
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 900;
-  color: var(--vq-text);
+  color: #32213F;
   text-decoration: none;
   box-shadow: var(--vq-shadow-hard);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+:root[data-theme="dark"] .start-quest-cta-btn {
+  background: linear-gradient(135deg, #F59E0B 0%, #EC4899 100%);
+  color: #FFFFFF;
 }
 
 .start-quest-cta-btn:hover {

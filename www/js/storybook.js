@@ -605,7 +605,7 @@ class StorybookManager {
     const btn = document.getElementById('btn-toggle-music');
     if (btn) {
       btn.classList.remove('active');
-      btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-music-wand, #vq-icon-quill"></use><use href="#vq-icon-sparkles"></use></svg> <span>Cajita Musical</span>';
+      btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Cajita Musical</span>';
     }
   }
 

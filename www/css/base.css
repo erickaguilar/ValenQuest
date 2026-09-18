@@ -328,6 +328,7 @@ button,
 
 .storybook-action-btn.active {
   background: var(--vq-gold);
+  color: #32213F;
 }
 
 /* ==========================================================================
