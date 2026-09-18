@@ -403,3 +403,128 @@
   transform-origin: 100px 24px;
   animation: story-anim-c7-crown-shine-10s 10s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   6. KEYFRAMES DEL CAPÍTULO VIII: LOS PORTALES BIFÁSICOS (10s LOOP)
+   ========================================================================== */
+
+/* Transición bifásica del vórtice interior del portal (Calma azul -> Fulgor dorado) */
+@keyframes story-anim-c8-vortex-10s {
+  0%, 30% {
+    transform: scale(0.95);
+    opacity: 0.55;
+    filter: hue-rotate(0deg);
+  }
+  45% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+  65%, 85% {
+    transform: scale(1.15);
+    opacity: 1;
+    filter: hue-rotate(-20deg) brightness(1.2);
+  }
+  95%, 100% {
+    transform: scale(0.95);
+    opacity: 0.55;
+    filter: hue-rotate(0deg);
+  }
+}
+
+/* Apertura de la puerta izquierda de cristal */
+@keyframes story-anim-c8-gate-left-10s {
+  0%, 25% {
+    transform: rotateY(0deg) skewY(0deg);
+    opacity: 0.9;
+  }
+  40%, 85% {
+    transform: rotateY(-65deg) skewY(-8deg) translateX(-10px);
+    opacity: 0.35;
+  }
+  95%, 100% {
+    transform: rotateY(0deg) skewY(0deg);
+    opacity: 0.9;
+  }
+}
+
+/* Apertura de la puerta derecha de cristal */
+@keyframes story-anim-c8-gate-right-10s {
+  0%, 25% {
+    transform: rotateY(0deg) skewY(0deg);
+    opacity: 0.9;
+  }
+  40%, 85% {
+    transform: rotateY(65deg) skewY(8deg) translateX(10px);
+    opacity: 0.35;
+  }
+  95%, 100% {
+    transform: rotateY(0deg) skewY(0deg);
+    opacity: 0.9;
+  }
+}
+
+/* Convergencia de los 4 haces de las heroínas hacia el centro */
+@keyframes story-anim-c8-beams-10s {
+  0%, 25% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  35% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  75%, 100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+/* Nacimiento, fulgor y elevación de la Quinta Estrella Alada */
+@keyframes story-anim-c8-fifth-star-10s {
+  0%, 45% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.4) rotate(-20deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0px) scale(1.15) rotate(0deg);
+  }
+  75%, 85% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.25) rotate(5deg);
+    filter: drop-shadow(0 0 12px rgba(255, 209, 102, 0.95));
+  }
+  95%, 100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.8) rotate(15deg);
+  }
+}
+
+.story-anim-c8-vortex {
+  transform-origin: 100px 105px;
+  animation: story-anim-c8-vortex-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c8-gate-l {
+  transform-origin: 62px 105px;
+  animation: story-anim-c8-gate-left-10s 10s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.story-anim-c8-gate-r {
+  transform-origin: 138px 105px;
+  animation: story-anim-c8-gate-right-10s 10s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.story-anim-c8-beams {
+  transform-origin: 100px 105px;
+  animation: story-anim-c8-beams-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c8-star {
+  transform-origin: 100px 96px;
+  animation: story-anim-c8-fifth-star-10s 10s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}

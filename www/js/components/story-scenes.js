@@ -461,12 +461,166 @@ export const STORY_SCENES = {
     `
   },
 
-  // Capítulos 3, 4, 5, 6 y 8 preparados con el contrato estándar (fallback canónico #symbolId)
+  // Capítulo 8: Los Portales Bifásicos y Tu Gran Misión (El Gran Final del Libro)
+  8: {
+    id: 'scene-portal',
+    name: 'Los Portales Bifásicos y Tu Gran Misión',
+    render: () => `
+      <svg class="story-scene-svg story-scene-c8" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="El Gran Portal Bifásico y el Despertar de la Quinta Estrella">
+        <defs>
+          <!-- Vórtice de luz de los Portales de Lumiria -->
+          <radialGradient id="c8-portal-vortex" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+            <stop offset="35%" stop-color="#FFD166" stop-opacity="0.8" />
+            <stop offset="65%" stop-color="#457B9D" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#1D3557" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Marco de cristal y oro del Gran Portal -->
+          <linearGradient id="c8-arch-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFEAA7" />
+            <stop offset="45%" stop-color="#FFD166" />
+            <stop offset="100%" stop-color="#E76F51" />
+          </linearGradient>
+
+          <!-- Hojas de puerta de cristal iridiscente -->
+          <linearGradient id="c8-gate-crystal" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity="0.75" />
+            <stop offset="60%" stop-color="#A2D2FF" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#7B2CBF" stop-opacity="0.3" />
+          </linearGradient>
+
+          <!-- La Gran Quinta Estrella de la Armonía -->
+          <linearGradient id="c8-star-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="40%" stop-color="#FFEAA7" />
+            <stop offset="85%" stop-color="#FFD166" />
+            <stop offset="100%" stop-color="#F39C12" />
+          </linearGradient>
+
+          <!-- Alas de luz alicornio de la Quinta Estrella -->
+          <linearGradient id="c8-wings-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity="0.95" />
+            <stop offset="60%" stop-color="#FFAFCC" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#FFD166" stop-opacity="0.5" />
+          </linearGradient>
+
+          <!-- Haces convergentes de los 4 linajes -->
+          <linearGradient id="c8-beam-valen" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFAFCC" /><stop offset="100%" stop-color="#FFF" />
+          </linearGradient>
+          <linearGradient id="c8-beam-reni" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#A2D2FF" /><stop offset="100%" stop-color="#FFF" />
+          </linearGradient>
+          <linearGradient id="c8-beam-zoe" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#B8F2E6" /><stop offset="100%" stop-color="#FFF" />
+          </linearGradient>
+          <linearGradient id="c8-beam-lia" x1="100%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#E0AAFF" /><stop offset="100%" stop-color="#FFF" />
+          </linearGradient>
+        </defs>
+
+        <!-- 1. Vórtice Interior del Portal (Respiración Bifásica de Calma a Fulgor) -->
+        <g class="story-anim-c8-vortex">
+          <ellipse cx="100" cy="105" rx="55" ry="65" fill="url(#c8-portal-vortex)" />
+          <circle cx="100" cy="105" r="40" fill="rgba(255,255,255,0.12)" />
+        </g>
+
+        <!-- 2. Marco Arquitectónico del Gran Portal de Cristal -->
+        <g>
+          <!-- Pedestal de soporte -->
+          <path d="M44 165 L156 165 L148 174 L52 174 Z" fill="#D4AF37" opacity="0.85" />
+          <line x1="40" y1="165" x2="160" y2="165" stroke="#FFD166" stroke-width="2" />
+
+          <!-- Columnas laterales de templo -->
+          <rect x="52" y="90" width="10" height="75" rx="2" fill="url(#c8-arch-gold)" />
+          <rect x="138" y="90" width="10" height="75" rx="2" fill="url(#c8-arch-gold)" />
+          <!-- Bases de columnas -->
+          <rect x="48" y="158" width="18" height="7" rx="1.5" fill="#FFEAA7" />
+          <rect x="134" y="158" width="18" height="7" rx="1.5" fill="#FFEAA7" />
+
+          <!-- Gran Arco Ojival de Cristal -->
+          <path d="M52 92 C52 46 80 28 100 24 C120 28 148 46 148 92" fill="none" stroke="url(#c8-arch-gold)" stroke-width="6" stroke-linecap="round" />
+          <path d="M60 92 C60 54 82 38 100 34 C118 38 140 54 140 92" fill="none" stroke="#FFF" stroke-width="1.2" opacity="0.8" />
+
+          <!-- Cúspide del Portal: Prisma Guardián -->
+          <polygon points="100,18 106,26 100,34 94,26" fill="#FFF" stroke="#FFD166" stroke-width="1.2" />
+        </g>
+
+        <!-- 3. Hojas de Puerta de Cristal Abatibles -->
+        <!-- Hoja Izquierda -->
+        <g class="story-anim-c8-gate-l">
+          <path d="M62 92 C62 58 80 44 99 38 L99 164 L62 164 Z" fill="url(#c8-gate-crystal)" stroke="#FFF" stroke-width="1" />
+          <!-- Filigrana rúnica interna -->
+          <circle cx="80" cy="100" r="10" fill="none" stroke="rgba(255,209,102,0.5)" stroke-width="0.8" />
+        </g>
+        <!-- Hoja Derecha -->
+        <g class="story-anim-c8-gate-r">
+          <path d="M138 92 C138 58 120 44 101 38 L101 164 L138 164 Z" fill="url(#c8-gate-crystal)" stroke="#FFF" stroke-width="1" />
+          <!-- Filigrana rúnica interna -->
+          <circle cx="120" cy="100" r="10" fill="none" stroke="rgba(255,209,102,0.5)" stroke-width="0.8" />
+        </g>
+
+        <!-- 4. Haces Convergentes del Cuarteto de la Armonía -->
+        <g class="story-anim-c8-beams">
+          <!-- Haz 1: Valen (Noroeste -> Centro) -->
+          <path d="M30 40 Q65 65 98 96" fill="none" stroke="url(#c8-beam-valen)" stroke-width="3" stroke-linecap="round" />
+          <circle cx="30" cy="40" r="4" fill="#FFAFCC" />
+
+          <!-- Haz 2: Reni (Noreste -> Centro) -->
+          <path d="M170 40 Q135 65 102 96" fill="none" stroke="url(#c8-beam-reni)" stroke-width="3" stroke-linecap="round" />
+          <circle cx="170" cy="40" r="4" fill="#A2D2FF" />
+
+          <!-- Haz 3: Zoe (Suroeste -> Centro) -->
+          <path d="M30 150 Q65 125 98 98" fill="none" stroke="url(#c8-beam-zoe)" stroke-width="3" stroke-linecap="round" />
+          <circle cx="30" cy="150" r="4" fill="#B8F2E6" />
+
+          <!-- Haz 4: Lía (Sureste -> Centro) -->
+          <path d="M170 150 Q135 125 102 98" fill="none" stroke="url(#c8-beam-lia)" stroke-width="3" stroke-linecap="round" />
+          <circle cx="170" cy="150" r="4" fill="#E0AAFF" />
+        </g>
+
+        <!-- 5. LA QUINTA ESTRELLA DE LA ARMONÍA (El Despertar del Aprendiz) -->
+        <g class="story-anim-c8-star">
+          <!-- Resplandor áureo expansivo -->
+          <circle cx="100" cy="96" r="28" fill="url(#c8-portal-vortex)" opacity="0.85" />
+
+          <!-- Alas de Luz Alicornio Desplegadas -->
+          <!-- Ala Izquierda -->
+          <path d="M96 96 C82 82 64 74 48 80 C56 94 72 102 96 100 Z" fill="url(#c8-wings-glow)" stroke="#FFF" stroke-width="0.8" />
+          <path d="M52 86 C65 88 78 94 92 98" fill="none" stroke="#FFF" stroke-width="0.6" />
+
+          <!-- Ala Derecha -->
+          <path d="M104 96 C118 82 136 74 152 80 C144 94 128 102 104 100 Z" fill="url(#c8-wings-glow)" stroke="#FFF" stroke-width="0.8" />
+          <path d="M148 86 C135 88 122 94 108 98" fill="none" stroke="#FFF" stroke-width="0.6" />
+
+          <!-- La Gran Quinta Estrella de 5 Puntas -->
+          <polygon points="100,78 105,90 118,92 108,100 112,113 100,105 88,113 92,100 82,92 95,90" fill="url(#c8-star-gold)" stroke="#FFF" stroke-width="1.4" stroke-linejoin="round" />
+
+          <!-- Diamante prisma en el corazón de la estrella -->
+          <polygon points="100,88 104,95 100,102 96,95" fill="#FFF" stroke="#FFD166" stroke-width="0.8" />
+          <circle cx="100" cy="95" r="2" fill="#FFD166" />
+        </g>
+
+        <!-- 6. Destellos y Confeti Estelar de Celebración -->
+        <g class="story-anim-sparkle" style="animation-delay: 1s;">
+          <polygon points="100,50 102,54 106,55 102,56 100,60 98,56 94,55 98,54" fill="#FFF" />
+        </g>
+        <g class="story-anim-sparkle" style="animation-delay: 3.5s;">
+          <polygon points="70,75 71.5,78 74.5,79 71.5,80 70,83 68.5,80 65.5,79 68.5,78" fill="#FFD166" />
+        </g>
+        <g class="story-anim-sparkle" style="animation-delay: 6s;">
+          <polygon points="130,75 131.5,78 134.5,79 131.5,80 130,83 128.5,80 125.5,79 128.5,78" fill="#FFAFCC" />
+        </g>
+      </svg>
+    `
+  },
+
+  // Capítulos 3, 4, 5 y 6 preparados con el contrato estándar (fallback canónico #symbolId)
   3: { id: 'scene-valen', name: 'Valen, la Princesa Astral' },
   4: { id: 'scene-reni', name: 'Reni, el Alquimista de los Vientos' },
   5: { id: 'scene-zoe', name: 'Zoe, el Ancla de la Naturaleza' },
-  6: { id: 'scene-lia', name: 'Lía, la Maga del Cristal Cósmico' },
-  8: { id: 'scene-portal', name: 'Los Portales Bifásicos y Tu Gran Misión' }
+  6: { id: 'scene-lia', name: 'Lía, la Maga del Cristal Cósmico' }
 };
 
 /**
