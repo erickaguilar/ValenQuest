@@ -54,10 +54,6 @@
         <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
         <span>Cajita Musical</span>
       </button>
-      <button type="button" id="btn-read-aloud" class="storybook-action-btn" aria-label="Escuchar relato con el Maestro Orión" title="Escuchar relato con el Maestro Orión">
-        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
-        <span>Voz de Orión</span>
-      </button>
     </div>
 
     <!-- Marco Hardcover del Libro de Princesas -->
@@ -94,7 +90,13 @@
           <article class="page-manuscript" aria-label="Texto del capítulo">
             <div>
               <header class="chapter-header">
-                <span id="chapter-num" class="chapter-number">Capítulo I</span>
+                <div class="chapter-header-top">
+                  <span id="chapter-num" class="chapter-number">Capítulo I</span>
+                  <button type="button" id="btn-read-aloud" class="chapter-speech-btn" aria-label="Escuchar relato con el Maestro Orión" title="Escuchar relato con el Maestro Orión">
+                    <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
+                    <span>Voz de Orión</span>
+                  </button>
+                </div>
                 <h1 id="chapter-title" class="chapter-title">El Gran Grimorio y las Cuatro Razas</h1>
               </header>
 
