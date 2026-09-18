@@ -183,3 +183,120 @@
   transform-origin: 100px 105px;
   animation: story-anim-book-cover-right-10s 10s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   4. KEYFRAMES DEL CAPÍTULO II: LA EMPERATRIZ ECLIPSE (10s LOOP)
+   ========================================================================== */
+
+/* Tránsito suave de la sombra del eclipse sobre la luna */
+@keyframes story-anim-c2-eclipse-slide-10s {
+  0%, 15% {
+    transform: translate(-36px, -16px) scale(0.95);
+    opacity: 0.15;
+  }
+  35% {
+    transform: translate(-12px, -5px) scale(0.98);
+    opacity: 0.8;
+  }
+  50%, 75% {
+    transform: translate(0px, 0px) scale(1.02);
+    opacity: 0.97;
+  }
+  90%, 100% {
+    transform: translate(32px, 14px) scale(0.95);
+    opacity: 0.15;
+  }
+}
+
+/* Anillo de fuego solar/corona estelar durante el eclipse */
+@keyframes story-anim-c2-corona-ring-10s {
+  0%, 25% {
+    opacity: 0.2;
+    transform: scale(0.92);
+  }
+  45%, 70% {
+    opacity: 0.95;
+    transform: scale(1.06);
+  }
+  85%, 100% {
+    opacity: 0.2;
+    transform: scale(0.92);
+  }
+}
+
+/* Expansión y rotación de la bruma del Sueño del Olvido */
+@keyframes story-anim-c2-mist-swirl-10s {
+  0% {
+    transform: rotate(0deg) scale(0.94);
+    opacity: 0.45;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.08);
+    opacity: 0.85;
+  }
+  100% {
+    transform: rotate(360deg) scale(0.94);
+    opacity: 0.45;
+  }
+}
+
+/* Dispersión centrífuga de los 10 fragmentos/páginas del Grimorio */
+@keyframes story-anim-c2-pages-disperse-10s {
+  0%, 25% {
+    transform: scale(0.4) rotate(0deg);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(0.85) rotate(45deg);
+    opacity: 0.7;
+  }
+  65%, 85% {
+    transform: scale(1.05) rotate(90deg);
+    opacity: 1;
+  }
+  95%, 100% {
+    transform: scale(1.18) rotate(125deg);
+    opacity: 0;
+  }
+}
+
+/* Chispa de esperanza latente en el corazón del eclipse */
+@keyframes story-anim-c2-hope-spark-10s {
+  0%, 45% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60%, 80% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  95%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.story-anim-c2-eclipse-slide {
+  transform-origin: 100px 100px;
+  animation: story-anim-c2-eclipse-slide-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c2-corona-ring {
+  transform-origin: 100px 100px;
+  animation: story-anim-c2-corona-ring-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c2-mist-swirl {
+  transform-origin: 100px 100px;
+  animation: story-anim-c2-mist-swirl-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c2-pages-disperse {
+  transform-origin: 100px 100px;
+  animation: story-anim-c2-pages-disperse-10s 10s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+.story-anim-c2-hope-spark {
+  transform-origin: 100px 100px;
+  animation: story-anim-c2-hope-spark-10s 10s ease-in-out infinite;
+}

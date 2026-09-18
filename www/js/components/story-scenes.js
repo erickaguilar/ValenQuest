@@ -179,8 +179,135 @@ export const STORY_SCENES = {
     `
   },
 
-  // Capítulos 2 al 8 preparados con el contrato estándar (utilizan fallback dinámico hasta su implementación)
-  2: { id: 'scene-eclipse', name: 'La Emperatriz Eclipse' },
+  // Capítulo 2: La Emperatriz Eclipse y el Sueño del Olvido
+  2: {
+    id: 'scene-eclipse',
+    name: 'La Emperatriz Eclipse y el Sueño del Olvido',
+    render: () => `
+      <svg class="story-scene-svg story-scene-c2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="La Emperatriz Eclipse y el Sueño del Olvido">
+        <defs>
+          <!-- Bruma cósmica del Sueño del Olvido -->
+          <radialGradient id="c2-mist-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#9D4EDD" stop-opacity="0.6" />
+            <stop offset="45%" stop-color="#5A189A" stop-opacity="0.35" />
+            <stop offset="80%" stop-color="#240046" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="#130E1F" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Luna Plateada de Lumiria -->
+          <linearGradient id="c2-moon-silver" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="60%" stop-color="#E2E8F0" />
+            <stop offset="100%" stop-color="#CBD5E1" />
+          </linearGradient>
+
+          <!-- Sombra amatista del Eclipse -->
+          <radialGradient id="c2-eclipse-shadow" cx="45%" cy="40%" r="60%">
+            <stop offset="0%" stop-color="#3C096C" />
+            <stop offset="65%" stop-color="#240046" />
+            <stop offset="100%" stop-color="#10002B" />
+          </radialGradient>
+
+          <!-- Anillo de fuego dorado / Corona estelar -->
+          <linearGradient id="c2-corona-ring-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFEAA7" />
+            <stop offset="50%" stop-color="#FFD166" />
+            <stop offset="100%" stop-color="#F39C12" />
+          </linearGradient>
+
+          <!-- Tiara Soberana de la Emperatriz -->
+          <linearGradient id="c2-tiara-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#F39C12" />
+            <stop offset="50%" stop-color="#FFF" />
+            <stop offset="100%" stop-color="#FFD166" />
+          </linearGradient>
+
+          <!-- Fragmentos de cristal / Páginas sagradas -->
+          <linearGradient id="c2-shard-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF" />
+            <stop offset="70%" stop-color="#FFD166" />
+            <stop offset="100%" stop-color="#E17055" />
+          </linearGradient>
+        </defs>
+
+        <!-- 1. Bruma Cósmica Giratoria del Sueño del Olvido -->
+        <g class="story-anim-c2-mist-swirl">
+          <circle cx="100" cy="100" r="75" fill="url(#c2-mist-glow)" />
+          <!-- Filamentos de niebla violácea etérea -->
+          <path d="M40 90 Q70 60 100 80 T160 70 Q140 120 100 120 T40 90 Z" fill="none" stroke="rgba(157,78,221,0.25)" stroke-width="8" stroke-linecap="round" />
+          <path d="M50 120 Q80 140 110 120 T150 130" fill="none" stroke="rgba(255,209,102,0.18)" stroke-width="3" stroke-linecap="round" />
+        </g>
+
+        <!-- 2. Núcleo Lunar Central Flotante -->
+        <g class="story-anim-levitate">
+          <!-- Resplandor exterior de la Luna -->
+          <circle cx="100" cy="100" r="46" fill="rgba(255,255,255,0.08)" />
+
+          <!-- Anillo de Fuego de Corona Solar durante el Eclipse -->
+          <circle class="story-anim-c2-corona-ring" cx="100" cy="100" r="45" fill="none" stroke="url(#c2-corona-ring-grad)" stroke-width="3.2" stroke-dasharray="8,4" />
+
+          <!-- Disco de la Luna Llena Plateada -->
+          <circle cx="100" cy="100" r="42" fill="url(#c2-moon-silver)" stroke="#E2E8F0" stroke-width="1.2" />
+          <!-- Detalles sutiles de cráteres de cristal -->
+          <circle cx="86" cy="92" r="5" fill="#CBD5E1" opacity="0.45" />
+          <circle cx="112" cy="114" r="7" fill="#CBD5E1" opacity="0.4" />
+          <circle cx="94" cy="118" r="3.5" fill="#CBD5E1" opacity="0.35" />
+
+          <!-- Disco de Sombra del Eclipse que se desliza sobre la Luna -->
+          <g class="story-anim-c2-eclipse-slide">
+            <circle cx="100" cy="100" r="42.5" fill="url(#c2-eclipse-shadow)" stroke="#FFD166" stroke-width="1.6" />
+            <!-- Velo de penumbra interno -->
+            <path d="M68 90 Q100 70 132 90 Q100 120 68 90 Z" fill="rgba(60,9,108,0.4)" />
+          </g>
+
+          <!-- Chispa de Esperanza Latente en el Corazón del Eclipse -->
+          <g class="story-anim-c2-hope-spark">
+            <polygon points="100,92 102.5,98 108,100 102.5,102 100,108 97.5,102 92,100 97.5,98" fill="#FFF" stroke="#FFD166" stroke-width="0.8" />
+            <circle cx="100" cy="100" r="2" fill="#FFD166" />
+          </g>
+
+          <!-- 3. Tiara de Medianoche de la Soberana Astral -->
+          <g transform="translate(100, 56)">
+            <!-- Alas/Cuernos sutiles de la corona de la noche -->
+            <path d="M-22 6 Q-12 -6 0 -14 Q12 -6 22 6 Q12 1 0 -2 Q-12 1 -22 6 Z" fill="url(#c2-tiara-gold)" stroke="#FFD166" stroke-width="1" />
+            <!-- Joya amatista central de la tiara -->
+            <polygon points="0,-16 4,-9 0,-2 -4,-9" fill="#9D4EDD" stroke="#FFF" stroke-width="0.8" />
+            <!-- Cúspide lunar creciente -->
+            <path d="M-6 -8 Q0 -12 6 -8 Q3 -6 0 -6 Q-3 -6 -6 -8 Z" fill="#FFF" />
+          </g>
+        </g>
+
+        <!-- 4. Dispersión Centrífuga de las Diez Páginas Sagradas del Gran Grimorio -->
+        <g class="story-anim-c2-pages-disperse">
+          <!-- Trayectoria orbital punteada -->
+          <ellipse cx="100" cy="100" rx="72" ry="68" fill="none" stroke="rgba(255,209,102,0.18)" stroke-width="0.9" stroke-dasharray="2,5" />
+
+          <!-- Página 1: Templo Manantial (Norte) -->
+          <g transform="translate(100, 28)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 2: Templo Bosque (Noreste Alto) -->
+          <g transform="translate(142, 42)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 3: Templo Algodón (Este Alto) -->
+          <g transform="translate(168, 76)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 4: Templo Ámbar (Este Bajo) -->
+          <g transform="translate(168, 124)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 5: Palacio Prisma (Sureste) -->
+          <g transform="translate(142, 158)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 6: Reloj de Arenas (Sur) -->
+          <g transform="translate(100, 172)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 7: Mar de Coral (Suroeste) -->
+          <g transform="translate(58, 158)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 8: Muralla de Nácar (Oeste Bajo) -->
+          <g transform="translate(32, 124)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 9: Cúspide Aurora (Oeste Alto) -->
+          <g transform="translate(32, 76)"><polygon points="0,-4 3.5,0 0,4 -3.5,0" fill="url(#c2-shard-gold)" stroke="#FFF" stroke-width="0.7" /></g>
+          <!-- Página 10: Trono Estelar (Noroeste) -->
+          <g transform="translate(58, 42)"><polygon points="0,-5 4.5,0 0,5 -4.5,0" fill="#FFD166" stroke="#FFF" stroke-width="0.9" /></g>
+        </g>
+      </svg>
+    `
+  },
+
+  // Capítulos 3 al 8 preparados con el contrato estándar (utilizan fallback dinámico hasta su implementación)
   3: { id: 'scene-valen', name: 'Valen, la Princesa Astral' },
   4: { id: 'scene-reni', name: 'Reni, el Alquimista de los Vientos' },
   5: { id: 'scene-zoe', name: 'Zoe, el Ancla de la Naturaleza' },
