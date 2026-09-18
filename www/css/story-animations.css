@@ -1,0 +1,185 @@
+/**
+ * ValenQuest: Animaciones Vectoriales del Gran Libro de Lumiria (story-animations.css)
+ * Especificación técnica: docs/storybook-animations-spec.md
+ * - Ciclos canónicos unificados de 10 segundos a 60 FPS por GPU (transform y opacity)
+ * - Control de pausa global reactivo (.is-paused)
+ * - Respeto a prefers-reduced-motion
+ */
+
+/* ==========================================================================
+   1. CONTENEDOR DE ESCENA VECTORIAL EN EL ESPEJO MÁGICO
+   ========================================================================== */
+.story-scene-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 150px;
+  max-height: 150px;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  will-change: transform;
+}
+
+/* Control de Pausa Unificado y Modo Silencioso / Sin Movimiento */
+.page-stage.is-paused .story-scene-svg *,
+.magic-mirror-frame.is-paused .story-scene-svg * {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-scene-svg * {
+    animation-play-state: paused !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   2. KEYFRAMES CANÓNICOS PARA BUCLES DE 10 SEGUNDOS (LUMIRIA LORE)
+   ========================================================================== */
+
+/* Flotación y respiración cósmica del núcleo central */
+@keyframes story-anim-levitate-10s {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-5px) scale(1.02);
+  }
+  70% {
+    transform: translateY(3px) scale(0.99);
+  }
+}
+
+/* Fulgor y pulso del halo místico */
+@keyframes story-anim-glow-10s {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+}
+
+/* Órbita elíptica continua a 360 grados en 10s */
+@keyframes story-anim-orbit-cw-10s {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes story-anim-orbit-ccw-10s {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Elevación de runas de sabiduría y chispas desde las páginas */
+@keyframes story-anim-sparkle-10s {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-14px) scale(1.05);
+  }
+  75% {
+    opacity: 0.3;
+    transform: translateY(-22px) scale(0.85);
+  }
+  90%, 100% {
+    opacity: 0;
+    transform: translateY(-28px) scale(0.6);
+  }
+}
+
+/* Estrella cimera estelar: resplandor cumbre al cerrar el ciclo de 10s */
+@keyframes story-anim-star-shimmer-10s {
+  0%, 65% {
+    opacity: 0.2;
+    transform: scale(0.75) rotate(0deg);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.25) rotate(90deg);
+  }
+  95%, 100% {
+    opacity: 0.35;
+    transform: scale(0.85) rotate(180deg);
+  }
+}
+
+/* Desplazamiento y apertura suave de las tapas de cristal */
+@keyframes story-anim-book-cover-left-10s {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20%, 80% {
+    transform: rotate(-10deg) skewY(-2deg);
+  }
+}
+
+@keyframes story-anim-book-cover-right-10s {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20%, 80% {
+    transform: rotate(10deg) skewY(2deg);
+  }
+}
+
+/* ==========================================================================
+   3. CLASES DE ASIGNACIÓN PARA LOS ELEMENTOS DE LAS ESCENAS
+   ========================================================================== */
+.story-anim-levitate {
+  transform-origin: 100px 105px;
+  animation: story-anim-levitate-10s 10s ease-in-out infinite;
+}
+
+.story-anim-glow {
+  transform-origin: 100px 105px;
+  animation: story-anim-glow-10s 10s ease-in-out infinite;
+}
+
+.story-anim-orbit-cw {
+  transform-origin: 100px 100px;
+  animation: story-anim-orbit-cw-10s 10s linear infinite;
+}
+
+.story-anim-orbit-ccw {
+  transform-origin: 100px 100px;
+  animation: story-anim-orbit-ccw-10s 10s linear infinite;
+}
+
+.story-anim-sparkle {
+  transform-origin: center center;
+  animation: story-anim-sparkle-10s 10s ease-out infinite;
+}
+
+.story-anim-star-crown {
+  transform-origin: 100px 38px;
+  animation: story-anim-star-shimmer-10s 10s ease-in-out infinite;
+}
+
+.story-anim-cover-l {
+  transform-origin: 100px 105px;
+  animation: story-anim-book-cover-left-10s 10s ease-in-out infinite;
+}
+
+.story-anim-cover-r {
+  transform-origin: 100px 105px;
+  animation: story-anim-book-cover-right-10s 10s ease-in-out infinite;
+}

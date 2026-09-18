@@ -14,7 +14,8 @@ docs/
 │   ├── story-and-lore-guide.md            # Biblia Oficial de Historia, Lore y Mundo de Lumiria
 │   ├── game-modes-and-triad-flow-spec.md  # [NUEVO] Tríada de Modos de Juego (Aventura, Prisma, Pluma y Bonus)
 │   ├── ten-moons-progression-spec.md      # Las Diez Lunas de Lumiria, 3 actos, matriz de 10 niveles y portales
-│   └── heroines-and-powers-spec.md        # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
+│   ├── heroines-and-powers-spec.md        # Cuarteto de la Armonía, 4 razas canónicas, poderes y ropero
+│   └── storybook-animations-spec.md       # [NUEVO] Estándar y catálogo de animaciones SVG del Gran Libro (10s loops)
 │
 ├── ⚙️ ARQUITECTURA TÉCNICA Y MOTORES
 │   ├── frontend-modular-architecture-spec.md # Arquitectura modular frontend, Web Components y Hub & Spoke
@@ -78,9 +79,19 @@ docs/
 
 ---
 
+### 5. ✨ [Animaciones Vectoriales SVG del Gran Libro de Lumiria](./storybook-animations-spec.md)
+* **Propósito:** Estándar técnico y catálogo conceptual de las 8 escenas vectoriales del Espejo Mágico.
+* **Contenido Principal:**
+  * Bucles continuos de 10 segundos, cero frameworks y máxima aceleración por GPU (60 FPS).
+  * Estándar de coordenadas `viewBox="0 0 200 200"` e IDs con scope `cN-*`.
+  * Catálogo narrativo de los 8 capítulos canónicos (Grimorio, Eclipse, Valen, Reni, Zoe, Lía, Diez Lunas y Portales).
+  * Sincronización con el botón de pausa global y accesibilidad `prefers-reduced-motion`.
+
+---
+
 ## ⚙️ Sección II: Arquitectura Técnica y Frontend Modular
 
-### 5. 🧩 [Arquitectura Modular Frontend y Navegación Hub & Spoke](./frontend-modular-architecture-spec.md)
+### 6. 🧩 [Arquitectura Modular Frontend y Navegación Hub & Spoke](./frontend-modular-architecture-spec.md)
 * **Propósito:** Estructuración del código web, componentes y flujo de navegación.
 * **Contenido Principal:**
   * Web Components nativos en Light DOM: `<vq-header>` y `<vq-footer>` con `display: contents`.

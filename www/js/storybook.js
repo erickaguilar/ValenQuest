@@ -19,6 +19,7 @@ import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { theme } from './services/theme.js';
 import { loadSvgSprites } from './services/icons.js';
+import { renderChapterScene } from './components/story-scenes.js';
 
 const CHAPTERS = [
   {
@@ -414,7 +415,7 @@ class StorybookManager {
     // 2. Update Stage Visuals
     const charWrapper = document.getElementById('stage-character');
     if (charWrapper) {
-      charWrapper.innerHTML = `<svg class="vq-anim-float" aria-hidden="true"><use href="#${ch.symbolId}"></use></svg>`;
+      renderChapterScene(ch, charWrapper);
     }
 
     const nameEl = document.getElementById('stage-character-name');
@@ -536,6 +537,10 @@ class StorybookManager {
     if (animToggleBtn) {
       animToggleBtn.addEventListener('click', () => {
         this.isAnimPlaying = !this.isAnimPlaying;
+        const stageEl = document.querySelector('.page-stage');
+        if (stageEl) {
+          stageEl.classList.toggle('is-paused', !this.isAnimPlaying);
+        }
         animToggleBtn.innerHTML = this.isAnimPlaying
           ? '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Animación Activa</span>'
           : '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-moon"></use></svg> <span>Pausada</span>';
