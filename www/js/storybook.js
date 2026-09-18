@@ -175,9 +175,6 @@ class StorybookManager {
     this.animFrameId = null;
     this.isAnimPlaying = true;
     this.isSpeaking = false;
-    this.isMusicPlaying = false;
-    this.audioCtx = null;
-    this.musicTimer = null;
     this.particles = [];
     this.sceneAngle = 0;
     this.activeHeroineId = 'valen';
@@ -518,109 +515,8 @@ class StorybookManager {
 
   playPageTurnSound() {
     try {
-      if (!this.audioCtx) {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (AudioCtx) this.audioCtx = new AudioCtx();
-      }
-      if (!this.audioCtx) return;
-      if (this.audioCtx.state === 'suspended') {
-        this.audioCtx.resume();
-      }
-
-      const osc = this.audioCtx.createOscillator();
-      const gain = this.audioCtx.createGain();
-      const now = this.audioCtx.currentTime;
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(440, now);
-      osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
-
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-
-      osc.connect(gain);
-      gain.connect(this.audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.13);
-    } catch {
-      // Audio autoplay policy fallback
-    }
-  }
-
-  toggleMusicBox() {
-    if (this.isMusicPlaying) {
-      this.stopMusicBox();
-    } else {
-      this.startMusicBox();
-    }
-  }
-
-  startMusicBox() {
-    try {
-      if (!this.audioCtx) {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (AudioCtx) this.audioCtx = new AudioCtx();
-      }
-      if (!this.audioCtx) return;
-      if (this.audioCtx.state === 'suspended') {
-        this.audioCtx.resume();
-      }
-
-      this.isMusicPlaying = true;
-      const btn = document.getElementById('btn-toggle-music');
-      if (btn) {
-        btn.classList.add('active');
-        btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg> <span>Música Activa</span>';
-      }
-
-      // Fairy princess music box arpeggios (C major pentatonic lullaby)
-      // Notes: C5 (523), D5 (587), E5 (659), G5 (783), A5 (880), C6 (1046)
-      const melody = [523.25, 659.25, 783.99, 1046.50, 880.00, 783.99, 659.25, 587.33, 523.25, 783.99, 1046.50, 880.00];
-      let step = 0;
-
-      const playNextNote = () => {
-        if (!this.isMusicPlaying || !this.audioCtx) return;
-        const now = this.audioCtx.currentTime;
-        const freq = melody[step % melody.length];
-        step++;
-
-        const osc = this.audioCtx.createOscillator();
-        const gain = this.audioCtx.createGain();
-
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, now);
-
-        // Music box bell chime decay
-        gain.gain.setValueAtTime(0.04, now);
-        gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.55);
-
-        osc.connect(gain);
-        gain.connect(this.audioCtx.destination);
-
-        osc.start(now);
-        osc.stop(now + 0.6);
-
-        this.musicTimer = setTimeout(playNextNote, 320);
-      };
-
-      playNextNote();
-    } catch {
-      // Audio autoplay policy fallback
-    }
-  }
-
-  stopMusicBox() {
-    this.isMusicPlaying = false;
-    if (this.musicTimer) {
-      clearTimeout(this.musicTimer);
-      this.musicTimer = null;
-    }
-    const btn = document.getElementById('btn-toggle-music');
-    if (btn) {
-      btn.classList.remove('active');
-      btn.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Cajita Musical</span>';
-    }
+      sound.playClick();
+    } catch (_) {}
   }
 
   setupEventListeners() {
@@ -634,10 +530,6 @@ class StorybookManager {
     // Read Aloud / TTS button
     const speechBtn = document.getElementById('btn-read-aloud');
     if (speechBtn) speechBtn.addEventListener('click', () => this.toggleSpeech());
-
-    // Music Box Toggle button
-    const musicBtn = document.getElementById('btn-toggle-music');
-    if (musicBtn) musicBtn.addEventListener('click', () => this.toggleMusicBox());
 
     // Toggle mirror scene animation
     const animToggleBtn = document.getElementById('btn-toggle-anim');

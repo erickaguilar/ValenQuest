@@ -9,6 +9,18 @@ class SoundEngine {
     this.ctx = null;
     this.muted = false;
     this.hasUserInteracted = false;
+    this.isMusicPlaying = false;
+    this.musicTimer = null;
+    this.musicStep = 0;
+    this.musicListeners = new Set();
+    this.pendingMusicStart = false;
+
+    if (typeof localStorage !== 'undefined') {
+      try {
+        this.pendingMusicStart = localStorage.getItem('vq-music-box') === 'true';
+      } catch (_) {}
+    }
+
     this.initWarmUp();
   }
 
@@ -31,6 +43,9 @@ class SoundEngine {
     const unlockHandler = () => {
       this.hasUserInteracted = true;
       this.ensureContext();
+      if (this.pendingMusicStart && !this.isMusicPlaying) {
+        this.startMusicBox();
+      }
       window.removeEventListener('pointerdown', unlockHandler, true);
       window.removeEventListener('touchstart', unlockHandler, true);
       window.removeEventListener('mousedown', unlockHandler, true);
@@ -59,6 +74,9 @@ class SoundEngine {
     }
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume().catch(() => {});
+    }
+    if (this.ctx && this.pendingMusicStart && !this.isMusicPlaying) {
+      this.startMusicBox();
     }
   }
 
@@ -217,6 +235,103 @@ class SoundEngine {
 
     osc.start(now);
     osc.stop(now + 0.22);
+  }
+
+  /**
+   * Cajita Musical de Lumiria (Música procedural relajante en Web Audio API)
+   * Arpegios suaves pentatónicos de campanas de cristal (Do Mayor: C5, E5, G5, C6...)
+   */
+  startMusicBox() {
+    this.pendingMusicStart = false;
+    if (this.isMusicPlaying) return;
+
+    if (typeof localStorage !== 'undefined') {
+      try { localStorage.setItem('vq-music-box', 'true'); } catch (_) {}
+    }
+
+    this.ensureContext();
+    if (!this.ctx || !this.isUserActive) {
+      this.pendingMusicStart = true;
+      this.notifyMusicChange(true);
+      return;
+    }
+
+    if (this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
+    }
+
+    this.isMusicPlaying = true;
+    this.notifyMusicChange(true);
+
+    const melody = [523.25, 659.25, 783.99, 1046.50, 880.00, 783.99, 659.25, 587.33, 523.25, 783.99, 1046.50, 880.00];
+
+    const playNextNote = () => {
+      if (!this.isMusicPlaying || !this.ctx) return;
+
+      if (!this.muted && this.ctx.state === 'running') {
+        const now = this.ctx.currentTime;
+        const freq = melody[this.musicStep % melody.length];
+        this.musicStep++;
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+
+        // Timbre de campana de caja musical con decaimiento orgánico
+        gain.gain.setValueAtTime(0.035, now);
+        gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.55);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.6);
+      }
+
+      this.musicTimer = setTimeout(playNextNote, 320);
+    };
+
+    playNextNote();
+  }
+
+  stopMusicBox() {
+    this.pendingMusicStart = false;
+    this.isMusicPlaying = false;
+    if (this.musicTimer) {
+      clearTimeout(this.musicTimer);
+      this.musicTimer = null;
+    }
+    if (typeof localStorage !== 'undefined') {
+      try { localStorage.setItem('vq-music-box', 'false'); } catch (_) {}
+    }
+    this.notifyMusicChange(false);
+  }
+
+  toggleMusicBox() {
+    if (this.isMusicPlaying || this.pendingMusicStart) {
+      this.stopMusicBox();
+      return false;
+    } else {
+      this.startMusicBox();
+      return true;
+    }
+  }
+
+  isMusicBoxActive() {
+    return this.isMusicPlaying || this.pendingMusicStart;
+  }
+
+  onMusicBoxChange(callback) {
+    this.musicListeners.add(callback);
+    return () => this.musicListeners.delete(callback);
+  }
+
+  notifyMusicChange(active) {
+    this.musicListeners.forEach((fn) => {
+      try { fn(active); } catch (_) {}
+    });
   }
 }
 

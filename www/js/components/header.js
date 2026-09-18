@@ -139,6 +139,20 @@ export class VqHeader extends HTMLElement {
             </button>
           </div>
 
+          <!-- Fila: Cajita Musical de Lumiria (Música Ambiental Procedural) -->
+          <div class="settings-item-row">
+            <div class="settings-item-info">
+              <span class="settings-item-label">
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+                Cajita Musical
+              </span>
+              <span class="settings-item-desc">Melodía suave de las princesas de fondo</span>
+            </div>
+            <button id="btn-toggle-musicbox" class="icon-btn" aria-label="Alternar cajita musical" title="Activar cajita musical">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+            </button>
+          </div>
+
           <!-- Fila: Voz de Orión (Web Speech API) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
@@ -256,6 +270,7 @@ export class VqHeader extends HTMLElement {
     const btnDone = this.querySelector('#btn-settings-done');
     const themeBtn = this.querySelector('#btn-toggle-theme');
     const muteBtn = this.querySelector('#btn-toggle-mute');
+    const musicBoxBtn = this.querySelector('#btn-toggle-musicbox');
     const speechBtn = this.querySelector('#btn-toggle-speech');
     const speechRateGroup = this.querySelector('#settings-speech-rate-group');
     const calmBtn = this.querySelector('#btn-toggle-calm');
@@ -292,6 +307,28 @@ export class VqHeader extends HTMLElement {
         sound.toggleMute();
         updateMuteBtn();
         if (!sound.isMuted()) sound.playClick();
+      });
+    }
+
+    // 1.5. Control de Cajita Musical Global
+    const updateMusicBoxBtn = () => {
+      if (!musicBoxBtn) return;
+      const isPlaying = sound.isMusicBoxActive();
+      musicBoxBtn.classList.toggle('active', isPlaying);
+      const iconUse = musicBoxBtn.querySelector('use');
+      if (iconUse) {
+        iconUse.setAttribute('href', isPlaying ? '#vq-icon-sound-on' : '#vq-icon-sparkles');
+      }
+      musicBoxBtn.title = isPlaying ? 'Cajita musical sonando (Pausar)' : 'Activar melodía de la cajita musical';
+      musicBoxBtn.setAttribute('aria-label', isPlaying ? 'Pausar cajita musical' : 'Activar cajita musical');
+    };
+    updateMusicBoxBtn();
+    sound.onMusicBoxChange(() => updateMusicBoxBtn());
+    if (musicBoxBtn) {
+      musicBoxBtn.addEventListener('click', () => {
+        try { sound.playClick(); } catch (_) {}
+        sound.toggleMusicBox();
+        updateMusicBoxBtn();
       });
     }
 
