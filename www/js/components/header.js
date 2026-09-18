@@ -55,8 +55,8 @@ export class VqHeader extends HTMLElement {
       <div class="header-main-row">
         <div class="header-brand-group">
           <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
-            <span class="brand-icon" aria-hidden="true">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+            <span class="brand-icon" aria-hidden="true" style="overflow: hidden; padding: 0; background: #F5EEFA;">
+              <img src="assets/emblem-valen.png" alt="ValenQuest" class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
             </span>
             <div class="brand-info">
               <h1 class="brand-title">ValenQuest</h1>
@@ -88,7 +88,7 @@ export class VqHeader extends HTMLElement {
       <div class="header-actions" aria-label="Herramientas y ajustes mágicos">
         <!-- Conocer a las Heroínas (Redirección a La Gran Aventura) -->
         <a href="campaign.html#heroines-section" id="btn-header-heroines" class="icon-btn ${currentSection === 'campaign' ? 'active' : ''}" aria-label="Conocer a las Heroínas" title="Conocer a las 4 Heroínas de Lumiria">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
         </a>
 
         <!-- Historia del Reino (Redirección al Gran Libro de las Princesas) -->

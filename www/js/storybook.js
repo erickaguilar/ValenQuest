@@ -40,9 +40,9 @@ const CHAPTERS = [
     number: 'Capítulo II',
     title: 'La Emperatriz Eclipse y el Sueño del Olvido',
     heroineId: 'valen',
-    symbolId: 'vq-icon-moon',
-    characterName: 'El Velo de la Duda',
-    characterSubtitle: 'El Sueño del Olvido y la Niebla',
+    symbolId: 'vq-heroine-eclipse',
+    characterName: 'La Emperatriz Eclipse',
+    characterSubtitle: 'Soberana de la Noche Estelar • El Velo de la Duda',
     sceneType: 'eclipse',
     dropCap: 'P',
     paragraphs: [

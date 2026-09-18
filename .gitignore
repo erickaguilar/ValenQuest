@@ -4,5 +4,4 @@ node_modules/
 **/*.rs.bk
 *.swp
 *~
-.DS_Store
-
+*.log

@@ -17,6 +17,45 @@
        ====================================================================== -->
 
   <!-- 1. IDENTIDAD & MARCA -->
+  <!-- Emblema Minimalista Oficial de Lumiria (Kids 6-12): Prisma Mágico 4-Armonías, Corona y Alas -->
+  <symbol id="vq-emblem-valen" viewBox="0 0 512 512">
+    <!-- Fondo circular limpio en nube lavanda pastel -->
+    <circle cx="256" cy="256" r="236" fill="#F5EEFA" stroke="#4A3E56" stroke-width="14"/>
+
+    <!-- Alas Celestiales Redondeadas Chibi -->
+    <!-- Ala Izquierda -->
+    <path d="M168,268 C110,230 76,260 84,300 C92,330 130,326 168,312" 
+          fill="#FFAFCC" stroke="#4A3E56" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M96,306 C104,332 136,336 172,324" fill="#FFAFCC" stroke="#4A3E56" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- Ala Derecha -->
+    <path d="M344,268 C402,230 436,260 428,300 C420,330 382,326 344,312" 
+          fill="#FFAFCC" stroke="#4A3E56" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M416,306 C408,332 376,336 340,324" fill="#FFAFCC" stroke="#4A3E56" stroke-width="12" stroke-linecap="round"/>
+
+    <!-- Corona Tiara de Princesa -->
+    <polygon points="174,178 190,140 220,164 256,104 292,164 322,140 338,178" 
+             fill="#FFD166" stroke="#4A3E56" stroke-width="14" stroke-linejoin="round"/>
+    <!-- Estrella Rubí Central de la Corona -->
+    <polygon points="256,134 262,148 276,149 265,158 268,172 256,163 244,172 247,158 236,149 250,148" 
+             fill="#E11D48" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+
+    <!-- Diamante Prisma de Lumiria (Las 4 Armonías) -->
+    <g id="minimal-prism-symbol" stroke="#4A3E56" stroke-width="14" stroke-linejoin="round" stroke-linecap="round">
+      <polygon points="186,216 256,216 256,270 144,270" fill="#FFAFCC"/>
+      <polygon points="186,216 144,270 200,270" fill="#FFC8DD"/>
+      <polygon points="256,216 326,216 368,270 256,270" fill="#A2D2FF"/>
+      <polygon points="326,216 368,270 312,270" fill="#BDE0FE"/>
+      <polygon points="144,270 256,270 256,410" fill="#B8F2E6"/>
+      <polygon points="144,270 204,270 256,410" fill="#6EE7B7"/>
+      <polygon points="256,270 368,270 256,410" fill="#FFD166"/>
+      <polygon points="256,270 308,270 256,410" fill="#FBBF24"/>
+      <polygon points="186,216 326,216 368,270 256,410 144,270" fill="none" stroke="#4A3E56" stroke-width="14"/>
+      <line x1="144" y1="270" x2="368" y2="270" stroke="#4A3E56" stroke-width="14"/>
+      <line x1="256" y1="216" x2="256" y2="410" stroke="#4A3E56" stroke-width="14"/>
+    </g>
+  </symbol>
+
   <!-- Logo Alicornio / Unicornio Chibi de Valen -->
   <symbol id="vq-icon-unicorn" viewBox="0 0 64 64">
     <circle cx="32" cy="34" r="26" fill="#FFC8DD" opacity="0.35"/>

@@ -50,11 +50,15 @@ export async function loadSvgSprites() {
       }
     };
 
-    // 1. Inyección ultrarrápida desde caché de sesión si está disponible (0ms)
-    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_4';
-    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_4';
+    // 1. Inyección ultrarrápida desde caché de sesión con invalidación de versión
+    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_6_minimal';
+    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_6_chibi';
 
     try {
+      // Limpiar versiones obsoletas de la caché de sesión
+      ['vq_icons_svg_v2_1_4', 'vq_heroines_svg_v2_1_4', 'vq_icons_svg_v2_1_5', 'vq_heroines_svg_v2_1_5'].forEach((k) => {
+        sessionStorage.removeItem(k);
+      });
       const cachedIcons = sessionStorage.getItem(ICONS_CACHE_KEY);
       const cachedHeroines = sessionStorage.getItem(HEROINES_CACHE_KEY);
       if (cachedIcons && cachedHeroines) {
@@ -63,14 +67,14 @@ export async function loadSvgSprites() {
       }
     } catch (_) {}
 
-    // 2. Carga asíncrona desde assets/icons.svg y assets/heroines.svg
+    // 2. Carga asíncrona desde assets/icons.svg y assets/heroines.svg con cache busting
     try {
       const [iconsRes, heroinesRes] = await Promise.all([
-        fetch('assets/icons.svg').catch((e) => {
+        fetch(`assets/icons.svg?v=2.1.6_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/icons.svg:', e);
           return null;
         }),
-        fetch('assets/heroines.svg').catch((e) => {
+        fetch(`assets/heroines.svg?v=2.1.6_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/heroines.svg:', e);
           return null;
         }),

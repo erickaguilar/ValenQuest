@@ -108,7 +108,13 @@ export class PortalController {
     const statusBadge = document.getElementById('portal-guardian-status');
 
     if (wrapper) wrapper.className = 'guardian-avatar-wrapper vq-anim-corrupted';
-    if (emoji) emoji.textContent = levelData.guardian?.emoji || '✨';
+    if (emoji) {
+      if (levelData.pageNumber === 10) {
+        emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100" style="width: 72px; height: 72px;"><use href="#vq-heroine-eclipse"></use></svg>`;
+      } else {
+        emoji.textContent = levelData.guardian?.emoji || '✨';
+      }
+    }
     if (guardianName) guardianName.textContent = levelData.guardian?.name || 'Guardián';
     if (statusBadge) {
       statusBadge.className = 'guardian-status-badge corrupted';
