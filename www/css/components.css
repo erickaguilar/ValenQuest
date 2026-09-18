@@ -3117,16 +3117,15 @@ html.vq-calm-mode .floating-heroine {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #FFD166;
-  color: #4A3E56;
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 4px 14px;
-  font-size: 0.8rem;
-  font-weight: 900;
+  background: transparent;
+  color: var(--vq-text-muted);
+  border: none;
+  padding: 0;
+  font-size: 0.82rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  box-shadow: var(--vq-shadow-sm);
+  letter-spacing: 0.05em;
+  box-shadow: none;
 }
 
 .adventure-campaign-title {
