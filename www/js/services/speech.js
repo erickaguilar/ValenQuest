@@ -8,6 +8,10 @@ class SpeechEngine {
   constructor() {
     this.synth = typeof window !== 'undefined' ? window.speechSynthesis : null;
     this.voice = null;
+    this.femaleVoice = null;
+    this.maleVoice = null;
+    this.hasDistinctMaleVoice = false;
+    this.hasDistinctFemaleVoice = false;
     this.enabled = true;
     this.isSpeaking = false;
     this.speakingListeners = new Set();
@@ -67,62 +71,117 @@ class SpeechEngine {
   }
 
   /**
-   * Discovers and selects the best natural Spanish voice available in the OS.
-   * Prioritizes Mexican / Latin American / Peninsular voices with high-quality descriptors.
+   * Detects the perceived gender of a voice by inspecting OS descriptors and naming conventions.
+   */
+  detectVoiceGender(v) {
+    const name = (v.name || '').toLowerCase();
+    const femaleHints = [
+      'female', 'mujer', 'femenin', 'woman', 'girl',
+      'paulina', 'monica', 'mónica', 'helena', 'sabina', 'francisca',
+      'lucia', 'lucía', 'laura', 'carmen', 'rosa', 'valeria', 'victoria',
+      'mia', 'mía', 'sofia', 'sofía', 'camila', 'paloma', 'jimena',
+      'lupita', 'guadalupe', 'elvira', 'conchita', 'penelope', 'penélope',
+      'soledad', 'ines', 'inés', 'zira', 'ana', 'silvia', 'sara', 'alva',
+      'es-es-x-ana', 'es-es-x-eea', 'es-mx-x-sfb'
+    ];
+    const maleHints = [
+      'male', 'hombre', 'masculin', 'man', 'boy',
+      'jorge', 'diego', 'raul', 'raúl', 'alvaro', 'álvaro', 'pablo',
+      'carlos', 'enrique', 'juan', 'manuel', 'miguel', 'mateo',
+      'gonzalo', 'javier', 'pedro', 'julio', 'andres', 'andrés',
+      'lucas', 'david', 'gabriel', 'fernando', 'alejandro', 'rodrigo',
+      'tomas', 'tomás', 'hector', 'héctor', 'antonio', 'alberto', 'mario',
+      'es-es-x-eef', 'es-mx-x-jfc'
+    ];
+
+    const isFemale = femaleHints.some((h) => name.includes(h));
+    const isMale = maleHints.some((h) => name.includes(h));
+
+    if (isFemale && !isMale) return 'female';
+    if (isMale && !isFemale) return 'male';
+    return 'neutral';
+  }
+
+  /**
+   * Discovers, scores and categorizes Spanish voices into Female (Heroines) and Male (Master Orion).
    */
   initVoices() {
     if (!this.synth) return;
     const voices = this.synth.getVoices();
     if (!voices || voices.length === 0) return;
 
-    const scoreVoice = (v) => {
+    const scoreVoice = (v, targetGender = null) => {
       let score = 0;
       const lang = (v.lang || '').toLowerCase().replace('_', '-');
       const name = (v.name || '').toLowerCase();
+      const detectedGender = this.detectVoiceGender(v);
 
-      // Language tier
+      // Dialect tier
       if (lang === 'es-mx') score += 100;
       else if (lang === 'es-419') score += 95;
       else if (lang === 'es-es') score += 90;
       else if (lang === 'es-us') score += 85;
       else if (lang.startsWith('es')) score += 70;
-      else return -1; // Ignore non-Spanish
+      else return -999; // Ignore non-Spanish voices
 
-      // Quality and natural timbre indicators
-      if (name.includes('natural') || name.includes('neural')) score += 40;
-      if (name.includes('google')) score += 30;
-      if (
-        name.includes('paulina') ||
-        name.includes('monica') ||
-        name.includes('mónica') ||
-        name.includes('helena') ||
-        name.includes('sabina') ||
-        name.includes('jorge')
-      ) {
-        score += 25;
+      // Gender affinity bonus / penalty
+      if (targetGender) {
+        if (detectedGender === targetGender) {
+          score += 180;
+        } else if (detectedGender !== 'neutral' && detectedGender !== targetGender) {
+          score -= 160;
+        }
       }
-      if (v.localService) score += 15; // Prefers local voices over unreliable network synthesis
+
+      // High-definition neural and natural speech indicators
+      if (name.includes('natural') || name.includes('neural')) score += 50;
+      if (name.includes('google')) score += 35;
+      if (v.localService) score += 20;
 
       return score;
     };
 
-    let bestVoice = null;
-    let highestScore = -1;
+    let bestGeneral = null;
+    let bestFemale = null;
+    let bestMale = null;
+
+    let maxScoreGeneral = -9999;
+    let maxScoreFemale = -9999;
+    let maxScoreMale = -9999;
 
     for (const v of voices) {
-      const score = scoreVoice(v);
-      if (score > highestScore) {
-        highestScore = score;
-        bestVoice = v;
+      // General score
+      const sg = scoreVoice(v, null);
+      if (sg > maxScoreGeneral) {
+        maxScoreGeneral = sg;
+        bestGeneral = v;
+      }
+
+      // Female score
+      const sf = scoreVoice(v, 'female');
+      if (sf > maxScoreFemale) {
+        maxScoreFemale = sf;
+        bestFemale = v;
+      }
+
+      // Male score
+      const sm = scoreVoice(v, 'male');
+      if (sm > maxScoreMale) {
+        maxScoreMale = sm;
+        bestMale = v;
       }
     }
 
-    if (bestVoice) {
-      this.voice = bestVoice;
-    } else {
-      // Fallback: first available voice with 'es' tag or system default
-      this.voice = voices.find((v) => (v.lang || '').startsWith('es')) || voices[0];
-    }
+    // Assign best fallback voice
+    this.voice = bestGeneral || voices.find((v) => (v.lang || '').startsWith('es')) || voices[0];
+
+    // Assign gendered voices
+    this.femaleVoice = bestFemale || this.voice;
+    this.maleVoice = bestMale || this.voice;
+
+    // Check if the voices are truly distinct in gender
+    this.hasDistinctFemaleVoice = Boolean(this.femaleVoice && this.detectVoiceGender(this.femaleVoice) === 'female');
+    this.hasDistinctMaleVoice = Boolean(this.maleVoice && this.detectVoiceGender(this.maleVoice) === 'male');
   }
 
   toggle() {
@@ -170,9 +229,42 @@ class SpeechEngine {
   }
 
   /**
-   * Speaks raw text with child-friendly prosody.
+   * Resolves whether the spoken text should use a Male (Orion) or Female (Heroines) voice persona.
    */
-  speak(text, { rate = 0.92, pitch = 1.15 } = {}) {
+  resolveGender(options = {}, text = '') {
+    if (options.gender) {
+      return options.gender.toLowerCase() === 'male' ? 'male' : 'female';
+    }
+
+    const char = (options.character || '').toLowerCase();
+    if (char === 'orion' || char === 'buho' || char === 'búho' || char === 'sabio') {
+      return 'male';
+    }
+    if (char === 'valen' || char === 'reni' || char === 'zoe' || char === 'lia' || char === 'heroine') {
+      return 'female';
+    }
+
+    // Contextual phrase detection
+    const lower = (text || '').toLowerCase();
+    const orionPatterns = [
+      'soy orión', 'soy orion', 'el sabio búho', 'el sabio buho',
+      'maestro orión', 'maestro orion', 'búho orión', 'buho orion',
+      'voz de orión', 'voz de orion'
+    ];
+    if (orionPatterns.some((pattern) => lower.includes(pattern))) {
+      return 'male';
+    }
+
+    // Default character persona in Lumiria
+    return 'female';
+  }
+
+  /**
+   * Speaks raw text with child-friendly prosody and automatic male/female voice selection.
+   * - Masculine (Master Orion): deep, calm and noble timbre.
+   * - Feminine (Heroines / Lumiria): warm, bright and enthusiastic timbre.
+   */
+  speak(text, { character, gender, rate = 0.92, pitch } = {}) {
     if (!this.synth || !this.enabled || !text) return;
 
     // Guard: ensure voices are initialized
@@ -192,10 +284,28 @@ class SpeechEngine {
       }
     }
 
+    const resolvedGender = this.resolveGender({ character, gender }, text);
+    let chosenVoice = null;
+    let targetPitch = pitch;
+
+    if (resolvedGender === 'male') {
+      // Masculine persona: Master Orion
+      chosenVoice = this.maleVoice || this.voice;
+      if (targetPitch === undefined) {
+        targetPitch = this.hasDistinctMaleVoice ? 0.90 : 0.80;
+      }
+    } else {
+      // Feminine persona: Valen, Reni, Zoe, Lía and narrator
+      chosenVoice = this.femaleVoice || this.voice;
+      if (targetPitch === undefined) {
+        targetPitch = 1.16;
+      }
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
-    if (this.voice) {
-      utterance.voice = this.voice;
-      utterance.lang = this.voice.lang;
+    if (chosenVoice) {
+      utterance.voice = chosenVoice;
+      utterance.lang = chosenVoice.lang;
     } else {
       utterance.lang = 'es-MX';
     }
@@ -203,7 +313,7 @@ class SpeechEngine {
     // Apply speed multiplier (allows slow / normal / fast pacing)
     const effectiveRate = Math.max(0.5, Math.min(2.0, rate * this.rateMultiplier));
     utterance.rate = effectiveRate;   // Deliberate, clear cadence
-    utterance.pitch = pitch; // Warm, friendly tone
+    utterance.pitch = targetPitch;    // Child-adapted gendered prosody
 
     utterance.onstart = () => this.notifySpeaking(true);
     utterance.onend = () => {
@@ -218,6 +328,26 @@ class SpeechEngine {
     // Keep instance reference to prevent iOS garbage collection bug
     this._currentUtterance = utterance;
     this.synth.speak(utterance);
+  }
+
+  /**
+   * Speaks explicitly with Master Orion's masculine, wise persona.
+   */
+  speakOrion(text, options = {}) {
+    this.speak(text, { gender: 'male', character: 'orion', ...options });
+  }
+
+  /**
+   * Speaks explicitly with a specific heroine's feminine persona.
+   */
+  speakHeroine(heroineId, text, options = {}) {
+    let pitch = 1.16;
+    if (heroineId === 'reni') pitch = 1.22; // Pegaso vivaz y dinámica
+    else if (heroineId === 'zoe') pitch = 1.10; // Poni terrestre serena y paciente
+    else if (heroineId === 'lia') pitch = 1.15; // Unicornio curiosa
+    else pitch = 1.18; // Valen, princesa astral
+
+    this.speak(text, { gender: 'female', character: heroineId, pitch, ...options });
   }
 
   /**
@@ -236,8 +366,12 @@ class SpeechEngine {
   /**
    * Narrates dialogue from characters or story text.
    */
-  speakDialogue(text) {
-    this.speak(text, { rate: 0.94, pitch: 1.18 });
+  speakDialogue(text, speaker = 'valen') {
+    if (speaker === 'orion') {
+      this.speakOrion(text);
+    } else {
+      this.speakHeroine(speaker, text);
+    }
   }
 
   /**

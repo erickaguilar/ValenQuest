@@ -49,7 +49,7 @@ class WardrobePageController {
 
     // Saludo de bienvenida
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-    speech.speak(`¡Bienvenida a la Boutique Real de Lumiria! Elige accesorios mágicos para ${hero.name}.`);
+    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida a la Boutique Real de Lumiria! Elige accesorios mágicos para ${hero.name}.`);
   }
 
   // =========================================================================
@@ -76,7 +76,7 @@ class WardrobePageController {
           await this.render();
           const hero = HEROINES[id];
           if (hero) {
-            speech.speak(`${hero.name}: ${hero.title}.`);
+            speech.speakHeroine(id, `${hero.name}: ${hero.title}.`);
           }
         });
       }
@@ -103,7 +103,7 @@ class WardrobePageController {
         const hero = HEROINES[this.activeHeroineId];
         if (hero) {
           sound.playClick();
-          speech.speak(`${hero.name} dice: ${hero.voiceQuote}`);
+          speech.speakHeroine(this.activeHeroineId, `${hero.name} dice: ${hero.voiceQuote}`);
         }
       });
     }
@@ -291,7 +291,7 @@ class WardrobePageController {
     if (res.success) {
       sound.playLevelUp();
       const currName = res.currencyUsed === 'diamonds' ? 'diamantes' : 'estrellas';
-      speech.speak(`¡Felicidades! Desbloqueaste ${item.name} con tus ${currName}. ¡Lo equipamos en ${HEROINES[this.activeHeroineId].name}!`);
+      speech.speakHeroine(this.activeHeroineId, `¡Felicidades! Desbloqueaste ${item.name} con tus ${currName}. ¡Lo equipamos en ${HEROINES[this.activeHeroineId].name}!`);
 
       // Equipar automáticamente tras el desbloqueo
       await companions.equip(this.activeHeroineId, item.slot, item.itemId);
@@ -300,7 +300,7 @@ class WardrobePageController {
       await this.render();
     } else {
       sound.playIncorrect();
-      speech.speak(res.reason || 'Aún necesitas más diamantes o estrellas de Lumiria.');
+      speech.speakHeroine(this.activeHeroineId, res.reason || 'Aún necesitas más diamantes o estrellas de Lumiria.');
     }
   }
 

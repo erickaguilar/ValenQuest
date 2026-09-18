@@ -279,7 +279,7 @@ class CompanionSystem {
     if (context && context.isPractice) {
       // En modo práctica voz más concisa
     } else {
-      speech.speakDialogue(heroine.voiceQuote);
+      speech.speakDialogue(heroine.voiceQuote, heroineId);
     }
 
     let effectResult = {};

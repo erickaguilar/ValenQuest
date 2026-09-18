@@ -232,7 +232,7 @@ class StorybookManager {
     } catch (_) {}
 
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-    speech.speak(
+    speech.speakOrion(
       `¡Bienvenida ${hero.name} a El Gran Libro de las Princesas! Explora las leyendas sagradas de Lumiria y pulsa la Voz de Orión para escuchar cada capítulo.`
     );
   }
@@ -506,7 +506,7 @@ class StorybookManager {
 
     const ch = CHAPTERS[this.currentChapterIndex];
     const fullText = `${ch.title}. ${ch.paragraphs.join(' ')} ${ch.quote}`;
-    speech.speak(fullText, { rate: 0.92, pitch: 1.05 });
+    speech.speakOrion(fullText, { rate: 0.92 });
   }
 
   stopSpeech() {

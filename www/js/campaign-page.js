@@ -52,7 +52,7 @@ class CampaignPageController {
 
     // Saludo inicial suave
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-    speech.speak(`¡Bienvenida ${hero.name}! La Gran Aventura de Lumiria está en preparación mágica. ¡Pronto abriremos los 10 Templos!`);
+    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura de Lumiria está en preparación mágica. ¡Pronto abriremos los 10 Templos!`);
   }
 
   // =========================================================================
@@ -97,7 +97,7 @@ class CampaignPageController {
 
     if (speak) {
       const hero = HEROINES[id] || HEROINES.valen;
-      speech.speak(`¡Hola, soy ${hero.name}! ${hero.voiceQuote || hero.title}`);
+      speech.speakHeroine(id, `¡Hola, soy ${hero.name}! ${hero.voiceQuote || hero.title}`);
     }
   }
 
@@ -180,7 +180,7 @@ class CampaignPageController {
       btnSpeakCampaign.addEventListener('click', () => {
         sound.playClick();
         const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-        speech.speak(
+        speech.speakOrion(
           `¡Saludos, ${hero.name}! El Sabio Búho Orión te informa: La Gran Aventura con los 10 Templos Lunares está en construcción mágica. Mientras los portales se alinean, entrena tus poderes en el Prisma Numérico y la Pluma de la Fluidez.`
         );
       });
@@ -193,7 +193,7 @@ class CampaignPageController {
         sound.playClick();
         const textEl = document.getElementById('intro-dialogue-text');
         if (textEl) {
-          speech.speak(textEl.innerText || textEl.textContent);
+          speech.speakHeroine(this.activeHeroineId, textEl.innerText || textEl.textContent);
         }
       });
     }

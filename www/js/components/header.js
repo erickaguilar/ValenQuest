@@ -348,7 +348,7 @@ export class VqHeader extends HTMLElement {
         const enabled = speech.toggle();
         updateSpeechBtn();
         if (enabled) {
-          speech.speak('¡Saludos! Soy Orión, el sabio búho.');
+          speech.speakOrion('¡Saludos! Soy Orión, el sabio búho.');
         }
       });
     }
