@@ -300,3 +300,106 @@
   transform-origin: 100px 100px;
   animation: story-anim-c2-hope-spark-10s 10s ease-in-out infinite;
 }
+
+/* ==========================================================================
+   5. KEYFRAMES DEL CAPÍTULO VII: LA TRAVESÍA DE LAS DIEZ LUNAS (10s LOOP)
+   ========================================================================== */
+
+/* Anillo 1 (Acto I): Rotación Horaria */
+@keyframes story-anim-c7-ring1-cw-10s {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Anillo 2 (Acto II): Contrarrotación Antihoraria */
+@keyframes story-anim-c7-ring2-ccw-10s {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Anillo 3 (Acto III): Rotación Horaria */
+@keyframes story-anim-c7-ring3-cw-10s {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulso y rotación de la brújula astral central */
+@keyframes story-anim-c7-compass-pulse-10s {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.4));
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+    filter: drop-shadow(0 0 14px rgba(255, 209, 102, 0.85));
+  }
+}
+
+/* Red de constelación interconectada */
+@keyframes story-anim-c7-constellation-10s {
+  0%, 30% {
+    opacity: 0.12;
+    stroke-dashoffset: 50;
+  }
+  60%, 85% {
+    opacity: 0.8;
+    stroke-dashoffset: 0;
+  }
+  95%, 100% {
+    opacity: 0.15;
+    stroke-dashoffset: -50;
+  }
+}
+
+/* Corona del Trono Supremo (Templo 10) */
+@keyframes story-anim-c7-crown-shine-10s {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+.story-anim-c7-ring1 {
+  transform-origin: 100px 100px;
+  animation: story-anim-c7-ring1-cw-10s 10s linear infinite;
+}
+
+.story-anim-c7-ring2 {
+  transform-origin: 100px 100px;
+  animation: story-anim-c7-ring2-ccw-10s 10s linear infinite;
+}
+
+.story-anim-c7-ring3 {
+  transform-origin: 100px 100px;
+  animation: story-anim-c7-ring3-cw-10s 10s linear infinite;
+}
+
+.story-anim-c7-compass {
+  transform-origin: 100px 100px;
+  animation: story-anim-c7-compass-pulse-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c7-constellation {
+  animation: story-anim-c7-constellation-10s 10s ease-in-out infinite;
+}
+
+.story-anim-c7-crown {
+  transform-origin: 100px 24px;
+  animation: story-anim-c7-crown-shine-10s 10s ease-in-out infinite;
+}

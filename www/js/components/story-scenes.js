@@ -307,12 +307,165 @@ export const STORY_SCENES = {
     `
   },
 
-  // Capítulos 3 al 8 preparados con el contrato estándar (utilizan fallback dinámico hasta su implementación)
+  // Capítulo 7: La Travesía de las Diez Lunas y los Tres Actos
+  7: {
+    id: 'scene-temples',
+    name: 'La Travesía de las Diez Lunas y los Tres Actos',
+    render: () => `
+      <svg class="story-scene-svg story-scene-c7" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="El Planetario de Lumiria y la Travesía de las Diez Lunas">
+        <defs>
+          <!-- Resplandor del Planetario de Medianoche -->
+          <radialGradient id="c7-planetarium-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1D3557" stop-opacity="0.85" />
+            <stop offset="60%" stop-color="#0B132B" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#000" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Rosa de los vientos y astrolabio central -->
+          <linearGradient id="c7-compass-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF9E6" />
+            <stop offset="50%" stop-color="#FFD166" />
+            <stop offset="100%" stop-color="#F4A261" />
+          </linearGradient>
+
+          <!-- Gradiantes de las Diez Lunas por Acto -->
+          <!-- Acto I -->
+          <radialGradient id="c7-m1-manantial" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#A0E7E5" /><stop offset="100%" stop-color="#00B4D8" />
+          </radialGradient>
+          <radialGradient id="c7-m2-bosque" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#B8F2E6" /><stop offset="100%" stop-color="#2EC4B6" />
+          </radialGradient>
+          <radialGradient id="c7-m3-algodon" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#FFAFCC" /><stop offset="100%" stop-color="#FF70A6" />
+          </radialGradient>
+
+          <!-- Acto II -->
+          <radialGradient id="c7-m4-ambar" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#FFEAA7" /><stop offset="100%" stop-color="#E67E22" />
+          </radialGradient>
+          <radialGradient id="c7-m5-prisma" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#E0AAFF" /><stop offset="100%" stop-color="#70D6FF" />
+          </radialGradient>
+          <radialGradient id="c7-m6-arenas" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#C77DFF" /><stop offset="100%" stop-color="#6A0572" />
+          </radialGradient>
+          <radialGradient id="c7-m7-coral" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#48CAE4" /><stop offset="100%" stop-color="#023E8A" />
+          </radialGradient>
+
+          <!-- Acto III -->
+          <radialGradient id="c7-m8-nacar" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="60%" stop-color="#E2E8F0" /><stop offset="100%" stop-color="#94A3B8" />
+          </radialGradient>
+          <radialGradient id="c7-m9-aurora" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="40%" stop-color="#FEE440" /><stop offset="100%" stop-color="#FF5964" />
+          </radialGradient>
+          <radialGradient id="c7-m10-trono" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#FFF" /><stop offset="50%" stop-color="#FFD166" /><stop offset="100%" stop-color="#D4AF37" />
+          </radialGradient>
+        </defs>
+
+        <!-- 1. Fondo de Nebulosa Celestial del Astrolabio -->
+        <circle cx="100" cy="100" r="82" fill="url(#c7-planetarium-glow)" />
+
+        <!-- 2. Constelación Conectiva Decagonal (Armonía de la Travesía) -->
+        <g class="story-anim-c7-constellation" fill="none" stroke="#FFD166" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.6">
+          <polygon points="100,28 137,63 162,136 137,137 100,166 63,137 38,136 63,63" />
+          <line x1="100" y1="28" x2="100" y2="166" stroke="rgba(255,209,102,0.2)" />
+          <line x1="38" y1="136" x2="162" y2="136" stroke="rgba(255,209,102,0.2)" />
+        </g>
+
+        <!-- 3. ANILLO III: Acto III • La Gran Purificación (Radio 72px) -->
+        <g class="story-anim-c7-ring3">
+          <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(255,209,102,0.3)" stroke-width="1.2" stroke-dasharray="4,6" />
+
+          <!-- Luna 8: Muralla de Nácar (Norte) -->
+          <g transform="translate(100, 28)">
+            <circle cx="0" cy="0" r="6.5" fill="url(#c7-m8-nacar)" stroke="#FFF" stroke-width="1.2" />
+            <circle cx="0" cy="0" r="2" fill="#FFF" />
+          </g>
+
+          <!-- Luna 9: Cúspide de la Aurora (Sureste) -->
+          <g transform="translate(162, 136)">
+            <circle cx="0" cy="0" r="7" fill="url(#c7-m9-aurora)" stroke="#FFD166" stroke-width="1.2" />
+            <polygon points="0,-3 2,1 -2,1" fill="#FFF" />
+          </g>
+
+          <!-- Luna 10: Trono Supremo de las Estrellas (Suroeste - Reina Restaurada) -->
+          <g transform="translate(38, 136)">
+            <circle cx="0" cy="0" r="8.5" fill="url(#c7-m10-trono)" stroke="#FFF" stroke-width="1.5" />
+            <!-- Corona estelar de la Emperatriz Soberana Astral -->
+            <path d="M-4 1 L-3 -4 L0 -2 L3 -4 L4 1 Z" fill="#FFD166" stroke="#FFF" stroke-width="0.6" />
+          </g>
+        </g>
+
+        <!-- 4. ANILLO II: Acto II • Los Secretos Olvidados (Radio 52px, Contrarrotación) -->
+        <g class="story-anim-c7-ring2">
+          <circle cx="100" cy="100" r="52" fill="none" stroke="rgba(255,209,102,0.25)" stroke-width="1" stroke-dasharray="3,5" />
+
+          <!-- Luna 4: Caverna de Ámbar (Noreste) -->
+          <g transform="translate(137, 63)">
+            <circle cx="0" cy="0" r="6" fill="url(#c7-m4-ambar)" stroke="#FFD166" stroke-width="1" />
+          </g>
+
+          <!-- Luna 5: Palacio Prisma (Sureste) -->
+          <g transform="translate(137, 137)">
+            <circle cx="0" cy="0" r="6.5" fill="url(#c7-m5-prisma)" stroke="#FFF" stroke-width="1" />
+            <polygon points="0,-2 2,2 -2,2" fill="#FFF" />
+          </g>
+
+          <!-- Luna 6: Reloj de las Arenas (Suroeste) -->
+          <g transform="translate(63, 137)">
+            <circle cx="0" cy="0" r="6" fill="url(#c7-m6-arenas)" stroke="#C77DFF" stroke-width="1" />
+          </g>
+
+          <!-- Luna 7: Mar de Coral Profundo (Noroeste) -->
+          <g transform="translate(63, 63)">
+            <circle cx="0" cy="0" r="6" fill="url(#c7-m7-coral)" stroke="#FFF" stroke-width="1" />
+          </g>
+        </g>
+
+        <!-- 5. ANILLO I: Acto I • El Despertar de los Elementos (Radio 34px) -->
+        <g class="story-anim-c7-ring1">
+          <circle cx="100" cy="100" r="34" fill="none" stroke="rgba(255,209,102,0.4)" stroke-width="1.2" stroke-dasharray="2,4" />
+
+          <!-- Luna 1: Manantial de Rocío (Norte Interior) -->
+          <g transform="translate(100, 66)">
+            <circle cx="0" cy="0" r="5.5" fill="url(#c7-m1-manantial)" stroke="#FFF" stroke-width="1" />
+          </g>
+
+          <!-- Luna 2: Bosque Susurrante (Sureste Interior) -->
+          <g transform="translate(129, 117)">
+            <circle cx="0" cy="0" r="5.5" fill="url(#c7-m2-bosque)" stroke="#FFD166" stroke-width="1" />
+          </g>
+
+          <!-- Luna 3: Vértice de Algodón (Suroeste Interior) -->
+          <g transform="translate(71, 117)">
+            <circle cx="0" cy="0" r="5.5" fill="url(#c7-m3-algodon)" stroke="#FFF" stroke-width="1" />
+          </g>
+        </g>
+
+        <!-- 6. NÚCLEO CENTRAL: La Rosa de los Vientos y la Gran Estrella Guía -->
+        <g class="story-anim-c7-compass">
+          <!-- Anillo de sustentación central -->
+          <circle cx="100" cy="100" r="14" fill="#0B132B" stroke="#FFD166" stroke-width="1.6" />
+          <!-- Estrella de 8 puntas de la brújula -->
+          <polygon points="100,88 103,97 112,100 103,103 100,112 97,103 88,100 97,97" fill="url(#c7-compass-gold)" stroke="#FFF" stroke-width="0.8" />
+          <!-- Puntos cardinales menores -->
+          <polygon points="100,92 102,98 108,100 102,102 100,108 98,102 92,100 98,98" fill="#FFF" opacity="0.85" />
+          <!-- Gema central de cristal de Lumiria -->
+          <circle cx="100" cy="100" r="3" fill="#FFF" stroke="#FFD166" stroke-width="0.8" />
+        </g>
+      </svg>
+    `
+  },
+
+  // Capítulos 3, 4, 5, 6 y 8 preparados con el contrato estándar (fallback canónico #symbolId)
   3: { id: 'scene-valen', name: 'Valen, la Princesa Astral' },
   4: { id: 'scene-reni', name: 'Reni, el Alquimista de los Vientos' },
   5: { id: 'scene-zoe', name: 'Zoe, el Ancla de la Naturaleza' },
   6: { id: 'scene-lia', name: 'Lía, la Maga del Cristal Cósmico' },
-  7: { id: 'scene-temples', name: 'La Travesía de las Diez Lunas' },
   8: { id: 'scene-portal', name: 'Los Portales Bifásicos y Tu Gran Misión' }
 };
 
