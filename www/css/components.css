@@ -1754,7 +1754,8 @@
 
 .item-status-pill.cost-pill {
   background: var(--vq-gold);
-  color: var(--vq-text);
+  color: #32213F !important;
+  font-weight: 900;
 }
 
 .item-status-pill.cost-diamond-pill {
@@ -1818,12 +1819,14 @@
 
 .wardrobe-action-btn.unlock-btn {
   background: var(--vq-gold);
-  color: var(--vq-text);
+  color: #32213F !important;
+  font-weight: 900;
 }
 
 @media (hover: hover) {
   .wardrobe-action-btn.unlock-btn:hover {
     background: #FFE082;
+    color: #32213F !important;
   }
 }
 

@@ -86,7 +86,7 @@
   border-radius: var(--vq-radius-pill);
   font-size: 0.95rem;
   font-weight: 900;
-  color: var(--vq-text);
+  color: #32213F !important;
   box-shadow: var(--vq-shadow-sm);
 }
 
@@ -100,7 +100,7 @@
   border-radius: var(--vq-radius-pill);
   font-size: 0.95rem;
   font-weight: 900;
-  color: var(--vq-text);
+  color: #1D3557 !important;
   box-shadow: var(--vq-shadow-sm);
 }
 

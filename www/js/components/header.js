@@ -73,7 +73,7 @@ export class VqHeader extends HTMLElement {
             <span id="player-stars-count">0</span>
           </span>
           <span class="header-balance-item" title="Diamantes del Prisma">
-            <span aria-hidden="true">💎</span>
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>
             <span id="player-diamonds-count">0</span>
           </span>
         </div>

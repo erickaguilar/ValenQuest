@@ -477,7 +477,7 @@ class CompanionSystem {
    * @param {string|null} overrideHeroineId - Optional heroine ID to display on wardrobe preview avatar
    */
   applyEquippedCosmeticsClasses(overrideHeroineId = null) {
-    const allCosmeticIds = [
+    const baseLayerNames = [
       'tiara-basica',
       'tiara-cristal',
       'lazo-cielo',
@@ -489,29 +489,60 @@ class CompanionSystem {
       'alas-majestuosas',
     ];
 
+    // Mapeo de cosméticos (incluyendo los 10 premios de Templos Lunares) a la capa base SVG
+    const COSMETIC_LAYER_MAP = {
+      'tiara-basica': 'tiara-basica',
+      'tiara-cristal': 'tiara-cristal',
+      'lazo-cielo': 'lazo-cielo',
+      'alas-aurora': 'alas-aurora',
+      'corona-hojas': 'corona-hojas',
+      'amuleto-bosque': 'amuleto-bosque',
+      'tiara-solsticio': 'tiara-solsticio',
+      'cetro-cometa': 'cetro-cometa',
+      'alas-majestuosas': 'alas-majestuosas',
+      // Recompensas de los 10 Templos Lunares:
+      'tiara-rocio-astral': 'tiara-basica',
+      'lazo-viento-celeste': 'lazo-cielo',
+      'alas-pluma-dulce': 'alas-aurora',
+      'corona-floral-silvestre': 'corona-hojas',
+      'cetro-estelar-radiante': 'cetro-cometa',
+      'reloj-bolsillo-astral': 'cetro-cometa',
+      'aura-burbujas-iridiscentes': 'alas-majestuosas',
+      'armadura-petalos-seda': 'amuleto-bosque',
+      'alas-tornasol-aurora': 'alas-aurora',
+      'corona-suprema-soberana': 'tiara-cristal',
+    };
+
+    const updateTargetClasses = (container, equippedMap) => {
+      if (!container) return;
+      const equippedItemIds = Object.values(equippedMap).filter(Boolean);
+      const activeLayerNames = new Set(
+        equippedItemIds.map((id) => COSMETIC_LAYER_MAP[id] || id)
+      );
+
+      // Activar capas base SVG
+      baseLayerNames.forEach((layerName) => {
+        container.classList.toggle(`equipped-${layerName}`, activeLayerNames.has(layerName));
+      });
+
+      // Alternar clases directas por cada itemId
+      Object.keys(COSMETIC_LAYER_MAP).forEach((itemId) => {
+        container.classList.toggle(`equipped-${itemId}`, equippedItemIds.includes(itemId));
+      });
+    };
+
     ['valen', 'reni', 'zoe', 'lia'].forEach((heroineId) => {
       const card = document.getElementById(`card-heroine-${heroineId}`);
-      const equipped = this.getEquipped(heroineId);
-
-      allCosmeticIds.forEach((itemId) => {
-        const className = `equipped-${itemId}`;
-        const isEquipped = Object.values(equipped).includes(itemId);
-        if (card) {
-          card.classList.toggle(className, isEquipped);
-        }
-      });
+      if (card) {
+        updateTargetClasses(card, this.getEquipped(heroineId));
+      }
     });
 
     // Also update wardrobe preview container if present
     const preview = document.getElementById('wardrobe-preview-avatar');
     if (preview) {
       const targetHeroine = overrideHeroineId || this.activeId;
-      const targetEquipped = this.getEquipped(targetHeroine);
-      allCosmeticIds.forEach((itemId) => {
-        const className = `equipped-${itemId}`;
-        const isEquipped = Object.values(targetEquipped).includes(itemId);
-        preview.classList.toggle(className, isEquipped);
-      });
+      updateTargetClasses(preview, this.getEquipped(targetHeroine));
     }
   }
 

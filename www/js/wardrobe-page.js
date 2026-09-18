@@ -221,7 +221,7 @@ class WardrobePageController {
       let costBadgesHtml = '';
       if (!item.unlocked) {
         if (costDiamonds > 0) {
-          costBadgesHtml += `<span class="item-status-pill cost-diamond-pill" title="Diamantes estéticos de práctica"><span aria-hidden="true">💎</span> ${costDiamonds}</span>`;
+          costBadgesHtml += `<span class="item-status-pill cost-diamond-pill" title="Diamantes estéticos de práctica"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg> ${costDiamonds}</span>`;
         }
         if (costStars > 0) {
           costBadgesHtml += `<span class="item-status-pill cost-pill" title="Estrellas de campaña"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> ${costStars}</span>`;
@@ -249,7 +249,7 @@ class WardrobePageController {
           const btnUnlock = document.createElement('button');
           btnUnlock.className = 'wardrobe-action-btn unlock-btn';
           if (canAffordDiamonds) {
-            btnUnlock.innerHTML = `<span>Desbloquear por ${costDiamonds}</span> <span aria-hidden="true">💎</span>`;
+            btnUnlock.innerHTML = `<span>Desbloquear por ${costDiamonds}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>`;
           } else {
             btnUnlock.innerHTML = `<span>Desbloquear por ${costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
           }
@@ -260,7 +260,7 @@ class WardrobePageController {
           btnLocked.className = 'wardrobe-action-btn locked-btn';
           btnLocked.disabled = true;
           if (costDiamonds > 0) {
-            btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${costDiamonds}</span> <span aria-hidden="true">💎</span>`;
+            btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${costDiamonds}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>`;
           } else {
             btnLocked.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Necesitas ${costStars}</span> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>`;
           }
