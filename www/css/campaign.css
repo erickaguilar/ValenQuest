@@ -523,23 +523,72 @@
   padding: 9px 14px;
   border-radius: var(--vq-radius-pill);
   border: 2px solid var(--vq-border);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 900;
   text-decoration: none;
   color: var(--vq-text);
-  background: #FFF;
+  background: var(--vq-bg-card, #FFFFFF);
   box-shadow: 0 2px 0 var(--vq-border);
-  transition: transform 0.12s ease, background 0.15s ease;
+  transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   margin-top: 4px;
+}
+
+[data-theme="dark"] .training-cta-btn {
+  background: #2D2042;
+  color: #FFFFFF;
+  border-color: var(--vq-border);
+  box-shadow: 0 2px 0 #0D0714;
 }
 
 .training-cta-btn:hover {
   transform: translateY(-2px);
   background: var(--vq-sky-light);
+  color: #1D3557;
+}
+
+[data-theme="dark"] .training-cta-btn:hover {
+  background: #4C1D95;
+  color: #F5EEFA;
 }
 
 .training-cta-btn:active {
   transform: translateY(1px);
+}
+
+[data-theme="dark"] .training-card.math .training-reward-pill {
+  background: #1E3A8A;
+  color: #DBEAFE;
+}
+
+[data-theme="dark"] .training-card.reading .training-reward-pill {
+  background: #831843;
+  color: #FCE7F3;
+}
+
+[data-theme="dark"] .training-card.story .training-reward-pill {
+  background: #065F46;
+  color: #D1FAE5;
+}
+
+[data-theme="dark"] .training-card.wardrobe .training-reward-pill {
+  background: #581C87;
+  color: #F3E8FF;
+}
+
+[data-theme="dark"] .training-card.math .training-icon-wrap {
+  background: #172554;
+}
+
+[data-theme="dark"] .training-card.reading .training-icon-wrap {
+  background: #500724;
+}
+
+[data-theme="dark"] .training-card.story .training-icon-wrap {
+  background: #022C22;
+}
+
+[data-theme="dark"] .training-card.wardrobe .training-icon-wrap {
+  background: #3B0764;
 }
 
 /* ==========================================================================
