@@ -51,20 +51,21 @@ export class VqHeader extends HTMLElement {
     this.innerHTML = `
     <!-- App Header (Optimizado Mobile-First) -->
     <header class="app-header" role="banner">
-      <!-- Fila Superior: Identidad (Logo + Nombre + Badge de Módulo) y Acceso al Ropero Mágico -->
-      <div class="header-main-row">
-        <div class="header-brand-group">
-          <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
-            <span class="brand-icon" aria-hidden="true" style="overflow: hidden; padding: 0; background: #F5EEFA;">
-              <img src="assets/emblem-valen.png" alt="ValenQuest" class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
-            </span>
-            <div class="brand-info">
-              <h1 class="brand-title">ValenQuest</h1>
-            </div>
-          </a>
-          ${sectionBadgeHtml}
-        </div>
+      <!-- Fila Superior: Identidad (Logo + Nombre + Badge de Módulo) -->
+      <div class="header-brand-row">
+        <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
+          <span class="brand-icon" aria-hidden="true" style="overflow: hidden; padding: 0; background: #F5EEFA;">
+            <img src="assets/emblem-valen.png" alt="ValenQuest" class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
+          </span>
+          <div class="brand-info">
+            <h1 class="brand-title">ValenQuest</h1>
+          </div>
+        </a>
+        ${sectionBadgeHtml}
+      </div>
 
+      <!-- Fila de Utilidades: Balances a la izquierda + Botones de Acción juntos a la derecha -->
+      <div class="header-tools-row">
         <!-- Balances del Jugador (Estrellas y Diamantes) en el Header -->
         <div class="header-balances-pill" title="Tus Estrellas y Diamantes de Lumiria" aria-label="Estrellas y Diamantes del jugador">
           <span class="header-balance-item" title="Estrellas de Campaña">
@@ -76,24 +77,24 @@ export class VqHeader extends HTMLElement {
             <span id="player-diamonds-count">0</span>
           </span>
         </div>
-      </div>
 
-      <!-- Dock de Acciones y Herramientas Mágicas -->
-      <div class="header-actions" aria-label="Herramientas y ajustes mágicos">
-        <!-- Conocer a las Heroínas (Redirección a La Gran Aventura) -->
-        <a href="campaign.html#heroines-section" id="btn-header-heroines" class="icon-btn ${currentSection === 'campaign' ? 'active' : ''}" aria-label="Conocer a las Heroínas" title="Conocer a las 4 Heroínas de Lumiria">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
-        </a>
+        <!-- Dock de Acciones y Herramientas Mágicas -->
+        <div class="header-actions" aria-label="Herramientas y ajustes mágicos">
+          <!-- Conocer a las Heroínas (Redirección a La Gran Aventura) -->
+          <a href="campaign.html#heroines-section" id="btn-header-heroines" class="icon-btn ${currentSection === 'campaign' ? 'active' : ''}" aria-label="Conocer a las Heroínas" title="Conocer a las 4 Heroínas de Lumiria">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
+          </a>
 
-        <!-- Historia del Reino (Redirección al Gran Libro de las Princesas) -->
-        <a href="story.html" id="btn-show-intro" class="icon-btn ${currentSection === 'story' ? 'active' : ''}" aria-label="Historia de Lumiria" title="Ver el Gran Libro de las Princesas">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
-        </a>
+          <!-- Historia del Reino (Redirección al Gran Libro de las Princesas) -->
+          <a href="story.html" id="btn-show-intro" class="icon-btn ${currentSection === 'story' ? 'active' : ''}" aria-label="Historia de Lumiria" title="Ver el Gran Libro de las Princesas">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+          </a>
 
-        <!-- Botón de Configuración & Ajustes Mágicos (Tema, Sonido, Voz, App) -->
-        <button id="btn-open-settings" class="icon-btn" aria-label="Ajustes y configuración" title="Configuración de sonido, tema y aplicación">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-settings"></use></svg>
-        </button>
+          <!-- Botón de Configuración & Ajustes Mágicos (Tema, Sonido, Voz, App) -->
+          <button id="btn-open-settings" class="icon-btn" aria-label="Ajustes y configuración" title="Configuración de sonido, tema y aplicación">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-settings"></use></svg>
+          </button>
+        </div>
       </div>
     </header>
 

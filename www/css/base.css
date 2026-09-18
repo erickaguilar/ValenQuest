@@ -151,19 +151,34 @@ button,
   }
 }
 
-/* Fila Superior: Marca e Identidad + Contador de Estrellas */
-.header-main-row {
+/* Fila Superior: Marca e Identidad */
+.header-brand-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 10px;
   width: 100%;
 }
 
 @media (min-width: 641px) {
-  .header-main-row {
+  .header-brand-row {
     width: auto;
-    justify-content: flex-start;
+    gap: 16px;
+  }
+}
+
+/* Fila de Herramientas: Balances y Acciones en Móvil */
+.header-tools-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+@media (min-width: 641px) {
+  .header-tools-row {
+    width: auto;
+    justify-content: flex-end;
     gap: 16px;
   }
 }
@@ -287,7 +302,7 @@ button,
   background: rgba(245, 158, 11, 0.18);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 340px) {
   .header-section-badge span {
     display: none;
   }
@@ -376,12 +391,12 @@ button,
 
 /* Header Actions Toolbar (Dock de Herramientas Mágicas) */
 .header-actions {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 6px;
-  width: 100%;
-  padding: 4px 6px;
+  width: auto;
+  padding: 3px 6px;
   background: var(--vq-bg-well);
   border: 1.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
@@ -390,7 +405,6 @@ button,
 
 @media (min-width: 641px) {
   .header-actions {
-    width: auto;
     background: transparent;
     border: none;
     padding: 0;
@@ -418,11 +432,11 @@ button,
 
 @media (max-width: 640px) {
   .icon-btn {
-    flex: 1;
-    max-width: 48px;
-    height: 38px;
-    min-height: 38px;
-    min-width: 38px;
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    min-width: 36px;
   }
 }
 
