@@ -295,6 +295,33 @@
   box-shadow: var(--vq-shadow-active);
 }
 
+.gacha-wardrobe-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--vq-pink-light, #FFC8DD) 0%, var(--vq-lavender-light, #F0E6F6) 100%);
+  border: 1.5px solid var(--vq-border);
+  padding: 6px 14px;
+  border-radius: var(--vq-radius-pill);
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .gacha-wardrobe-link {
+  background: linear-gradient(135deg, #4C1D95 0%, #201633 100%);
+  color: var(--vq-text);
+}
+
+.gacha-wardrobe-link:hover {
+  background: linear-gradient(135deg, #FFAFCC 0%, #E9D5FF 100%);
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-active);
+}
+
 .avatar-character {
   display: flex;
   align-items: center;

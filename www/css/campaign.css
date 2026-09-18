@@ -582,6 +582,173 @@
 }
 
 /* ==========================================================================
+   6. BANNER DESTACADO DEL ROPERO MÁGICO (BOUTIQUE DE LUMIRIA)
+   ========================================================================== */
+.campaign-wardrobe-banner {
+  margin-top: 18px;
+  background: linear-gradient(135deg, #FFF0F5 0%, #F5EEFA 50%, #EDF2FB 100%);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 20px 24px;
+  box-shadow: var(--vq-shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .campaign-wardrobe-banner {
+  background: linear-gradient(135deg, #2D143E 0%, #1D1528 50%, #15162C 100%);
+}
+
+.campaign-wardrobe-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--vq-shadow-hard);
+}
+
+.campaign-wardrobe-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wardrobe-sparkle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: var(--vq-pink-bubble, #FFD6E8);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.84rem;
+  font-weight: 900;
+  color: #32213F;
+}
+
+[data-theme="dark"] .wardrobe-sparkle-pill {
+  background: #6B21A8;
+  color: #F3E8FF;
+}
+
+.wardrobe-diamonds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+[data-theme="dark"] .wardrobe-diamonds-pill {
+  background: rgba(19, 14, 31, 0.85);
+}
+
+.campaign-wardrobe-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.campaign-wardrobe-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 260px;
+}
+
+.campaign-wardrobe-icon-wrap {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FFAFCC 0%, #CDB4DB 100%);
+  border: 2px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.campaign-wardrobe-icon-wrap .vq-icon {
+  width: 28px;
+  height: 28px;
+  color: #32213F;
+}
+
+.campaign-wardrobe-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campaign-wardrobe-heading {
+  margin: 0;
+  font-size: 1.18rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  letter-spacing: -0.2px;
+}
+
+.campaign-wardrobe-subtext {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--vq-text-muted);
+  line-height: 1.4;
+}
+
+.campaign-wardrobe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #FF99C8 0%, #FCF6BD 50%, #D0F4DE 100%);
+  border: 2.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  color: #32213F;
+  font-size: 1rem;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: var(--vq-shadow-hard);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  transition: transform 0.12s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+[data-theme="dark"] .campaign-wardrobe-btn {
+  background: linear-gradient(135deg, #EC4899 0%, #A855F7 50%, #6366F1 100%);
+  color: #FFFFFF;
+}
+
+.campaign-wardrobe-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 0 var(--vq-border);
+  filter: brightness(1.05);
+}
+
+.campaign-wardrobe-btn:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+.campaign-wardrobe-btn .vq-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* ==========================================================================
    7. RESPONSIVE MOBILE AJUSTES
    ========================================================================== */
 @media (max-width: 600px) {

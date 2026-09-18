@@ -111,7 +111,7 @@ class CampaignPageController {
     document.querySelectorAll('#player-stars-count, #campaign-star-balance').forEach((el) => {
       el.textContent = stars;
     });
-    document.querySelectorAll('#player-diamonds-count, #campaign-diamond-balance').forEach((el) => {
+    document.querySelectorAll('#player-diamonds-count, #campaign-diamond-balance, #campaign-wardrobe-diamonds').forEach((el) => {
       el.textContent = diamonds;
     });
   }
@@ -207,7 +207,7 @@ class CampaignPageController {
   }
 
   setupAudioClicks() {
-    document.querySelectorAll('.training-cta-btn, .campaign-back-btn, .campaign-footer-cta, .gacha-story-link').forEach((btn) => {
+    document.querySelectorAll('.training-cta-btn, .campaign-back-btn, .campaign-footer-cta, .gacha-story-link, .campaign-wardrobe-btn, .gacha-wardrobe-link').forEach((btn) => {
       btn.addEventListener('click', () => {
         try { sound.playClick(); } catch (e) {}
       });

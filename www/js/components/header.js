@@ -65,23 +65,17 @@ export class VqHeader extends HTMLElement {
           ${sectionBadgeHtml}
         </div>
 
-        <!-- Botón Unificado del Ropero Mágico con Contadores de Estrellas y Diamantes -->
-        <a href="wardrobe.html" id="header-wardrobe-btn" class="wardrobe-header-btn ${currentSection === 'wardrobe' ? 'active' : ''}" title="Entrar al Ropero Mágico (Vestuario, coronas y cosméticos)" aria-label="Ropero Mágico: Estrellas y Diamantes" style="text-decoration:none; color:inherit;">
-          <span class="wardrobe-header-icon" aria-hidden="true">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
+        <!-- Balances del Jugador (Estrellas y Diamantes) en el Header -->
+        <div class="header-balances-pill" title="Tus Estrellas y Diamantes de Lumiria" aria-label="Estrellas y Diamantes del jugador">
+          <span class="header-balance-item" title="Estrellas de Campaña">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
+            <span id="player-stars-count">0</span>
           </span>
-          <span class="wardrobe-header-text">Ropero</span>
-          <div class="wardrobe-header-stats">
-            <span class="wardrobe-stat-item" title="Estrellas de Campaña">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-              <span id="player-stars-count">0</span>
-            </span>
-            <span class="wardrobe-stat-item" title="Diamantes del Prisma">
-              <span aria-hidden="true">💎</span>
-              <span id="player-diamonds-count">0</span>
-            </span>
-          </div>
-        </a>
+          <span class="header-balance-item" title="Diamantes del Prisma">
+            <span aria-hidden="true">💎</span>
+            <span id="player-diamonds-count">0</span>
+          </span>
+        </div>
       </div>
 
       <!-- Dock de Acciones y Herramientas Mágicas -->
@@ -458,12 +452,6 @@ export class VqHeader extends HTMLElement {
     btnClose?.addEventListener('click', closeModal);
     btnDone?.addEventListener('click', closeModal);
 
-    const btnWardrobe = this.querySelector('#header-wardrobe-btn');
-    if (btnWardrobe) {
-      btnWardrobe.addEventListener('click', () => {
-        try { sound.playClick(); } catch (_) {}
-      });
-    }
 
     const btnHeroines = this.querySelector('#btn-header-heroines');
     if (btnHeroines) {
@@ -514,7 +502,7 @@ export class VqHeader extends HTMLElement {
       const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
       const starSelectors = '#player-stars-count, #math-star-balance, #reading-star-balance, #wardrobe-star-balance, #campaign-star-balance';
-      const diamondSelectors = '#player-diamonds-count, #math-diamond-balance, #reading-diamond-balance, #wardrobe-diamond-balance, #campaign-diamond-balance';
+      const diamondSelectors = '#player-diamonds-count, #math-diamond-balance, #reading-diamond-balance, #wardrobe-diamond-balance, #campaign-diamond-balance, #campaign-wardrobe-diamonds';
 
       document.querySelectorAll(starSelectors).forEach((el) => {
         el.textContent = stars;
