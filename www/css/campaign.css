@@ -393,6 +393,9 @@
   border: 1px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .temple-unlock-hint {
@@ -456,6 +459,11 @@
   background: #FFF;
 }
 
+.training-icon-wrap .vq-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .training-card.math .training-icon-wrap {
   background: var(--vq-sky-light);
 }
@@ -478,6 +486,14 @@
   padding: 3px 8px;
   border-radius: var(--vq-radius-pill);
   border: 1px solid var(--vq-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.training-reward-pill .vq-icon {
+  width: 13px;
+  height: 13px;
 }
 
 .training-card.math .training-reward-pill {
