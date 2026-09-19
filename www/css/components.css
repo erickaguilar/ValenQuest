@@ -847,6 +847,12 @@
   padding-bottom: 12px;
 }
 
+.powers-guide-title-group {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
 .powers-guide-title {
   font-size: 1.35rem;
   font-weight: 900;
@@ -1030,6 +1036,41 @@
   color: #FFFFFF !important;
 }
 
+[data-theme="dark"] .power-guide-action-row {
+  border-top-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="dark"] .power-guide-charges-label {
+  color: #E9D5FF !important;
+}
+
+[data-theme="dark"] .btn-guide-recharge {
+  background: #281C3F !important;
+  border-color: #8975A3 !important;
+  color: #F8F5FC !important;
+  box-shadow: 0 2px 0 #130E1F !important;
+}
+
+[data-theme="dark"] .btn-guide-recharge:hover:not(:disabled) {
+  background: #3B2A59 !important;
+  border-color: #C084FC !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .btn-guide-recharge:disabled {
+  opacity: 0.45 !important;
+}
+
+[data-theme="dark"] .power-btn.power-empty-rechargeable {
+  background: rgba(30, 20, 50, 0.6) !important;
+  border-color: #8975A3 !important;
+}
+
+[data-theme="dark"] .power-btn.power-empty-rechargeable:hover {
+  background: rgba(56, 189, 248, 0.2) !important;
+  border-color: #38BDF8 !important;
+}
+
 .power-guide-badge {
   width: 40px;
   height: 40px;
@@ -1085,6 +1126,72 @@
   font-weight: 900;
 }
 
+/* Fila de acción de recarga en el modal de guía */
+.power-guide-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--vq-border);
+}
+
+.power-guide-charges-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--vq-text-muted);
+}
+
+.btn-guide-recharge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--vq-bg-card);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease, background 0.15s ease, border-color 0.15s ease;
+  font-family: inherit;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-guide-recharge:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--vq-gold-light, #FFF0C2);
+  border-color: var(--vq-gold, #F59E0B);
+}
+
+.btn-guide-recharge:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.recharge-cost-pill {
+  background: #F59E0B;
+  color: #FFFFFF;
+  padding: 1px 6px;
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.72rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.recharge-cost-pill .vq-icon {
+  width: 0.95em;
+  height: 0.95em;
+  color: #FFFFFF;
+}
+
 .power-guide-tip {
   background: var(--vq-bg-well);
   border: 1.5px dashed var(--vq-border);
@@ -1098,6 +1205,20 @@
   color: var(--vq-text);
 }
 
+.power-guide-tip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.power-guide-tip-icon .vq-icon {
+  width: 1.3em;
+  height: 1.3em;
+  color: #F59E0B;
+}
+
 .powers-guide-ok-btn {
   margin-top: 4px;
   align-self: center;
@@ -1106,6 +1227,45 @@
   padding: 12px 20px;
   font-size: 1rem;
   font-weight: 900;
+}
+
+/* ==========================================================================
+   RECARGA DE PODERES CON DIAMANTES (BOTONES Y ANIMACIONES)
+   ========================================================================== */
+.power-btn.power-empty-rechargeable {
+  border-style: dashed !important;
+  opacity: 0.9 !important;
+  background: var(--vq-bg-well) !important;
+  position: relative;
+  cursor: pointer !important;
+}
+
+.power-btn.power-empty-rechargeable:hover {
+  transform: translateY(-2px) !important;
+  border-color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+}
+
+.power-btn.power-empty-rechargeable .power-charge-badge {
+  background: #F59E0B !important;
+  color: #FFFFFF !important;
+  border-color: #B45309 !important;
+  font-size: 0.72rem;
+  width: auto;
+  min-width: 20px;
+  padding: 0 4px;
+  border-radius: var(--vq-radius-pill);
+}
+
+@keyframes powerRecharged {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 rgba(16, 185, 129, 0); }
+  50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(16, 185, 129, 0.9); }
+  100% { transform: scale(1); box-shadow: 0 2px 0 var(--vq-border); }
+}
+
+.power-btn.power-recharged-burst {
+  animation: powerRecharged 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-color: #10B981 !important;
 }
 
 .power-btn {

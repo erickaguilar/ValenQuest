@@ -318,13 +318,13 @@ class ReadingPageController {
     const masteryFill = document.getElementById('reading-mastery-fill');
     const masteryStatus = document.getElementById('reading-mastery-status');
 
-    if (masteryBadge) masteryBadge.textContent = `${currentMastery}%`;
+    if (masteryBadge) masteryBadge.textContent = `${Math.round(currentMastery)}%`;
     if (masteryFill) {
       masteryFill.style.width = `${currentMastery}%`;
       masteryFill.closest('[role="progressbar"]')?.setAttribute('aria-valuenow', currentMastery);
     }
     if (masteryStatus) {
-      const targetAciertos = readingPractice.targetAciertos || 15;
+      const targetAciertos = readingPractice.targetAciertos || 30;
       const approxCount = Math.min(targetAciertos, Math.round((currentMastery / 100) * targetAciertos));
       if (isCurrentMastered || currentMastery >= 100) {
         masteryStatus.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>¡Coronado! (${targetAciertos}/${targetAciertos})</span>`;
@@ -566,6 +566,17 @@ class ReadingPageController {
       }
     });
 
+    // Enlazar botones de recarga en el modal de guía de poderes
+    document.querySelectorAll('.btn-guide-recharge').forEach((btn) => {
+      if (!btn._rechargeBound) {
+        btn._rechargeBound = true;
+        btn.addEventListener('click', (e) => {
+          const heroId = e.currentTarget.dataset.heroine;
+          if (heroId) this.handlePowerRecharge(heroId);
+        });
+      }
+    });
+
     this.setupPowersGuideModal();
     this.updatePowersBadges();
   }
@@ -581,8 +592,9 @@ class ReadingPageController {
 
     const openModal = () => {
       sound.playClick();
+      this.updatePowersBadges();
       modal.hidden = false;
-      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda de una forma mágica.'); } catch (e) {}
+      try { speech.speak('¡Aquí tienes la guía de poderes de Lumiria! Cada princesa te ayuda y puedes recargar sus cargas con 10 diamantes.'); } catch (e) {}
     };
 
     const closeModal = () => {
@@ -605,19 +617,42 @@ class ReadingPageController {
 
   updatePowersBadges() {
     ['valen', 'reni', 'zoe', 'lia'].forEach((id) => {
+      const heroine = HEROINES[id];
       const badge = document.getElementById(`badge-${id}`);
       const btn = document.getElementById(`btn-power-${id}`);
       const charges = companions.getCharges(id);
-      if (badge) badge.textContent = charges;
+
+      // Actualizar modal de guía de poderes
+      const guideLabel = document.getElementById(`guide-charges-${id}`);
+      if (guideLabel) guideLabel.textContent = `Cargas: ${charges}/2`;
+      const guideBtn = document.querySelector(`.btn-guide-recharge[data-heroine="${id}"]`);
+      if (guideBtn) guideBtn.disabled = charges >= 2;
+
       if (btn) {
-        btn.disabled = charges <= 0;
-        btn.setAttribute('aria-disabled', charges <= 0 ? 'false' : 'true');
+        btn.disabled = false; // Siempre interactivo para poder activar o recargar
+        btn.setAttribute('aria-disabled', 'false');
+        if (charges <= 0) {
+          btn.classList.add('power-empty-rechargeable');
+          if (badge) badge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>10';
+          btn.title = `${heroine?.name || id} (0/2 cargas): ¡Toca para recargar por 10 diamantes!`;
+        } else {
+          btn.classList.remove('power-empty-rechargeable');
+          if (badge) badge.textContent = charges;
+          btn.title = `${heroine?.name || id} (${charges}/2 cargas): ${heroine?.powerName || ''}`;
+        }
       }
     });
   }
 
   async handlePowerTrigger(heroineId) {
     sound.playClick();
+    const currentCharges = companions.getCharges(heroineId);
+
+    // Si tiene 0 cargas, activar directamente la recarga por 10 diamantes
+    if (currentCharges <= 0) {
+      return this.handlePowerRecharge(heroineId);
+    }
+
     const result = companions.usePower(heroineId);
     if (!result.success) {
       speech.speak(result.reason || 'El poder aún se está cargando con tu racha.');
@@ -684,6 +719,50 @@ class ReadingPageController {
     }
 
     this.updatePowersBadges();
+  }
+
+  async handlePowerRecharge(heroineId) {
+    sound.playClick();
+    const heroine = HEROINES[heroineId];
+    if (!heroine) return;
+
+    const currentCharges = companions.getCharges(heroineId);
+    if (currentCharges >= 2) {
+      speech.speak(`¡${heroine.name} ya tiene sus 2 poderes cargados al máximo!`);
+      return;
+    }
+
+    const RECHARGE_COST = 10;
+    const profile = await db.getProfile();
+    const currentDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
+
+    if (currentDiamonds < RECHARGE_COST) {
+      sound.playIncorrect();
+      const btn = document.getElementById(`btn-power-${heroineId}`);
+      if (btn) {
+        btn.classList.add('locked-shake');
+        setTimeout(() => btn.classList.remove('locked-shake'), 400);
+      }
+      speech.speak(`¡El poder de ${heroine.name} necesita ${RECHARGE_COST} diamantes para recargarse! Tienes ${currentDiamonds} diamantes. Sigue leyendo para reunirlos.`);
+      return;
+    }
+
+    // Descontar 10 diamantes
+    const newBalance = await db.addDiamonds(-RECHARGE_COST);
+    this.updateDiamondsDisplay(newBalance);
+    await companions.rechargeHeroine(heroineId, 1);
+
+    sound.playLevelUp();
+    sound.playStreak();
+
+    const btn = document.getElementById(`btn-power-${heroineId}`);
+    if (btn) {
+      btn.classList.add('power-recharged-burst');
+      setTimeout(() => btn.classList.remove('power-recharged-burst'), 1000);
+    }
+
+    this.updatePowersBadges();
+    speech.speak(`¡Amistad renovada! Has recargado el poder de ${heroine.name} con diez diamantes.`);
   }
 
   // =========================================================================

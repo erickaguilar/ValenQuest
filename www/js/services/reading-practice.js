@@ -601,7 +601,7 @@ export class ReadingPracticeService {
     this.unlockedLevels = [1];
     this.masteredLevels = [];
     this.levelMastery = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-    this.targetAciertos = 15;
+    this.targetAciertos = 30;
     this.streak = 0;
     this.highestStreak = 0;
     this.totalAnswered = 0;
@@ -773,9 +773,9 @@ export class ReadingPracticeService {
       }
       this.wordsRead += 4; // Promedio de palabras consolidadas por reto
 
-      // Progreso de Maestría Lector: Base +7% (~15 aciertos para completar el 100%),
-      // con bonificación acelerada (+10%) si la racha es >= 3
-      masteryGain = this.streak >= 3 ? 10 : 7;
+      // Progreso de Maestría Lector: Base +3.4% (30 aciertos base para alcanzar el 100%),
+      // con bonificación acelerada (+4.5%) si la racha es >= 3
+      masteryGain = this.streak >= 3 ? 4.5 : 3.4;
 
       const isTimerFrozen = Boolean(options?.timerFrozen);
       const isAgile = isTimerFrozen || (elapsedMs > 0 && elapsedMs <= 6000);
@@ -802,7 +802,7 @@ export class ReadingPracticeService {
 
       // Actualizar la maestría del nivel actual (máximo 100%)
       const currentMastery = this.levelMastery[this.selectedLevel] || 0;
-      const newMastery = Math.min(100, currentMastery + masteryGain);
+      const newMastery = Math.min(100, Math.round((currentMastery + masteryGain) * 10) / 10);
       this.levelMastery[this.selectedLevel] = newMastery;
 
       // Evaluar coronación del nivel si alcanza el 100%
