@@ -29,6 +29,8 @@ body[data-theme="light"],
   --vq-text-muted: #645475;
   /* Tinta de línea del sistema SVG chibi (trazo #4A3E56 en modo día). */
   --vq-ink-line: #4A3E56;
+  /* Papel de los iconos (fondos blancos estructurales). */
+  --vq-icon-paper: #FDF7FF;
 
   /* ========================================================================
      3. ACENTOS MÁGICOS Y PASTEL (HEROÍNAS DE LUMIRIA)

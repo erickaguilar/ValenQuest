@@ -11,10 +11,10 @@
       <circle cx="50" cy="54" r="42" fill="#FFAFCC" opacity="0.25" class="vq-sparkle"/>
 
       <!-- Patitas cortas y regordetas con casquitos rosas -->
-      <path d="M35,74 L35,90 C35,92 39,94 42,94 C45,94 49,92 49,90 L49,74 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M35,74 L35,90 C35,92 39,94 42,94 C45,94 49,92 49,90 L49,74 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
       <path d="M35,85 L49,85 L49,90 C49,92 45,94 42,94 C39,94 35,92 35,90 Z" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
 
-      <path d="M53,74 L53,90 C53,92 57,94 60,94 C63,94 67,92 67,90 L67,74 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+      <path d="M53,74 L53,90 C53,92 57,94 60,94 C63,94 67,92 67,90 L67,74 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
       <path d="M53,85 L67,85 L67,90 C67,92 63,94 60,94 C57,94 53,92 53,90 Z" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
 
       <!-- Colita ondulada rosa y lavanda -->
@@ -43,8 +43,8 @@
 
       <!-- Cabeza y Cuerpo Chibi Gordito y Tierno (Blanco Nube) -->
       <path d="M28,68 C28,52 34,42 50,42 C66,42 72,52 72,68 C72,82 66,86 50,86 C34,86 28,82 28,68 Z" 
-            fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
-      <circle cx="50" cy="46" r="28" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+            fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="50" cy="46" r="28" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
 
       <!-- Melena Rosa y Lavanda Flotante -->
       <path d="M24,34 C16,42 16,60 22,70 C24,56 26,46 32,38 Z" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
@@ -52,9 +52,9 @@
       <path d="M28,26 C38,14 62,14 72,26 C64,20 36,20 28,26 Z" fill="#FFAFCC"/>
 
       <!-- Orejitas Chibi -->
-      <path d="M26,28 L20,12 L35,18 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M26,28 L20,12 L35,18 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
       <path d="M25,24 L22,15 L32,18 Z" fill="#FFAFCC"/>
-      <path d="M74,28 L80,12 L65,18 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M74,28 L80,12 L65,18 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
       <path d="M75,24 L78,15 L68,18 Z" fill="#CDB4DB"/>
 
       <!-- Cuerno Mágico Dorado con Brillo Sanrio -->

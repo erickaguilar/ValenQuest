@@ -9,6 +9,11 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 🌙 Papel temático en iconos (adiós "blancos sin líneas")
+- **Causa:** la tinta se tematizó (`--vq-ink-line` clara en oscuro) pero los fondos blancos no: iconos mayormente blancos quedaban sin definición en modo oscuro.
+- **Fix:** 35 rellenos papel (`#FDF7FF`, `#F5EEFA`) → `var(--vq-icon-paper)` (`#FDF7FF` día / `#4A3A68` noche); pupilas sobre esclerótica blanca fijas en `#4A3E56` (brillos intactos).
+- **Verificado:** disc/keypad `#FDF7FF`→`#4A3A68` y pupilas fijas por estilo computado; barrido de píxeles 0 invisibles en ambos temas. Cubre v2.1.8 (cachés ya invalidadas).
+
 ### 🌙 Fixes modo oscuro + poderes
 - **Foco de Lía:** `resetChallengeVisuals()` ahora retira `crystal-operand-glow` de los operandos; los números del reto siguiente ya no heredan el brillo.
 - **Escudo de Zoe:** confirmado por diseño — queda armado hasta absorber un fallo (no caduca por tiempo ni por retos).

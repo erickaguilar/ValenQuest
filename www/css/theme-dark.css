@@ -23,6 +23,9 @@
     /* Tinta de línea SVG en modo noche: lavanda casi blanca para que
        los trazos chibi se definan sobre fondos oscuros. */
     --vq-ink-line: #EDE7F7;
+    /* Papel nocturno: las áreas blancas se vuelven tarjeta oscura para
+       que la tinta clara las defina (evita iconos "blancos sin líneas"). */
+    --vq-icon-paper: #4A3A68;
 
     /* Acentos Lumniscentes Astrales */
     --vq-pink-bubble: #F472B6;
@@ -85,6 +88,7 @@ body[data-theme="dark"],
   --vq-text: #F8F5FC !important;
   --vq-text-muted: #C0B4D1 !important;
   --vq-ink-line: #EDE7F7 !important;
+  --vq-icon-paper: #4A3A68 !important;
 
   --vq-pink-bubble: #F472B6 !important;
   --vq-pink-light: #831843 !important;

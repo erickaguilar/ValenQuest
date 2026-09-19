@@ -174,13 +174,13 @@
              fill="#CDB4DB" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M50,14 L50,40 M24,28 L44,42 M76,28 L56,42" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" opacity="0.45"/>
     <!-- Cuarzo frontal -->
-    <polygon points="50,40 57,52 50,64 43,52" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="50,40 57,52 50,64 43,52" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
     <path d="M47,48 L50,44 L53,48" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
     <!-- Ojos pesados de guardián -->
     <ellipse cx="36" cy="34" rx="5" ry="4" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
     <ellipse cx="64" cy="34" rx="5" ry="4" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
-    <circle cx="36" cy="34.5" r="2.2" fill="var(--vq-ink-line, #4A3E56)"/>
-    <circle cx="64" cy="34.5" r="2.2" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="36" cy="34.5" r="2.2" fill="#4A3E56"/>
+    <circle cx="64" cy="34.5" r="2.2" fill="#4A3E56"/>
     <!-- Grieta amable -->
     <path d="M44,72 L50,76 L56,72" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linecap="round"/>
   </symbol>

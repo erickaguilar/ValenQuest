@@ -20,7 +20,7 @@
   <!-- Emblema Minimalista Oficial de Lumiria (Kids 6-12): Prisma Mágico 4-Armonías, Corona y Alas -->
   <symbol id="vq-emblem-valen" viewBox="0 0 512 512">
     <!-- Fondo circular limpio en nube lavanda pastel -->
-    <circle cx="256" cy="256" r="236" fill="#F5EEFA" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="14"/>
+    <circle cx="256" cy="256" r="236" fill="var(--vq-icon-paper, #F5EEFA)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="14"/>
 
     <!-- Alas Celestiales Redondeadas Chibi -->
     <!-- Ala Izquierda -->
@@ -60,7 +60,7 @@
   <symbol id="vq-icon-unicorn" viewBox="0 0 64 64">
     <circle cx="32" cy="34" r="26" fill="#FFC8DD" opacity="0.35"/>
     <path d="M18,48 C18,48 18,36 24,30 C28,26 34,26 40,28 C46,30 50,36 50,44 C50,50 42,54 32,54 C24,54 18,48 18,48 Z" 
-          fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+          fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M16,42 C12,36 14,24 24,18 C22,24 22,32 26,38 Z" 
           fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
     <path d="M22,18 C30,12 44,14 48,22 C42,20 32,20 26,26 Z" 
@@ -68,7 +68,7 @@
     <polygon points="34,6 29,22 39,22" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
     <polygon points="34,6 31,22 36,22" fill="#FFFFFF" opacity="0.8"/>
     <polygon points="34,2 35,5 38,6 35,7 34,10 33,7 30,6 33,5" fill="#FFD166"/>
-    <path d="M38,24 L44,14 L46,26 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M38,24 L44,14 L46,26 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
     <path d="M40,22 L43,17 L44,24 Z" fill="#FFAFCC"/>
     <ellipse cx="38" cy="38" rx="3.5" ry="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
     <circle cx="37" cy="36" r="1.5" fill="#FFFFFF"/>
@@ -213,7 +213,7 @@
     <path d="M16,14 C12,14 10,18 10,22 C10,26 14,28 18,28 L46,28 C50,28 54,26 54,22 C54,18 50,14 46,14 Z" 
           fill="#FFF0C2" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M14,26 L14,46 C14,52 20,54 24,54 L48,54 C52,54 54,50 54,46 L54,22" 
-          fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+          fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M48,54 C52,54 54,50 54,46 C54,42 50,40 46,40 L18,40" 
           fill="#FFF0C2" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
     <line x1="22" y1="34" x2="44" y2="34" stroke="#CDB4DB" stroke-width="2.5" stroke-linecap="round"/>
@@ -242,7 +242,7 @@
   <symbol id="vq-icon-settings" viewBox="0 0 64 64">
     <path d="M28,6 L36,6 L37,14 L42,16 L48,11 L53,16 L48,22 L50,27 L58,28 L58,36 L50,37 L48,42 L53,48 L48,53 L42,48 L37,50 L36,58 L28,58 L27,50 L22,48 L16,53 L11,48 L16,42 L14,37 L6,36 L6,28 L14,27 L16,22 L11,16 L16,11 L22,16 L27,14 Z" 
           fill="#CDB4DB" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
-    <circle cx="32" cy="32" r="12" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
+    <circle cx="32" cy="32" r="12" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
     <polygon points="32,24 34,29 39,30 35,34 36,39 32,36 28,39 29,34 25,30 30,29" 
              fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="1.5" stroke-linejoin="round"/>
   </symbol>
@@ -256,18 +256,18 @@
     <ellipse cx="32" cy="38" rx="20" ry="20" fill="#CDB4DB" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M12,32 C10,42 16,50 20,52 C16,46 14,40 16,32 Z" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
     <path d="M52,32 C54,42 48,50 44,52 C48,46 50,40 48,32 Z" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
-    <path d="M22,35 C22,49 42,49 42,35 C42,28 22,28 22,35 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+    <path d="M22,35 C22,49 42,49 42,35 C42,28 22,28 22,35 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <path d="M28,39 Q32,43 36,39" fill="none" stroke="#CDB4DB" stroke-width="2" stroke-linecap="round"/>
     <path d="M26,45 Q32,49 38,45" fill="none" stroke="#CDB4DB" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="23" cy="26" r="9.5" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
+    <circle cx="23" cy="26" r="9.5" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
     <circle cx="23" cy="26" r="8" fill="#FFFFFF" stroke="#FFD166" stroke-width="2.5"/>
-    <circle cx="41" cy="26" r="9.5" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
+    <circle cx="41" cy="26" r="9.5" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
     <circle cx="41" cy="26" r="8" fill="#FFFFFF" stroke="#FFD166" stroke-width="2.5"/>
     <path d="M31,25 Q32,22 33,25" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="23" cy="26" r="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="23" cy="26" r="4.5" fill="#4A3E56"/>
     <circle cx="21" cy="24" r="2" fill="#FFFFFF"/>
     <circle cx="24.5" cy="28" r="0.9" fill="#FFFFFF"/>
-    <circle cx="41" cy="26" r="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="41" cy="26" r="4.5" fill="#4A3E56"/>
     <circle cx="39" cy="24" r="2" fill="#FFFFFF"/>
     <circle cx="42.5" cy="28" r="0.9" fill="#FFFFFF"/>
     <polygon points="29,31 35,31 32,37" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linejoin="round"/>
@@ -292,13 +292,13 @@
       <path d="M18,48 C14,64 24,76 30,80 C24,70 20,60 24,48 Z" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
       <path d="M82,48 C86,64 76,76 70,80 C76,70 80,60 76,48 Z" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
       <!-- Pechera Esponjosa Blanca -->
-      <path d="M34,50 C34,72 66,72 66,50 C66,40 34,40 34,50 Z" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+      <path d="M34,50 C34,72 66,72 66,50 C66,40 34,40 34,50 Z" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
       <path d="M42,56 Q50,62 58,56" fill="none" stroke="#CDB4DB" stroke-width="2.5" stroke-linecap="round"/>
       <path d="M38,65 Q50,72 62,65" fill="none" stroke="#CDB4DB" stroke-width="2.5" stroke-linecap="round"/>
       <!-- Gafas de Erudito Doradas -->
-      <circle cx="36" cy="38" r="14.5" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+      <circle cx="36" cy="38" r="14.5" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
       <circle cx="36" cy="38" r="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="3.5"/>
-      <circle cx="64" cy="38" r="14.5" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+      <circle cx="64" cy="38" r="14.5" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
       <circle cx="64" cy="38" r="12" fill="#FFFFFF" stroke="#FFD166" stroke-width="3.5"/>
       <path d="M49,36 Q50,32 51,36" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linecap="round"/>
       <!-- Ojos Chibi Brillantes -->
@@ -319,7 +319,7 @@
   <!-- 4. PESTAÑAS & MÓDULOS DE APRENDIZAJE -->
   <!-- Brújula Astral (El Viaje) -->
   <symbol id="vq-icon-journey" viewBox="0 0 64 64">
-    <circle cx="32" cy="32" r="26" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+    <circle cx="32" cy="32" r="26" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
     <circle cx="32" cy="32" r="21" fill="#BDE0FE" opacity="0.4"/>
     <polygon points="32,10 36,28 54,32 36,36 32,54 28,36 10,32 28,28" 
              fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
@@ -337,7 +337,7 @@
 
   <!-- Ábaco Matemático (Icono Alternativo de Reto) -->
   <symbol id="vq-icon-math" viewBox="0 0 64 64">
-    <rect x="10" y="8" width="44" height="48" rx="8" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+    <rect x="10" y="8" width="44" height="48" rx="8" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
     <line x1="16" y1="22" x2="48" y2="22" stroke="#CDB4DB" stroke-width="3" stroke-linecap="round"/>
     <circle cx="24" cy="22" r="5" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
     <circle cx="36" cy="22" r="5" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
@@ -361,7 +361,7 @@
   <!-- Libro Mágico Abierto (Cuentos y Pasajes) -->
   <symbol id="vq-icon-reading" viewBox="0 0 64 64">
     <path d="M32,48 C24,44 14,44 8,46 L8,18 C14,16 24,16 32,20 C40,16 50,16 56,18 L56,46 C50,44 40,44 32,48 Z" 
-          fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
+          fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
     <line x1="32" y1="20" x2="32" y2="48" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
     <path d="M8,46 C14,44 24,44 32,48 L32,52 C24,48 14,48 8,50 Z" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <path d="M56,46 C50,44 40,44 32,48 L32,52 C40,48 50,48 56,50 Z" fill="#A2D2FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
@@ -387,7 +387,7 @@
 
   <!-- Teclado Numérico Astral -->
   <symbol id="vq-icon-keypad" viewBox="0 0 64 64">
-    <rect x="8" y="10" width="48" height="44" rx="10" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+    <rect x="8" y="10" width="48" height="44" rx="10" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
     <rect x="15" y="17" width="9" height="9" rx="2.5" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <rect x="27.5" y="17" width="9" height="9" rx="2.5" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <rect x="40" y="17" width="9" height="9" rx="2.5" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
@@ -447,7 +447,7 @@
 
   <!-- Cruz para Cerrar Modales -->
   <symbol id="vq-icon-close" viewBox="0 0 64 64">
-    <circle cx="32" cy="32" r="24" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
+    <circle cx="32" cy="32" r="24" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4"/>
     <line x1="22" y1="22" x2="42" y2="42" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4.5" stroke-linecap="round"/>
     <line x1="42" y1="22" x2="22" y2="42" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4.5" stroke-linecap="round"/>
   </symbol>
@@ -467,7 +467,7 @@
   <!-- Cohete Astral Chibi (Avanzar de Templo) -->
   <symbol id="vq-icon-rocket" viewBox="0 0 64 64">
     <path d="M32,6 C40,14 44,28 44,42 L20,42 C20,28 24,14 32,6 Z" 
-          fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
+          fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
     <path d="M32,6 C36,11 39,18 40,24 L24,24 C25,18 28,11 32,6 Z" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <path d="M20,34 L10,46 L20,44 Z" fill="#A2D2FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M44,34 L54,46 L44,44 Z" fill="#A2D2FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
@@ -503,7 +503,7 @@
   <symbol id="vq-icon-gem" viewBox="0 0 64 64">
     <polygon points="18,14 46,14 56,28 32,54 8,28" 
              fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="4" stroke-linejoin="round"/>
-    <polygon points="18,14 46,14 38,28 26,28" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <polygon points="18,14 46,14 38,28 26,28" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
     <polygon points="26,28 38,28 32,54" fill="#A2D2FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
     <polygon points="8,28 26,28 32,54" fill="#60A5FA"/>
     <polygon points="56,28 38,28 32,54" fill="#93C5FD"/>
@@ -532,7 +532,7 @@
   <!-- Cronómetro / Temporizador Ágil -->
   <symbol id="vq-icon-timer" viewBox="0 0 64 64">
     <circle cx="32" cy="35" r="23" fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
-    <circle cx="32" cy="35" r="18" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+    <circle cx="32" cy="35" r="18" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <rect x="29" y="5" width="6" height="7" rx="2" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
     <rect x="26" y="3" width="12" height="4" rx="2" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <line x1="32" y1="35" x2="32" y2="23" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linecap="round"/>
@@ -550,12 +550,12 @@
     <path d="M10,48 C10,24 20,12 32,12 C44,12 54,24 54,48" fill="none" stroke="#FFAFCC" stroke-width="6" stroke-linecap="round"/>
     <path d="M16,48 C16,30 23,19 32,19 C41,19 48,30 48,48" fill="none" stroke="#FFD166" stroke-width="5" stroke-linecap="round"/>
     <path d="M22,48 C22,35 26,26 32,26 C38,26 42,35 42,48" fill="none" stroke="#A2D2FF" stroke-width="5" stroke-linecap="round"/>
-    <ellipse cx="14" cy="48" rx="8" ry="6" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
-    <circle cx="11" cy="45" r="5" fill="#FDF7FF"/>
-    <circle cx="17" cy="44" r="5.5" fill="#FDF7FF"/>
-    <ellipse cx="50" cy="48" rx="8" ry="6" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
-    <circle cx="47" cy="44" r="5.5" fill="#FDF7FF"/>
-    <circle cx="53" cy="45" r="5.5" fill="#FDF7FF"/>
+    <ellipse cx="14" cy="48" rx="8" ry="6" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <circle cx="11" cy="45" r="5" fill="var(--vq-icon-paper, #FDF7FF)"/>
+    <circle cx="17" cy="44" r="5.5" fill="var(--vq-icon-paper, #FDF7FF)"/>
+    <ellipse cx="50" cy="48" rx="8" ry="6" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <circle cx="47" cy="44" r="5.5" fill="var(--vq-icon-paper, #FDF7FF)"/>
+    <circle cx="53" cy="45" r="5.5" fill="var(--vq-icon-paper, #FDF7FF)"/>
     <polygon points="32,5 33.5,8.5 37,9 34.5,11.5 35,15 32,13 29,15 29.5,11.5 27,9 30.5,8.5" fill="#FFD166"/>
   </symbol>
 
@@ -584,7 +584,7 @@
     <line x1="14" y1="50" x2="50" y2="14" stroke="#38BDF8" stroke-width="3" stroke-linecap="round"/>
     <path d="M26,14 L32,20 L38,14 M26,50 L32,44 L38,50" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
     <path d="M14,26 L20,32 L14,38 M50,26 L44,32 L50,38" stroke="#7DD3FC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    <circle cx="32" cy="32" r="5" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+    <circle cx="32" cy="32" r="5" fill="var(--vq-icon-paper, #FDF7FF)" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
     <circle cx="32" cy="32" r="2.5" fill="#BAE6FD"/>
   </symbol>
 
@@ -593,7 +593,7 @@
     <path d="M18,48 C12,48 8,43 8,37 C8,31 12,27 18,27 C19,20 25,14 33,14 C41,14 47,20 48,27 C53,27 57,31 57,37 C57,43 53,48 47,48 Z" 
           fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
     <path d="M20,44 C16,44 13,41 13,37 C13,33 16,30 20,30 C21,24 26,19 33,19 C40,19 45,24 46,30 C49,30 52,33 52,37 C52,41 49,44 45,44 Z" 
-          fill="#FDF7FF"/>
+          fill="var(--vq-icon-paper, #FDF7FF)"/>
     <circle cx="26" cy="34" r="2.5" fill="var(--vq-ink-line, #4A3E56)"/>
     <circle cx="40" cy="34" r="2.5" fill="var(--vq-ink-line, #4A3E56)"/>
     <circle cx="25" cy="33" r="0.9" fill="#FFFFFF"/>
@@ -610,7 +610,7 @@
           fill="none" stroke="#C084FC" stroke-width="3.5" stroke-linecap="round"/>
     <path d="M32,16 C40,16 46,22 46,28 C46,36 36,42 26,40" 
           fill="none" stroke="#FFD166" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="32" cy="32" r="4.5" fill="#FDF7FF" stroke="#FFD166" stroke-width="1.5"/>
+    <circle cx="32" cy="32" r="4.5" fill="var(--vq-icon-paper, #FDF7FF)" stroke="#FFD166" stroke-width="1.5"/>
   <!-- Triángulo de Advertencia Chibi (Avisos) -->
   <symbol id="vq-icon-warning" viewBox="0 0 64 64">
     <path d="M32,8 L56,52 L8,52 Z"
