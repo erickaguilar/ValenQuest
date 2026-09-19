@@ -63,7 +63,11 @@ fn test_reading_bank_schema_and_count() {
     let bank: ReadingBank = serde_json::from_str(raw).expect("reading-challenges.json inválido");
     assert_eq!(bank.levels.len(), 5, "el banco debe cubrir 5 niveles");
     let total: usize = bank.levels.values().map(|v| v.len()).sum();
-    assert_eq!(total, 130, "el banco debe tener 130 retos, hay {}", total);
+    assert_eq!(total, 180, "el banco debe tener 180 retos, hay {}", total);
+    for (lvl, expected) in [("1", 40), ("2", 40), ("3", 35), ("4", 35), ("5", 30)] {
+        let n = bank.levels.get(lvl).map(|v| v.len()).unwrap_or(0);
+        assert_eq!(n, expected, "nivel {} debe tener {} retos, hay {}", lvl, expected, n);
+    }
 
     for (lvl, items) in &bank.levels {
         for ch in items {

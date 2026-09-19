@@ -420,6 +420,146 @@
         ],
         "answer": "Luz",
         "hint": "Destello radiante que ahuyenta las sombras."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">ME</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">SA</span>",
+        "speakText": "Me... sa...",
+        "options": [
+          "Mesa",
+          "Mula",
+          "Meta",
+          "Peso"
+        ],
+        "answer": "Mesa",
+        "hint": "Tiene cuatro patas y sirve para comer."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">GLO</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">BO</span>",
+        "speakText": "Glo... bo...",
+        "options": [
+          "Globo",
+          "Lobo",
+          "Gota",
+          "Lago"
+        ],
+        "answer": "Globo",
+        "hint": "Flota en el cielo de fiesta."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">NU</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">BE</span>",
+        "speakText": "Nu... be...",
+        "options": [
+          "Nube",
+          "Nueve",
+          "Sube",
+          "Tubo"
+        ],
+        "answer": "Nube",
+        "hint": "Algodón blanco del cielo."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">PE</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">RRO</span>",
+        "speakText": "Pe... rro...",
+        "options": [
+          "Perro",
+          "Pero",
+          "Cerro",
+          "Barro"
+        ],
+        "answer": "Perro",
+        "hint": "El mejor amigo que ladra."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">GA</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">TO</span>",
+        "speakText": "Ga... to...",
+        "options": [
+          "Gato",
+          "Pato",
+          "Rato",
+          "Dato"
+        ],
+        "answer": "Gato",
+        "hint": "Ronronea y caza ratones."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">FRE</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">SA</span>",
+        "speakText": "Fre... sa...",
+        "options": [
+          "Fresa",
+          "Freno",
+          "Presa",
+          "Brasa"
+        ],
+        "answer": "Fresa",
+        "hint": "Fruta roja y dulce."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">CA</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">RRO</span>",
+        "speakText": "Ca... rro...",
+        "options": [
+          "Carro",
+          "Caro",
+          "Barro",
+          "Jarro"
+        ],
+        "answer": "Carro",
+        "hint": "Tiene ruedas y lleva carga."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">TA</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">ZA</span>",
+        "speakText": "Ta... za...",
+        "options": [
+          "Taza",
+          "Tapa",
+          "Casa",
+          "Masa"
+        ],
+        "answer": "Taza",
+        "hint": "Sirve chocolate caliente."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">VE</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">LA</span>",
+        "speakText": "Ve... la...",
+        "options": [
+          "Vela",
+          "Tela",
+          "Vena",
+          "Veta"
+        ],
+        "answer": "Vela",
+        "hint": "Da luz cuando se enciende."
+      },
+      {
+        "type": "syllables",
+        "prompt": "¿Qué palabra se forma al unir las sílabas?",
+        "displayHtml": "<span class=\"syl syl-1\">LLA</span> <span class=\"syl-sep\">•</span> <span class=\"syl syl-2\">VE</span>",
+        "speakText": "Lla... ve...",
+        "options": [
+          "Llave",
+          "Lave",
+          "Nave",
+          "Suave"
+        ],
+        "answer": "Llave",
+        "hint": "Abre puertas cerradas."
       }
     ],
     "2": [
@@ -842,6 +982,146 @@
         ],
         "answer": "Cromo",
         "hint": "Estampa coleccionable brillante."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"BR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">BR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido BR?",
+        "options": [
+          "Brazo",
+          "Bajo",
+          "Barro",
+          "Beso"
+        ],
+        "answer": "Brazo",
+        "hint": "Une el hombro con la mano."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"CR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">CR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido CR?",
+        "options": [
+          "Cruz",
+          "Cuna",
+          "Curva",
+          "Luz"
+        ],
+        "answer": "Cruz",
+        "hint": "Dos palos que se cruzan."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"DR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">DR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido DR?",
+        "options": [
+          "Dragón",
+          "Dardo",
+          "Tragón",
+          "Bajón"
+        ],
+        "answer": "Dragón",
+        "hint": "Echa fuego y vuela."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"FR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">FR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido FR?",
+        "options": [
+          "Fruta",
+          "Ruta",
+          "Funda",
+          "Gruta"
+        ],
+        "answer": "Fruta",
+        "hint": "Se come y es dulce."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"GR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">GR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido GR?",
+        "options": [
+          "Grupo",
+          "Gruta",
+          "Grito",
+          "Cupo"
+        ],
+        "answer": "Grupo",
+        "hint": "Varios amigos juntos."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"PR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">PR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido PR?",
+        "options": [
+          "Premio",
+          "Primo",
+          "Preso",
+          "Remo"
+        ],
+        "answer": "Premio",
+        "hint": "Se gana por hacerlo bien."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"TR\"?",
+        "displayHtml": "<span class=\"blend-highlight\">TR</span>",
+        "speakText": "¿Cuál palabra tiene el sonido TR?",
+        "options": [
+          "Tronco",
+          "Tono",
+          "Cono",
+          "Mono"
+        ],
+        "answer": "Tronco",
+        "hint": "El cuerpo del árbol."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"BL\"?",
+        "displayHtml": "<span class=\"blend-highlight\">BL</span>",
+        "speakText": "¿Cuál palabra tiene el sonido BL?",
+        "options": [
+          "Blanco",
+          "Banco",
+          "Manco",
+          "Flanco"
+        ],
+        "answer": "Blanco",
+        "hint": "Como la nieve."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"CL\"?",
+        "displayHtml": "<span class=\"blend-highlight\">CL</span>",
+        "speakText": "¿Cuál palabra tiene el sonido CL?",
+        "options": [
+          "Clase",
+          "Casa",
+          "Cuna",
+          "Lazo"
+        ],
+        "answer": "Clase",
+        "hint": "Donde aprendes con amigos."
+      },
+      {
+        "type": "blend",
+        "prompt": "¿Qué palabra tiene el grupo consonántico \"GL\"?",
+        "displayHtml": "<span class=\"blend-highlight\">GL</span>",
+        "speakText": "¿Cuál palabra tiene el sonido GL?",
+        "options": [
+          "Iglesia",
+          "Higuera",
+          "Almohada",
+          "Corona"
+        ],
+        "answer": "Iglesia",
+        "hint": "Casa de oración con campana."
       }
     ],
     "3": [
@@ -1219,6 +1499,156 @@
         ],
         "answer": "Cuando unen sus manos",
         "hint": "La fuerza y magia de la amistad verdadera."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "Reni vuela veloz entre las nubes blancas.",
+        "question": "¿Entre qué vuela Reni?",
+        "speakText": "Reni vuela veloz entre las nubes blancas. ¿Entre qué vuela Reni?",
+        "options": [
+          "Entre las nubes blancas",
+          "Entre las montañas altas",
+          "Bajo el mar azul",
+          "Sobre el desierto"
+        ],
+        "answer": "Entre las nubes blancas",
+        "hint": "Mira hacia el cielo."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "Zoe planta semillas rojas en el jardín.",
+        "question": "¿Qué planta Zoe?",
+        "speakText": "Zoe planta semillas rojas en el jardín. ¿Qué planta Zoe?",
+        "options": [
+          "Semillas rojas",
+          "Flores azules",
+          "Piedras grises",
+          "Hojas secas"
+        ],
+        "answer": "Semillas rojas",
+        "hint": "Pequeñas y de color rojo."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "Lía pule su cristal violeta con cuidado.",
+        "question": "¿De qué color es el cristal?",
+        "speakText": "Lía pule su cristal violeta con cuidado. ¿De qué color es el cristal?",
+        "options": [
+          "Violeta",
+          "Verde",
+          "Dorado",
+          "Celeste"
+        ],
+        "answer": "Violeta",
+        "hint": "Mezcla de azul y rojo."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "Valen canta una nana dulce a la luna.",
+        "question": "¿A quién le canta Valen?",
+        "speakText": "Valen canta una nana dulce a la luna. ¿A quién le canta Valen?",
+        "options": [
+          "A la luna",
+          "Al sol",
+          "Al viento",
+          "Al río"
+        ],
+        "answer": "A la luna",
+        "hint": "Brilla de noche."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "El búho Orión lee cuentos en la biblioteca.",
+        "question": "¿Dónde lee Orión?",
+        "speakText": "El búho Orión lee cuentos en la biblioteca. ¿Dónde lee Orión?",
+        "options": [
+          "En la biblioteca",
+          "En la cueva",
+          "En el lago",
+          "En la torre"
+        ],
+        "answer": "En la biblioteca",
+        "hint": "La casa de los libros."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "La sirena nada feliz en el mar de coral.",
+        "question": "¿Dónde nada la sirena?",
+        "speakText": "La sirena nada feliz en el mar de coral. ¿Dónde nada la sirena?",
+        "options": [
+          "En el mar de coral",
+          "En el río Bravo",
+          "En la fuente",
+          "En la bañera"
+        ],
+        "answer": "En el mar de coral",
+        "hint": "Agua salada y corales."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "El fénix enciende su nido con una chispa.",
+        "question": "¿Con qué enciende su nido?",
+        "speakText": "El fénix enciende su nido con una chispa. ¿Con qué enciende su nido?",
+        "options": [
+          "Con una chispa",
+          "Con un fósforo",
+          "Con una vela",
+          "Con un rayo"
+        ],
+        "answer": "Con una chispa",
+        "hint": "Pequeña luz que salta."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "Tres ponis cruzan el puente de cristal.",
+        "question": "¿Cuántos ponis cruzan?",
+        "speakText": "Tres ponis cruzan el puente de cristal. ¿Cuántos ponis cruzan?",
+        "options": [
+          "Tres ponis",
+          "Dos ponis",
+          "Cuatro ponis",
+          "Cinco ponis"
+        ],
+        "answer": "Tres ponis",
+        "hint": "Uno más que dos."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "La lechuza sabia guarda la llave de oro.",
+        "question": "¿Qué guarda la lechuza?",
+        "speakText": "La lechuza sabia guarda la llave de oro. ¿Qué guarda la lechuza?",
+        "options": [
+          "La llave de oro",
+          "La corona de plata",
+          "El mapa viejo",
+          "El reloj roto"
+        ],
+        "answer": "La llave de oro",
+        "hint": "Abre puertas y brilla."
+      },
+      {
+        "type": "sentence",
+        "prompt": "Lee la oración con Orión y responde:",
+        "sentence": "Valen y Reni riegan flores todos los días.",
+        "question": "¿Cada cuánto riegan?",
+        "speakText": "Valen y Reni riegan flores todos los días. ¿Cada cuánto riegan?",
+        "options": [
+          "Todos los días",
+          "Una vez al mes",
+          "Solo en verano",
+          "Nunca"
+        ],
+        "answer": "Todos los días",
+        "hint": "Cada mañana sin falta."
       }
     ],
     "4": [
@@ -1803,6 +2233,226 @@
         ],
         "answer": "El manantial mágico",
         "hint": "Fuente de agua pura de Lumiria."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "El",
+          "dragón",
+          "cuida",
+          "el",
+          "puente",
+          "viejo"
+        ],
+        "question": "¿Qué cuida el dragón?",
+        "speakText": "¿Qué cuida el dragón?",
+        "options": [
+          "El puente viejo",
+          "El castillo alto",
+          "La torre gris",
+          "El bosque verde"
+        ],
+        "answer": "El puente viejo",
+        "hint": "Se cruza caminando."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "La",
+          "luna",
+          "baña",
+          "el",
+          "lago",
+          "quieto"
+        ],
+        "question": "¿Qué baña la luna?",
+        "speakText": "¿Qué baña la luna?",
+        "options": [
+          "El lago quieto",
+          "El río Bravo",
+          "El mar azul",
+          "La fuente clara"
+        ],
+        "answer": "El lago quieto",
+        "hint": "Agua sin olas."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "Zoe",
+          "riega",
+          "flores",
+          "rojas",
+          "y",
+          "azules"
+        ],
+        "question": "¿De qué colores son las flores?",
+        "speakText": "¿De qué colores son las flores?",
+        "options": [
+          "Rojas y azules",
+          "Verdes y amarillas",
+          "Blancas y negras",
+          "Rosas y doradas"
+        ],
+        "answer": "Rojas y azules",
+        "hint": "Rojo como fresa y azul como cielo."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "El",
+          "viento",
+          "mece",
+          "la",
+          "cuna",
+          "pequeña"
+        ],
+        "question": "¿Qué mece el viento?",
+        "speakText": "¿Qué mece el viento?",
+        "options": [
+          "La cuna pequeña",
+          "La hamaca grande",
+          "La silla vieja",
+          "La cama alta"
+        ],
+        "answer": "La cuna pequeña",
+        "hint": "Duerme un bebé en ella."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "Reni",
+          "persigue",
+          "una",
+          "cometa",
+          "veloz"
+        ],
+        "question": "¿Qué persigue Reni?",
+        "speakText": "¿Qué persigue Reni?",
+        "options": [
+          "Una cometa veloz",
+          "Una nube lenta",
+          "Un globo quieto",
+          "Un pájaro dormido"
+        ],
+        "answer": "Una cometa veloz",
+        "hint": "Vuela con cola larga."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "Lía",
+          "guarda",
+          "brillo",
+          "en",
+          "su",
+          "cofre"
+        ],
+        "question": "¿Dónde guarda el brillo?",
+        "speakText": "¿Dónde guarda el brillo?",
+        "options": [
+          "En su cofre",
+          "En su bolsillo",
+          "En su corona",
+          "En su zapato"
+        ],
+        "answer": "En su cofre",
+        "hint": "Caja con cerradura."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "Valen",
+          "enciende",
+          "faroles",
+          "del",
+          "sendero"
+        ],
+        "question": "¿Qué enciende Valen?",
+        "speakText": "¿Qué enciende Valen?",
+        "options": [
+          "Faroles del sendero",
+          "Velas del altar",
+          "Fuegos del bosque",
+          "Luces del castillo"
+        ],
+        "answer": "Faroles del sendero",
+        "hint": "Iluminan el camino."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "La",
+          "ardilla",
+          "esconde",
+          "nueces",
+          "en",
+          "el",
+          "roble"
+        ],
+        "question": "¿Dónde esconde las nueces?",
+        "speakText": "¿Dónde esconde las nueces?",
+        "options": [
+          "En el roble",
+          "En el pino",
+          "En la cueva",
+          "En el nido"
+        ],
+        "answer": "En el roble",
+        "hint": "Árbol grande y fuerte."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "El",
+          "reloj",
+          "marca",
+          "las",
+          "tres",
+          "en",
+          "punto"
+        ],
+        "question": "¿Qué hora marca?",
+        "speakText": "¿Qué hora marca?",
+        "options": [
+          "Las tres en punto",
+          "Las dos y media",
+          "Las cinco menos cuarto",
+          "Las doce en punto"
+        ],
+        "answer": "Las tres en punto",
+        "hint": "El tres exacto."
+      },
+      {
+        "type": "rsvp",
+        "prompt": "¡Atenta al velocímetro! Lee las palabras que aparecerán una a una:",
+        "words": [
+          "Un",
+          "grillo",
+          "canta",
+          "bajo",
+          "la",
+          "luna"
+        ],
+        "question": "¿Dónde canta el grillo?",
+        "speakText": "¿Dónde canta el grillo?",
+        "options": [
+          "Bajo la luna",
+          "Sobre el tejado",
+          "Dentro del pozo",
+          "Tras la puerta"
+        ],
+        "answer": "Bajo la luna",
+        "hint": "Al aire libre de noche."
       }
     ],
     "5": [
@@ -2125,6 +2775,166 @@
         ],
         "answer": "Porque estaba hecha de esperanza y buenos deseos",
         "hint": "La esperanza abre las puertas más difíciles."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "La Semilla Impaciente",
+        "text": "Una semilla quería ser árbol en un solo día y lloraba bajo la tierra. La sabia lombriz le dijo que bebiera agua poco a poco y esperara al sol. Con paciencia, la semilla creció hasta tocar las nubes.",
+        "question": "¿Qué ayudó a la semilla a crecer?",
+        "speakText": "La semilla quería crecer en un día. ¿Qué la ayudó a crecer?",
+        "options": [
+          "La paciencia y el cuidado diario",
+          "Llorar bajo la tierra",
+          "Dormir todo el invierno",
+          "Esconderse del sol"
+        ],
+        "answer": "La paciencia y el cuidado diario",
+        "hint": "Las cosas buenas toman su tiempo."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "El Espejo Empañado",
+        "text": "Un espejo se quejaba porque nadie veía su brillo bajo el polvo. Una niña lo limpió con un paño suave cada mañana. Pronto el espejo reflejó de nuevo las estrellas.",
+        "question": "¿Cómo recuperó el espejo su brillo?",
+        "speakText": "El espejo estaba opaco bajo el polvo. ¿Cómo recuperó su brillo?",
+        "options": [
+          "Con limpieza constante y suave",
+          "Con un golpe fuerte",
+          "Con agua hirviendo",
+          "Con pintura dorada"
+        ],
+        "answer": "Con limpieza constante y suave",
+        "hint": "La constancia pule más que la fuerza."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "La Cometa Atascada",
+        "text": "Una cometa se atoró en un árbol alto y gritaba por ayuda. Reni voló hasta ella, la desató con cuidado y la acompañó de vuelta al prado. Desde entonces vuelan juntas cada tarde.",
+        "question": "¿Qué hizo Reni por la cometa?",
+        "speakText": "La cometa se atoró en un árbol. ¿Qué hizo Reni?",
+        "options": [
+          "La rescató y la acompañó al prado",
+          "La dejó atorada",
+          "La rompió en dos",
+          "Se burló de ella"
+        ],
+        "answer": "La rescató y la acompañó al prado",
+        "hint": "Los amigos se ayudan en apuros."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "El Río y la Piedra",
+        "text": "Un río veloz se burlaba de una piedra quieta por no moverse. Con los años, el agua pulió la piedra hasta volverla una gema brillante. El río aprendió que la calma también transforma.",
+        "question": "¿Qué aprendió el río?",
+        "speakText": "El río se burlaba de la piedra quieta. ¿Qué aprendió?",
+        "options": [
+          "Que la calma también transforma",
+          "Que correr es lo único bueno",
+          "Que las piedras no sirven",
+          "Que el agua siempre gana"
+        ],
+        "answer": "Que la calma también transforma",
+        "hint": "Lo quieto también tiene poder."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "La Luciérnaga Apagada",
+        "text": "Una luciérnaga perdió su luz por compararse con las estrellas. Zoe la abrazó con hojas tibias y le recordó que su luz guía a los caminantes. La luciérnaga volvió a brillar, orgullosa de ser pequeña.",
+        "question": "¿Qué devolvió la luz a la luciérnaga?",
+        "speakText": "La luciérnaga perdió su luz. ¿Qué se la devolvió?",
+        "options": [
+          "Aceptarse y sentirse valiosa",
+          "Ser más grande que el sol",
+          "Apagar a las estrellas",
+          "Dormir para siempre"
+        ],
+        "answer": "Aceptarse y sentirse valiosa",
+        "hint": "Cada luz tiene su tamaño perfecto."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "El Puente Angosto",
+        "text": "Dos cabras se encontraron en un puente angosto y ninguna quería ceder el paso. Una se tumbó para que la otra pasara por encima. Ambas cruzaron sanas y se hicieron amigas.",
+        "question": "¿Cómo lograron cruzar las dos cabras?",
+        "speakText": "Dos cabras no cabían en el puente. ¿Cómo cruzaron?",
+        "options": [
+          "Una cedió el paso a la otra",
+          "Se empujaron al río",
+          "Esperaron un año",
+          "Rompieron el puente"
+        ],
+        "answer": "Una cedió el paso a la otra",
+        "hint": "Ceder un poco abre el camino."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "La Nube Perezosa",
+        "text": "Una nube no quería llover y guardaba toda su agua. Las flores se marchitaron y el valle se puso triste. Cuando por fin llovió, el valle floreció y la nube descubrió la alegría de dar.",
+        "question": "¿Qué descubrió la nube al llover?",
+        "speakText": "La nube no quería llover. ¿Qué descubrió al hacerlo?",
+        "options": [
+          "La alegría de dar",
+          "Que llover cansa",
+          "Que el sol estorba",
+          "Que dar empobrece"
+        ],
+        "answer": "La alegría de dar",
+        "hint": "Compartir multiplica la felicidad."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "El Tesoro Compartido",
+        "text": "Dos hermanos hallaron un cofre con monedas de chocolate. En vez de pelear, las contaron juntos y las repartieron con todo el pueblo. El cofre vacío se llenó de abrazos y risas.",
+        "question": "¿Qué valió más que las monedas?",
+        "speakText": "Dos hermanos hallaron un cofre. ¿Qué valió más que las monedas?",
+        "options": [
+          "Compartir con alegría",
+          "Guardar todo escondido",
+          "Pelear por el cofre",
+          "Vender las monedas"
+        ],
+        "answer": "Compartir con alegría",
+        "hint": "Lo repartido sabe mejor."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "La Tortuga del Reloj",
+        "text": "Una liebre se burlaba de la tortuga por caminar despacio. La tortuga avanzó sin detenerse mientras la liebre dormía siestas. Al final, la tortuga tocó primero la campana de la meta.",
+        "question": "¿Por qué ganó la tortuga?",
+        "speakText": "La liebre era veloz y la tortuga lenta. ¿Por qué ganó la tortuga?",
+        "options": [
+          "Por avanzar sin detenerse",
+          "Por correr más rápido",
+          "Por hacer trampa",
+          "Por suerte del viento"
+        ],
+        "answer": "Por avanzar sin detenerse",
+        "hint": "Paso a paso se llega lejos."
+      },
+      {
+        "type": "fable",
+        "prompt": "Lee la pequeña fábula y encuentra la respuesta sabia:",
+        "title": "El Jardín en Silencio",
+        "text": "Un jardín ruidoso presumía de tener las flores más gritonas. Una noche de silencio, las flores escucharon por fin a la luna y aprendieron canciones nuevas. Desde entonces guardan un rato de calma cada día.",
+        "question": "¿Qué aprendieron las flores en silencio?",
+        "speakText": "Las flores solo gritaban. ¿Qué aprendieron en silencio?",
+        "options": [
+          "A escuchar canciones nuevas",
+          "A gritar más fuerte",
+          "A dormir todo el día",
+          "A cerrar sus pétalos"
+        ],
+        "answer": "A escuchar canciones nuevas",
+        "hint": "Escuchar también es aprender."
       }
     ]
   }

@@ -224,9 +224,10 @@ impl MathSession {
         self.pedagogical_traps.clear();
 
         match self.tier {
-            // Nivel 1: Manantial de Rocío (Sumas simples directas a + b <= 10)
+            // Nivel 1: Manantial de Rocío (Sumas simples directas a + b <= 10,
+            // incluyendo el conteo con cero: 0 + b como identidad aditiva)
             CurricularTier::Tier1SumDirect => {
-                let op1 = self.prng.gen_range(1, 7);
+                let op1 = self.prng.gen_range(0, 9);
                 let max_op2 = 10 - op1;
                 let op2 = self.prng.gen_range(1, max_op2.max(1));
                 self.current_op1 = op1;
@@ -240,7 +241,7 @@ impl MathSession {
                 let mode = self.prng.gen_range(0, 1);
                 if mode == 0 {
                     // Suma hasta 20 sin acarreo (ej. 12 + 5 = 17)
-                    let op1 = self.prng.gen_range(10, 15);
+                    let op1 = self.prng.gen_range(10, 17);
                     let max_op2 = 19 - op1;
                     let op2 = self.prng.gen_range(1, max_op2.max(1));
                     self.current_op1 = op1;
@@ -261,8 +262,8 @@ impl MathSession {
 
             // Nivel 3: Vértice de Algodón (Suma de dos cifras con acarreo forzado)
             CurricularTier::Tier3SumCarry => {
-                // op1: 14..=28 with unit 4..=9
-                let tens = self.prng.gen_range(1, 2) * 10;
+                // op1: 14..=39 con unidad 4..=9
+                let tens = self.prng.gen_range(1, 3) * 10;
                 let unit1 = self.prng.gen_range(4, 9);
                 let op1 = tens + unit1;
                 // op2 forces carry: unit1 + op2 >= 10
@@ -276,8 +277,8 @@ impl MathSession {
 
             // Nivel 4: Caverna de Ámbar (Resta con transformación / desagrupar decenas)
             CurricularTier::Tier4SubBorrow => {
-                // Minuendo con unidad menor que sustraendo (ej. 23 - 7, 32 - 8)
-                let tens = self.prng.gen_range(2, 3) * 10;
+                // Minuendo con unidad menor que sustraendo (ej. 23 - 7, 42 - 8)
+                let tens = self.prng.gen_range(2, 5) * 10;
                 let unit1 = self.prng.gen_range(1, 5);
                 let op1 = tens + unit1;
                 let op2 = self.prng.gen_range(unit1 + 2, 9);
@@ -287,23 +288,41 @@ impl MathSession {
                 self.current_answer = op1 - op2;
             }
 
-            // Nivel 5: Palacio Prisma (Tablas 2, 3, 5 y 10)
+            // Nivel 5: Palacio Prisma (Tablas 2, 3, 5 y 10 + factor faltante)
             CurricularTier::Tier5MultIntro => {
                 let tables = [2, 3, 5, 10];
                 let idx = self.prng.gen_range(0, 3) as usize;
-                let op1 = tables[idx];
-                let op2 = self.prng.gen_range(1, 10);
-                self.current_op1 = op1;
-                self.current_op2 = op2;
-                self.current_operator = "×".to_string();
-                self.current_answer = op1 * op2;
-                // Trampas de tabla vecina: el error clásico es desplazarse
-                // una fila en la misma tabla (ej. 3×4=12 → 9 / 15).
-                if op2 > 1 {
-                    self.pedagogical_traps.push(op1 * (op2 - 1));
-                }
-                if op2 < 10 {
-                    self.pedagogical_traps.push(op1 * (op2 + 1));
+                let table = tables[idx];
+                let mult = self.prng.gen_range(2, 10);
+                if self.prng.gen_range(0, 3) == 0 {
+                    // Factor faltante: t × ? = p (1 de cada 4 retos)
+                    let product = table * mult;
+                    self.current_op1 = table;
+                    self.current_op2 = mult;
+                    self.current_operator = "×".to_string();
+                    self.current_expression = format!("{} × ? = {}", table, product);
+                    self.current_answer = mult;
+                    // Trampas: responder el producto y la tabla vecina.
+                    self.pedagogical_traps.push(product);
+                    if mult > 2 {
+                        self.pedagogical_traps.push(mult - 1);
+                    }
+                    if mult < 10 {
+                        self.pedagogical_traps.push(mult + 1);
+                    }
+                } else {
+                    self.current_op1 = table;
+                    self.current_op2 = mult;
+                    self.current_operator = "×".to_string();
+                    self.current_answer = table * mult;
+                    // Trampas de tabla vecina: el error clásico es desplazarse
+                    // una fila en la misma tabla (ej. 3×4=12 → 9 / 15).
+                    if mult > 1 {
+                        self.pedagogical_traps.push(table * (mult - 1));
+                    }
+                    if mult < 10 {
+                        self.pedagogical_traps.push(table * (mult + 1));
+                    }
                 }
             }
 
@@ -312,7 +331,7 @@ impl MathSession {
                 let mode = self.prng.gen_range(0, 2);
                 if mode == 0 {
                     // Mitades de números pares
-                    let q = self.prng.gen_range(4, 15);
+                    let q = self.prng.gen_range(4, 20);
                     self.current_op1 = q * 2;
                     self.current_op2 = 2;
                     self.current_operator = "÷".to_string();
@@ -321,8 +340,8 @@ impl MathSession {
                     // Trampa: responder el dividendo en vez de su mitad.
                     self.pedagogical_traps.push(self.current_op1);
                 } else if mode == 1 {
-                    // Dobles de números (base 4..=15)
-                    let a = self.prng.gen_range(4, 15);
+                    // Dobles de números (base 4..=20)
+                    let a = self.prng.gen_range(4, 20);
                     self.current_op1 = a;
                     self.current_op2 = 2;
                     self.current_operator = "×".to_string();
@@ -350,20 +369,31 @@ impl MathSession {
                 }
             }
 
-            // Nivel 7: Mar de Coral Profundo (Reparto equitativo / división exacta)
+            // Nivel 7: Mar de Coral Profundo (Reparto equitativo / división exacta,
+            // incluyendo dividendo faltante: ? ÷ d = q)
             CurricularTier::Tier7DivisionExact => {
                 let divisor = self.prng.gen_range(2, 9);
-                let quotient = self.prng.gen_range(2, 10);
+                let quotient = self.prng.gen_range(2, 11);
                 let dividend = divisor * quotient;
                 self.current_op1 = dividend;
                 self.current_op2 = divisor;
                 self.current_operator = "÷".to_string();
-                self.current_answer = quotient;
-                // Trampa: responder con el divisor en vez del cociente.
-                self.pedagogical_traps.push(divisor);
+                if self.prng.gen_range(0, 3) == 0 {
+                    // Dividendo faltante (1 de cada 4 retos)
+                    self.current_expression = format!("? ÷ {} = {}", divisor, quotient);
+                    self.current_answer = dividend;
+                    // Trampas: responder el cociente o el divisor.
+                    self.pedagogical_traps.push(quotient);
+                    self.pedagogical_traps.push(divisor);
+                } else {
+                    self.current_answer = quotient;
+                    // Trampa: responder con el divisor en vez del cociente.
+                    self.pedagogical_traps.push(divisor);
+                }
             }
 
-            // Nivel 8: Muralla de Nácar (Fracciones visuales: medios, cuartos, octavos)
+            // Nivel 8: Muralla de Nácar (Fracciones visuales: medios, cuartos,
+            // octavos; con numerador 1 o k: k/den de N gemas)
             CurricularTier::Tier8FractionsVisual => {
                 let den_idx = self.prng.gen_range(0, 2);
                 let den = match den_idx {
@@ -371,15 +401,21 @@ impl MathSession {
                     1 => 4u32, // Cuartos
                     _ => 8u32, // Octavos
                 };
-                let factor = self.prng.gen_range(2, 6);
+                let factor = self.prng.gen_range(2, 7);
                 let total = den * factor;
-                self.current_op1 = 1;
+                // Numerador: 1 (unitario) o k>=2 cuando el denominador lo admite.
+                let num = if den > 2 && self.prng.gen_range(0, 2) == 0 {
+                    self.prng.gen_range(2, den - 1)
+                } else {
+                    1
+                };
+                self.current_op1 = num;
                 self.current_op2 = total;
                 self.current_operator = "de".to_string();
-                self.current_expression = format!("1/{} de {} gemas", den, total);
-                self.current_answer = total / den;
+                self.current_expression = format!("{}/{} de {} gemas", num, den, total);
+                self.current_answer = num * total / den;
                 // Trampas de densidad confundida: responder con otra
-                // fracción del mismo total (ej. 1/4 en vez de 1/8).
+                // fracción del mismo total (ej. 1/4 en vez de 3/4).
                 for alt_den in [2u32, 4u32, 8u32] {
                     let alt = total / alt_den;
                     if alt != self.current_answer {
@@ -394,9 +430,9 @@ impl MathSession {
                 match mode {
                     0 => {
                         // (a × b) + c
-                        let a = self.prng.gen_range(2, 5);
-                        let b = self.prng.gen_range(2, 5);
-                        let c = self.prng.gen_range(2, 10);
+                        let a = self.prng.gen_range(2, 6);
+                        let b = self.prng.gen_range(2, 6);
+                        let c = self.prng.gen_range(2, 12);
                         self.current_op1 = a * b;
                         self.current_op2 = c;
                         self.current_operator = "+".to_string();
@@ -411,8 +447,8 @@ impl MathSession {
                     }
                     1 => {
                         // (a × b) - c
-                        let a = self.prng.gen_range(3, 6);
-                        let b = self.prng.gen_range(2, 5);
+                        let a = self.prng.gen_range(3, 7);
+                        let b = self.prng.gen_range(2, 6);
                         let mult = a * b;
                         let c = self.prng.gen_range(1, mult.saturating_sub(2).max(1));
                         self.current_op1 = mult;
@@ -428,9 +464,9 @@ impl MathSession {
                     }
                     _ => {
                         // a + (b × c)
-                        let a = self.prng.gen_range(3, 12);
+                        let a = self.prng.gen_range(3, 15);
                         let b = self.prng.gen_range(2, 4);
-                        let c = self.prng.gen_range(2, 5);
+                        let c = self.prng.gen_range(2, 6);
                         self.current_op1 = a;
                         self.current_op2 = b * c;
                         self.current_operator = "+".to_string();
@@ -447,8 +483,8 @@ impl MathSession {
                 let mode = self.prng.gen_range(0, 2);
                 if mode == 0 {
                     // Doble de a + triple de b
-                    let a = self.prng.gen_range(4, 9);
-                    let b = self.prng.gen_range(2, 5);
+                    let a = self.prng.gen_range(4, 12);
+                    let b = self.prng.gen_range(2, 6);
                     self.current_op1 = a * 2;
                     self.current_op2 = b * 3;
                     self.current_operator = "+".to_string();
@@ -459,10 +495,10 @@ impl MathSession {
                     self.pedagogical_traps.push((a * 2) + b);
                 } else if mode == 1 {
                     // (a × b) + (c × d)
-                    let a = self.prng.gen_range(2, 4);
-                    let b = self.prng.gen_range(3, 5);
-                    let c = self.prng.gen_range(2, 4);
-                    let d = self.prng.gen_range(2, 5);
+                    let a = self.prng.gen_range(2, 5);
+                    let b = self.prng.gen_range(3, 6);
+                    let c = self.prng.gen_range(2, 5);
+                    let d = self.prng.gen_range(2, 6);
                     let p1 = a * b;
                     let p2 = c * d;
                     self.current_op1 = p1;
@@ -474,9 +510,9 @@ impl MathSession {
                     self.pedagogical_traps.push(p1.abs_diff(p2));
                 } else {
                     // (a × b) - Mitad de c
-                    let a = self.prng.gen_range(3, 6);
-                    let b = self.prng.gen_range(3, 6);
-                    let half_q = self.prng.gen_range(2, 5);
+                    let a = self.prng.gen_range(3, 7);
+                    let b = self.prng.gen_range(3, 7);
+                    let half_q = self.prng.gen_range(2, 6);
                     let c = half_q * 2;
                     self.current_op1 = a * b;
                     self.current_op2 = half_q;
@@ -514,37 +550,41 @@ impl MathSession {
         candidates.extend(self.pedagogical_traps.iter().copied());
 
         // 2. Vecindad numérica calibrada por tier.
-        let (mut offsets, allow_plus_ten, offset_cap): (Vec<i32>, bool, Option<u32>) =
+        //    ten_mode: 0 = sin ±10, 1 = ±10 si ans > 10, 2 = ±10 solo si ans > 20
+        //    (cocientes pequeños de N7 no admiten +10, dividendos grandes sí).
+        let (mut offsets, ten_mode, offset_cap): (Vec<i32>, u8, Option<u32>) =
             match self.tier {
-                Tier1SumDirect => (vec![-2, -1, 1, 2], false, Some(12)),
-                Tier2SumSub20 => (vec![-3, -2, -1, 1, 2, 3], false, Some(22)),
-                Tier3SumCarry | Tier4SubBorrow => (vec![-3, -2, -1, 1, 2, 3], true, None),
-                Tier5MultIntro => (vec![-2, -1, 1, 2], true, None),
+                Tier1SumDirect => (vec![-2, -1, 1, 2], 0, Some(12)),
+                Tier2SumSub20 => (vec![-3, -2, -1, 1, 2, 3], 0, Some(22)),
+                Tier3SumCarry | Tier4SubBorrow => (vec![-3, -2, -1, 1, 2, 3], 1, None),
+                Tier5MultIntro => (vec![-2, -1, 1, 2], 1, None),
                 Tier6MultAdvanced => {
                     if self.current_expression.starts_with("Mitad")
                         || self.current_expression.starts_with("Doble")
                     {
-                        (vec![-2, -1, 1, 2], false, None)
+                        (vec![-2, -1, 1, 2], 0, None)
                     } else {
-                        (vec![-2, -1, 1, 2], true, None)
+                        (vec![-2, -1, 1, 2], 1, None)
                     }
                 }
-                Tier7DivisionExact => (vec![-2, -1, 1, 2], false, None),
-                Tier8FractionsVisual => (vec![-2, -1, 1, 2], false, Some(self.current_op2)),
+                Tier7DivisionExact => (vec![-2, -1, 1, 2], 2, None),
+                Tier8FractionsVisual => (vec![-2, -1, 1, 2], 1, Some(self.current_op2)),
                 Tier9OrderOfOperations | Tier10HighFluencyRiddles => {
-                    (vec![-3, -2, -1, 1, 2, 3], true, None)
+                    (vec![-3, -2, -1, 1, 2, 3], 1, None)
                 }
             };
 
         // El salto ±10 (olvidar/acumular una decena) solo si es plausible.
-        if answer > 10 {
+        if answer > 10 && ten_mode == 1 {
             offsets.push(-10);
-            if allow_plus_ten {
-                offsets.push(10);
-            }
+            offsets.push(10);
+        } else if ten_mode == 2 && answer > 20 {
+            offsets.push(-10);
+            offsets.push(10);
+        } else if self.tier == CurricularTier::Tier2SumSub20 && answer > 10 {
+            // En N2 solo el olvido de la decena (13 → 3), nunca el +10.
+            offsets.push(-10);
         }
-        // En N2 el olvido de la decena (13 → 3) es el error clásico:
-        // ya quedó cubierto por el -10 anterior sin necesidad del +10.
 
         for off in offsets {
             let v = ans_i + off;
@@ -978,6 +1018,84 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn test_tier5_missing_factor_mode() {
+        // N5: el modo "t × ? = p" debe aparecer y su respuesta es el factor.
+        let mut seen = false;
+        for seed in 0..200u64 {
+            let mut session = MathSession::new(seed + 5_000_000, 5);
+            session.generate_next_challenge();
+            let expr = session.get_expression();
+            if expr.contains('?') {
+                seen = true;
+                // "t × ? = p" → t * respuesta == p
+                let parts: Vec<&str> = expr.split_whitespace().collect();
+                assert_eq!(parts.len(), 5, "formato inesperado: {}", expr);
+                let t: u32 = parts[0].parse().unwrap();
+                let p: u32 = parts[4].parse().unwrap();
+                assert_eq!(t * session.get_correct_answer(), p);
+                assert_eq!(session.get_operand1(), t);
+            }
+        }
+        assert!(seen, "el modo factor faltante nunca apareció en N5");
+    }
+
+    #[test]
+    fn test_tier7_missing_dividend_mode() {
+        // N7: "? ÷ d = q" responde el dividendo exacto.
+        let mut seen = false;
+        for seed in 0..200u64 {
+            let mut session = MathSession::new(seed + 7_000_000, 7);
+            session.generate_next_challenge();
+            let expr = session.get_expression();
+            if expr.starts_with("? ÷") {
+                seen = true;
+                let ans = session.get_correct_answer();
+                assert_eq!(ans, session.get_operand1());
+                assert_eq!(ans % session.get_operand2(), 0);
+            }
+        }
+        assert!(seen, "el modo dividendo faltante nunca apareció en N7");
+    }
+
+    #[test]
+    fn test_tier8_numerator_mode() {
+        // N8: "k/den de N" con k>=2 responde k*N/den (< N).
+        let mut seen = false;
+        for seed in 0..300u64 {
+            let mut session = MathSession::new(seed + 8_000_000, 8);
+            session.generate_next_challenge();
+            let expr = session.get_expression();
+            if !expr.starts_with("1/") {
+                seen = true;
+                let slash = expr.find('/').unwrap();
+                let space = expr.find(' ').unwrap();
+                let k: u32 = expr[..slash].parse().unwrap();
+                let den: u32 = expr[slash + 1..space].parse().unwrap();
+                assert!(k >= 2, "numerador esperado >= 2: {}", expr);
+                let total = session.get_operand2();
+                assert_eq!(session.get_correct_answer(), k * total / den);
+                assert!(session.get_correct_answer() < total);
+            }
+        }
+        assert!(seen, "el modo numerador nunca apareció en N8");
+    }
+
+    #[test]
+    fn test_tier1_zero_identity_surfaces() {
+        // N1: "0 + b" (identidad aditiva) debe aparecer.
+        let mut seen = false;
+        for seed in 0..200u64 {
+            let mut session = MathSession::new(seed + 9_000_000, 1);
+            session.generate_next_challenge();
+            if session.get_operand1() == 0 {
+                seen = true;
+                assert_eq!(session.get_correct_answer(), session.get_operand2());
+            }
+        }
+        assert!(seen, "el conteo con cero nunca apareció en N1");
     }
 
     #[test]

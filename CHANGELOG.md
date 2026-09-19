@@ -9,6 +9,17 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 🧮 Más variedad en el generador matemático
+- **Modos nuevos:** factor faltante en N5 ($t \times ? = p$), dividendo faltante en N7 ($? \div d = q$), fracciones con numerador $k \ge 2$ en N8 e identidad con cero en N1 ($0 + b$).
+- **Rangos ampliados:** N2 sumas hasta 17, N3 decenas hasta 30, N4 hasta 50, N6 mitades/dobles hasta 20, N7 cocientes hasta 11, N8 factor hasta 7, N9/N10 operandos mayores.
+- **Distractores recalibrados** para los modos nuevos (producto/cociente como trampa, densidades con numerador) con regla ±10 por magnitud (nuevo `ten_mode`); Lía explica incógnitas (`?`) con mensaje propio.
+- **4 tests nuevos** de modos + matriz curricular actualizada en el spec.
+
+### 🔒 Campaña oculta + módulos ajustados
+- **Gran Aventura en pausa:** hub, `campaign.html`, `math.html` y `app.js` vuelven a estado "Próximamente"; `?campaign=1` se ignora con aviso. Todo el cableado (engine, portales, FSM) queda intacto y dormido tras el flag para la gran apertura.
+- **Billetera única de diamantes:** `profile.diamonds` es el SSOT. Los contadores de mate/lectura/campaña pasan a sesión (no persisten) y todas las barras muestran el saldo real; recargas y premios ya operaban sobre la billetera.
+- **Banco de lectura 130 → 180 retos** (+10 por nivel, curaduría Lumiria; 30/30/25/25/20 → 40/40/35/35/30). Guardianes y smoke actualizados; el QA RAE valida también las 10 segmentaciones nuevas.
+
 ### 📚 Contenido con fuente única (Rust vs JS)
 - **Principio SSOT:** algoritmos en Rust, contenido editorial en `www/data/*.json`, nada de textos inline en servicios.
 - **Fase A · Higiene:** `TEMPLE_NAMES` se deriva de `levels.json` (el const queda como respaldo offline); eliminado `recordAnswer` legacy sin uso; fallback JS de matemáticas alineado al Tier 2 real (sin acarreo); las 3 historias hardcodeadas de `reading.rs` eliminadas (duplicaban las fábulas JS) — `ReadingSession` queda como motor stateless (silabeo + WPM).

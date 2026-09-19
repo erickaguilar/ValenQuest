@@ -52,7 +52,7 @@ class CampaignPageController {
 
     // Saludo inicial suave
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura está en marcha en el Templo ${advState.currentTemple}. ¡Pulsa Jugar y abre el portal!`);
+    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura abrirá muy pronto. Explora el mapa y entrena tus poderes.`);
   }
 
   // =========================================================================
@@ -216,7 +216,7 @@ class CampaignPageController {
         sound.playClick();
         const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
         speech.speakOrion(
-          `¡Saludos, ${hero.name}! El Sabio Búho Orión te informa: La Gran Aventura ya está en marcha. Entra al templo activo, eleva tu maestría con el motor de Lumiria y abre el portal para purificar al guardián.`
+          `¡Saludos, ${hero.name}! El Sabio Búho Orión te informa: los 10 Templos Lunares se están puliendo. Entrena en el Prisma Numérico y la Pluma de la Fluidez: tus diamantes te esperarán en la gran apertura.`
         );
       });
     }

@@ -34,7 +34,8 @@ class MathPageController {
     this.portalOpened = false;
     this.campaignCombo = 0;
     this.campaignCombos = 0;
-    this.campaignDiamonds = 0;
+    // Billetera única: profile.diamonds es el SSOT (se carga del perfil).
+    this.walletDiamonds = 0;
   }
 
   /** Reto vigente sea cual sea el modo (práctica arcade o campaña). */
@@ -49,9 +50,17 @@ class MathPageController {
     console.log('💎 [ValenQuest] Inicializando Taller Matemático: El Prisma Numérico...');
     loadSvgSprites();
 
-    // Modo de juego: ?campaign=1 activa La Gran Aventura (FSM WASM).
+    // Modo de juego: campaña OCULTA temporalmente (enfoque en práctica).
+    // ?campaign=1 se ignora con aviso hasta la gran apertura.
     try {
-      this.campaignMode = new URLSearchParams(window.location.search).get('campaign') === '1';
+      const wantsCampaign = new URLSearchParams(window.location.search).get('campaign') === '1';
+      this.campaignMode = false;
+      if (wantsCampaign) {
+        window.history.replaceState({}, '', 'math.html');
+        setTimeout(() => {
+          try { speech.speak('La Gran Aventura abrirá muy pronto. Mientras tanto, practica en el Prisma Numérico.'); } catch {}
+        }, 1200);
+      }
     } catch {
       this.campaignMode = false;
     }
@@ -83,6 +92,8 @@ class MathPageController {
       } else if (companions.activeId) {
         this.activeHeroineId = companions.activeId;
       }
+      // Billetera única: el saldo del perfil manda en todas las barras.
+      this.walletDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
       this.renderBalances(profile);
       this.updatePowersBadges();
     } catch (err) {
@@ -317,7 +328,7 @@ class MathPageController {
       highestStreak: wasm.highest_streak,
       combo: this.campaignCombo,
       totalCombos: this.campaignCombos,
-      diamondsEarned: this.campaignDiamonds,
+      diamondsEarned: this.walletDiamonds,
       inputMode: mathPractice.inputMode,
       currentChallenge: eng.currentChallenge,
     };
@@ -394,7 +405,7 @@ class MathPageController {
     if (recordVal) recordVal.textContent = state.highestStreak;
 
     const diamondsVal = document.getElementById('math-diamonds-val');
-    if (diamondsVal) diamondsVal.textContent = state.diamondsEarned || 0;
+    if (diamondsVal) diamondsVal.textContent = this.walletDiamonds;
 
     // 3. Sincronizar chips de nivel (bloqueo, coronación y estado activo)
     const unlockedLevels = state.unlockedLevels || [1];
@@ -576,17 +587,18 @@ class MathPageController {
         if (buttonEl) buttonEl.classList.add('correct-choice');
         if (card) card.classList.add('correct-flash');
 
-        // Otorgar Diamantes al perfil (IndexedDB)
+        // Billetera única: otorgar al perfil y reflejar el saldo real.
         try {
           const newBalance = await db.addDiamonds(res.earnedDiamonds || 1);
+          this.walletDiamonds = newBalance;
           this.updateDiamondsDisplay(newBalance);
         } catch (e) {
           console.warn('Error saving diamonds in math:', e);
         }
 
-        // Sincronizar barra arcade
+        // Sincronizar barra arcade con la billetera
         const diamondsVal = document.getElementById('math-diamonds-val');
-        if (diamondsVal) diamondsVal.textContent = res.totalDiamonds;
+        if (diamondsVal) diamondsVal.textContent = this.walletDiamonds;
 
         // Actualizar barra de maestría en caliente
         this.updateMasteryDisplay(
@@ -749,7 +761,7 @@ class MathPageController {
         newlyUnlockedLevel: null,
         masteredLevels: [],
         earnedDiamonds: 0,
-        totalDiamonds: this.campaignDiamonds,
+        totalDiamonds: this.walletDiamonds,
         correctAnswer: prev.currentChallenge ? prev.currentChallenge.answer : userAnswer,
         portalReady: false,
         regressed: false,
@@ -772,7 +784,7 @@ class MathPageController {
         earnedDiamonds += 10;
         this.campaignCombo = 0;
       }
-      this.campaignDiamonds += earnedDiamonds;
+      // La página suma a la billetera vía db.addDiamonds(res.earnedDiamonds).
     } else {
       this.campaignCombo = 0;
     }
@@ -791,7 +803,7 @@ class MathPageController {
       newlyUnlockedLevel: null,
       masteredLevels: [],
       earnedDiamonds,
-      totalDiamonds: this.campaignDiamonds,
+      totalDiamonds: this.walletDiamonds,
       correctAnswer: campaignEngine.currentChallenge ? campaignEngine.currentChallenge.answer : userAnswer,
       portalReady: result.portalReady,
       regressed: wasm.tier_changed === -1,
@@ -1157,10 +1169,14 @@ class MathPageController {
     const liaBanner = document.getElementById('math-lia-banner');
     const clueText = document.getElementById('math-lia-clue-text');
     const op = challenge.operator || '+';
+    const hasUnknown = (challenge.expression || '').includes('?');
 
     let message = '';
     let speechMessage = '';
-    if (op === '+') {
+    if (hasUnknown) {
+      message = `¡Foco de Lía! Hay un valor escondido: ${challenge.expression || ''}. ¡Despeja la incógnita con calma!`;
+      speechMessage = '¡Lía enfoca la incógnita! Busca el número escondido.';
+    } else if (op === '+') {
       message = `¡Foco de Lía! Operación SUMA (+): Junta ${challenge.op1} y ${challenge.op2}. ¡Cuenta hacia adelante desde el mayor para hallar el resultado!`;
       speechMessage = `¡Lía enfoca la operación! Es una suma: junta ${challenge.op1} más ${challenge.op2}.`;
     } else if (op === '-') {

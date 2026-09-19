@@ -44,7 +44,7 @@ class KidsLearnApp {
       window.location.replace('reading.html');
       return;
     } else if (modeParam === 'campaign') {
-      window.location.replace('math.html?campaign=1');
+      window.location.replace('campaign.html');
       return;
     }
 

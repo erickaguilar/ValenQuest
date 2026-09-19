@@ -20,6 +20,8 @@ class ReadingPageController {
     this.isSubmitting = false;
     this.challengeStartTime = Date.now();
     this.rsvpTimer = null;
+    // Billetera única: profile.diamonds es el SSOT.
+    this.walletDiamonds = 0;
     this.isRsvpPlaying = false;
     this.streakShieldActive = false;
     this.starMultiplier = 1;
@@ -56,6 +58,8 @@ class ReadingPageController {
       } else if (companions.activeId) {
         this.activeHeroineId = companions.activeId;
       }
+      // Billetera única: el saldo del perfil manda en todas las barras.
+      this.walletDiamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
       this.renderBalances(profile);
       this.updatePowersBadges();
     } catch (err) {
@@ -207,7 +211,7 @@ class ReadingPageController {
     if (recordVal) recordVal.textContent = state.highestStreak;
 
     const diamondsVal = document.getElementById('reading-diamonds-val');
-    if (diamondsVal) diamondsVal.textContent = state.diamondsEarned || 0;
+    if (diamondsVal) diamondsVal.textContent = this.walletDiamonds;
 
     // 3. Sincronizar chips de nivel (bloqueo, coronación y estado activo)
     const unlockedLevels = state.unlockedLevels || [1];
@@ -438,17 +442,18 @@ class ReadingPageController {
         if (buttonEl) buttonEl.classList.add('correct-choice');
         if (card) card.classList.add('correct-flash');
 
-        // Otorgar Diamantes al perfil (IndexedDB)
+        // Billetera única: otorgar al perfil y reflejar el saldo real.
         try {
           const newBalance = await db.addDiamonds(res.earnedDiamonds || 1);
+          this.walletDiamonds = newBalance;
           this.updateDiamondsDisplay(newBalance);
         } catch (e) {
           console.warn('Error saving diamonds in reading:', e);
         }
 
-        // Sincronizar barra arcade y maestría
+        // Sincronizar barra arcade con la billetera
         const diamondsVal = document.getElementById('reading-diamonds-val');
-        if (diamondsVal) diamondsVal.textContent = res.totalDiamonds;
+        if (diamondsVal) diamondsVal.textContent = this.walletDiamonds;
 
         this.updateMasteryDisplay(
           res.currentMastery,

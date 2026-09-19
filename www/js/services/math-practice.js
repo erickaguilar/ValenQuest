@@ -112,7 +112,9 @@ export class MathPracticeService {
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
         this.totalCombos = state.totalCombos || 0;
-        this.diamondsEarned = state.diamondsEarned || 0;
+        // Billetera única: los diamantes viven en profile.diamonds;
+        // aquí solo se acumula la sesión (no persiste).
+        this.diamondsEarned = 0;
         this.combo = typeof state.combo === 'number' ? state.combo : 0;
         // Iniciar siempre en modo de selección de opciones para evitar vistas vacías
         this.inputMode = 'choice';
@@ -143,7 +145,6 @@ export class MathPracticeService {
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
         totalCombos: this.totalCombos,
-        diamondsEarned: this.diamondsEarned || 0,
         combo: this.combo || 0,
         inputMode: this.inputMode,
       };

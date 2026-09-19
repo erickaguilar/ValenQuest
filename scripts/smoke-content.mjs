@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Smoke test del contenido editorial en JSON + cableado lectura↔Rust.
- * - Verifica los catálogos JSON (130 retos, 8 capítulos, esquemas).
+ * - Verifica los catálogos JSON (180 retos, 8 capítulos, esquemas).
  * - Ejercita reading-practice con una ReadingSession simulada:
  *   QA de silabeo curado vs RAE y WPM real.
  */
@@ -19,7 +19,7 @@ function check(name, cond, extra = '') {
 // 1. Catálogos JSON íntegros.
 const bank = JSON.parse(fs.readFileSync(path.join(ROOT, 'www/data/reading-challenges.json'), 'utf8'));
 const bankTotal = Object.values(bank.levels).reduce((n, arr) => n + arr.length, 0);
-check('130 retos en 5 niveles', bankTotal === 130 && Object.keys(bank.levels).length === 5, `total=${bankTotal}`);
+check('180 retos en 5 niveles', bankTotal === 180 && Object.keys(bank.levels).length === 5, `total=${bankTotal}`);
 let bankOk = true;
 for (const [lvl, items] of Object.entries(bank.levels)) {
   for (const ch of items) {

@@ -62,14 +62,14 @@ Para restaurar Lumiria, el **Cuarteto de la Armonía** emprende la travesía de 
 
 | Nivel & Templo | Acto | Eje Matemático (Rust WASM) | Eje Comprensión Lectora | Guardián Astral | Recompensa Cosmética (IndexedDB) |
 | :--- | :---: | :--- | :--- | :--- | :--- |
-| **1. Manantial de Rocío** | I | Sumas simples directas ($a + b \le 10$) sin acarreo. | Sílabas directas (ma, pa, so) y palabras bisílabas. | 🫧 *Poni Burbuja* | **Tiara de Rocío Astral** (Cabello Valen) |
+| **1. Manantial de Rocío** | I | Sumas simples directas ($a + b \le 10$) sin acarreo, incluyendo identidad con cero ($0 + b$). | Sílabas directas (ma, pa, so) y palabras bisílabas. | 🫧 *Poni Burbuja* | **Tiara de Rocío Astral** (Cabello Valen) |
 | **2. Bosque Susurrante** | I | Suma y resta hasta 20 sin acarreos ni transformaciones. | Sílabas trabadas (*tr*, *bl*, *pl*) y rimas consonantes. | 🦌 *Hada Ciervo* | **Lazo de Viento Celeste** (Accesorio Reni) |
 | **3. Vértice de Algodón** | I | Suma de dos cifras con acarreo forzado en unidades ($17+8, 24+9$). | Estructura de oración: sintaxis Sujeto + Verbo + Predicado. | 🪽 *Pegaso Melódico* | **Alas de Pluma Dulce** (Alas Reni) |
 | **4. Caverna de Ámbar** | II | Resta con transformación (desagrupar decenas, ej. $23-7, 31-5$). | Identificar la idea principal en textos breves de 3 renglones. | 🦉 *Búho de Piedra* | **Corona Floral Silvestre** (Cabello Zoe) |
-| **5. Palacio Prisma** | II | Tablas de multiplicar introductorias: 2, 3, 5 y 10. | Deducción por contexto: sinónimos y vocabulario en fábulas. | 🦁 *León de Espejos* | **Cetro Estelar Radiante** (Amuleto Mano Lía) |
+| **5. Palacio Prisma** | II | Tablas de multiplicar introductorias: 2, 3, 5 y 10, con modo de factor faltante ($t \times ? = p$). | Deducción por contexto: sinónimos y vocabulario en fábulas. | 🦁 *León de Espejos* | **Cetro Estelar Radiante** (Amuleto Mano Lía) |
 | **6. Reloj de las Arenas** | II | Tablas complejas (4, 6, 7, 8, 9) y cálculo de dobles/mitades. | Secuencia temporal: conectores (*primero*, *luego*, *al final*). | ⏳ *Esfinge de Cristal* | **Reloj de Bolsillo Astral** (Broche Pecho) |
-| **7. Mar de Coral Profundo** | II | Reparto equitativo (división exacta) y problemas verbales simples. | Causa y efecto: responder preguntas *"¿Por qué el personaje hizo X?"*. | 🧜‍♀️ *Sirena Dragón* | **Aura de Burbujas Iridiscentes** (Efecto Partículas) |
-| **8. Muralla de Nácar** | III | Fracciones visuales en gemas (medios $1/2$, cuartos $1/4$, octavos $1/8$). | Distinguir entre afirmaciones de hechos y emociones/opiniones. | 🛡️ *Gólem de Cuarzo* | **Armadura de Pétalos de Seda** (Atuendo Completo) |
+| **7. Mar de Coral Profundo** | II | Reparto equitativo (división exacta) y problemas verbales simples, con modo de dividendo faltante ($? \div d = q$). | Causa y efecto: responder preguntas *"¿Por qué el personaje hizo X?"*. | 🧜‍♀️ *Sirena Dragón* | **Aura de Burbujas Iridiscentes** (Efecto Partículas) |
+| **8. Muralla de Nácar** | III | Fracciones visuales en gemas (medios $1/2$, cuartos $1/4$, octavos $1/8$) con numerador 1 o $k$ ($k/\text{den}$ de $N$). | Distinguir entre afirmaciones de hechos y emociones/opiniones. | 🛡️ *Gólem de Cuarzo* | **Armadura de Pétalos de Seda** (Atuendo Completo) |
 | **9. Cúspide de la Aurora** | III | Operaciones combinadas de 2 pasos con balance de paréntesis: $(a \times b) + c$. | Inferencia de lección moral implícita en la narrativa. | 🦅 *Fénix Boreal* | **Alas Tornasol de Aurora** (Alas Multicolor) |
 | **10. Trono de las Estrellas** | III | Acertijos numéricos de alta fluidez mental ($t \le 3500\text{ ms}$). | Reconstrucción del poema canónico completo con coherencia global. | 👑 *Emperatriz Eclipse (Purificada)* | **Corona Suprema de Soberana Astral** + Fondo Mítico |
 

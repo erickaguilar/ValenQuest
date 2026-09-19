@@ -57,7 +57,7 @@ export const READING_LEVELS = [
 
 // Banco de retos (SSOT: data/reading-challenges.json).
 // El respaldo embebido (1 reto por nivel) solo cubre el arranque sin red;
-// el catálogo completo de 130 retos llega por fetch en loadReadingChallenges().
+// el catálogo completo de 180 retos llega por fetch en loadReadingChallenges().
 let CHALLENGES_BY_LEVEL = {
   "1": [
     {
@@ -306,7 +306,9 @@ export class ReadingPracticeService {
         this.highestStreak = state.highestStreak || 0;
         this.totalAnswered = state.totalAnswered || 0;
         this.totalCombos = state.totalCombos || 0;
-        this.diamondsEarned = state.diamondsEarned || 0;
+        // Billetera única: los diamantes viven en profile.diamonds;
+        // aquí solo se acumula la sesión (no persiste).
+        this.diamondsEarned = 0;
         this.wordsRead = state.wordsRead || 0;
         this.highestWpm = state.highestWpm || 120;
         this.combo = typeof state.combo === 'number' ? state.combo : 0;
@@ -330,7 +332,6 @@ export class ReadingPracticeService {
         highestStreak: this.highestStreak,
         totalAnswered: this.totalAnswered,
         totalCombos: this.totalCombos,
-        diamondsEarned: this.diamondsEarned || 0,
         combo: this.combo || 0,
         wordsRead: this.wordsRead,
         highestWpm: this.highestWpm,
