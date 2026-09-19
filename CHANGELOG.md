@@ -7,6 +7,13 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ---
 
+## [Unreleased]
+
+### 🧹 Cachés envenenadas (v2.1.10)
+- Las claves de sprites y el SW seguían en v2.1.9 sirviendo el markup malformado cacheado: ningún arreglo se veía. El bump abandona esos cachés en todos los navegadores.
+- Vuelta a pintura literal (`#4A3E56` / `#FDF7FF`): mis scripts dejaron etiquetas malformadas (`.../ class="..."`) que Chrome toleraba pero rompían otros motores.
+- Retirados tokens y clases `.vq-*` de pintura; conservados el marcado bien formado (624 formas), guardianes, warning/plus y la poda play/arrow-up.
+
 ## [2.1.9] - 2026-09-19
 
 ### 🛡️ Release de invalidación de cachés

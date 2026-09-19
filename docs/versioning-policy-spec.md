@@ -1,7 +1,7 @@
 # ValenQuest: Política y Homologación de Versionado
 
 > **Estado:** Vigente y Canónico  
-> **Versión Actual del Ecosistema:** `v2.1.9`  
+> **Versión Actual del Ecosistema:** `v2.1.10`  
 > **Ámbito:** Frontend Vanilla JS, Componentes Web, Motor Rust + WASM, Service Worker y Manifiestos  
 > **Audiencia:** Desarrolladores, mantenedores, agentes de IA y pipelines de CI/CD  
 

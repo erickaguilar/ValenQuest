@@ -23,7 +23,7 @@ import { portalController } from './controllers/portal-controller.js';
 import './components/header.js';
 import './components/footer.js';
 
-export const APP_VERSION = '2.1.9';
+export const APP_VERSION = '2.1.10';
 
 class KidsLearnApp {
   constructor() {

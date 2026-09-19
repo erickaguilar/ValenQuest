@@ -51,9 +51,9 @@ export async function loadSvgSprites() {
     };
 
     // 1. Inyección ultrarrápida desde caché de sesión con invalidación de versión
-    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_9_minimal';
-    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_9_chibi';
-    const GUARDIANS_CACHE_KEY = 'vq_guardians_svg_v2_1_9_temples';
+    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_10_minimal';
+    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_10_chibi';
+    const GUARDIANS_CACHE_KEY = 'vq_guardians_svg_v2_1_10_temples';
 
     try {
       // Limpiar versiones obsoletas de la caché de sesión
@@ -72,15 +72,15 @@ export async function loadSvgSprites() {
     // 2. Carga asíncrona de los tres sprites con cache busting
     try {
       const [iconsRes, heroinesRes, guardiansRes] = await Promise.all([
-        fetch(`assets/icons.svg?v=2.1.9_${Date.now()}`).catch((e) => {
+        fetch(`assets/icons.svg?v=2.1.10_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/icons.svg:', e);
           return null;
         }),
-        fetch(`assets/heroines.svg?v=2.1.9_${Date.now()}`).catch((e) => {
+        fetch(`assets/heroines.svg?v=2.1.10_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/heroines.svg:', e);
           return null;
         }),
-        fetch(`assets/guardians.svg?v=2.1.9_${Date.now()}`).catch((e) => {
+        fetch(`assets/guardians.svg?v=2.1.10_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/guardians.svg:', e);
           return null;
         }),
