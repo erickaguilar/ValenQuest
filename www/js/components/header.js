@@ -53,7 +53,7 @@ export class VqHeader extends HTMLElement {
     <header class="app-header" role="banner">
       <!-- Fila Superior: Identidad (Logo + Nombre + Badge de Módulo) -->
       <div class="header-brand-row">
-        <a href="index.html" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
+        <a href="./" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
           <span class="brand-icon" aria-hidden="true" style="overflow: hidden; padding: 0; background: #F5EEFA;">
             <img src="assets/emblem-valen.png" alt="ValenQuest" class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
           </span>
@@ -451,7 +451,7 @@ export class VqHeader extends HTMLElement {
           await db.resetAllProgress();
           try { sound.playSparkle(); } catch (_) {}
           setTimeout(() => {
-            window.location.href = 'index.html';
+            window.location.href = './';
           }, 850);
         } catch (err) {
           console.error('[ValenQuest Settings] Error al reiniciar progreso:', err);

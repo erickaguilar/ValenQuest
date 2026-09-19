@@ -3,6 +3,24 @@
   "version": 2,
   "cleanUrls": true,
   "outputDirectory": "www",
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/index",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/index",
+      "destination": "/"
+    }
+  ],
   "headers": [
     {
       "source": "/pkg/(.*).wasm",
