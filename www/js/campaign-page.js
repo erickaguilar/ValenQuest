@@ -8,7 +8,7 @@ import { sound } from './services/audio.js';
 import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
-import { adventure, TEMPLE_NAMES } from './services/adventure.js';
+import { adventure } from './services/adventure.js';
 import { theme } from './services/theme.js';
 import { loadSvgSprites } from './services/icons.js';
 
@@ -52,7 +52,7 @@ class CampaignPageController {
 
     // Saludo inicial suave
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura de Lumiria está en preparación mágica. ¡Pronto abriremos los 10 Templos!`);
+    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura está en marcha en el Templo ${advState.currentTemple}. ¡Pulsa Jugar y abre el portal!`);
   }
 
   // =========================================================================
@@ -162,10 +162,49 @@ class CampaignPageController {
 
   renderTempleRoadmap(advState) {
     const currentTempleNum = advState?.currentTemple || 1;
+    const completed = Boolean(advState?.campaignCompleted);
     const templePill = document.getElementById('campaign-current-temple-pill');
     if (templePill) {
-      const name = TEMPLE_NAMES[currentTempleNum - 1] || 'Manantial de Rocío';
-      templePill.textContent = `Templo Activo: ${currentTempleNum} - ${name}`;
+      const name = advState?.templeName || 'Manantial de Rocío';
+      templePill.textContent = completed
+        ? '¡Lumiria a salvo! Los 10 templos brillan'
+        : `Templo Activo: ${currentTempleNum} - ${name}`;
+    }
+
+    // Botón principal: jugar el templo vigente en la arena matemática.
+    const playBtn = document.getElementById('btn-play-temple');
+    const playText = document.getElementById('btn-play-temple-text');
+    if (playBtn) {
+      playBtn.setAttribute('href', 'math.html?campaign=1');
+      playBtn.setAttribute('aria-label', completed
+        ? 'Seguir jugando la campaña (Lumiria a salvo)'
+        : `Jugar el Templo ${currentTempleNum} de la campaña`);
+    }
+    if (playText) {
+      playText.textContent = completed
+        ? '¡Seguir jugando en Lumiria! ⚔️'
+        : `¡Jugar Templo ${currentTempleNum}! ⚔️`;
+    }
+
+    // Roadmap: estado real por tarjeta (purificado / activo / por liberar).
+    try {
+      const cards = document.querySelectorAll('.temple-roadmap-grid .temple-card');
+      cards.forEach((card, idx) => {
+        const templeNum = idx + 1;
+        const tag = card.querySelector('.temple-status-tag');
+        if (!tag) return;
+        card.classList.toggle('temple-purified', completed || templeNum < currentTempleNum);
+        card.classList.toggle('temple-active', !completed && templeNum === currentTempleNum);
+        if (completed || templeNum < currentTempleNum) {
+          tag.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Purificado</span>';
+        } else if (templeNum === currentTempleNum) {
+          tag.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg> <span>Templo activo</span>';
+        } else {
+          tag.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg> <span>Por liberar</span>';
+        }
+      });
+    } catch (err) {
+      console.warn('Campaign roadmap:', err?.message || err);
     }
   }
 
@@ -177,7 +216,7 @@ class CampaignPageController {
         sound.playClick();
         const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
         speech.speakOrion(
-          `¡Saludos, ${hero.name}! El Sabio Búho Orión te informa: La Gran Aventura con los 10 Templos Lunares está en construcción mágica. Mientras los portales se alinean, entrena tus poderes en el Prisma Numérico y la Pluma de la Fluidez.`
+          `¡Saludos, ${hero.name}! El Sabio Búho Orión te informa: La Gran Aventura ya está en marcha. Entra al templo activo, eleva tu maestría con el motor de Lumiria y abre el portal para purificar al guardián.`
         );
       });
     }

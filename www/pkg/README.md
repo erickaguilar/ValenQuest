@@ -1,6 +1,6 @@
 # ValenQuest 🦄✨ (KidsLearn-WASM)
 
-[![Version](https://img.shields.io/badge/version-1.1.0-f472b6.svg)](VERSION)
+[![Version](https://img.shields.io/badge/version-2.1.6-f472b6.svg)](VERSION)
 [![Rust](https://img.shields.io/badge/rust-2021_edition-orange.svg)](Cargo.toml)
 [![WASM](https://img.shields.io/badge/wasm-wasm--pack-6366f1.svg)](www/pkg/)
 [![License](https://img.shields.io/badge/license-MIT%20%7C%20Apache--2.0-blue.svg)](LICENSE.md)
@@ -16,7 +16,7 @@
 1. **Zero Framework Frontend:** Sin dependencias externas de empaquetadores pesados ni frameworks reactivos (sin React, Vue, Angular o Tailwind). Interfaz construida con **Vanilla JS moderno (ES Modules)**, variables CSS nativas y HTML semántico con foco en accesibilidad infantil.
 2. **Núcleo Lógico en Rust (WASM):** Todo el cómputo crítico reside exclusivamente en Rust compilado a WebAssembly (`wasm32-unknown-unknown` con `wasm-bindgen`):
    - Algoritmo adaptativo EMA (Exponential Moving Average).
-   - Máquina de Estados Finitos (FSM) de 6 tiers curriculares.
+    - Máquina de Estados Finitos (FSM) de 10 tiers curriculares.
    - Generador pseudoaleatorio determinista Xorshift64*.
    - Generación de distractores pedagógicamente verosímiles.
    - Algoritmo fonotáctico de silabeo en español y cálculo de WPM para fluidez lectora (RSVP).
@@ -41,7 +41,7 @@ Donde:
   - **Fallo**: $P = 0.0$.
 
 ### 2. Progresión Curricular: Las Diez Lunas de Lumiria (10 Niveles & Templos)
-La aventura se estructura en tres actos que abarcan la educación primaria y culminan en **Desafíos de Portal** al alcanzar el 100% de maestría ($M_k \ge 0.95$):
+La aventura se estructura en tres actos que abarcan la educación primaria y culminan en **Desafíos de Portal** al alcanzar maestría suficiente ($M_k \ge 0.82$ con racha $\ge 3$):
 1. **Acto I (Niveles 1-3):**
    - **Nivel 1 - Manantial de Rocío:** Sumas directas ($a + b \le 10$) | Sílabas directas | *Poni Burbuja* 🫧 | Tiara de Rocío Astral
    - **Nivel 2 - Bosque Susurrante:** Operaciones hasta 20 sin acarreo | Sílabas trabadas | *Hada Ciervo* 🦌 | Lazo de Viento Celeste
@@ -56,7 +56,7 @@ La aventura se estructura en tres actos que abarcan la educación primaria y cul
    - **Nivel 9 - Cúspide de la Aurora:** Operaciones combinadas con paréntesis | Inferencia moral | *Fénix Boreal* 🦅 | Alas Tornasol de Aurora
    - **Nivel 10 - Trono de las Estrellas:** Alta fluidez mental ($t \le 3500\text{ ms}$) | Reconstrucción del poema | *Emperatriz Eclipse Purificada* 👑✨ | Corona Suprema
 
-*Criterio de Desafío de Portal:* $M_k \ge 0.95$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual).  
+*Criterio de Desafío de Portal:* $M_k \ge 0.82$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual).  
 *Criterio de Refuerzo:* $M_k < 0.38$ y 2 fallos consecutivos (retrocede un nivel para afianzar confianza).
 
 ---

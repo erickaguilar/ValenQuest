@@ -25,16 +25,20 @@ fn test_math_fsm_tier_transitions() {
     let mut session = MathSession::new(12345, 1);
     assert_eq!(session.get_tier(), 1);
 
-    // Simulate streak of correct answers to advance to Tier 2
+    // Simulate streak of correct answers to arm the portal (no auto-advance:
+    // the tier only moves in advance_tier() after beating the portal).
     for _ in 0..10 {
         let correct_ans = session.get_correct_answer();
         session.submit_answer(correct_ans, 1200); // 1.2s response time
         session.generate_next_challenge();
-        if session.get_tier() > 1 {
+        if session.is_portal_ready() {
             break;
         }
     }
-    assert_eq!(session.get_tier(), 2, "Session should have promoted to Tier 2");
+    assert!(session.is_portal_ready(), "Portal should be armed");
+    assert_eq!(session.get_tier(), 1, "Tier must not auto-advance before the portal");
+    assert_eq!(session.advance_tier(), 2);
+    assert_eq!(session.get_tier(), 2, "Session should promote to Tier 2 via advance_tier");
 }
 
 #[test]

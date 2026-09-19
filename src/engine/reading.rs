@@ -1,6 +1,11 @@
 //! Spanish Syllabification and RSVP Reading Fluency Engine
 //! Provides syllable breakdown, syllable highlighting for early readers,
 //! and RSVP (Rapid Serial Visual Presentation) metrics.
+//!
+//! Nota de contenido: este motor es ALGORITMO, no catálogo. Los textos
+//! (retos de lectura, fábulas, micro-cuentos) viven en `www/data/*.json`
+//! y la UI los verifica/mide con este motor (`parse_text_syllables`,
+//! `calculate_wpm`).
 
 use wasm_bindgen::prelude::*;
 use serde::Serialize;
@@ -11,23 +16,6 @@ pub struct WordSyllables {
     pub raw: String,
     pub clean: String,
     pub syllables: Vec<String>,
-}
-
-/// Curated short stories for primary school reading fluency
-#[derive(Debug, Clone, Serialize)]
-pub struct StoryPassage {
-    pub id: u32,
-    pub title: String,
-    pub level: u8, // 1: 1st/2nd grade (silábico), 2: 3rd/4th grade, 3: 5th/6th grade
-    pub text: String,
-    pub questions: Vec<StoryQuestion>,
-}
-
-#[derive(Debug, Clone, Serialize)]
-pub struct StoryQuestion {
-    pub question: String,
-    pub options: Vec<String>,
-    pub correct_index: usize,
 }
 
 /// Spanish Syllable Parser following RAE phonotactic rules
@@ -155,91 +143,15 @@ impl SyllableParser {
     }
 }
 
-/// Reading session state exported to WASM
+/// Reading session handle exported to WASM (stateless: pure algorithms).
 #[wasm_bindgen]
-pub struct ReadingSession {
-    current_story_id: u32,
-    stories: Vec<StoryPassage>,
-}
+pub struct ReadingSession;
 
 #[wasm_bindgen]
 impl ReadingSession {
     #[wasm_bindgen(constructor)]
     pub fn new() -> ReadingSession {
-        let stories = Self::default_stories();
-        ReadingSession {
-            current_story_id: 1,
-            stories,
-        }
-    }
-
-    fn default_stories() -> Vec<StoryPassage> {
-        vec![
-            StoryPassage {
-                id: 1,
-                title: "El Pequeño Cohete Curioso".to_string(),
-                level: 1,
-                text: "En un bosque brillante vivía un pequeño cohete llamado Chispa. Chispa soñaba con viajar a la luna plateada. Un día conoció a una lechuza sabia que le enseñó a volar suave sobre las estrellas.".to_string(),
-                questions: vec![
-                    StoryQuestion {
-                        question: "¿Cómo se llamaba el pequeño cohete?".to_string(),
-                        options: vec!["Chispa".to_string(), "Rayo".to_string(), "Cometa".to_string()],
-                        correct_index: 0,
-                    },
-                    StoryQuestion {
-                        question: "¿A dónde soñaba viajar Chispa?".to_string(),
-                        options: vec!["Al sol".to_string(), "A la luna plateada".to_string(), "Al fondo del mar".to_string()],
-                        correct_index: 1,
-                    },
-                ],
-            },
-            StoryPassage {
-                id: 2,
-                title: "El Dragón que Comía Nubes".to_string(),
-                level: 2,
-                text: "Fito era un dragón verde que no escupía fuego, sino ricas burbujas de colores. Cada mañana subía a la montaña más alta para desayunar nubes de fresa y vainilla. Los pájaros cantaban felices a su alrededor.".to_string(),
-                questions: vec![
-                    StoryQuestion {
-                        question: "¿Qué escupía el dragón Fito?".to_string(),
-                        options: vec!["Llamas de fuego".to_string(), "Burbujas de colores".to_string(), "Gotas de lluvia".to_string()],
-                        correct_index: 1,
-                    },
-                    StoryQuestion {
-                        question: "¿Qué desayunaba Fito en la montaña?".to_string(),
-                        options: vec!["Nubes de fresa y vainilla".to_string(), "Manzanas silvestres".to_string(), "Pescado fresco".to_string()],
-                        correct_index: 0,
-                    },
-                ],
-            },
-            StoryPassage {
-                id: 3,
-                title: "El Enigma del Reloj de Arena".to_string(),
-                level: 3,
-                text: "Valeria descubrió en el desván un misterioso reloj de arena dorada. Cuando daba la vuelta al reloj, los minutos se detenían y los juguetes cobraban vida para contar historias de reinos lejanos.".to_string(),
-                questions: vec![
-                    StoryQuestion {
-                        question: "¿Dónde descubrió Valeria el reloj de arena?".to_string(),
-                        options: vec!["En el jardín".to_string(), "En la escuela".to_string(), "En el desván".to_string()],
-                        correct_index: 2,
-                    },
-                ],
-            },
-        ]
-    }
-
-    /// Returns JSON catalog of available stories
-    pub fn get_stories_json(&self) -> String {
-        serde_json::to_string(&self.stories).unwrap_or_else(|_| "[]".to_string())
-    }
-
-    /// Selects active story by ID
-    pub fn select_story(&mut self, id: u32) -> bool {
-        if self.stories.iter().any(|s| s.id == id) {
-            self.current_story_id = id;
-            true
-        } else {
-            false
-        }
+        ReadingSession
     }
 
     /// Syllabifies an entire text and returns a JSON list of WordSyllables
@@ -268,15 +180,6 @@ impl ReadingSession {
         }
 
         serde_json::to_string(&result).unwrap_or_else(|_| "[]".to_string())
-    }
-
-    /// Syllabifies the active story text
-    pub fn get_active_story_syllables(&self) -> String {
-        if let Some(story) = self.stories.iter().find(|s| s.id == self.current_story_id) {
-            self.parse_text_syllables(&story.text)
-        } else {
-            "[]".to_string()
-        }
     }
 
     /// Calculates Words Per Minute (WPM)

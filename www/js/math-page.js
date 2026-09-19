@@ -10,6 +10,10 @@ import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { mathPractice, MATH_LEVELS } from './services/math-practice.js';
+import { campaignEngine } from './services/campaign-engine.js';
+import { adventure } from './services/adventure.js';
+import { portalController } from './controllers/portal-controller.js';
+import { loadLevelsData } from './data/levels-data.js';
 import { loadWasm, wasmLoader } from './services/wasm-loader.js';
 import { theme } from './services/theme.js';
 import { loadSvgSprites } from './services/icons.js';
@@ -24,11 +28,33 @@ class MathPageController {
     this.keypadBuffer = '';
     this.isTimerFrozen = false;
     this.timerInterval = null;
+    // Modo campaña (La Gran Aventura): el FSM WASM gobierna tiers,
+    // maestría EMA y portales. Se activa con math.html?campaign=1.
+    this.campaignMode = false;
+    this.portalOpened = false;
+    this.campaignCombo = 0;
+    this.campaignCombos = 0;
+    this.campaignDiamonds = 0;
+  }
+
+  /** Reto vigente sea cual sea el modo (práctica arcade o campaña). */
+  getActiveChallenge() {
+    if (this.campaignMode && campaignEngine.isReady && campaignEngine.currentChallenge) {
+      return campaignEngine.currentChallenge;
+    }
+    return mathPractice.getState().currentChallenge;
   }
 
   async init() {
     console.log('💎 [ValenQuest] Inicializando Taller Matemático: El Prisma Numérico...');
     loadSvgSprites();
+
+    // Modo de juego: ?campaign=1 activa La Gran Aventura (FSM WASM).
+    try {
+      this.campaignMode = new URLSearchParams(window.location.search).get('campaign') === '1';
+    } catch {
+      this.campaignMode = false;
+    }
 
     // 1. Renderizar inmediatamente el reto inicial (sin esperar a red/DB/wasm)
     try {
@@ -76,15 +102,40 @@ class MathPageController {
       const wasm = await loadWasm();
       if (wasm) {
         mathPractice.init(wasm);
+        // Cablear la campaña al FSM: sesión WASM anclada al templo vigente.
+        try {
+          const advState = await adventure.loadState();
+          campaignEngine.init(wasm, advState.currentTemple || 1);
+        } catch (e) {
+          console.warn('Campaign engine init:', e?.message || e);
+        }
+        try {
+          await loadLevelsData();
+        } catch (e) {
+          console.warn('Levels data:', e?.message || e);
+        }
+        try {
+          portalController.init();
+        } catch (e) {
+          console.warn('Portal controller:', e?.message || e);
+        }
         this.renderChallenge();
       }
     } catch (err) {
       console.log('Math practice using built-in JS challenge engine:', err?.message || err);
+      if (this.campaignMode) {
+        speech.speak('La campaña necesita el motor de Lumiria. Revisa tu conexión y recarga la página.');
+      }
       this.renderChallenge();
     }
 
     // Saludo inicial de Orión
-    speech.speak('¡Bienvenida a El Prisma Numérico! Elige tu nivel de cálculo y que la luz guíe tu camino.');
+    if (this.campaignMode && campaignEngine.isReady) {
+      const t = campaignEngine.temple;
+      speech.speak(`¡La Gran Aventura te espera! Templo ${t}: ${adventure.getState().templeName}. Resuelve con calma para abrir el portal.`);
+    } else {
+      speech.speak('¡Bienvenida a El Prisma Numérico! Elige tu nivel de cálculo y que la luz guíe tu camino.');
+    }
   }
 
   // =========================================================================
@@ -246,10 +297,50 @@ class MathPageController {
   // =========================================================================
   // Renderizado del Reto Matemático
   // =========================================================================
+  /** Estado con forma arcade pero alimentado por el FSM WASM (modo campaña). */
+  getCampaignViewState() {
+    const eng = campaignEngine.getState();
+    const wasm = eng.wasm || { mastery_pct: 50, streak: 0, highest_streak: 0, portal_ready: false };
+    const templeName = adventure.getState().templeName || 'Templo Sagrado';
+    return {
+      selectedLevel: 0,
+      levelInfo: {
+        name: `Templo ${eng.temple}: ${templeName}`,
+        shortName: `Campaña • Maestría EMA ${wasm.mastery_pct}%`,
+        svgIcon: 'sparkles',
+      },
+      unlockedLevels: [],
+      masteredLevels: [],
+      currentMastery: wasm.mastery_pct,
+      isCurrentMastered: Boolean(wasm.portal_ready),
+      streak: wasm.streak,
+      highestStreak: wasm.highest_streak,
+      combo: this.campaignCombo,
+      totalCombos: this.campaignCombos,
+      diamondsEarned: this.campaignDiamonds,
+      inputMode: mathPractice.inputMode,
+      currentChallenge: eng.currentChallenge,
+    };
+  }
+
   renderChallenge() {
-    const state = mathPractice.getState();
+    const inCampaign = this.campaignMode && campaignEngine.isReady;
+    const state = inCampaign ? this.getCampaignViewState() : mathPractice.getState();
     const challenge = state.currentChallenge;
     if (!challenge) return;
+
+    // En campaña se ocultan los chips arcade y se muestra el templo vigente.
+    try {
+      const chipsRow = document.getElementById('math-level-chips');
+      if (chipsRow) chipsRow.hidden = inCampaign;
+      const templePill = document.getElementById('campaign-temple-pill');
+      if (templePill) {
+        templePill.hidden = !inCampaign;
+        if (inCampaign && state.levelInfo) {
+          templePill.textContent = `⚔️ ${state.levelInfo.name}`;
+        }
+      }
+    } catch {}
 
     this.challengeStartTime = Date.now();
 
@@ -470,9 +561,12 @@ class MathPageController {
     }
 
     try {
-      const res = await mathPractice.checkAnswer(userAnswer, elapsedMs, {
-        shieldActive: wasShieldActive,
-      });
+      const inCampaign = this.campaignMode && campaignEngine.isReady;
+      const res = inCampaign
+        ? await this.submitCampaignAnswer(userAnswer, elapsedMs, wasShieldActive)
+        : await mathPractice.checkAnswer(userAnswer, elapsedMs, {
+          shieldActive: wasShieldActive,
+        });
 
       if (res.isCorrect) {
         // EFECTO EN VERDE: Caja de resultado, botón de opción y tarjeta
@@ -600,6 +694,12 @@ class MathPageController {
       }
 
       await new Promise((resolve) => setTimeout(resolve, 600));
+
+      // En campaña, el portal armado interrumpe el flujo: se abre el
+      // Desafío de Portal del templo vigente en vez de generar otro reto.
+      if (this.campaignMode && campaignEngine.isReady && res && res.portalReady && !this.portalOpened) {
+        await this.openTemplePortal();
+      }
     } catch (err) {
       console.error('Error in math submitAnswer:', err);
     } finally {
@@ -608,9 +708,136 @@ class MathPageController {
       this.keypadBuffer = '';
       if (card) card.classList.remove('correct-flash', 'incorrect-shake');
       if (previewEl) previewEl.className = 'math-input-box empty';
-      mathPractice.generateChallenge();
+      if (this.campaignMode && campaignEngine.isReady) {
+        if (!this.portalOpened) {
+          campaignEngine.nextChallenge();
+        }
+      } else {
+        mathPractice.generateChallenge();
+      }
       this.renderChallenge();
     }
+  }
+
+  // =========================================================================
+  // Modo Campaña: despacho al FSM WASM + economía JS + portal
+  // =========================================================================
+  /**
+   * Despacha (respuesta, latencia) al motor WASM y devuelve un resultado
+   * con la misma forma que el modo arcade para reutilizar todo el
+   * feedback visual. La economía (diamantes/combo) es capa JS por diseño;
+   * la maestría, la racha y el portal los dicta el motor.
+   */
+  async submitCampaignAnswer(userAnswer, elapsedMs, shieldActive) {
+    const prev = campaignEngine.getState();
+    const prevWasm = prev.wasm || { mastery_pct: 50, streak: 0, highest_streak: 0 };
+
+    // Escudo de Zoe: absorbe el fallo sin manchar la sesión WASM.
+    if (!this.isAnswerCorrect(userAnswer) && shieldActive) {
+      this.streakShieldActive = false;
+      return {
+        isCorrect: false,
+        shieldAbsorbed: true,
+        streak: prevWasm.streak,
+        highestStreak: prevWasm.highest_streak,
+        combo: this.campaignCombo,
+        comboBurst: false,
+        totalCombos: this.campaignCombos,
+        masteryGain: 0,
+        currentMastery: prevWasm.mastery_pct,
+        justMastered: false,
+        newlyUnlockedLevel: null,
+        masteredLevels: [],
+        earnedDiamonds: 0,
+        totalDiamonds: this.campaignDiamonds,
+        correctAnswer: prev.currentChallenge ? prev.currentChallenge.answer : userAnswer,
+        portalReady: false,
+        regressed: false,
+        temple: prev.temple,
+      };
+    }
+
+    const result = await campaignEngine.submitAnswer(userAnswer, elapsedMs);
+    const wasm = result.wasm;
+
+    let earnedDiamonds = 0;
+    let comboBurst = false;
+    if (result.isCorrect) {
+      const agile = elapsedMs > 0 && elapsedMs <= 5000;
+      earnedDiamonds = (agile ? 2 : 1) + (wasm.streak > 0 && wasm.streak % 3 === 0 ? 1 : 0);
+      this.campaignCombo = Math.min(100, this.campaignCombo + (agile ? 25 : 20));
+      if (this.campaignCombo >= 100) {
+        comboBurst = true;
+        this.campaignCombos += 1;
+        earnedDiamonds += 10;
+        this.campaignCombo = 0;
+      }
+      this.campaignDiamonds += earnedDiamonds;
+    } else {
+      this.campaignCombo = 0;
+    }
+
+    return {
+      isCorrect: result.isCorrect,
+      shieldAbsorbed: false,
+      streak: wasm.streak,
+      highestStreak: wasm.highest_streak,
+      combo: this.campaignCombo,
+      comboBurst,
+      totalCombos: this.campaignCombos,
+      masteryGain: 0,
+      currentMastery: wasm.mastery_pct,
+      justMastered: false,
+      newlyUnlockedLevel: null,
+      masteredLevels: [],
+      earnedDiamonds,
+      totalDiamonds: this.campaignDiamonds,
+      correctAnswer: campaignEngine.currentChallenge ? campaignEngine.currentChallenge.answer : userAnswer,
+      portalReady: result.portalReady,
+      regressed: wasm.tier_changed === -1,
+      temple: result.temple,
+    };
+  }
+
+  isAnswerCorrect(userAnswer) {
+    const ch = this.getActiveChallenge();
+    return ch ? Number(userAnswer) === ch.answer : false;
+  }
+
+  /** Abre el Desafío de Portal del templo vigente y cablea el avance. */
+  async openTemplePortal() {
+    const temple = campaignEngine.temple;
+    this.portalOpened = true;
+    try {
+      sound.playLevelUp();
+    } catch {}
+    try {
+      speech.speak(`¡El portal del Templo ${temple} se ha abierto! El guardián te espera.`);
+    } catch {}
+
+    portalController.openPortalChallenge(temple, async () => {
+      // El portal-controller ya otorgó el cosmético: avanzar el FSM.
+      const result = await campaignEngine.completePortal();
+      this.portalOpened = false;
+      this.renderChallenge();
+
+      if (result.actClosed === 1 || result.actClosed === 2) {
+        portalController.showActTransition(result.actClosed, result.advancedTo, async () => {
+          this.renderChallenge();
+        });
+      } else if (result.victory) {
+        portalController.showActTransition(3, 10, async () => {
+          this.renderChallenge();
+          try {
+            speech.speak('¡Lumiria está a salvo! Has purificado los diez templos. La Emperatriz Eclipse vuelve a ser la Soberana Astral.');
+          } catch {}
+        });
+      } else {
+        try {
+          speech.speak(`¡Templo purificado! Avanzas al Templo ${result.advancedTo}.`);
+        } catch {}
+      }
+    });
   }
 
   showLevelMasteryCelebration(res) {
@@ -852,7 +1079,7 @@ class MathPageController {
       }
     }
 
-    const challenge = mathPractice.getState().currentChallenge;
+    const challenge = this.getActiveChallenge();
     const state = mathPractice.getState();
 
     let discardedCount = 0;
@@ -915,7 +1142,7 @@ class MathPageController {
     }
 
     const state = mathPractice.getState();
-    const challenge = state.currentChallenge;
+    const challenge = this.getActiveChallenge();
     if (!challenge) return;
 
     // 1. Resaltar operador y operandos

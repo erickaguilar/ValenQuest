@@ -80,18 +80,24 @@ Para restaurar Lumiria, el **Cuarteto de la Armonía** emprende la travesía de 
 ### 4.1. Condición de Activación
 En el motor matemático de Rust WASM, la maestría se calcula continuamente mediante la Media Móvil Exponencial (EMA):
 $$M_k = 0.75 \times M_{k-1} + 0.25 \times P$$
-Donde $P \in [0.70, 1.0]$ premia la exactitud y fluidez de respuesta.
+Donde el desempeño $P$ pondera exactitud y latencia cognitiva:
+- **Acierto rápido** ($\le 4000\text{ ms}$, $\le 3500\text{ ms}$ en el Nivel 10): $P = 1.0$.
+- **Acierto reflexivo** ($\le 8000\text{ ms}$): $P = 0.85$.
+- **Acierto pausado** ($> 8000\text{ ms}$): $P = 0.70$.
+- **Fallo**: $P = 0.0$.
 
-Al alcanzar **100% de maestría** ($M_k \ge 0.95$ y racha sostenida), el motor adaptativo bloquea la generación de ejercicios genéricos e ingresa en estado `PortalReady`. La interfaz despliega inmediatamente el modal inmersivo del **Desafío de Portal**.
+Al alcanzar **maestría suficiente** ($M_k \ge 0.82$ con racha consecutiva $\ge 3$), el motor adaptativo activa el estado `PortalReady` (sin bloquear la práctica: la interfaz decide cuándo presentar el modal). La interfaz despliega entonces el modal inmersivo del **Desafío de Portal**. Tras superarlo, `advance_tier()` recalibra la maestría a $0.65$ en el nuevo templo.
+
+**Regla de refuerzo:** con $M_k < 0.38$ y 2 fallos consecutivos, el motor retrocede un tier para afianzar confianza (recalibra a $0.55$), salvo en el Nivel 1.
 
 ```
 [ Ejercicios Adaptativos WASM ]
               │
               ▼
-   ¿Maestría Mk >= 0.95? ──(No)──► Continuar práctica adaptativa
+   ¿Maestría Mk >= 0.82 y racha >= 3? ──(No)──► Continuar práctica adaptativa
               │ (Sí)
               ▼
-   [ BLOQUEO DE PREGUNTAS GENÉRICAS ]
+   [ ESTADO PORTALREADY ACTIVADO ]
               │
               ▼
    [ DESAFÍO DE PORTAL ACTIVADO ]
@@ -143,7 +149,12 @@ Para niveles de alta complejidad conceptual como el **Nivel 5 (Palacio Prisma)**
 * Flag `portal_ready: bool` expuesta para el ciclo de vida del juego.
 * Método `advance_tier(&mut self) -> u8` para ascender tras la victoria del portal.
 
-### 5.2. Módulo de Datos (`www/js/levels-data.js`)
+### 5.2. Motor de Campaña (`www/js/services/campaign-engine.js`)
+* Terminal tonto: despacha `(respuesta, elapsed_ms)` a `MathSession.submit_answer()` y persiste el `get_state_json()` devuelto en `adventure` (`syncWasm`). No valida ni calcula avances.
+* Al armarse `portal_ready`, la arena (`math.html?campaign=1`) abre `portalController.openPortalChallenge(templo)`; al vencer, `completePortal()` ejecuta `advance_tier()` + `adventure.completeTemple()` y dispara la transición de acto (templos 3/7/10).
+* El motor es fuente de verdad del tier: ante regresión (`tier_changed === -1`), la aventura retrocede con él.
+
+### 5.3. Módulo de Datos (`www/js/levels-data.js`)
 * Colección `TEN_MOONS_LEVELS` estructurada con micro-cuentos, acertijos duales, metadatos de guardianes y especificaciones de recompensas.
 
 ### 5.3. Capa de Persistencia (`www/js/storage.js`)

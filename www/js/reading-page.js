@@ -10,6 +10,7 @@ import { speech } from './services/speech.js';
 import { db } from './services/storage.js';
 import { companions, HEROINES } from './services/companions.js';
 import { readingPractice, READING_LEVELS } from './services/reading-practice.js';
+import { loadWasm } from './services/wasm-loader.js';
 import { theme } from './services/theme.js';
 import { loadSvgSprites } from './services/icons.js';
 
@@ -67,6 +68,18 @@ class ReadingPageController {
       this.renderChallenge();
     } catch (err) {
       console.warn('Error loading reading practice state:', err);
+    }
+
+    // 5. Cablear el motor Rust/WASM (silabeo RAE + WPM real) de forma no bloqueante
+    try {
+      const wasm = await loadWasm();
+      if (wasm) {
+        readingPractice.init(wasm);
+        this.renderChallenge();
+      }
+    } catch (err) {
+      console.log('Reading practice sin motor WASM (WPM aritmético):', err?.message || err);
+      this.renderChallenge();
     }
 
     // Saludo inicial de Orión

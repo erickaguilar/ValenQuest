@@ -81,6 +81,8 @@
             <button type="button" class="level-chip-btn" data-level="4" title="Nivel 4: El Salón de los Reflejos (Tablas 2, 3, 5 y 10)">4</button>
             <button type="button" class="level-chip-btn" data-level="5" title="Nivel 5: Vórtice Cósmico (Tablas Avanzadas y Desafíos)">5</button>
           </div>
+          <a class="level-chip-btn campaign-mode-link" id="campaign-mode-link" href="math.html?campaign=1" title="Jugar La Gran Aventura: 10 templos con el motor adaptativo">⚔️ Campaña</a>
+          <span class="campaign-temple-pill" id="campaign-temple-pill" hidden>⚔️ Templo 1</span>
         </div>
       </div>
 
@@ -453,6 +455,117 @@
           <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- Desafío de Portal del Templo Vigente (Modo Campaña) -->
+  <div id="portal-challenge-modal" class="modal-backdrop portal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="portal-modal-title">
+    <div class="modal-content portal-modal-content">
+      <div class="portal-header">
+        <div class="portal-badge-row">
+          <span class="portal-page-pill" id="portal-page-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-reading"></use></svg> <span>Página 1 de 10</span></span>
+          <span class="portal-act-pill" id="portal-act-pill">Acto I</span>
+        </div>
+        <h2 id="portal-modal-title" class="portal-title">Manantial de Rocío</h2>
+        <p class="portal-subtitle" id="portal-subtitle">Desafío de Portal • Encuentro de Amistad</p>
+      </div>
+
+      <div class="portal-guardian-stage">
+        <div class="guardian-avatar-wrapper" id="portal-guardian-wrapper">
+          <div class="guardian-shadow-aura" id="guardian-shadow-aura"></div>
+          <div class="guardian-purified-glow" id="guardian-purified-glow" hidden></div>
+          <div class="guardian-emoji-display" id="portal-guardian-emoji">🫧</div>
+        </div>
+        <div class="guardian-meta">
+          <h3 class="guardian-name" id="portal-guardian-name">Poni Burbuja</h3>
+          <span class="guardian-status-badge corrupted" id="portal-guardian-status">Sombra del Eclipse</span>
+        </div>
+      </div>
+
+      <div class="portal-story-card">
+        <div class="story-card-header">
+          <span class="story-icon"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg></span>
+          <span class="story-label">Micro-cuento del Guardián</span>
+          <button id="btn-portal-speak-story" class="portal-tts-btn" type="button" aria-label="Escuchar micro-cuento con voz">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg> <span>Escuchar</span>
+          </button>
+        </div>
+        <div class="portal-story-lines" id="portal-story-lines">
+          <p class="portal-line" data-line="0">Cargando cuento...</p>
+          <p class="portal-line" data-line="1"></p>
+          <p class="portal-line" data-line="2"></p>
+          <p class="portal-line" data-line="3"></p>
+        </div>
+      </div>
+
+      <div class="portal-riddle-card" id="portal-riddle-card">
+        <div class="riddle-header">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <strong>El Reto Dual del Guardián</strong>
+        </div>
+        <p class="riddle-prompt" id="portal-riddle-prompt">
+          Cargando acertijo...
+        </p>
+        <div class="portal-options-grid" id="portal-options-grid">
+        </div>
+        <p class="portal-riddle-hint" id="portal-riddle-hint" hidden></p>
+      </div>
+
+      <div class="portal-reward-card" id="portal-reward-card" hidden>
+        <div class="reward-celebration-title"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-party"></use></svg> ¡Guardián Purificado! <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg></div>
+        <div class="reward-badge-unlocked">
+          <div class="reward-cosmetic-icon" id="portal-reward-icon"><svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></div>
+          <div class="reward-cosmetic-info">
+            <div class="reward-cosmetic-name" id="portal-reward-name">Tiara de Rocío Astral</div>
+            <div class="reward-cosmetic-desc" id="portal-reward-desc">Desbloqueado en tu Ropero Mágico</div>
+          </div>
+        </div>
+        <div class="portal-actions-row">
+          <button id="btn-portal-equip-now" class="action-btn equip-action-btn" type="button">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Equipar Accesorio</span>
+          </button>
+          <button id="btn-portal-continue" class="action-btn continue-action-btn" type="button">
+            <span>Avanzar al Siguiente Templo</span> <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gran Transición Cósmica de Conclusión de Actos (Modo Campaña) -->
+  <div id="act-transition-modal" class="modal-backdrop act-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="act-transition-title">
+    <div class="modal-content act-transition-content">
+      <div class="act-transition-header">
+        <div class="act-transition-badge">
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+          <span id="act-transition-pill">¡Acto I Concluido!</span>
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
+        </div>
+        <h2 id="act-transition-title" class="act-transition-title">¡El Despertar de los Elementos!</h2>
+        <p id="act-transition-subtitle" class="act-transition-subtitle">Has liberado los tres templos elementales de Lumiria.</p>
+      </div>
+
+      <div class="act-constellation-container">
+        <div class="constellation-beam-glow" aria-hidden="true"></div>
+        <div class="act-guardians-grid" id="act-guardians-grid">
+        </div>
+      </div>
+
+      <div class="act-lore-scroll">
+        <svg class="vq-icon vq-icon--sm lore-scroll-icon" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
+        <p id="act-lore-text" class="act-lore-text">Cargando crónica cósmica...</p>
+      </div>
+
+      <div class="act-next-destination">
+        <span class="next-destination-tag">Próximo Destino Celestial</span>
+        <div class="next-destination-content">
+          <span class="next-destination-title" id="act-next-title">Acto II: Caverna de Ámbar 🦉</span>
+        </div>
+      </div>
+
+      <button id="btn-act-continue" class="action-btn act-continue-btn" type="button">
+        <span id="btn-act-continue-text">¡Continuar al Acto II: Caverna de Ámbar! 🦉</span>
+        <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
+      </button>
     </div>
   </div>
 

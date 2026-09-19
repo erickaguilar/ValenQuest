@@ -63,7 +63,7 @@ export class MathSession {
 }
 
 /**
- * Reading session state exported to WASM
+ * Reading session handle exported to WASM (stateless: pure algorithms).
  */
 export class ReadingSession {
     free(): void;
@@ -72,23 +72,11 @@ export class ReadingSession {
      * Calculates Words Per Minute (WPM)
      */
     static calculate_wpm(word_count: number, elapsed_ms: number): number;
-    /**
-     * Syllabifies the active story text
-     */
-    get_active_story_syllables(): string;
-    /**
-     * Returns JSON catalog of available stories
-     */
-    get_stories_json(): string;
     constructor();
     /**
      * Syllabifies an entire text and returns a JSON list of WordSyllables
      */
     parse_text_syllables(text: string): string;
-    /**
-     * Selects active story by ID
-     */
-    select_story(id: number): boolean;
 }
 
 /**
@@ -129,11 +117,8 @@ export interface InitOutput {
     readonly mathsession_reset: (a: number, b: bigint, c: number) => void;
     readonly mathsession_submit_answer: (a: number, b: number, c: number) => number;
     readonly readingsession_calculate_wpm: (a: number, b: number) => number;
-    readonly readingsession_get_active_story_syllables: (a: number, b: number) => void;
-    readonly readingsession_get_stories_json: (a: number, b: number) => void;
     readonly readingsession_new: () => number;
     readonly readingsession_parse_text_syllables: (a: number, b: number, c: number, d: number) => void;
-    readonly readingsession_select_story: (a: number, b: number) => number;
     readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
     readonly __wbindgen_export: (a: number, b: number, c: number) => void;
     readonly __wbindgen_export2: (a: number, b: number) => number;

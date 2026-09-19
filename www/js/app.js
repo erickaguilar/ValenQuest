@@ -23,7 +23,7 @@ import { portalController } from './controllers/portal-controller.js';
 import './components/header.js';
 import './components/footer.js';
 
-export const APP_VERSION = '1.1.0';
+export const APP_VERSION = '2.1.6';
 
 class KidsLearnApp {
   constructor() {
@@ -44,7 +44,7 @@ class KidsLearnApp {
       window.location.replace('reading.html');
       return;
     } else if (modeParam === 'campaign') {
-      window.location.replace('campaign.html');
+      window.location.replace('math.html?campaign=1');
       return;
     }
 

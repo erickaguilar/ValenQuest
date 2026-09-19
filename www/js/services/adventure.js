@@ -4,6 +4,7 @@
  * Alterna entre retos matemáticos y retos de lectura a través de los 10 Templos Lunares.
  */
 import { storage } from './storage.js';
+import { loadLevelsData } from '../data/levels-data.js';
 
 export const TEMPLE_CHAPTER_UNLOCKS = {
   1: 2,  // Completar Templo 1 desbloquea Capítulo II
@@ -15,6 +16,10 @@ export const TEMPLE_CHAPTER_UNLOCKS = {
   10: 8, // Completar Templo 10 desbloquea Capítulo VIII
 };
 
+/**
+ * Nombres de respaldo offline-first. SSOT: `data/levels.json` (campo `name`);
+ * este arreglo solo se usa antes de que el catálogo cargue o sin red.
+ */
 export const TEMPLE_NAMES = [
   'Manantial de Rocío',
   'Bosque Susurrante',
@@ -35,7 +40,20 @@ export class AdventureService {
     this.consecutiveCorrect = 0;
     this.templeProgress = 0; // 0 a 100%
     this.unlockedChapters = [1]; // Capítulo 1 siempre disponible
+    // Espejo del motor WASM (fuente de verdad en modo campaña):
+    this.wasmMasteryPct = 50;
+    this.wasmStreak = 0;
+    this.wasmHighestStreak = 0;
+    this.portalReady = false;
+    this.regressed = false;
+    this.campaignCompleted = false;
+    // Espejo del catálogo (SSOT levels.json); arranca con el respaldo.
+    this.templeNames = [...TEMPLE_NAMES];
     this.listeners = [];
+  }
+
+  templeNameOf(num) {
+    return this.templeNames[num - 1] || TEMPLE_NAMES[num - 1] || 'Templo Sagrado';
   }
 
   async loadState() {
@@ -47,9 +65,28 @@ export class AdventureService {
         this.consecutiveCorrect = state.consecutiveCorrect || 0;
         this.templeProgress = state.templeProgress || 0;
         this.unlockedChapters = state.unlockedChapters || [1];
+        this.wasmMasteryPct = typeof state.wasmMasteryPct === 'number' ? state.wasmMasteryPct : 50;
+        this.wasmStreak = state.wasmStreak || 0;
+        this.wasmHighestStreak = state.wasmHighestStreak || 0;
+        this.portalReady = Boolean(state.portalReady);
+        this.campaignCompleted = Boolean(state.campaignCompleted);
       }
     } catch (err) {
       console.warn('AdventureService: error loading state:', err);
+    }
+    // Sincronizar nombres canónicos del catálogo (SSOT levels.json).
+    try {
+      const data = await loadLevelsData();
+      if (data && Array.isArray(data.levels) && data.levels.length >= 10) {
+        const names = data.levels
+          .slice()
+          .sort((a, b) => a.id - b.id)
+          .map((lvl) => lvl.name)
+          .filter(Boolean);
+        if (names.length >= 10) this.templeNames = names;
+      }
+    } catch (err) {
+      console.warn('AdventureService: usando nombres de respaldo:', err?.message || err);
     }
     this.notify();
     return this.getState();
@@ -59,11 +96,16 @@ export class AdventureService {
     try {
       const payload = {
         currentTemple: this.currentTemple,
-        templeName: TEMPLE_NAMES[this.currentTemple - 1] || 'Templo Sagrado',
+        templeName: this.templeNameOf(this.currentTemple),
         phase: this.phase,
         consecutiveCorrect: this.consecutiveCorrect,
         templeProgress: this.templeProgress,
         unlockedChapters: this.unlockedChapters,
+        wasmMasteryPct: this.wasmMasteryPct,
+        wasmStreak: this.wasmStreak,
+        wasmHighestStreak: this.wasmHighestStreak,
+        portalReady: this.portalReady,
+        campaignCompleted: this.campaignCompleted,
       };
       await storage.saveModuleState('adventure', payload);
     } catch (err) {
@@ -72,15 +114,39 @@ export class AdventureService {
     this.notify();
   }
 
+  /**
+   * Persiste el estado devuelto por el motor WASM tras cada respuesta.
+   * El motor es la fuente de verdad: tier (regresión incluida), maestría
+   * EMA, racha y flag de portal.
+   */
+  async syncWasm(patch = {}) {
+    if (typeof patch.currentTemple === 'number') {
+      this.currentTemple = Math.max(1, Math.min(10, patch.currentTemple));
+    }
+    if (typeof patch.wasmMasteryPct === 'number') this.wasmMasteryPct = patch.wasmMasteryPct;
+    if (typeof patch.wasmStreak === 'number') this.wasmStreak = patch.wasmStreak;
+    if (typeof patch.wasmHighestStreak === 'number') this.wasmHighestStreak = patch.wasmHighestStreak;
+    if (typeof patch.portalReady === 'boolean') this.portalReady = patch.portalReady;
+    if (typeof patch.campaignCompleted === 'boolean') this.campaignCompleted = patch.campaignCompleted;
+    this.regressed = Boolean(patch.regressed);
+    await this.saveState();
+    return this.getState();
+  }
+
   getState() {
     return {
       currentTemple: this.currentTemple,
-      templeName: TEMPLE_NAMES[this.currentTemple - 1] || 'Templo Sagrado',
+      templeName: this.templeNameOf(this.currentTemple),
       phase: this.phase,
       consecutiveCorrect: this.consecutiveCorrect,
       templeProgress: this.templeProgress,
       unlockedChapters: [...this.unlockedChapters],
-      isPortalReady: this.templeProgress >= 100
+      wasmMasteryPct: this.wasmMasteryPct,
+      wasmStreak: this.wasmStreak,
+      wasmHighestStreak: this.wasmHighestStreak,
+      campaignCompleted: this.campaignCompleted,
+      regressed: this.regressed,
+      isPortalReady: this.portalReady || this.templeProgress >= 100
     };
   }
 
@@ -100,25 +166,6 @@ export class AdventureService {
         console.error('AdventureService listener error:', err);
       }
     });
-  }
-
-  /**
-   * Registra una respuesta del jugador en el flujo intercalado.
-   * Alterna la fase entre 'math' y 'reading' y suma progreso.
-   */
-  async recordAnswer(isCorrect) {
-    if (isCorrect) {
-      this.consecutiveCorrect++;
-      this.templeProgress = Math.min(100, this.templeProgress + 20); // 5 aciertos = 100%
-      // Práctica Intercalada: alternar fase
-      this.phase = this.phase === 'math' ? 'reading' : 'math';
-    } else {
-      this.consecutiveCorrect = 0;
-      this.templeProgress = Math.max(0, this.templeProgress - 10);
-    }
-
-    await this.saveState();
-    return this.getState();
   }
 
   /**

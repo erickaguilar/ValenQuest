@@ -7,6 +7,39 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ---
 
+## [Unreleased]
+
+### 📚 Contenido con fuente única (Rust vs JS)
+- **Principio SSOT:** algoritmos en Rust, contenido editorial en `www/data/*.json`, nada de textos inline en servicios.
+- **Fase A · Higiene:** `TEMPLE_NAMES` se deriva de `levels.json` (el const queda como respaldo offline); eliminado `recordAnswer` legacy sin uso; fallback JS de matemáticas alineado al Tier 2 real (sin acarreo); las 3 historias hardcodeadas de `reading.rs` eliminadas (duplicaban las fábulas JS) — `ReadingSession` queda como motor stateless (silabeo + WPM).
+- **Fase B · Editorial a JSON:** 130 retos de lectura → `reading-challenges.json`, 8 capítulos → `story-chapters.json`; `reading-practice.js` 76→15 KB y `storybook.js` −30%, ambos con fetch + respaldo mínimo y precache en el SW.
+- **Fase C · Lectura cableada al motor:** `reading-practice.init(wasm)` — WPM real vía `calculate_wpm`, `wordsRead` con conteo real y QA en carga que verifica las 30 segmentaciones curadas contra el silabeo RAE (solo avisa; el curado manda).
+- **Guardianes en Rust:** `tests/content_tests.rs` (4 tests) fallan el build si un reto/capítulo/templo rompe el esquema o contradice al parser RAE. Smoke `scripts/smoke-content.mjs` (+ CI).
+
+### ⚔️ Campaña cableada al FSM (JS ↔ Rust/WASM)
+- **Nuevo `www/js/services/campaign-engine.js`:** terminal tonto de verdad — despacha `(respuesta, elapsed_ms)` a `MathSession.submit_answer`, lee `get_state_json()` y persiste el espejo en `adventure`. Sin validación ni cálculo de avance en JS.
+- **Portal sin auto-avance (`src/engine/math_fsm.rs`):** `submit_answer` ahora solo arma `portal_ready` (+`tier_changed = 1`); el tier se mueve en `advance_tier()` tras vencer el portal, como dictaba la spec. También habilita el portal de victoria en el Nivel 10. Tests del contrato actualizados.
+- **`math.html?campaign=1`:** modo campaña en la arena existente (retos, opciones/teclado, poderes, diamantes y combo reutilizados); la maestría y la racha mostradas son la EMA del motor; al armarse el portal se abre el Desafío del templo vigente y al vencerlo se avanza + transición de acto (3/7/10).
+- **`campaign.html`:** roadmap con estado real (purificado/activo/por liberar) y botón "¡Jugar Templo N!"; hub e `index.html` actualizados (`?mode=campaign` → arena).
+- **Smoke `scripts/smoke-campaign.mjs` (+ `npm run test:campaign` y paso en CI):** verifica init, armado de portal sin auto-avance, avance con cierre de acto, regresión sincronizada y victoria del templo 10.
+- **Economía separada por diseño:** diamantes/combo siguen JS; el Escudo de Zoe absorbe el fallo sin manchar la sesión WASM.
+
+### 🔍 Auditoría FSM-vs-docs y calibración de distractores
+- **Distractores calibrados por tier (`src/engine/math_fsm.rs`):** el pool genérico (±10, ×2, ÷2 para todo) ofrecía descartes por absurdo en N1 (ej. `12` junto a sumas ≤ 10). Ahora cada tier tiene vecindad (±1/±2/±3), salto ±10 solo si la respuesta lo admite y topes de plausibilidad (N1 ≤ 12, N2 ≤ 22, N8 ≤ total de gemas).
+- **Trampas pedagógicas por reto (`pedagogical_traps`):** tabla vecina en N5/N6 (3×4=12 → 9/15), dividendo en mitades, divisor en N7, densidades confundidas en N8, errores de precedencia/signo en N9/N10 (a×(b+c), (a+b)×c, a+3b vs 2a+b). Tienen prioridad sobre la vecindad genérica.
+- **N6 recupera los dobles** ("Doble de N") que la matriz curricular documentaba pero el motor nunca generaba (solo mitades y tablas).
+- **N10 aplica su banda de fluidez** ($t \le 3500\text{ ms}$ para $P=1.0$) que los docs prometían; el resto conserva $4000\text{ ms}$.
+- **Docs corregidos:** umbral de portal $0.95$ → $0.82$ + racha ≥ 3 (el valor real del motor; con $0.95$ harían falta ~8 aciertos seguidos y contradecía la racha ≥ 3), rango de $P$ completo (incluye fallo $P=0.0$), regla de refuerzo documentada y "FSM de 6 tiers" → 10 en `README.md`.
+- **Hallazgo (sin cambio, pendiente de decisión):** en producción el JS nunca llama a `submit_answer` — la capa `math-practice.js` valida respuestas y calcula su propia maestría (0-100, +2/+3) con 5 niveles arcade mapeados a los tiers WASM {1,2,3,5,6}; los tiers 4,7,8,9,10 y el FSM de portal solo se ejercitan en tests Rust. El guardrail "terminal tonto" del README no se cumple hoy.
+
+### 🛠️ Homologación de versionado
+- **Fuente única de verdad:** `package.json` (`"version": "2.1.6"`) es ahora el SSOT canónico.
+- **Deriva corregida:** `VERSION`, badge de `README.md`, `get_engine_version()` en `src/lib.rs` y `APP_VERSION` en `www/js/app.js` estaban anclados en `1.1.0`; ahora están en `2.1.6` junto a `Cargo.toml`, `Cargo.lock`, `package-lock.json`, `www/sw.js`, `<vq-footer>` y `www/js/services/icons.js`.
+- **Script ampliado (`scripts/bump-version.js`):** cubre 14 puntos canónicos y añade modo `--check` (`npm run version:check`) para CI.
+- **`docs/versioning-policy-spec.md`:** mapa de archivos actualizado a la realidad (`campaign.html`/`story.html` heredan vía `<vq-footer>`, sin versión hardcodeada) y cabecera en `v2.1.6`.
+
+---
+
 ## [1.1.0] - 2026-09-14
 
 ### 🌟 Transición Cósmica de Actos & Continuación de Partida

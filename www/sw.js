@@ -36,6 +36,8 @@ const CORE_PRECACHE_URLS = [
   '/js/controllers/portal-controller.js',
   '/data/cosmetics.json',
   '/data/game-modules.json',
+  '/data/reading-challenges.json',
+  '/data/story-chapters.json',
   '/assets/icons.svg',
   '/assets/heroines.svg',
   '/assets/icon-192.png',

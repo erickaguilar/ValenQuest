@@ -7,7 +7,10 @@
     "build": "node scripts/build.js",
     "build:all": "./scripts/build.sh",
     "version:bump": "node scripts/bump-version.js",
+    "version:check": "node scripts/bump-version.js --check",
     "test": "cargo test",
+    "test:campaign": "node scripts/smoke-campaign.mjs",
+    "test:content": "node scripts/smoke-content.mjs",
     "serve": "python3 -m http.server 8090 --directory www",
     "serve:dist": "python3 -m http.server 8090 --directory dist"
   },

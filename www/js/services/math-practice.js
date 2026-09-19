@@ -203,6 +203,10 @@ export class MathPracticeService {
   }
 
   generateFallbackChallenge() {
+    // MODO DEGRADADO (solo sin WASM): espejo aproximado de los tiers del
+    // motor — N1 sumas ≤10, N2 hasta 20 SIN acarreo/transformación,
+    // N3 con acarreo/desagrupación, N4/N5 tablas. Si el WASM carga
+    // (caso normal), este código nunca genera retos.
     const lvl = this.selectedLevel || 1;
     let op1 = 1, op2 = 1, op = '+', expr = '', answer = 2;
 
@@ -214,16 +218,17 @@ export class MathPracticeService {
         answer = op1 + op2;
         break;
       }
-      case 2: { // Senderos de Nubes: Sumas y restas hasta 20
+      case 2: { // Senderos de Nubes: hasta 20 sin acarreo (espejo Tier 2 WASM)
         const isSub = Math.random() > 0.5;
         if (isSub) {
-          op1 = Math.floor(Math.random() * 11) + 10;
-          op2 = Math.floor(Math.random() * 9) + 1;
+          op1 = Math.floor(Math.random() * 9) + 11; // 11..19
+          const maxSub = Math.max(1, op1 % 10);
+          op2 = Math.floor(Math.random() * maxSub) + 1; // sin desagrupar
           op = '-';
           answer = op1 - op2;
         } else {
-          op1 = Math.floor(Math.random() * 10) + 1;
-          op2 = Math.floor(Math.random() * 10) + 1;
+          op1 = Math.floor(Math.random() * 6) + 10; // 10..15
+          op2 = Math.floor(Math.random() * (19 - op1)) + 1; // sin acarreo
           op = '+';
           answer = op1 + op2;
         }

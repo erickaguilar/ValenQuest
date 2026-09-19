@@ -138,6 +138,11 @@ pub struct MathSession {
     current_expression: String,
     current_answer: u32,
     current_options: Vec<u32>,
+    /// Valores de error genuino del reto vigente (trampas pedagógicas).
+    /// Se recalculan en cada `generate_next_challenge` y tienen prioridad
+    /// como distractores por ser los más diagnósticos (ej. olvidar el
+    /// acarreo, confundir ÷ con el divisor, ignorar la precedencia).
+    pedagogical_traps: Vec<u32>,
     last_was_correct: bool,
     tier_changed: i8,
     portal_ready: bool,
@@ -163,6 +168,7 @@ impl MathSession {
             current_expression: String::new(),
             current_answer: 2,
             current_options: vec![2, 3, 4, 5],
+            pedagogical_traps: Vec::new(),
             last_was_correct: true,
             tier_changed: 0,
             portal_ready: false,
@@ -215,6 +221,7 @@ impl MathSession {
     pub fn generate_next_challenge(&mut self) {
         self.tier_changed = 0;
         self.current_expression.clear();
+        self.pedagogical_traps.clear();
 
         match self.tier {
             // Nivel 1: Manantial de Rocío (Sumas simples directas a + b <= 10)
@@ -290,6 +297,14 @@ impl MathSession {
                 self.current_op2 = op2;
                 self.current_operator = "×".to_string();
                 self.current_answer = op1 * op2;
+                // Trampas de tabla vecina: el error clásico es desplazarse
+                // una fila en la misma tabla (ej. 3×4=12 → 9 / 15).
+                if op2 > 1 {
+                    self.pedagogical_traps.push(op1 * (op2 - 1));
+                }
+                if op2 < 10 {
+                    self.pedagogical_traps.push(op1 * (op2 + 1));
+                }
             }
 
             // Nivel 6: Reloj de las Arenas (Tablas 4, 6, 7, 8, 9, dobles y mitades)
@@ -303,6 +318,18 @@ impl MathSession {
                     self.current_operator = "÷".to_string();
                     self.current_expression = format!("Mitad de {}", self.current_op1);
                     self.current_answer = q;
+                    // Trampa: responder el dividendo en vez de su mitad.
+                    self.pedagogical_traps.push(self.current_op1);
+                } else if mode == 1 {
+                    // Dobles de números (base 4..=15)
+                    let a = self.prng.gen_range(4, 15);
+                    self.current_op1 = a;
+                    self.current_op2 = 2;
+                    self.current_operator = "×".to_string();
+                    self.current_expression = format!("Doble de {}", a);
+                    self.current_answer = a * 2;
+                    // Trampa: responder la base en vez del doble.
+                    self.pedagogical_traps.push(a);
                 } else {
                     // Tablas 4, 6, 7, 8, 9
                     let tables = [4, 6, 7, 8, 9];
@@ -313,6 +340,13 @@ impl MathSession {
                     self.current_op2 = op2;
                     self.current_operator = "×".to_string();
                     self.current_answer = op1 * op2;
+                    // Trampas de tabla vecina (igual que Nivel 5).
+                    if op2 > 1 {
+                        self.pedagogical_traps.push(op1 * (op2 - 1));
+                    }
+                    if op2 < 10 {
+                        self.pedagogical_traps.push(op1 * (op2 + 1));
+                    }
                 }
             }
 
@@ -325,6 +359,8 @@ impl MathSession {
                 self.current_op2 = divisor;
                 self.current_operator = "÷".to_string();
                 self.current_answer = quotient;
+                // Trampa: responder con el divisor en vez del cociente.
+                self.pedagogical_traps.push(divisor);
             }
 
             // Nivel 8: Muralla de Nácar (Fracciones visuales: medios, cuartos, octavos)
@@ -342,6 +378,14 @@ impl MathSession {
                 self.current_operator = "de".to_string();
                 self.current_expression = format!("1/{} de {} gemas", den, total);
                 self.current_answer = total / den;
+                // Trampas de densidad confundida: responder con otra
+                // fracción del mismo total (ej. 1/4 en vez de 1/8).
+                for alt_den in [2u32, 4u32, 8u32] {
+                    let alt = total / alt_den;
+                    if alt != self.current_answer {
+                        self.pedagogical_traps.push(alt);
+                    }
+                }
             }
 
             // Nivel 9: Cúspide de la Aurora (Operaciones combinadas con paréntesis)
@@ -358,6 +402,12 @@ impl MathSession {
                         self.current_operator = "+".to_string();
                         self.current_expression = format!("({} × {}) + {}", a, b, c);
                         self.current_answer = (a * b) + c;
+                        // Trampas: ignorar la precedencia a×(b+c) y
+                        // confundir el signo (a×b)-c.
+                        self.pedagogical_traps.push(a * (b + c));
+                        if self.current_op1 > c {
+                            self.pedagogical_traps.push(self.current_op1 - c);
+                        }
                     }
                     1 => {
                         // (a × b) - c
@@ -370,6 +420,11 @@ impl MathSession {
                         self.current_operator = "-".to_string();
                         self.current_expression = format!("({} × {}) - {}", a, b, c);
                         self.current_answer = mult - c;
+                        // Trampas: a×(b-c) por precedencia y (a×b)+c por signo.
+                        if let Some(diff) = b.checked_sub(c) {
+                            self.pedagogical_traps.push(a * diff);
+                        }
+                        self.pedagogical_traps.push(mult + c);
                     }
                     _ => {
                         // a + (b × c)
@@ -381,6 +436,8 @@ impl MathSession {
                         self.current_operator = "+".to_string();
                         self.current_expression = format!("{} + ({} × {})", a, b, c);
                         self.current_answer = a + (b * c);
+                        // Trampa: operar de izquierda a derecha (a+b)×c.
+                        self.pedagogical_traps.push((a + b) * c);
                     }
                 }
             }
@@ -397,6 +454,9 @@ impl MathSession {
                     self.current_operator = "+".to_string();
                     self.current_expression = format!("(Doble de {}) + (Triple de {})", a, b);
                     self.current_answer = (a * 2) + (b * 3);
+                    // Trampas: olvidar un operador (a+3b / 2a+b).
+                    self.pedagogical_traps.push(a + (b * 3));
+                    self.pedagogical_traps.push((a * 2) + b);
                 } else if mode == 1 {
                     // (a × b) + (c × d)
                     let a = self.prng.gen_range(2, 4);
@@ -410,6 +470,8 @@ impl MathSession {
                     self.current_operator = "+".to_string();
                     self.current_expression = format!("({} × {}) + ({} × {})", a, b, c, d);
                     self.current_answer = p1 + p2;
+                    // Trampa: restar los productos en vez de sumarlos.
+                    self.pedagogical_traps.push(p1.abs_diff(p2));
                 } else {
                     // (a × b) - Mitad de c
                     let a = self.prng.gen_range(3, 6);
@@ -421,6 +483,9 @@ impl MathSession {
                     self.current_operator = "-".to_string();
                     self.current_expression = format!("({} × {}) - (Mitad de {})", a, b, c);
                     self.current_answer = (a * b) - half_q;
+                    // Trampas: olvidar la resta y confundir el signo.
+                    self.pedagogical_traps.push(a * b);
+                    self.pedagogical_traps.push((a * b) + half_q);
                 }
             }
         }
@@ -428,48 +493,98 @@ impl MathSession {
         self.generate_distractors();
     }
 
-    /// Generates 3 plausible distractors + correct answer, shuffled
+    /// Generates 3 plausible distractors + correct answer, shuffled.
+    ///
+    /// Calibración por tier (auditoría FSM-vs-docs):
+    /// - La vecindad numérica (±1, ±2, ±3) escala con la magnitud del tier;
+    ///   el salto ±10 solo aparece cuando la respuesta lo admite (ans > 10),
+    ///   para no ofrecer descartes por absurdo en los niveles iniciales.
+    /// - Cada tier impone un tope de plausibilidad a los offsets genéricos
+    ///   (N1 ≤ 12, N2 ≤ 22, N8 ≤ total de gemas). Las trampas pedagógicas
+    ///   del reto (errores genuinos) nunca se recortan: son diagnósticas.
+    /// - Los comodines ×2 / ÷2 genéricos se eliminan: se reemplazan por
+    ///   trampas específicas (tabla vecina, dividendo, divisor, densidades).
     fn generate_distractors(&mut self) {
+        use CurricularTier::*;
         let answer = self.current_answer;
-        let mut candidates = Vec::with_capacity(8);
+        let ans_i = answer as i32;
+        let mut candidates: Vec<u32> = Vec::with_capacity(12);
 
-        // Plausible distractor 1: off-by-one
-        if answer > 1 {
-            candidates.push(answer - 1);
-        }
-        candidates.push(answer + 1);
+        // 1. Trampas pedagógicas del reto vigente (máxima prioridad).
+        candidates.extend(self.pedagogical_traps.iter().copied());
 
-        // Plausible distractor 2: off-by-two or off-by-ten
-        if answer > 2 {
-            candidates.push(answer - 2);
-        }
-        candidates.push(answer + 2);
+        // 2. Vecindad numérica calibrada por tier.
+        let (mut offsets, allow_plus_ten, offset_cap): (Vec<i32>, bool, Option<u32>) =
+            match self.tier {
+                Tier1SumDirect => (vec![-2, -1, 1, 2], false, Some(12)),
+                Tier2SumSub20 => (vec![-3, -2, -1, 1, 2, 3], false, Some(22)),
+                Tier3SumCarry | Tier4SubBorrow => (vec![-3, -2, -1, 1, 2, 3], true, None),
+                Tier5MultIntro => (vec![-2, -1, 1, 2], true, None),
+                Tier6MultAdvanced => {
+                    if self.current_expression.starts_with("Mitad")
+                        || self.current_expression.starts_with("Doble")
+                    {
+                        (vec![-2, -1, 1, 2], false, None)
+                    } else {
+                        (vec![-2, -1, 1, 2], true, None)
+                    }
+                }
+                Tier7DivisionExact => (vec![-2, -1, 1, 2], false, None),
+                Tier8FractionsVisual => (vec![-2, -1, 1, 2], false, Some(self.current_op2)),
+                Tier9OrderOfOperations | Tier10HighFluencyRiddles => {
+                    (vec![-3, -2, -1, 1, 2, 3], true, None)
+                }
+            };
+
+        // El salto ±10 (olvidar/acumular una decena) solo si es plausible.
         if answer > 10 {
-            candidates.push(answer - 10);
+            offsets.push(-10);
+            if allow_plus_ten {
+                offsets.push(10);
+            }
         }
-        candidates.push(answer + 10);
+        // En N2 el olvido de la decena (13 → 3) es el error clásico:
+        // ya quedó cubierto por el -10 anterior sin necesidad del +10.
 
-        // Plausible distractor 3: proportional/operator related
-        if answer > 4 && answer % 2 == 0 {
-            candidates.push(answer / 2);
-        }
-        if answer < 50 {
-            candidates.push(answer * 2);
+        for off in offsets {
+            let v = ans_i + off;
+            if v <= 0 {
+                continue;
+            }
+            let v = v as u32;
+            if let Some(cap) = offset_cap {
+                if v > cap {
+                    continue;
+                }
+            }
+            candidates.push(v);
         }
 
-        // Operator effect
-        if self.current_operator == "+" && self.current_op1 > self.current_op2 {
-            candidates.push(self.current_op1 - self.current_op2);
-        } else if self.current_operator == "-" {
-            candidates.push(self.current_op1 + self.current_op2);
-        } else if self.current_operator == "×" && self.current_op1 > 0 {
-            candidates.push(answer + self.current_op1);
-            if answer > self.current_op1 {
-                candidates.push(answer - self.current_op1);
+        // 3. Trampa de signo en los niveles aditivos (error genuino,
+        // siempre plausible porque nace de los propios operandos).
+        // Respeta el tope del tier igual que los offsets genéricos.
+        if matches!(
+            self.tier,
+            Tier1SumDirect | Tier2SumSub20 | Tier3SumCarry | Tier4SubBorrow
+        ) {
+            let sign_trap = if self.current_operator == "+" && self.current_op1 > self.current_op2
+            {
+                Some(self.current_op1 - self.current_op2)
+            } else if self.current_operator == "-" {
+                Some(self.current_op1 + self.current_op2)
+            } else {
+                None
+            };
+            if let Some(trap) = sign_trap {
+                let capped_out = offset_cap.map_or(false, |cap| trap > cap);
+                if !capped_out {
+                    candidates.push(trap);
+                }
             }
         }
 
-        // Filter: strictly positive, distinct from answer, unique
+        // Filter: strictly positive, distinct from answer, unique.
+        // Prioritizes traps (pushed first) over generic neighborhood.
         let mut distractors: Vec<u32> = Vec::with_capacity(3);
         self.prng.shuffle(&mut candidates);
 
@@ -482,8 +597,10 @@ impl MathSession {
             }
         }
 
-        // Fallback if not enough unique candidates
+        // Fallback if not enough unique candidates: preferir valores dentro
+        // del tope y relajarlo solo si no hay alternativa.
         let mut offset = 3u32;
+        let mut relaxed = offset_cap.is_none();
         while distractors.len() < 3 {
             let alt = if self.prng.gen_range(0, 1) == 0 {
                 answer + offset
@@ -492,6 +609,17 @@ impl MathSession {
             } else {
                 answer + offset + 2
             };
+            if !relaxed {
+                if let Some(cap) = offset_cap {
+                    if alt > cap {
+                        offset += 1;
+                        if offset > 12 {
+                            relaxed = true;
+                        }
+                        continue;
+                    }
+                }
+            }
             if alt > 0 && alt != answer && !distractors.contains(&alt) {
                 distractors.push(alt);
             }
@@ -511,6 +639,14 @@ impl MathSession {
         self.last_was_correct = is_correct;
 
         // Calculate Performance Metric P in [0.0, 1.0]
+        // El Trono de las Estrellas (N10) exige alta fluidez mental:
+        // la banda de "acierto rápido" se estrecha a t <= 3500 ms
+        // según la matriz curricular (el resto de tiers usa 4000 ms).
+        let fast_band_ms = if self.tier == CurricularTier::Tier10HighFluencyRiddles {
+            3500
+        } else {
+            4000
+        };
         let p: f32 = if is_correct {
             self.total_correct += 1;
             self.streak += 1;
@@ -519,7 +655,7 @@ impl MathSession {
                 self.highest_streak = self.streak;
             }
 
-            if elapsed_ms <= 4000 {
+            if elapsed_ms <= fast_band_ms {
                 1.0 // Agile, solid mastery
             } else if elapsed_ms <= 8000 {
                 0.85 // Thoughtful, correct
@@ -538,13 +674,13 @@ impl MathSession {
         // FSM Tier Progression / Regression Rules
         self.tier_changed = 0;
 
-        // Advancement condition: High mastery (>= 0.82) with sustained streak (>= 3)
-        if self.mastery >= 0.82 && self.streak >= 3 && self.tier != CurricularTier::Tier10HighFluencyRiddles {
-            self.tier = self.tier.next();
+        // Portal listo: maestría alta (>= 0.82) con racha sostenida (>= 3).
+        // El avance de tier NO es automático: ocurre en advance_tier(),
+        // tras superar el Desafío de Portal (la UI abre el portal del
+        // templo vigente). Vale también en el Nivel 10 (victoria final).
+        if self.mastery >= 0.82 && self.streak >= 3 && !self.portal_ready {
             self.tier_changed = 1;
             self.portal_ready = true;
-            // Calibrate baseline mastery for the new challenging tier
-            self.mastery = 0.65;
         }
         // Regression condition: Low mastery (< 0.38) and multiple errors, not on Tier 1
         else if self.mastery < 0.38 && self.consecutive_errors >= 2 && self.tier != CurricularTier::Tier1SumDirect {
@@ -709,13 +845,19 @@ mod tests {
         for _ in 0..10 {
             let ans = session.get_correct_answer();
             session.submit_answer(ans, 1500);
-            session.generate_next_challenge();
-            if session.get_tier() > 1 {
+            if session.is_portal_ready() {
                 break;
             }
+            session.generate_next_challenge();
         }
-        assert!(session.get_tier() >= 2);
+        // El portal se arma SIN auto-avance: el tier cambia en advance_tier().
+        assert_eq!(session.get_tier(), 1);
         assert!(session.is_portal_ready());
+        assert_eq!(session.get_tier_changed(), 1);
+        let next = session.advance_tier();
+        assert_eq!(next, 2);
+        assert_eq!(session.get_tier(), 2);
+        assert!(!session.is_portal_ready());
     }
 
     #[test]
@@ -725,5 +867,161 @@ mod tests {
         let next_tier = session.advance_tier();
         assert_eq!(next_tier, 2);
         assert_eq!(session.get_tier(), 2);
+    }
+
+    #[test]
+    fn test_tier1_options_bounded_no_absurd_distractors() {
+        // N1 (a + b <= 10): ningún distractor puede superar 12.
+        // El +10 / ×2 genérico enseñaba a descartar por absurdo.
+        for seed in 0..300u64 {
+            let mut session = MathSession::new(seed, 1);
+            for _ in 0..5 {
+                session.generate_next_challenge();
+                let ans = session.get_correct_answer();
+                assert!(ans <= 10, "N1 answer out of range: {}", ans);
+                let opts: Vec<u32> =
+                    serde_json::from_str(&session.get_options_json()).unwrap();
+                assert_eq!(opts.len(), 4);
+                assert!(opts.contains(&ans));
+                for &opt in &opts {
+                    assert!(opt > 0 && opt <= 12, "N1 absurd option {} (seed {})", opt, seed);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_tier2_tens_drop_trap() {
+        // N2: el olvido de la decena (13 → 3) debe poder aparecer.
+        let mut seen_tens_drop = false;
+        for seed in 0..150u64 {
+            let mut session = MathSession::new(seed, 2);
+            for _ in 0..10 {
+                session.generate_next_challenge();
+                let ans = session.get_correct_answer();
+                let opts: Vec<u32> =
+                    serde_json::from_str(&session.get_options_json()).unwrap();
+                if ans > 10 && opts.contains(&(ans - 10)) {
+                    seen_tens_drop = true;
+                }
+                // Tope de plausibilidad "hasta 20".
+                for &opt in &opts {
+                    assert!(opt <= 22, "N2 absurd option {}", opt);
+                }
+            }
+        }
+        assert!(seen_tens_drop, "tens-drop trap never surfaced in N2");
+    }
+
+    #[test]
+    fn test_tier5_table_neighbors_eventually_surface() {
+        // N5: la trampa diagnóstica es la tabla vecina (3×4=12 → 9/15).
+        let mut seen_neighbor = false;
+        for seed in 0..120u64 {
+            let mut session = MathSession::new(seed, 5);
+            for _ in 0..8 {
+                session.generate_next_challenge();
+                let table = session.get_operand1();
+                let mult = session.get_operand2();
+                let ans = session.get_correct_answer();
+                let opts: Vec<u32> =
+                    serde_json::from_str(&session.get_options_json()).unwrap();
+                let lower = mult > 1 && opts.contains(&(table * (mult - 1)));
+                let upper = mult < 10 && opts.contains(&(table * (mult + 1)));
+                if lower || upper {
+                    seen_neighbor = true;
+                }
+                assert!(opts.contains(&ans));
+            }
+        }
+        assert!(seen_neighbor, "table-neighbor trap never surfaced in N5");
+    }
+
+    #[test]
+    fn test_tier6_covers_halves_doubles_and_tables() {
+        // N6 debe generar las 3 modalidades documentadas (mitades, dobles, tablas).
+        let mut seen_half = false;
+        let mut seen_double = false;
+        let mut seen_times = false;
+        for seed in 0..200u64 {
+            let mut session = MathSession::new(seed + 1_000_000, 6);
+            session.generate_next_challenge();
+            let expr = session.get_expression();
+            let op = session.get_operator();
+            if expr.starts_with("Mitad de") {
+                seen_half = true;
+                // La mitad de un par N es N/2.
+                assert_eq!(session.get_correct_answer(), session.get_operand1() / 2);
+            } else if expr.starts_with("Doble de") {
+                seen_double = true;
+                assert_eq!(session.get_correct_answer(), session.get_operand1() * 2);
+            } else if op == "×" {
+                seen_times = true;
+            }
+        }
+        assert!(seen_half && seen_double && seen_times);
+    }
+
+    #[test]
+    fn test_tier8_options_bounded_by_gem_total() {
+        // N8: ninguna opción supera el total de gemas del enunciado.
+        for seed in 0..300u64 {
+            let mut session = MathSession::new(seed, 8);
+            for _ in 0..5 {
+                session.generate_next_challenge();
+                let total = session.get_operand2();
+                let opts: Vec<u32> =
+                    serde_json::from_str(&session.get_options_json()).unwrap();
+                assert!(opts.contains(&session.get_correct_answer()));
+                for &opt in &opts {
+                    assert!(opt > 0 && opt <= total, "N8 option {} exceeds total {}", opt, total);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_tier10_fast_band_is_3500ms() {
+        // N10: P = 1.0 solo con t <= 3500 ms (el resto usa 4000 ms).
+        let mut s10 = MathSession::new(7, 10);
+        let ans = s10.get_correct_answer();
+        s10.submit_answer(ans, 3500);
+        assert!((s10.get_mastery() - 0.625).abs() < 1e-4);
+
+        let mut s10b = MathSession::new(7, 10);
+        let ansb = s10b.get_correct_answer();
+        s10b.submit_answer(ansb, 3501);
+        // P = 0.85 → 0.75*0.50 + 0.25*0.85 = 0.5875
+        assert!((s10b.get_mastery() - 0.5875).abs() < 1e-4);
+
+        // N1 conserva la banda de 4000 ms.
+        let mut s1 = MathSession::new(7, 1);
+        let ans1 = s1.get_correct_answer();
+        s1.submit_answer(ans1, 3600);
+        assert!((s1.get_mastery() - 0.625).abs() < 1e-4);
+    }
+
+    #[test]
+    fn test_all_tiers_distractor_invariants() {
+        // Invariantes globales tras la calibración: 4 únicas, positivas,
+        // con respuesta incluida, en todos los tiers y sin pánicos.
+        for t in 1..=10u8 {
+            for seed in 0..100u64 {
+                let mut session = MathSession::new(seed * 7919 + t as u64, t);
+                for _ in 0..5 {
+                    session.generate_next_challenge();
+                    let ans = session.get_correct_answer();
+                    let opts: Vec<u32> =
+                        serde_json::from_str(&session.get_options_json()).unwrap();
+                    assert_eq!(opts.len(), 4, "tier {} must offer 4 options", t);
+                    assert!(opts.contains(&ans), "tier {} must include answer", t);
+                    let mut dedup = opts.clone();
+                    dedup.sort();
+                    dedup.dedup();
+                    assert_eq!(dedup.len(), 4, "tier {} duplicates: {:?}", t, opts);
+                    assert!(opts.iter().all(|&o| o > 0));
+                }
+            }
+        }
     }
 }

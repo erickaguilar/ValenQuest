@@ -263,7 +263,7 @@ export class MathSession {
 if (Symbol.dispose) MathSession.prototype[Symbol.dispose] = MathSession.prototype.free;
 
 /**
- * Reading session state exported to WASM
+ * Reading session handle exported to WASM (stateless: pure algorithms).
  */
 export class ReadingSession {
     __destroy_into_raw() {
@@ -285,46 +285,6 @@ export class ReadingSession {
     static calculate_wpm(word_count, elapsed_ms) {
         const ret = wasm.readingsession_calculate_wpm(word_count, elapsed_ms);
         return ret >>> 0;
-    }
-    /**
-     * Syllabifies the active story text
-     * @returns {string}
-     */
-    get_active_story_syllables() {
-        let deferred1_0;
-        let deferred1_1;
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.readingsession_get_active_story_syllables(retptr, this.__wbg_ptr);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            deferred1_0 = r0;
-            deferred1_1 = r1;
-            return getStringFromWasm0(r0, r1);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
-        }
-    }
-    /**
-     * Returns JSON catalog of available stories
-     * @returns {string}
-     */
-    get_stories_json() {
-        let deferred1_0;
-        let deferred1_1;
-        try {
-            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.readingsession_get_stories_json(retptr, this.__wbg_ptr);
-            var r0 = getDataViewMemory0().getInt32(retptr + 4 * 0, true);
-            var r1 = getDataViewMemory0().getInt32(retptr + 4 * 1, true);
-            deferred1_0 = r0;
-            deferred1_1 = r1;
-            return getStringFromWasm0(r0, r1);
-        } finally {
-            wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_export(deferred1_0, deferred1_1, 1);
-        }
     }
     constructor() {
         const ret = wasm.readingsession_new();
@@ -354,15 +314,6 @@ export class ReadingSession {
             wasm.__wbindgen_add_to_stack_pointer(16);
             wasm.__wbindgen_export(deferred2_0, deferred2_1, 1);
         }
-    }
-    /**
-     * Selects active story by ID
-     * @param {number} id
-     * @returns {boolean}
-     */
-    select_story(id) {
-        const ret = wasm.readingsession_select_story(this.__wbg_ptr, id);
-        return ret !== 0;
     }
 }
 if (Symbol.dispose) ReadingSession.prototype[Symbol.dispose] = ReadingSession.prototype.free;
