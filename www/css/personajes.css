@@ -1,0 +1,260 @@
+/**
+ * ValenQuest: Códice de Personajes (personajes.css)
+ * Rejilla de fichas, filtros y tabla de relaciones. Reutiliza tokens,
+ * tema claro/oscuro y radios del sistema; sin estilos globales nuevos.
+ */
+
+.codex-app {
+  min-height: 100vh;
+}
+
+.codex-main {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 12px 14px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Portada */
+.codex-hero {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width, 2px) solid var(--vq-border);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 4px 0 var(--vq-border);
+}
+
+.codex-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.codex-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--vq-radius-pill, 999px);
+  border: 1.5px solid var(--vq-border);
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+}
+
+.codex-hero-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0 0 8px;
+}
+
+.codex-hero-desc {
+  color: var(--vq-text-muted);
+  font-weight: 600;
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+
+.codex-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.codex-filter-btn {
+  font: inherit;
+  font-weight: 800;
+  padding: 8px 16px;
+  border-radius: var(--vq-radius-pill, 999px);
+  border: 2px solid var(--vq-border);
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+  cursor: pointer;
+}
+
+.codex-filter-btn.active {
+  background: var(--vq-gold, #FFD166);
+  color: #4A3E56;
+}
+
+/* Secciones y fichas */
+.codex-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 6px 0 12px;
+}
+
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.codex-card {
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width, 2px) solid var(--vq-border);
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 3px 0 var(--vq-border);
+}
+
+.codex-card-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--vq-bg-well);
+  border: 2px solid var(--vq-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.codex-card-avatar .vq-icon,
+.codex-card-avatar svg {
+  width: 64px;
+  height: 64px;
+}
+
+.codex-card-name {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+}
+
+.codex-card-role {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+  margin: 0;
+}
+
+.codex-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.codex-pill {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: var(--vq-radius-pill, 999px);
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+  color: var(--vq-text);
+}
+
+.codex-card-text {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--vq-text);
+  margin: 0;
+}
+
+.codex-card-text.muted {
+  color: var(--vq-text-muted);
+  font-size: 0.82rem;
+}
+
+.codex-card-quote {
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--vq-text-muted);
+  border-left: 3px solid var(--vq-gold, #FFD166);
+  padding-left: 10px;
+  margin: 0;
+}
+
+.codex-card details {
+  font-size: 0.85rem;
+  color: var(--vq-text);
+}
+
+.codex-card summary {
+  cursor: pointer;
+  font-weight: 800;
+  color: var(--vq-text);
+}
+
+.codex-card ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Tabla de relaciones */
+.codex-table-wrap {
+  overflow-x: auto;
+  border: var(--vq-border-width, 2px) solid var(--vq-border);
+  border-radius: 16px;
+  background: var(--vq-bg-card);
+}
+
+.codex-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.codex-table th,
+.codex-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1.5px solid var(--vq-border);
+  color: var(--vq-text);
+  vertical-align: top;
+}
+
+.codex-table thead th {
+  font-weight: 900;
+  background: var(--vq-bg-well);
+}
+
+.codex-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.codex-table td .mini-avatar {
+  width: 30px;
+  height: 30px;
+  vertical-align: -8px;
+  margin-right: 6px;
+}
+
+.codex-source-note {
+  font-size: 0.8rem;
+  color: var(--vq-text-muted);
+  margin: 10px 2px 0;
+}
+
+.codex-source-note code {
+  font-size: 0.78rem;
+}
+
+.codex-empty {
+  color: var(--vq-text-muted);
+  font-weight: 700;
+  padding: 12px;
+}

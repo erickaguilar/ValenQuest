@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+  <!-- ======================================================================
+       VALENQUEST: GUARDIANES ASTRALES DE LOS TEMPLOS (VQ CHIBI PASTEL SYSTEM)
+       viewBox 100x100 | Tinta: token temático día/noche con respaldo #4A3E56
+       Ojos kawaii: óvalos de tinta + destello blanco + rubor rosa.
+       Templo 10 (Emperatriz Eclipse) reutiliza vq-heroine-eclipse de heroines.svg.
+       ====================================================================== -->
+
+  <!-- Templo 1: Poni Burbuja (Manantial de Rocío) -->
+  <symbol id="vq-guardian-burbuja" viewBox="0 0 100 100">
+    <!-- Orejas de poni -->
+    <polygon points="30,26 26,8 40,20" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="70,26 74,8 60,20" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Burbuja principal -->
+    <circle cx="50" cy="56" r="34" fill="#BDE0FE" opacity="0.55"/>
+    <circle cx="50" cy="56" r="34" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
+    <!-- Reflejo de agua -->
+    <path d="M32,44 C36,34 46,28 56,30" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+    <!-- Rostro kawaii -->
+    <ellipse cx="40" cy="56" rx="4.5" ry="6" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="60" cy="56" rx="4.5" ry="6" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="41.5" cy="54" r="1.6" fill="#FFFFFF"/>
+    <circle cx="61.5" cy="54" r="1.6" fill="#FFFFFF"/>
+    <path d="M45,66 C47,69 53,69 55,66" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="32" cy="63" rx="4" ry="2.5" fill="#FFAFCC" opacity="0.8"/>
+    <ellipse cx="68" cy="63" rx="4" ry="2.5" fill="#FFAFCC" opacity="0.8"/>
+    <!-- Mini burbujas -->
+    <circle cx="20" cy="24" r="6" fill="#BDE0FE" opacity="0.6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+    <circle cx="82" cy="30" r="4.5" fill="#BDE0FE" opacity="0.6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+  </symbol>
+
+  <!-- Templo 2: Hada Ciervo (Bosque Susurrante) -->
+  <symbol id="vq-guardian-ciervo" viewBox="0 0 100 100">
+    <!-- Cuernos ramificados -->
+    <path d="M38,22 L34,8 M38,22 L30,14 M38,22 L44,12" fill="none" stroke="#B08968" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M62,22 L66,8 M62,22 L70,14 M62,22 L56,12" fill="none" stroke="#B08968" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Alas de hada -->
+    <ellipse cx="18" cy="55" rx="10" ry="16" fill="#FFC8DD" opacity="0.65" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" transform="rotate(-20 18 55)"/>
+    <ellipse cx="82" cy="55" rx="10" ry="16" fill="#FFC8DD" opacity="0.65" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" transform="rotate(20 82 55)"/>
+    <!-- Rostro ciervo -->
+    <ellipse cx="50" cy="58" rx="26" ry="28" fill="#E8C39E" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
+    <!-- Manchas del bosque -->
+    <circle cx="36" cy="44" r="3" fill="#FFF3E2" opacity="0.9"/>
+    <circle cx="64" cy="44" r="3" fill="#FFF3E2" opacity="0.9"/>
+    <circle cx="50" cy="38" r="2.5" fill="#FFF3E2" opacity="0.9"/>
+    <!-- Rostro kawaii -->
+    <ellipse cx="41" cy="58" rx="4.5" ry="6" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="59" cy="58" rx="4.5" ry="6" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="42.5" cy="56" r="1.6" fill="#FFFFFF"/>
+    <circle cx="60.5" cy="56" r="1.6" fill="#FFFFFF"/>
+    <ellipse cx="50" cy="70" rx="3.5" ry="2.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="33" cy="65" rx="4" ry="2.5" fill="#FFAFCC" opacity="0.8"/>
+    <ellipse cx="67" cy="65" rx="4" ry="2.5" fill="#FFAFCC" opacity="0.8"/>
+  </symbol>
+
+  <!-- Templo 3: Pegaso Melódico (Vértice de Algodón) -->
+  <symbol id="vq-guardian-pegaso" viewBox="0 0 100 100">
+    <!-- Ala melódica en capas -->
+    <path d="M14,70 C22,44 40,30 62,30 C52,38 46,46 44,54 C56,48 66,48 74,52 C64,56 58,62 56,70 C44,76 24,78 14,70 Z"
+          fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M28,66 C34,52 44,44 56,42" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <!-- Nota musical -->
+    <ellipse cx="74" cy="30" rx="7" ry="5.5" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" transform="rotate(-15 74 30)"/>
+    <path d="M80,28 L80,8" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linecap="round"/>
+    <path d="M80,8 C86,10 88,14 86,20 C84,15 82,13 80,13" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Rostro kawaii sobre el ala -->
+    <ellipse cx="42" cy="62" rx="4" ry="5.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="56" cy="62" rx="4" ry="5.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="43.2" cy="60.2" r="1.4" fill="#FFFFFF"/>
+    <circle cx="57.2" cy="60.2" r="1.4" fill="#FFFFFF"/>
+    <!-- Nubes de algodón -->
+    <circle cx="24" cy="82" r="7" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+    <circle cx="76" cy="82" r="5" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+  </symbol>
+
+  <!-- Templo 4: Búho de Piedra (Caverna de Ámbar) -->
+  <symbol id="vq-guardian-buho" viewBox="0 0 100 100">
+    <!-- Penachos -->
+    <polygon points="30,26 24,10 38,20" fill="#9AA0B4" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="70,26 76,10 62,20" fill="#9AA0B4" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Cuerpo de piedra -->
+    <ellipse cx="50" cy="58" rx="30" ry="32" fill="#B8B8D6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
+    <!-- Grietas de caverna -->
+    <path d="M30,74 L38,80 L34,86" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <path d="M70,72 L64,78" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <!-- Ojos sabios grandes -->
+    <circle cx="39" cy="50" r="11" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
+    <circle cx="61" cy="50" r="11" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
+    <circle cx="39" cy="51" r="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="61" cy="51" r="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="40.5" cy="49.5" r="1.5" fill="#FFFFFF"/>
+    <circle cx="62.5" cy="49.5" r="1.5" fill="#FFFFFF"/>
+    <!-- Pico ámbar -->
+    <polygon points="50,60 45,66 55,66" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Gema ámbar frontal -->
+    <polygon points="50,76 45,81 50,86 55,81" fill="#FFB703" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Templo 5: León de Espejos (Palacio Prisma) -->
+  <symbol id="vq-guardian-leon" viewBox="0 0 100 100">
+    <!-- Melena espejada -->
+    <circle cx="50" cy="52" r="36" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
+    <circle cx="50" cy="52" r="29" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.6"/>
+    <!-- Rostro -->
+    <circle cx="50" cy="52" r="22" fill="#FFE3B3" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3"/>
+    <!-- Fragmento de espejo en la frente -->
+    <polygon points="50,26 56,36 50,42 44,36" fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M47,33 L50,29 L53,33" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Rostro kawaii -->
+    <ellipse cx="42" cy="52" rx="4" ry="5.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="58" cy="52" rx="4" ry="5.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="43.2" cy="50.2" r="1.4" fill="#FFFFFF"/>
+    <circle cx="59.2" cy="50.2" r="1.4" fill="#FFFFFF"/>
+    <ellipse cx="50" cy="62" rx="3" ry="2.2" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="35" cy="59" rx="3.5" ry="2.2" fill="#FFAFCC" opacity="0.8"/>
+    <ellipse cx="65" cy="59" rx="3.5" ry="2.2" fill="#FFAFCC" opacity="0.8"/>
+    <!-- Reflejos prisma -->
+    <path d="M20,84 L26,76 L32,84" fill="none" stroke="#BDE0FE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M68,84 L74,76 L80,84" fill="none" stroke="#FFAFCC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Templo 6: Esfinge de Cristal (Reloj de las Arenas) -->
+  <symbol id="vq-guardian-esfinge" viewBox="0 0 100 100">
+    <!-- Reloj de arena -->
+    <path d="M32,14 L68,14 L56,44 L68,78 L32,78 L44,44 Z"
+          fill="#FFEAA7" opacity="0.7" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M38,14 L62,14 L54,36 L62,78 L38,78 L46,36 Z" fill="#FFD166" opacity="0.5"/>
+    <!-- Tapas del reloj -->
+    <rect x="28" y="8" width="44" height="7" rx="3.5" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <rect x="28" y="77" width="44" height="7" rx="3.5" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <!-- Cristal enigma frontal -->
+    <polygon points="50,44 56,54 50,64 44,54" fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Ojos sabios sobre el cristal -->
+    <ellipse cx="41" cy="30" rx="3.5" ry="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="59" cy="30" rx="3.5" ry="4.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="42" cy="28.5" r="1.2" fill="#FFFFFF"/>
+    <circle cx="60" cy="28.5" r="1.2" fill="#FFFFFF"/>
+    <!-- Arena cayendo -->
+    <circle cx="50" cy="70" r="1.8" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="50" cy="74" r="1.4" fill="var(--vq-ink-line, #4A3E56)" opacity="0.7"/>
+  </symbol>
+
+  <!-- Templo 7: Sirena Dragón (Mar de Coral Profundo) -->
+  <symbol id="vq-guardian-sirena" viewBox="0 0 100 100">
+    <!-- Cuernos de dragón -->
+    <polygon points="34,22 30,6 42,16" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="66,22 70,6 58,16" fill="#9D4EDD" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Rostro -->
+    <ellipse cx="50" cy="46" rx="22" ry="20" fill="#B8F2E6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
+    <!-- Escama frontal -->
+    <polygon points="50,30 55,38 50,43 45,38" fill="#34D399" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Rostro kawaii -->
+    <ellipse cx="42" cy="47" rx="4" ry="5.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <ellipse cx="58" cy="47" rx="4" ry="5.5" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="43.2" cy="45.2" r="1.4" fill="#FFFFFF"/>
+    <circle cx="59.2" cy="45.2" r="1.4" fill="#FFFFFF"/>
+    <path d="M45,56 C47,59 53,59 55,56" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linecap="round"/>
+    <ellipse cx="35" cy="53" rx="3.5" ry="2.2" fill="#FFAFCC" opacity="0.8"/>
+    <ellipse cx="65" cy="53" rx="3.5" ry="2.2" fill="#FFAFCC" opacity="0.8"/>
+    <!-- Cola de sirena -->
+    <path d="M30,68 C34,80 44,86 56,86 C48,82 44,76 44,68 M70,68 C66,80 56,86 44,86"
+          fill="none" stroke="#34D399" stroke-width="6" stroke-linecap="round"/>
+    <path d="M28,84 L38,80 L34,90 Z M72,84 L62,80 L66,90 Z" fill="#34D399" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Burbujas -->
+    <circle cx="20" cy="34" r="4" fill="#BDE0FE" opacity="0.6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+    <circle cx="82" cy="40" r="3" fill="#BDE0FE" opacity="0.6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2"/>
+  </symbol>
+
+  <!-- Templo 8: Gólem de Cuarzo (Muralla de Nácar) -->
+  <symbol id="vq-guardian-golem" viewBox="0 0 100 100">
+    <!-- Cuerpo facetado -->
+    <polygon points="50,14 76,28 76,60 50,86 24,60 24,28"
+             fill="#CDB4DB" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M50,14 L50,40 M24,28 L44,42 M76,28 L56,42" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2" opacity="0.45"/>
+    <!-- Cuarzo frontal -->
+    <polygon points="50,40 57,52 50,64 43,52" fill="#FDF7FF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M47,48 L50,44 L53,48" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <!-- Ojos pesados de guardián -->
+    <ellipse cx="36" cy="34" rx="5" ry="4" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <ellipse cx="64" cy="34" rx="5" ry="4" fill="#FFFFFF" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5"/>
+    <circle cx="36" cy="34.5" r="2.2" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="64" cy="34.5" r="2.2" fill="var(--vq-ink-line, #4A3E56)"/>
+    <!-- Grieta amable -->
+    <path d="M44,72 L50,76 L56,72" fill="none" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Templo 9: Fénix Boreal (Cúspide de la Aurora) -->
+  <symbol id="vq-guardian-fenix" viewBox="0 0 100 100">
+    <!-- Cola aurora triple -->
+    <path d="M50,62 C36,70 28,80 26,92 C36,86 44,78 48,68 Z" fill="#B8F2E6" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M52,64 C52,76 50,86 46,94 C54,90 58,80 57,68 Z" fill="#FFAFCC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M54,62 C62,70 66,80 66,92 C58,86 54,76 54,66 Z" fill="#CDB4DB" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Cuerpo -->
+    <ellipse cx="52" cy="44" rx="20" ry="22" fill="#7DD3FC" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="3.5"/>
+    <!-- Cresta boreal -->
+    <path d="M44,24 C46,16 52,12 58,14 C54,17 52,20 52,24" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Pico -->
+    <polygon points="70,42 78,46 70,50" fill="#FFD166" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Ojo fénix -->
+    <ellipse cx="58" cy="40" rx="4.5" ry="6" fill="var(--vq-ink-line, #4A3E56)"/>
+    <circle cx="59.5" cy="38" r="1.6" fill="#FFFFFF"/>
+    <!-- Ala -->
+    <path d="M36,50 C30,58 30,66 36,72 C38,64 40,56 44,50 Z" fill="#BDE0FE" stroke="var(--vq-ink-line, #4A3E56)" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+</svg>

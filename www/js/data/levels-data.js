@@ -48,7 +48,7 @@ export function getLevelData(levelId) {
     name: 'Templo Astral',
     templeTitle: 'Templo de Lumiria',
     pageNumber: clamped,
-    guardian: { name: 'Guardián Astral', emoji: '✨' },
+    guardian: { name: 'Guardián Astral', symbolId: 'vq-icon-sparkles' },
     portalRiddle: { prompt: '', options: [1, 2, 3, 4], correctAnswer: 1 },
     reward: { itemId: 'tiara-basica', name: 'Tiara Astral' }
   };
@@ -59,9 +59,13 @@ export function getLevelData(levelId) {
  */
 export function getActTransitionData(actNumber) {
   const num = parseInt(actNumber, 10) || 1;
-  return (ACT_TRANSITIONS && ACT_TRANSITIONS[num]) || (ACT_TRANSITIONS && ACT_TRANSITIONS[1]) || {
+  const guideFallback = num === 1 ? 'reni' : num === 2 ? 'zoe' : 'lia';
+  const found = (ACT_TRANSITIONS && ACT_TRANSITIONS[num]) || (ACT_TRANSITIONS && ACT_TRANSITIONS[1]);
+  if (found) return found;
+  return {
     actNumber: num,
     actTitle: 'Acto Concluido',
+    guideHeroineId: guideFallback,
     completedPill: '¡Acto Concluido!',
     headline: '¡Victoria de Acto!',
     tagline: 'Has liberado los templos de Lumiria.',
@@ -70,6 +74,6 @@ export function getActTransitionData(actNumber) {
     voiceNarration: '¡Felicidades!',
     nextActNumber: num + 1,
     nextActTitle: 'Siguiente Acto',
-    buttonText: '¡Continuar Aventura! 🚀'
+    buttonText: '¡Continuar Aventura!'
   };
 }

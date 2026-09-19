@@ -7,6 +7,7 @@
 import { sound } from '../services/audio.js';
 import { speech } from '../services/speech.js';
 import { db } from '../services/storage.js';
+import { HEROINES } from '../services/companions.js';
 import { getLevelData, getActTransitionData } from '../data/levels-data.js';
 
 export class PortalController {
@@ -109,10 +110,12 @@ export class PortalController {
 
     if (wrapper) wrapper.className = 'guardian-avatar-wrapper vq-anim-corrupted';
     if (emoji) {
-      if (levelData.pageNumber === 10) {
+      if (levelData.guardian?.symbolId) {
+        emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100" style="width: 72px; height: 72px;" aria-hidden="true"><use href="#${levelData.guardian.symbolId}"></use></svg>`;
+      } else if (levelData.pageNumber === 10) {
         emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100" style="width: 72px; height: 72px;"><use href="#vq-heroine-eclipse"></use></svg>`;
       } else {
-        emoji.textContent = levelData.guardian?.emoji || '✨';
+        emoji.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>`;
       }
     }
     if (guardianName) guardianName.textContent = levelData.guardian?.name || 'Guardián';
@@ -297,7 +300,10 @@ export class PortalController {
 
     if (pill) pill.textContent = actData.completedPill;
     if (title) title.textContent = actData.headline;
-    if (subtitle) subtitle.textContent = actData.tagline;
+    // Guía rotativa del acto (consejo de iguales): cada acto lo narra una heroína.
+    const guideId = actData.guideHeroineId || 'valen';
+    const guideName = HEROINES[guideId]?.name || 'Valen';
+    if (subtitle) subtitle.textContent = `${actData.tagline} Guiado por ${guideName}.`;
     if (lore) lore.textContent = actData.loreQuote;
     if (nextTitle) {
       nextTitle.textContent = `${actData.nextActTitle} • ${actData.nextLevelName} ${actData.nextGuardianEmoji}`;
@@ -310,8 +316,11 @@ export class PortalController {
         const card = document.createElement('div');
         card.className = 'act-guardian-card';
         card.style.animationDelay = `${idx * 0.4}s`;
+        const avatar = guardian.symbolId
+          ? `<svg class="vq-icon" aria-hidden="true" style="width: 44px; height: 44px;"><use href="#${guardian.symbolId}"></use></svg>`
+          : guardian.emoji;
         card.innerHTML = `
-          <div class="act-guardian-emoji" style="text-shadow: 0 0 16px ${guardian.color};">${guardian.emoji}</div>
+          <div class="act-guardian-emoji" style="text-shadow: 0 0 16px ${guardian.color};">${avatar}</div>
           <div class="act-guardian-name">${guardian.name}</div>
           <div class="act-guardian-temple">${guardian.temple}</div>
           <div class="act-guardian-pill"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> Purificado</div>
@@ -321,7 +330,13 @@ export class PortalController {
     }
 
     sound.playLevelUp();
-    speech.speak(actData.voiceNarration || '¡Felicidades!');
+    try {
+      if (typeof speech.speakHeroine === 'function') {
+        speech.speakHeroine(guideId, actData.voiceNarration || '¡Felicidades!');
+      } else {
+        speech.speak(actData.voiceNarration || '¡Felicidades!');
+      }
+    } catch {}
 
     if (modal) modal.hidden = false;
   }

@@ -72,14 +72,14 @@
         
         <!-- Emblema Oficial Minimalista de ValenQuest: Prisma Cósmico, Corona y Alas -->
         <div class="journey-emblem-badge" style="display: flex; justify-content: center; margin-bottom: 10px;">
-          <img src="assets/emblem-valen.png" alt="Emblema Oficial de ValenQuest: Prisma de las 4 Armonías, Corona y Alas" class="vq-anim-float" style="width: 108px; height: 108px; border-radius: 50%; box-shadow: 0 10px 25px rgba(74, 62, 86, 0.2); border: 3px solid #FFD166; background: #FDF7FF;" width="108" height="108">
+          <svg class="vq-anim-float" style="width: 108px; height: 108px;" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
         </div>
 
         <!-- Rótulo Mágico Ornamental / Eyebrow (Sin affordance de botón) -->
         <div class="journey-eyebrow" role="note" aria-label="Ubicación: Salón de la Armonía en el Reino de Lumiria">
-          <span class="journey-eyebrow-sparkle" aria-hidden="true">✨</span>
+          <span class="journey-eyebrow-sparkle" aria-hidden="true"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg></span>
           <span>Reino de Lumiria • Salón de la Armonía</span>
-          <span class="journey-eyebrow-sparkle" aria-hidden="true">✨</span>
+          <span class="journey-eyebrow-sparkle" aria-hidden="true"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg></span>
         </div>
 
         <h2 class="journey-title">
@@ -95,7 +95,7 @@
         <div class="adventure-campaign-card" id="card-adventure-campaign">
           <div class="adventure-campaign-badge">
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-            <span>Modo Campaña • Próximamente 🚧</span>
+            <span>Modo Campaña • Próximamente <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg></span>
           </div>
 
           <h3 class="adventure-campaign-title">
@@ -117,7 +117,7 @@
               <span class="cta-start-icon-left" aria-hidden="true">
                 <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
               </span>
-              <span class="cta-start-text">¡Ver la Gran Aventura! 🚧</span>
+              <span class="cta-start-text">¡Ver la Gran Aventura!</span>
               <span class="cta-start-icon-right" aria-hidden="true">
                 <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
               </span>
@@ -216,7 +216,7 @@
           <div class="guardian-avatar-wrapper" id="portal-guardian-wrapper">
             <div class="guardian-shadow-aura" id="guardian-shadow-aura"></div>
             <div class="guardian-purified-glow" id="guardian-purified-glow" hidden></div>
-            <div class="guardian-emoji-display" id="portal-guardian-emoji">🫧</div>
+            <div class="guardian-emoji-display" id="portal-guardian-emoji"><svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg></div>
           </div>
           <div class="guardian-meta">
             <h3 class="guardian-name" id="portal-guardian-name">Poni Burbuja</h3>
@@ -308,13 +308,13 @@
         <div class="act-next-destination">
           <span class="next-destination-tag">Próximo Destino Celestial</span>
           <div class="next-destination-content">
-            <span class="next-destination-title" id="act-next-title">Acto II: Caverna de Ámbar 🦉</span>
+            <span class="next-destination-title" id="act-next-title">Acto II: Caverna de Ámbar</span>
           </div>
         </div>
 
         <!-- Botón Glorioso para continuar con el juego -->
         <button id="btn-act-continue" class="action-btn act-continue-btn" type="button">
-          <span id="btn-act-continue-text">¡Continuar al Acto II: Caverna de Ámbar! 🦉</span>
+          <span id="btn-act-continue-text">¡Continuar al Acto II: Caverna de Ámbar!</span>
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
         </button>
       </div>
@@ -346,12 +346,12 @@
         <div class="powers-guide-header">
           <div class="powers-guide-title-group">
             <h2 id="powers-guide-title" class="powers-guide-title">
-              <span aria-hidden="true">✨</span> Poderes de Lumiria
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> Poderes de Lumiria
             </h2>
             <p class="powers-guide-subtitle">¡Las 4 Princesas te ayudan en cada reto!</p>
           </div>
           <button type="button" class="modal-close-btn" id="btn-close-powers-guide" aria-label="Cerrar guía de poderes">
-            <span aria-hidden="true" style="font-size:1.2rem;font-weight:900;">✕</span>
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-close"></use></svg>
           </button>
         </div>
 
@@ -414,13 +414,13 @@
         </div>
 
         <div class="power-guide-tip">
-          <span aria-hidden="true">💡</span>
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lightbulb"></use></svg>
           <span><strong>¿Cómo se recargan?</strong> Cada poder tiene 2 cargas. Al acertar respuestas seguidas y mantener tu racha, ¡las princesas recargan sus poderes automáticamente!</span>
         </div>
 
         <button type="button" class="action-btn powers-guide-ok-btn" id="btn-powers-guide-ok">
           <span>¡Entendido, a jugar!</span>
-          <span aria-hidden="true">✨</span>
+          <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
         </button>
       </div>
     </div>
@@ -445,7 +445,7 @@
           </div>
           <div class="ios-step-item">
             <span class="ios-step-num">2</span>
-            <span>Baja un poco y selecciona <strong>"Añadir a la pantalla de inicio"</strong> ➕.</span>
+            <span>Baja un poco y selecciona <strong>"Añadir a la pantalla de inicio"</strong> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-plus"></use></svg>.</span>
           </div>
           <div class="ios-step-item">
             <span class="ios-step-num">3</span>

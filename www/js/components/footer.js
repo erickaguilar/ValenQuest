@@ -13,7 +13,7 @@ export class VqFooter extends HTMLElement {
     <footer class="app-footer" role="contentinfo">
       <div class="footer-top">
         <div class="footer-brand" style="display: flex; align-items: center; gap: 8px;">
-          <img src="assets/emblem-valen.png" alt="ValenQuest" class="footer-emblem-img" width="26" height="26" style="width: 26px; height: 26px; object-fit: contain; border-radius: 50%; border: 1.5px solid var(--vq-border, #4A3E56); background: #F5EEFA;">
+          <svg class="footer-emblem-img" width="26" height="26" style="width: 26px; height: 26px;" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
           <span>ValenQuest: Lumiria</span>
         </div>
         <p class="footer-motto">
@@ -47,7 +47,7 @@ export class VqFooter extends HTMLElement {
 
       <!-- Pie de página final con versión real actual -->
       <div class="footer-bottom">
-        <p>ValenQuest v2.1.6 • Edición Lumiria © 2026</p>
+        <p>ValenQuest v2.1.8 • Edición Lumiria © 2026</p>
       </div>
     </footer>
     `;

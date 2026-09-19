@@ -1,7 +1,7 @@
 /**
  * ValenQuest: Controlador del Prisma Numérico (math-page.js)
  * Arena de cálculo mental con 5 niveles en caliente, racha, combo astral,
- * recompensas en Diamantes (💎) y poderes de amistad.
+ * recompensas en Diamantes y poderes de amistad.
  * Extiende ArenaPageController (lógica compartida con lectura).
  * Homologado con reading-page.js.
  */

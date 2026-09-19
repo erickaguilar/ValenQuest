@@ -61,7 +61,7 @@ function showWasmErrorBanner(err) {
     container.hidden = false;
     container.innerHTML = `
       <div class="wasm-alert">
-        <strong>⚠️ Error al inicializar el motor WebAssembly</strong>
+        <strong><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-warning"></use></svg> Error al inicializar el motor WebAssembly</strong>
         <p>Asegúrate de servir la aplicación mediante un servidor HTTP local:</p>
         <code>python3 -m http.server 8090 --directory www</code>
         <small style="display:block;margin-top:6px;opacity:0.8;">Detalle: ${err.message || err}</small>

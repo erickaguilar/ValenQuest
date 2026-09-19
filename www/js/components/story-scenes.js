@@ -41,7 +41,7 @@ export const STORY_SCENES = {
             <stop offset="100%" stop-color="#FFD166" />
           </linearGradient>
 
-          <!-- Orbe 1: Alicornio (Rosa / Oro • Liderazgo y Magia Real) -->
+          <!-- Orbe 1: Alicornio (Rosa / Oro • Magia Real de las Estrellas) -->
           <radialGradient id="c1-orb-alicorn" cx="35%" cy="35%" r="65%">
             <stop offset="0%" stop-color="#FFF" />
             <stop offset="40%" stop-color="#FFAFCC" />
@@ -617,10 +617,10 @@ export const STORY_SCENES = {
   },
 
   // Capítulos 3, 4, 5 y 6 preparados con el contrato estándar (fallback canónico #symbolId)
-  3: { id: 'scene-valen', name: 'Valen, la Princesa Astral' },
-  4: { id: 'scene-reni', name: 'Reni, el Alquimista de los Vientos' },
-  5: { id: 'scene-zoe', name: 'Zoe, el Ancla de la Naturaleza' },
-  6: { id: 'scene-lia', name: 'Lía, la Maga del Cristal Cósmico' }
+  3: { id: 'scene-valen', name: 'Valen, Princesa de las Estrellas' },
+  4: { id: 'scene-reni', name: 'Reni, Princesa de los Vientos' },
+  5: { id: 'scene-zoe', name: 'Zoe, Princesa de la Naturaleza' },
+  6: { id: 'scene-lia', name: 'Lía, Princesa de los Cristales' }
 };
 
 /**

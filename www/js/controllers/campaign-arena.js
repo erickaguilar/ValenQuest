@@ -101,7 +101,7 @@ export class CampaignArenaController extends MathPageController {
       const templePill = document.getElementById('campaign-temple-pill');
       if (templePill) {
         templePill.hidden = false;
-        templePill.textContent = `⚔️ Templo ${campaignEngine.temple}: ${adventure.getState().templeName || ''}`;
+        templePill.textContent = `Templo ${campaignEngine.temple}: ${adventure.getState().templeName || ''}`;
       }
     } catch {}
   }

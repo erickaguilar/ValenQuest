@@ -4,7 +4,7 @@
  * y Runtime Caching con Stale-While-Revalidate para el resto de páginas y módulos.
  */
 
-const CACHE_VERSION = 'v2.1.6';
+const CACHE_VERSION = 'v2.1.8';
 const CORE_CACHE_NAME = `valenquest-core-${CACHE_VERSION}`;
 const RUNTIME_CACHE_NAME = `valenquest-runtime-${CACHE_VERSION}`;
 
@@ -40,6 +40,7 @@ const CORE_PRECACHE_URLS = [
   '/data/story-chapters.json',
   '/assets/icons.svg',
   '/assets/heroines.svg',
+  '/assets/guardians.svg',
   '/assets/icon-192.png',
   '/assets/fonts/fredoka-latin.woff2',
   '/assets/fonts/fredoka-latin-ext.woff2'

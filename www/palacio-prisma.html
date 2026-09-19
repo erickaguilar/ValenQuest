@@ -479,7 +479,7 @@
     <!-- Encabezado del Templo -->
     <header class="palacio-header">
       <div class="temple-pill-row">
-        <span class="pill-temple">🏛️ Templo 5 • Acto II</span>
+        <span class="pill-temple">Templo 5 • Acto II</span>
         <span class="pill-phase" id="pill-phase-indicator">Fase 1: Lectura</span>
       </div>
       <h1 class="temple-title">Palacio Prisma</h1>
@@ -487,7 +487,7 @@
 
     <!-- Guardián: León de Espejos con Estado Dinámico -->
     <section class="guardian-card" id="guardian-card">
-      <div class="guardian-avatar" id="guardian-avatar" aria-hidden="true">🦁</div>
+      <div class="guardian-avatar" id="guardian-avatar" aria-hidden="true"><svg class="vq-icon" aria-hidden="true" style="width:64px;height:64px;"><use href="#vq-guardian-leon"></use></svg></div>
       <div class="guardian-dialogue" id="guardian-speech">
         «Bienvenida al Palacio Prisma. Mis espejos están cubiertos por la sombra del Eclipse... ¿Me ayudas a interpretarlos?»
       </div>
@@ -499,7 +499,7 @@
     <section class="phase-section" id="section-phase-1" aria-label="Fase 1 de Lectura">
       <article class="story-bubble">
         <button class="tts-btn" id="btn-speak-story" type="button" aria-label="Escuchar fábula">
-          <span>🗣️</span> <span>Escuchar</span>
+          <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-speech"></use></svg></span> <span>Escuchar</span>
         </button>
         <p class="story-text" id="story-paragraph">
           «El león guardaba un cetro <mark>radiante</mark> en lo alto de la torre de espejos, pues solo la luz más pura podía abrir el cofre sagrado de cristal.»
@@ -507,21 +507,21 @@
       </article>
 
       <div class="riddle-question">
-        <span>📖</span> <span>¿Qué significa la palabra <strong>"radiante"</strong> en esta historia?</span>
+        <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-reading"></use></svg></span> <span>¿Qué significa la palabra <strong>"radiante"</strong> en esta historia?</span>
       </div>
 
       <div class="options-stack" id="synonym-options-stack">
         <button class="btn-synonym" data-correct="true" type="button">
           <span>A. Brillante y luminoso</span>
-          <span>✨</span>
+          <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg></span>
         </button>
         <button class="btn-synonym" data-correct="false" type="button">
           <span>B. Ruidoso y estruendoso</span>
-          <span>🔊</span>
+          <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg></span>
         </button>
         <button class="btn-synonym" data-correct="false" type="button">
           <span>C. Frío y congelado</span>
-          <span>❄️</span>
+          <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-snowflake"></use></svg></span>
         </button>
       </div>
     </section>
@@ -532,7 +532,7 @@
     <section class="phase-section hidden" id="section-phase-2" aria-label="Fase 2 de Matemáticas Visuales">
       <div class="prism-arena">
         <div class="prism-source">
-          <span>💎</span>
+          <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg></span>
           <span>Prisma Real de Valen: 5 haces de luz hacia 6 espejos</span>
         </div>
 
@@ -543,13 +543,13 @@
       </div>
 
       <div class="riddle-question">
-        <span>🧮</span> <span>¿Cuántas gemas de luz se han refractado en total? (5 × 6)</span>
+        <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-math"></use></svg></span> <span>¿Cuántas gemas de luz se han refractado en total? (5 × 6)</span>
       </div>
 
       <div class="math-options-grid" id="math-options-grid">
         <button class="btn-math-opt" data-val="25" type="button">25</button>
         <button class="btn-math-opt" data-val="28" type="button">28</button>
-        <button class="btn-math-opt" data-val="30" data-correct="true" type="button">30 ✨</button>
+        <button class="btn-math-opt" data-val="30" data-correct="true" type="button">30</button>
         <button class="btn-math-opt" data-val="35" type="button">35</button>
       </div>
     </section>
@@ -558,7 +558,7 @@
     <!-- FASE 3: CELEBRACIÓN Y RECOMPENSA                                   -->
     <!-- =================================================================== -->
     <section class="celebration-box hidden" id="section-celebration">
-      <div style="font-size:2.8rem;">🎉 🦁 🪄</div>
+      <div style="font-size:2.8rem;" aria-hidden="true"><svg class="vq-icon" aria-hidden="true" style="width:44px;height:44px;"><use href="#vq-guardian-leon"></use></svg> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-magic-wand"></use></svg></div>
       <h2 style="font-size:1.35rem;font-weight:900;color:#1A3008;">
         ¡Palacio Prisma Purificado!
       </h2>
@@ -567,7 +567,7 @@
       </p>
 
       <div class="reward-card-row">
-        <span style="font-size:2.2rem;">🪄</span>
+        <svg class="vq-icon" aria-hidden="true" style="width:32px;height:32px;"><use href="#vq-icon-magic-wand"></use></svg>
         <div style="text-align:left;">
           <strong style="font-size:1rem;color:var(--vq-text);">Cetro Estelar Radiante</strong>
           <div style="font-size:0.8rem;color:var(--vq-text-muted);">Recompensa coleccionable para Lía</div>
@@ -575,7 +575,7 @@
       </div>
 
       <button class="btn-restart" id="btn-restart-quest" type="button">
-        🔄 Reintentar Prototipo
+        Reintentar Prototipo
       </button>
     </section>
 
@@ -602,7 +602,7 @@
       for (let i = 0; i < 30; i++) {
         const gem = document.createElement('div');
         gem.className = 'gem-item';
-        gem.textContent = '💎';
+        gem.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>';
         gem.setAttribute('title', `Gema ${i + 1}`);
         gemsGrid.appendChild(gem);
       }
@@ -670,7 +670,7 @@
         if (isCorrect) {
           btn.classList.add('correct');
           triggerHarmonyRadiance();
-          guardianAvatar.textContent = '✨';
+          guardianAvatar.innerHTML = '<svg class="vq-icon" aria-hidden="true" style="width:64px;height:64px;"><use href="#vq-icon-sparkles"></use></svg>';
           guardianSpeech.textContent = '«¡Exacto! El cetro es brillante y luminoso. Ahora acompáñame a encender los espejos del salón.»';
 
           // Transición narrativa causal hacia Fase 2 (400ms)
@@ -679,7 +679,7 @@
             phase2Sec.classList.remove('hidden');
             phaseIndicator.textContent = 'Fase 2: Matemáticas';
             phaseIndicator.style.background = 'var(--vq-sky)';
-            guardianAvatar.textContent = '🦁';
+            guardianAvatar.innerHTML = '<svg class="vq-icon" aria-hidden="true" style="width:64px;height:64px;"><use href="#vq-guardian-leon"></use></svg>';
 
             // Animación secuencial de iluminación de las 30 gemas (5 en 5)
             const gems = document.querySelectorAll('.gem-item');
@@ -723,7 +723,7 @@
         if (isCorrect) {
           btn.classList.add('correct');
           triggerHarmonyRadiance();
-          guardianAvatar.textContent = '👑';
+          guardianAvatar.innerHTML = '<svg class="vq-icon" aria-hidden="true" style="width:64px;height:64px;"><use href="#vq-icon-crown"></use></svg>';
           guardianSpeech.textContent = '«¡La luz ha regresado! Las 30 gemas resuenan en armonía. Has disipado el Sueño del Olvido.»';
 
           setTimeout(() => {
@@ -751,7 +751,7 @@
       phase1Sec.classList.remove('hidden');
       phaseIndicator.textContent = 'Fase 1: Lectura';
       phaseIndicator.style.background = 'var(--vq-lavender)';
-      guardianAvatar.textContent = '🦁';
+      guardianAvatar.innerHTML = '<svg class="vq-icon" aria-hidden="true" style="width:64px;height:64px;"><use href="#vq-guardian-leon"></use></svg>';
       guardianSpeech.textContent = '«Bienvenida al Palacio Prisma. Mis espejos están cubiertos por la sombra del Eclipse... ¿Me ayudas a interpretarlos?»';
     });
   </script>

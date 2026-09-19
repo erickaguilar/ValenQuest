@@ -87,15 +87,15 @@ Basado en la biblia de lore oficial (`docs/story-and-lore-guide.md`) y el conten
 
 ---
 
-### Capítulo III: Valen, la Princesa Astral
+### Capítulo III: Valen, Princesa de las Estrellas
 * **Identificador Escena:** `scene-valen`
-* **Metáfora Visual:** El Prisma Real de cuarzo estelar en el pecho de la líder alicornio, girando para refractar un rayo de sol que disipa dos sombras y duplica estrellas doradas.
+* **Metáfora Visual:** El Prisma Real de cuarzo estelar en el pecho de la princesa alicornio, girando para refractar un rayo de sol que disipa dos sombras y duplica estrellas doradas.
 * **Paleta Canónica:** Rosa chicle (`#FFAFCC`), Oro realeza (`#FFD166`), Blanco perla (`#FFFFFF`).
 * **Cronograma de 10 Segundos:** Prisma en reposo resplandeciendo (0-3s), giro multidimensional refractando un arcoíris en cruz (3-6s), multiplicación de estrellas flotantes gemelas que ascienden (6-10s).
 
 ---
 
-### Capítulo IV: Reni, el Alquimista de los Vientos
+### Capítulo IV: Reni, Princesa de los Vientos
 * **Identificador Escena:** `scene-reni`
 * **Metáfora Visual:** El astrolabio de los vientos de Nimbus; ráfagas veloces de tempestad que, al recibir las plumas celestes de Reni, se suavizan en una suave brisa serena.
 * **Paleta Canónica:** Azul cielo (`#A2D2FF`), Blanco nube (`#F8F9FA`), Turquesa suave (`#BEE1E6`).
@@ -103,7 +103,7 @@ Basado en la biblia de lore oficial (`docs/story-and-lore-guide.md`) y el conten
 
 ---
 
-### Capítulo V: Zoe, el Ancla de la Naturaleza
+### Capítulo V: Zoe, Princesa de la Naturaleza
 * **Identificador Escena:** `scene-zoe`
 * **Metáfora Visual:** El Escudo de Raíces esmeralda brotando de la tierra fértil; un brote que florece y resiste el viento con paciencia inquebrantable.
 * **Paleta Canónica:** Menta silvestre (`#B8F2E6`), Verde bosque (`#52B788`), Ocre tierra cálida (`#D8B4E2`).
@@ -111,7 +111,7 @@ Basado en la biblia de lore oficial (`docs/story-and-lore-guide.md`) y el conten
 
 ---
 
-### Capítulo VI: Lía, la Maga del Cristal Cósmico
+### Capítulo VI: Lía, Princesa de los Cristales
 * **Identificador Escena:** `scene-lia`
 * **Metáfora Visual:** El cuerno de unicornio canalizando energía telequinética violeta hacia un prisma flotante que resalta números y sílabas clave.
 * **Paleta Canónica:** Lila místico (`#C77DFF`), Violeta profundo (`#3C096C`), Cian cristalino (`#E0AAFF`).

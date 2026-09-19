@@ -46,6 +46,12 @@ export class VqHeader extends HTMLElement {
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
           <span>Cuentos</span>
         </span>`;
+    } else if (currentSection === 'personajes') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--wardrobe" title="Códice de Personajes de Lumiria">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>Códice</span>
+        </span>`;
     }
 
     this.innerHTML = `
@@ -55,7 +61,7 @@ export class VqHeader extends HTMLElement {
       <div class="header-brand-row">
         <a href="./" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
           <span class="brand-icon" aria-hidden="true" style="overflow: hidden; padding: 0; background: #F5EEFA;">
-            <img src="assets/emblem-valen.png" alt="ValenQuest" class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
+            <svg class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%;" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
           </span>
           <div class="brand-info">
             <h1 class="brand-title">ValenQuest</h1>
@@ -239,10 +245,10 @@ export class VqHeader extends HTMLElement {
         </div>
         <h3 id="confirm-reset-title" class="confirm-reset-title">¿Reiniciar Aventura Mágica?</h3>
         <p class="confirm-reset-text" id="confirm-reset-desc">
-          Se borrarán tus <strong>estrellas ⭐</strong>, <strong>diamantes 💎</strong> y avances en los templos para comenzar una nueva historia desde cero.
+          Se borrarán tus <strong>estrellas <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg></strong>, <strong>diamantes <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg></strong> y avances en los templos para comenzar una nueva historia desde cero.
         </p>
         <div class="confirm-reset-tip" id="confirm-reset-hint">
-          <span>🛡️ Esta acción no se puede deshacer. Tus ajustes de tema y sonido se mantendrán.</span>
+          <span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> Esta acción no se puede deshacer. Tus ajustes de tema y sonido se mantendrán.</span>
         </div>
         <div class="confirm-reset-actions" id="confirm-reset-actions">
           <button id="btn-cancel-reset" type="button" class="action-btn action-btn--secondary">
@@ -441,10 +447,10 @@ export class VqHeader extends HTMLElement {
         if (btnCancelReset) btnCancelReset.disabled = true;
         btnConfirmReset.textContent = 'Borrando...';
         if (confirmDesc) {
-          confirmDesc.innerHTML = '✨ <em>Restableciendo el reino y las constelaciones...</em>';
+          confirmDesc.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <em>Restableciendo el reino y las constelaciones...</em>';
         }
         if (confirmHint) {
-          confirmHint.innerHTML = '<span>🌟 ¡Todo listo para un nuevo comienzo! Redirigiendo...</span>';
+          confirmHint.innerHTML = '<span><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> ¡Todo listo para un nuevo comienzo! Redirigiendo...</span>';
         }
 
         try {
@@ -459,7 +465,7 @@ export class VqHeader extends HTMLElement {
           if (btnCancelReset) btnCancelReset.disabled = false;
           btnConfirmReset.textContent = 'Sí, empezar de cero';
           if (confirmDesc) {
-            confirmDesc.innerHTML = '⚠️ No se pudo completar el reinicio. Intenta nuevamente.';
+            confirmDesc.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-warning"></use></svg> No se pudo completar el reinicio. Intenta nuevamente.';
           }
         }
       });

@@ -29,7 +29,7 @@ Cuatro linajes nobles de ponis convivieron en equilibrio fraternal, cada una enc
        ┌────────────────┬──────────────┴───────────────┬────────────────┐
        ▼                ▼                               ▼                ▼
    ALICORNIOS        PEGASOS                     PONIS TERRESTRES    UNICORNIOS
-  (Liderazgo)     (Viento & Tiempo)             (Tierra & Lenguaje) (Cristal & Mente)
+  (Estrellas & Magia)     (Viento & Tiempo)             (Tierra & Lenguaje) (Cristal & Mente)
 ```
 
 1. **Alicornios (Princesas Astrales):** Portadoras conjuntas de alas celestiales y cuerno radiante. Guardianas de la visión de conjunto, el optimismo inquebrantable y la síntesis entre la magia mental y la acción física.
@@ -45,7 +45,7 @@ Cuando la sombra cayó sobre el reino, cuatro jóvenes heroínas de cada una de 
 
 | Heroína | Raza | Rasgos y Paleta | Poder de Amistad | Rol Pedagógico y Emocional |
 | :--- | :--- | :--- | :--- | :--- |
-| **Princesa Valen** 👑 | **Alicornio** *(Líder)* | Melena y alas rosa chicle (`#FFAFCC`), cuerno dorado con halo estelar. | **Prisma Real:** Despeja dudas descartando opciones falsas y duplica las estrellas ganadas ($2\times$). | Representa la **confianza y el liderazgo alegre**. Recuerda a los niños que equivocarse es parte del camino y que toda estrella vuelve a brillar. |
+| **Princesa Valen** 👑 | **Alicornio** | Melena y alas rosa chicle (`#FFAFCC`), cuerno dorado con halo estelar. | **Prisma Real:** Despeja dudas descartando opciones falsas y duplica las estrellas ganadas ($2\times$). | Representa la **confianza alegre y la chispa inicial**. Recuerda a los niños que equivocarse es parte del camino y que toda estrella vuelve a brillar. |
 | **Reni** 🪽 | **Pegaso** | Coletas y alas celestes (`#A2D2FF`), mirada vivaz y cascos aerodinámicos. | **Brisa Temporal:** Detiene el flujo del tiempo para que el jugador piense con calma y sin angustia. | Representa la **serenidad ante la prisa**. Enseña que la velocidad lectora o matemática no sirve si se pierde la calma y la respiración. |
 | **Zoe** 🌿 | **Poni Terrestre** | Melena menta esmeralda (`#34D399`), corona floral silvestre y cascos firmes. | **Escudo de Raíces:** Protege la racha ante tropiezos y explica paso a paso el problema con voz cálida. | Representa la **resiliencia y la constancia**. Elimina el miedo a equivocarse: un error no reinicia el esfuerzo, sino que abre una explicación guiada. |
 | **Lía** 🦄 | **Unicornio** | Cuerno violeta cósmico (`#9D4EDD`), aura telequinética y mirada analítica serena. | **Foco de Cristal:** Ilumina la pista oculta del enigma (el acarreo en sumas, la descomposición o el núcleo silábico). | Representa la **claridad mental y la lógica**. Desarma problemas complejos en piezas sencillas y comprensibles. |
@@ -84,7 +84,7 @@ El arquetipo de Orión encarna la más pura pedagogía del refuerzo positivo y l
 * **La Voz Viva del Reino:** Orión es la manifestación canónica de la **Voz Narradora** de ValenQuest. Cuando el jugador activa el sintetizador de voz (Web Speech API), es la voz pausada, melodiosa y cálida del Maestro Orión la que lee los enunciados, los versos del cuento y las pistas matemáticas.
 
 ### 3.3. Dinámica de Orión con el Cuarteto
-* **Con Valen (Alicornio):** Ejerce de tutor real y consejero de cabecera. Le recuerda a la joven líder que gobernar no es saberlo todo de inmediato, sino rodearse de amigos y escuchar con el corazón.
+* **Con Valen (Alicornio):** Ejerce de tutor y consejero. Le recuerda a la joven heroína que nadie lo sabe todo de inmediato: rodearse de amigos y escuchar con el corazón.
 * **Con Reni (Pegaso):** Es su contrapeso sereno. Cuando Reni quiere volar en picada y responder en medio segundo, Orión despliega un mapa con calma y le enseña a respirar: *«El viento veloz es magnífico, querida Reni, pero incluso las brisas más rápidas miran hacia dónde van.»*
 * **Con Zoe (Poni Terrestre):** Comparten un vínculo profundo y pacífico. Zoe le prepara té de manzanilla silvestre mientras Orión clasifica hojas y semillas según sus proporciones geométricas y vocablos botánicos.
 * **Con Lía (Unicornio):** Son colegas de debate intelectual. Se enzarzan en fascinantes discusiones sobre si los cristales de cuarzo crecen según la sucesión de números triangulares o el compás de las estrellas binarias.
@@ -159,7 +159,7 @@ Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/c
 
 1. **Capítulo I: El Gran Grimorio y las Cuatro Razas:** *(Desbloqueado al inicio)*. Establece la civilización de Lumiria y la armonía entre Alicornios, Pegasos, Ponis Terrestres y Unicornios.
 2. **Capítulo II: La Emperatriz Eclipse y el Sueño del Olvido:** *(Bonus Templo 1)*. Narra la desesperación de la antagonista, la tormenta de sombra y la fragmentación del libro.
-3. **Capítulo III: Valen, la Princesa Astral:** *(Bonus Templo 2)*. Presenta a la líder y el momento en que su cuerno despierta el resplandor de la primera estrella.
+3. **Capítulo III: Valen, Princesa de las Estrellas:** *(Bonus Templo 2)*. Presenta a Valen y el momento en que su cuerno despierta el resplandor de la primera estrella.
 4. **Capítulo IV: Reni y los Susurros del Viento:** *(Bonus Templo 3)*. El encuentro en las altas cumbres con la pegaso que enseña a pensar sin prisas.
 5. **Capítulo V: Zoe y el Latido de la Tierra:** *(Bonus Templo 5)*. La llegada a los valles verdes con la poni terrestre que convierte cada error en abono para crecer.
 6. **Capítulo VI: Lía y la Geometría del Cristal:** *(Bonus Templo 7)*. El descenso a las cavernas místicas con la unicornio que encuentra el orden en los enigmas.

@@ -24,7 +24,7 @@ Heroína Central   Viento y Tiempo               Fuerza y Lectura  Cristal y Mag
 
 | Heroína | Raza MLP | Rasgos Físicos & Visuales | Talento Especial | Poder de Amistad (Mecánica) |
 | --- | --- | --- | --- | --- |
-| **Valen** 👑 | **Alicornio** *(Líder)* | Cuerno dorado brillante + alas emplumadas rosas (`--vq-pink-bubble`) con halo astral. | Conduce la aventura en todos los niveles; canaliza la magia suprema. | **Prisma Real:** Descarta 2 opciones incorrectas y otorga un multiplicador de estrellas ($2\times$) al acertar. |
+| **Valen** 👑 | **Alicornio** *(Princesa de las Estrellas)* | Cuerno dorado brillante + alas emplumadas rosas (`--vq-pink-bubble`) con halo astral. | Primera voz del consejo; enciende la marcha con su Prisma Real. | **Prisma Real:** Descarta 2 opciones incorrectas y otorga un multiplicador de estrellas ($2\times$) al acertar. |
 | **Reni** 🪽 | **Pegaso** | Alas emplumadas batiendo a 60 FPS, coletas cielo (`--vq-sky`). | Vuelo acrobático y dominio del clima. | **Brisa Temporal:** Detiene el cronómetro ($t \le 4000\text{ ms}$) garantizando el factor de maestría $P = 1.0$. |
 | **Zoe** 🌿 | **Poni Terrestre** | Sin alas ni cuerno; cascos firmes de roble, melena menta (`--vq-mint`) y corona floral. | Conexión con la tierra, perseverancia y raíces del lenguaje. | **Escudo de Raíces:** Protege la racha ante un error (no resetea a 0) y activa la explicación guiada por voz (TTS). |
 | **Lía** 🦄 | **Unicornio** | Cuerno místico violeta cósmico (`#7B2CBF`), destellos de gemas y aura telequinética. | Telequinesis y geometría mental. | **Foco de Cristal:** Resalta la pista clave del problema (el acarreo en matemáticas o la descomposición) con guía sonora. |
@@ -36,7 +36,7 @@ En la historia de Lumiria, los cuatro templos cardinales solo pueden desbloquear
 * **Ponis Terrestres (Zoe):** Sostienen los cimientos de los templos subterráneos (*Caverna de Ámbar*, *Muralla de Nácar*), donde la perseverancia y la paciencia son indispensables.
 * **Pegasos (Reni):** Despejan tormentas y corrientes de aire en las alturas (*Vértice de Algodón*, *Cúspide de la Aurora*) para retos de agilidad mental.
 * **Unicornios (Lía):** Canalizan la energía pura del Cristal Cósmico y la telequinesis para enfocar y resolver enigmas geométricos (*Palacio Prisma*, *Reloj de las Arenas*).
-* **Alicornios (Valen):** Como princesa astral y líder de Lumiria, Valen guía a sus tres amigas y canaliza el Prisma Real para restaurar la luz estelar y enfrentar a la *Emperatriz Eclipse* en el Nivel 10.
+* **Alicornios (Valen):** Como princesa de las Estrellas y primera voz del consejo, Valen enciende la marcha con su Prisma Real; la luz final ante la *Emperatriz Eclipse* (Nivel 10) la encienden las cuatro juntas.
 
 ---
 

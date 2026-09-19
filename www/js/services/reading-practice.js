@@ -3,7 +3,7 @@
  * Orquestador del taller de lenguaje y fluidez estructurado en 5 niveles de maestría.
  * Implementa generador de retos, cálculo de racha, Combo Lírico (0% a 100%),
  * progresión de maestría (desbloqueo de niveles por aciertos)
- * y recompensas en Diamantes (💎) con persistencia en IndexedDB (valenquest_db).
+ * y recompensas en Diamantes con persistencia en IndexedDB (valenquest_db).
  */
 import { db } from './storage.js';
 
@@ -14,7 +14,6 @@ export const READING_LEVELS = [
     name: 'Ecos de Rocío',
     shortName: 'Palabras Directas',
     description: 'Silabeo básico y palabras bisílabas (ma-pa, lu-na).',
-    icon: '💧',
     svgIcon: 'quill',
   },
   {
@@ -23,7 +22,6 @@ export const READING_LEVELS = [
     name: 'Vientos Cruzados',
     shortName: 'Sílabas Trabadas',
     description: 'Grupos consonánticos inseparables (bra, pla, tro, glu).',
-    icon: '🍃',
     svgIcon: 'leaf',
   },
   {
@@ -32,7 +30,6 @@ export const READING_LEVELS = [
     name: 'Pergaminos Cantarines',
     shortName: 'Oraciones con Orión',
     description: 'Frases completas con lectura asistida en voz alta.',
-    icon: '📜',
     svgIcon: 'scroll',
   },
   {
@@ -41,7 +38,6 @@ export const READING_LEVELS = [
     name: 'Vuelo Rápido RSVP',
     shortName: 'Velocímetro RSVP',
     description: 'Entrenamiento de velocidad visual palabra a palabra.',
-    icon: '⚡',
     svgIcon: 'bolt',
   },
   {
@@ -50,7 +46,6 @@ export const READING_LEVELS = [
     name: 'Fábulas del Grimorio',
     shortName: 'Comprensión Lectora',
     description: 'Micro-cuentos, inferencias, sinónimos y rimas.',
-    icon: '📖',
     svgIcon: 'reading',
   },
 ];

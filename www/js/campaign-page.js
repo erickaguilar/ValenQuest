@@ -176,8 +176,8 @@ class CampaignPageController {
     }
     if (playText) {
       playText.textContent = completed
-        ? '¡Seguir jugando en Lumiria! ⚔️'
-        : `¡Jugar Templo ${currentTempleNum}! ⚔️`;
+        ? '¡Seguir jugando en Lumiria!'
+        : `¡Jugar Templo ${currentTempleNum}!`;
     }
 
     // Roadmap: estado real por tarjeta (purificado / activo / por liberar).

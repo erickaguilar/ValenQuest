@@ -95,6 +95,36 @@ function copyRecursive(src, dest) {
   }
 }
 
+/**
+ * Minifica SVG de producción: elimina comentarios de documentación y
+ * colapsa espacios entre etiquetas. La fuente en www/ conserva comentarios.
+ * Seguro para path data (no toca espacios dentro de atributos).
+ */
+function minifySvg(content) {
+  return content
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/>\s+</g, '><')
+    .trim();
+}
+
+function minifySvgDir(dirPath) {
+  if (!fs.existsSync(dirPath)) return;
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      minifySvgDir(fullPath);
+    } else if (entry.isFile() && entry.name.endsWith('.svg')) {
+      const orig = fs.readFileSync(fullPath, 'utf8');
+      const minified = minifySvg(orig);
+      if (minified !== orig) {
+        fs.writeFileSync(fullPath, minified, 'utf8');
+        console.log(`  ✓ assets/${path.relative(DIST_DIR, fullPath)} minificado (${orig.length}B → ${minified.length}B)`);
+      }
+    }
+  }
+}
+
 // =============================================================================
 // Build Pipeline
 // =============================================================================
@@ -187,6 +217,7 @@ const assetsSrcDir = path.join(SRC_DIR, 'assets');
 const assetsDistDir = path.join(DIST_DIR, 'assets');
 if (fs.existsSync(assetsSrcDir)) {
   copyRecursive(assetsSrcDir, assetsDistDir);
+  minifySvgDir(assetsDistDir);
   console.log('  ✓ Assets SVG y PNG copiados a dist/assets/');
 }
 

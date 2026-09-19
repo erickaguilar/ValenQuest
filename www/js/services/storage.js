@@ -71,7 +71,6 @@ export const INITIAL_COMPANIONS = [
     heroineId: 'valen',
     name: 'Valen',
     race: 'alicorn',
-    isLeader: true,
     charges: 2,
     timesInvoked: 0,
     equipped: { head: 'tiara-basica', wings: null, charm: null },
@@ -205,7 +204,7 @@ class StorageService {
             const initialProfile = {
               id: 'active',
               name: 'Valen',
-              avatar: '🦄',
+              avatar: 'vq-heroine-valen',
               stars: 5, // 5 starter stars for instant celebration!
               selectedCompanion: 'valen',
               theme: (typeof localStorage !== 'undefined' && localStorage.getItem('vq-theme')) || 'light',
@@ -300,7 +299,7 @@ class StorageService {
         }
       });
 
-      // 1e. Migration: Valen -> Alicorn & Lía -> Unicorn
+      // 1e. Migration: Valen -> Alicorn & Lía -> Unicorn (sin rangos: consejo de iguales)
       await new Promise((res) => {
         try {
           const tx = this.db.transaction('companions_state', 'readwrite');
@@ -310,7 +309,7 @@ class StorageService {
             if (valenReq.result) {
               const valenData = valenReq.result;
               valenData.race = 'alicorn';
-              valenData.isLeader = true;
+              delete valenData.isLeader;
               store.put(valenData);
             }
           };
@@ -319,7 +318,7 @@ class StorageService {
             if (liaReq.result) {
               const liaData = liaReq.result;
               liaData.race = 'unicorn';
-              liaData.isLeader = false;
+              delete liaData.isLeader;
               store.put(liaData);
             }
           };
@@ -548,7 +547,7 @@ class StorageService {
             resolve({
               id: 'active',
               name: 'Valen',
-              avatar: '🦄',
+              avatar: 'vq-heroine-valen',
               stars: 5,
               diamonds: 0,
               currentTier: 1,
@@ -559,7 +558,7 @@ class StorageService {
         req.onerror = () => resolve({
           id: 'active',
           name: 'Valen',
-          avatar: '🦄',
+          avatar: 'vq-heroine-valen',
           stars: 5,
           diamonds: 0,
           currentTier: 1,
@@ -569,7 +568,7 @@ class StorageService {
         resolve({
           id: 'active',
           name: 'Valen',
-          avatar: '🦄',
+          avatar: 'vq-heroine-valen',
           stars: 5,
           diamonds: 0,
           currentTier: 1,
@@ -609,7 +608,7 @@ class StorageService {
       stars: 0,
       diamonds: 0,
       name: 'Valen',
-      avatar: '🦄',
+      avatar: 'vq-heroine-valen',
     };
 
     const currentStars = profile.stars || 0;
@@ -632,7 +631,7 @@ class StorageService {
       stars: 0,
       diamonds: 0,
       name: 'Valen',
-      avatar: '🦄',
+      avatar: 'vq-heroine-valen',
     };
 
     const currentDiamonds = typeof profile.diamonds === 'number' ? profile.diamonds : 0;

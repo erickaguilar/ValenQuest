@@ -13,7 +13,7 @@
 En los tiempos fundacionales del Reino de Lumiria, la armonía descansaba sobre las páginas sagradas del **Gran Grimorio de Cristal**, custodiado en el Templo Supremo por las cuatro razas de ponis. La *Emperatriz Eclipse*, cegada por el temor a que la luz se extinguiera, lanzó el *Sueño del Olvido*, un hechizo de sombra que fragmentó el Grimorio en diez páginas sagradas y sumió a los guardianes ancestrales en un letargo corrupto.
 
 Para restaurar Lumiria, el **Cuarteto de la Armonía** emprende la travesía de las Diez Lunas a través de diez templos astrales:
-- 👑 **Valen (Alicornio Real):** Líder de Lumiria, refracta las cifras con su *Prisma Real*, desvelando el orden matemático oculto.
+- 👑 **Valen (Alicornio, Princesa de las Estrellas):** Primera voz del consejo; refracta las cifras con su *Prisma Real*, desvelando el orden matemático oculto.
 - 🪽 **Reni (Pegaso de los Vientos):** Despeja las tormentas con su *Brisa Temporal*, permitiendo serenidad y concentración sin prisa.
 - 🌿 **Zoe (Poni Terrestre):** Ancla de la naturaleza, traduce los glifos antiguos con su *Escudo de Raíces*, protegiendo la constancia y guiando con voz sabia.
 - 🦄 **Lía (Unicornio de Cristal):** Canalizadora de la resonancia mística, enfoca la energía con su *Foco de Cristal*, iluminando las pistas clave y reagrupaciones.

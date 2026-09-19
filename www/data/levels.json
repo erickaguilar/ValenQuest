@@ -12,10 +12,10 @@
       "guardian": {
         "name": "Poni Burbuja",
         "title": "Guardián de las Aguas Cantarinas",
-        "emoji": "🫧",
         "species": "Poni Acuático Astral",
         "shadowColor": "#4A3E56",
-        "purifiedColor": "#70D6FF"
+        "purifiedColor": "#70D6FF",
+        "symbolId": "vq-guardian-burbuja"
       },
       "microCuento": [
         "En el Manantial de Rocío el agua canta con notas de cristal.",
@@ -40,7 +40,6 @@
         "heroineId": "valen",
         "slot": "head",
         "name": "Tiara de Rocío Astral",
-        "icon": "👑",
         "description": "Forjada con las gotas puras del Manantial de Rocío.",
         "costStars": 0,
         "unlocked": false
@@ -58,10 +57,10 @@
       "guardian": {
         "name": "Hada Ciervo",
         "title": "Guardián de los Vientos del Bosque",
-        "emoji": "🦌",
         "species": "Espíritu Astado Silvestre",
         "shadowColor": "#36454F",
-        "purifiedColor": "#A7C957"
+        "purifiedColor": "#A7C957",
+        "symbolId": "vq-guardian-ciervo"
       },
       "microCuento": [
         "Bajo los robles del Bosque Susurrante el viento trenza hojas doradas.",
@@ -86,7 +85,6 @@
         "heroineId": "reni",
         "slot": "head",
         "name": "Lazo de Viento Celeste",
-        "icon": "🎀",
         "description": "Cinta etérea hilada con las brisas suaves del Bosque Susurrante.",
         "costStars": 0,
         "unlocked": false
@@ -104,10 +102,10 @@
       "guardian": {
         "name": "Pegaso Melódico",
         "title": "Heraldo de las Nubes Cantoras",
-        "emoji": "🪽",
         "species": "Pegaso Celestial de Lumiria",
         "shadowColor": "#2D3142",
-        "purifiedColor": "#BDE0FE"
+        "purifiedColor": "#BDE0FE",
+        "symbolId": "vq-guardian-pegaso"
       },
       "microCuento": [
         "En el Vértice de Algodón las nubes esponjosas flotan al son del arpa.",
@@ -132,7 +130,6 @@
         "heroineId": "reni",
         "slot": "wings",
         "name": "Alas de Pluma Dulce",
-        "icon": "🪽",
         "description": "Plumas esponjosas con el aroma y la melodía del cielo.",
         "costStars": 0,
         "unlocked": false
@@ -150,10 +147,10 @@
       "guardian": {
         "name": "Búho de Piedra",
         "title": "Guardián de la Sabiduría Oculta",
-        "emoji": "🦉",
         "species": "Guardián Mineral Rupestre",
         "shadowColor": "#1F2421",
-        "purifiedColor": "#F4A261"
+        "purifiedColor": "#F4A261",
+        "symbolId": "vq-guardian-buho"
       },
       "microCuento": [
         "En lo profundo de la Caverna de Ámbar descansan milenios de secretos.",
@@ -178,7 +175,6 @@
         "heroineId": "zoe",
         "slot": "head",
         "name": "Corona Floral Silvestre",
-        "icon": "🌸",
         "description": "Pétalos y ramas de la arboleda sagrada que nunca se marchitan.",
         "costStars": 0,
         "unlocked": false
@@ -196,10 +192,10 @@
       "guardian": {
         "name": "León de Espejos",
         "title": "Soberano de los Reflejos Radiantes",
-        "emoji": "🦁",
         "species": "Félido de Cuarzo Refractivo",
         "shadowColor": "#2B2D42",
-        "purifiedColor": "#FFD166"
+        "purifiedColor": "#FFD166",
+        "symbolId": "vq-guardian-leon"
       },
       "microCuento": [
         "Las columnas del Palacio Prisma reflejan destellos de siete colores.",
@@ -224,7 +220,6 @@
         "heroineId": "lia",
         "slot": "charm",
         "name": "Cetro Estelar Radiante",
-        "icon": "🪄",
         "description": "Canaliza la resonancia mágica del Palacio Prisma.",
         "costStars": 0,
         "unlocked": false
@@ -242,10 +237,10 @@
       "guardian": {
         "name": "Esfinge de Cristal",
         "title": "Custodia del Compás Eterno",
-        "emoji": "⏳",
         "species": "Esfinge Mística de las Eras",
         "shadowColor": "#3D348B",
-        "purifiedColor": "#E0AAFF"
+        "purifiedColor": "#E0AAFF",
+        "symbolId": "vq-guardian-esfinge"
       },
       "microCuento": [
         "En el desierto estelar las dunas del Reloj de las Arenas fluyen sin cesar.",
@@ -270,7 +265,6 @@
         "heroineId": "lia",
         "slot": "charm",
         "name": "Reloj de Bolsillo Astral",
-        "icon": "⏱️",
         "description": "Cronómetro místico que resuena con los compases estelares.",
         "costStars": 0,
         "unlocked": false
@@ -288,10 +282,10 @@
       "guardian": {
         "name": "Sirena Dragón",
         "title": "Soberana de los Arrecifes Luminosos",
-        "emoji": "🧜‍♀️",
         "species": "Dragón Acuático de Escamas Tornasol",
         "shadowColor": "#14213D",
-        "purifiedColor": "#48CAE4"
+        "purifiedColor": "#48CAE4",
+        "symbolId": "vq-guardian-sirena"
       },
       "microCuento": [
         "En las profundidades del Mar de Coral las corrientes marinas cantan secretos.",
@@ -316,7 +310,6 @@
         "heroineId": "valen",
         "slot": "wings",
         "name": "Aura de Burbujas Iridiscentes",
-        "icon": "🫧",
         "description": "Burbujas luminosas que flotan con el rumor relajante del mar.",
         "costStars": 0,
         "unlocked": false
@@ -334,10 +327,10 @@
       "guardian": {
         "name": "Gólem de Cuarzo",
         "title": "Centinela de los Mosaicos de Luz",
-        "emoji": "🛡️",
         "species": "Coloso Protector de Nácar",
         "shadowColor": "#2B2D42",
-        "purifiedColor": "#D8F3DC"
+        "purifiedColor": "#D8F3DC",
+        "symbolId": "vq-guardian-golem"
       },
       "microCuento": [
         "La imponente Muralla de Nácar resguarda las fronteras del Templo Astral.",
@@ -362,7 +355,6 @@
         "heroineId": "zoe",
         "slot": "charm",
         "name": "Armadura de Pétalos de Seda",
-        "icon": "🥋",
         "description": "Manto protector tejido con seda élfica y resina de cuarzo.",
         "costStars": 0,
         "unlocked": false
@@ -380,10 +372,10 @@
       "guardian": {
         "name": "Fénix Boreal",
         "title": "Guardián del Fuego Multicolor",
-        "emoji": "🦅",
         "species": "Ave Fénix de las Alturas Astrales",
         "shadowColor": "#1A1A24",
-        "purifiedColor": "#F72585"
+        "purifiedColor": "#F72585",
+        "symbolId": "vq-guardian-fenix"
       },
       "microCuento": [
         "En la Cúspide de la Aurora los vientos polares danzan con cortinas de fuego.",
@@ -408,7 +400,6 @@
         "heroineId": "reni",
         "slot": "wings",
         "name": "Alas Tornasol de Aurora",
-        "icon": "🪽",
         "description": "Alas multicolor que refractan los cielos polares de Lumiria.",
         "costStars": 0,
         "unlocked": false
@@ -426,10 +417,10 @@
       "guardian": {
         "name": "Emperatriz Eclipse (Purificada)",
         "title": "Soberana Astral Redimida de Lumiria",
-        "emoji": "👑✨",
         "species": "Alicornio Astral Ancestral",
         "shadowColor": "#1E1035",
-        "purifiedColor": "#FFD700"
+        "purifiedColor": "#FFD700",
+        "symbolId": "vq-heroine-eclipse"
       },
       "microCuento": [
         "En el Trono de las Estrellas el Grimorio de Cristal espera su última página.",
@@ -454,7 +445,6 @@
         "heroineId": "valen",
         "slot": "head",
         "name": "Corona Suprema de Soberana Astral",
-        "icon": "👑",
         "description": "La máxima diadema de realeza astral otorgada por la Emperatriz Purificada.",
         "costStars": 0,
         "unlocked": false
@@ -472,23 +462,23 @@
         {
           "name": "Poni Burbuja",
           "temple": "Manantial de Rocío",
-          "emoji": "🫧",
           "level": 1,
-          "color": "#B8F2E6"
+          "color": "#B8F2E6",
+          "symbolId": "vq-guardian-burbuja"
         },
         {
           "name": "Hada Ciervo",
           "temple": "Bosque Susurrante",
-          "emoji": "🦌",
           "level": 2,
-          "color": "#FFC8DD"
+          "color": "#FFC8DD",
+          "symbolId": "vq-guardian-ciervo"
         },
         {
           "name": "Pegaso Melódico",
           "temple": "Vértice de Algodón",
-          "emoji": "🪽",
           "level": 3,
-          "color": "#BDE0FE"
+          "color": "#BDE0FE",
+          "symbolId": "vq-guardian-pegaso"
         }
       ],
       "loreQuote": "«¡Las tres constelaciones elementales vuelven a brillar en el firmamento de Lumiria! Con el canto del Pegaso Melódico, la niebla se disipa y revela los accesos subterráneos. ¡Es momento de descender hacia el Acto II: Los Secretos Olvidados de Cristal!»",
@@ -498,8 +488,9 @@
       "nextLevelId": 4,
       "nextLevelName": "Caverna de Ámbar",
       "nextGuardianName": "Búho de Piedra",
-      "nextGuardianEmoji": "🦉",
-      "buttonText": "¡Continuar al Acto II: Caverna de Ámbar! 🦉"
+      "nextGuardianEmoji": "",
+      "buttonText": "¡Continuar al Acto II: Caverna de Ámbar!",
+      "guideHeroineId": "reni"
     },
     "2": {
       "actNumber": 2,
@@ -511,30 +502,30 @@
         {
           "name": "Búho de Piedra",
           "temple": "Caverna de Ámbar",
-          "emoji": "🦉",
           "level": 4,
-          "color": "#F4A261"
+          "color": "#F4A261",
+          "symbolId": "vq-guardian-buho"
         },
         {
           "name": "León de Espejos",
           "temple": "Palacio Prisma",
-          "emoji": "🦁",
           "level": 5,
-          "color": "#E9C46A"
+          "color": "#E9C46A",
+          "symbolId": "vq-guardian-leon"
         },
         {
           "name": "Esfinge de Cristal",
           "temple": "Reloj de las Arenas",
-          "emoji": "⏳",
           "level": 6,
-          "color": "#9D4EDD"
+          "color": "#9D4EDD",
+          "symbolId": "vq-guardian-esfinge"
         },
         {
           "name": "Sirena Dragón",
           "temple": "Mar de Coral Profundo",
-          "emoji": "🧜‍♀️",
           "level": 7,
-          "color": "#2A9D8F"
+          "color": "#2A9D8F",
+          "symbolId": "vq-guardian-sirena"
         }
       ],
       "loreQuote": "«¡Los cuatro pilares de cristal resplandecen con luz dorada! La sabiduría de los eones ha sido recuperada. Solo queda la gran cima: el Trono de las Estrellas. ¡El Cuarteto de la Armonía asciende al Acto III: La Gran Purificación!»",
@@ -544,8 +535,9 @@
       "nextLevelId": 8,
       "nextLevelName": "Muralla de Nácar",
       "nextGuardianName": "Gólem de Cuarzo",
-      "nextGuardianEmoji": "🛡️",
-      "buttonText": "¡Continuar al Acto III: Muralla de Nácar! 🛡️"
+      "nextGuardianEmoji": "",
+      "buttonText": "¡Continuar al Acto III: Muralla de Nácar!",
+      "guideHeroineId": "zoe"
     },
     "3": {
       "actNumber": 3,
@@ -557,23 +549,23 @@
         {
           "name": "Gólem de Cuarzo",
           "temple": "Muralla de Nácar",
-          "emoji": "🛡️",
           "level": 8,
-          "color": "#CDB4DB"
+          "color": "#CDB4DB",
+          "symbolId": "vq-guardian-golem"
         },
         {
           "name": "Fénix Boreal",
           "temple": "Cúspide de la Aurora",
-          "emoji": "🦅",
           "level": 9,
-          "color": "#FFAFCC"
+          "color": "#FFAFCC",
+          "symbolId": "vq-guardian-fenix"
         },
         {
           "name": "Emperatriz Eclipse",
           "temple": "Trono Supremo",
-          "emoji": "👑✨",
           "level": 10,
-          "color": "#FFD166"
+          "color": "#FFD166",
+          "symbolId": "vq-heroine-eclipse"
         }
       ],
       "loreQuote": "«¡El Velo de la Duda ha desaparecido para siempre! Valen, Reni, Zoe y Lía han unido a todas las criaturas de Lumiria. Eres la Gran Protectora del Reino de las Estrellas.»",
@@ -583,8 +575,9 @@
       "nextLevelId": 1,
       "nextLevelName": "Manantial de Rocío",
       "nextGuardianName": "Valen",
-      "nextGuardianEmoji": "🦄",
-      "buttonText": "¡Celebrar Victoria en Lumiria! 🎉"
+      "nextGuardianEmoji": "",
+      "buttonText": "¡Celebrar Victoria en Lumiria!",
+      "guideHeroineId": "lia"
     }
   }
 }

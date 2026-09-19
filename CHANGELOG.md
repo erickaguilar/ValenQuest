@@ -9,6 +9,31 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 👑 Cuarteto en igualdad (adiós a la monarquía)
+- **Mismo rango:** las cuatro son Princesas (Estrellas, Vientos, Naturaleza, Cristales); eliminado `isLeader` del catálogo, el seed y la migración de IndexedDB (que ahora limpia el flag legacy).
+- **Capítulos 2-2-2-2:** I→Zoe (cimientos), II→Lía (cristal vs sombra), VII→Reni (travesía); Valen conserva III (origen) y VIII (final). Títulos de origen actualizados.
+- **Guías rotativas por acto** (`guideHeroineId` en `levels.json`): Reni I, Zoe II, Lía III —pill en el modal y narración con su voz—.
+- **Narrativa:** diálogo de Valen en tono de consejo, `Princesa Valen` → `Valen`, docs y README en lenguaje de consejo (el nombre *ValenQuest* queda como marca, estilo Zelda).
+- **Cap. III:** "líder del Cuarteto" → "primera voz del consejo sin corona mayor".
+
+### 📖 Códice de Personajes (`personajes.html`)
+- **Visor administrable del reparto:** 4 heroínas (arte, poder, voz, diálogo, recompensas y capítulos vinculados), 10 guardianes (templo, acto, micro-cuento, acertijo + respuesta, recompensa, capítulo que desbloquea) y 2 figuras del lore (Orión y Eclipse).
+- **Mapa de relaciones** templo → guardián → acto → capítulo → recompensa (heroína), derivado en vivo de `levels.json` + capítulos + catálogo (filtros por sección, solo lectura: el contenido se edita en los JSON).
+- Badge `Códice` en el header, enlace desde la campaña, a11y 100/100/100 y axe 0 violaciones.
+
+### 🦄 Cero emojis funcionales + 9 guardianes SVG (v2.1.8)
+- **Nuevo `assets/guardians.svg`:** Poni Burbuja, Hada Ciervo, Pegaso Melódico, Búho de Piedra, León de Espejos, Esfinge de Cristal, Sirena Dragón, Gólem de Cuarzo y Fénix Boreal en estilo chibi (el 10.º reutiliza la Eclipse existente). Loader, SW y `symbolId` por templo en `levels.json`.
+- **Purga:** portal y cartas de acto renderizan símbolos; diálogo de reinicio, instalador, prototipo palacio, fallbacks y pills sin emoji; símbolos nuevos `warning`/`plus`; podados `play`/`arrow-up` muertos; `icon`/`emoji` muertos fuera de datos y servicios.
+- **Quedan** (no funcionales): emojis en docs, comentarios y `console.*` de desarrollo.
+
+### 🎨 Sistema SVG optimizado (v2.1.7)
+- **Emblema:** `emblem-valen.png` (845 KB) eliminado; header/footer/index usan el símbolo `vq-emblem-valen` del sprite (0 bytes extra). Ahorro total de assets: ~1.2 MB.
+- **Tinta temática:** 317 trazos `#4A3E56` → `var(--vq-ink-line)` (nuevo token: `#4A3E56` día / `#EDE7F7` noche); los chibi se definen en modo oscuro sin cambiar el día.
+- **Icono roto:** `#vq-icon-portal` no existía y dejaba un hueco en el ropero → `vq-icon-galaxy`; podados `vq-icon-play` y `vq-icon-arrow-up` (cero referencias).
+- **PNG PWA** 443→41 KB por cuantización verificada (RMSE ~1, alfa intacto); minificación SVG integrada en `scripts/build.js` (la fuente conserva comentarios).
+- **Nota:** `svgo` CLI se evaluó y descartó (sus comentarios `--` rompen su parser); `currentColor` global se descartó (rompería el diseño de insignias pastel).
+- **Caché:** bump a v2.1.7 (sprites + SW invalidados por protocolo).
+
 ### 🏛️ Arquitectura www/js/ (ArenaBase + campaña modular)
 - **Nuevo `controllers/arena-base.js`:** poderes, cronómetro, insignias, billetera, chips, coronación, HUD y envío de respuestas centralizados; `math-page` 1342→473 y `reading-page` 1043→366 líneas (−65% duplicación).
 - **Campaña dormida extraída** a `controllers/campaign-arena.js` (extiende la arena de mate; se activa por bootstrap cuando se reabra).

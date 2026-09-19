@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <title>ValenQuest | Códice de Personajes de Lumiria</title>
+  <meta name="description" content="ValenQuest: códice de personajes. Heroínas del Cuarteto de la Armonía, guardianes de los 10 templos y su relación con el lore de Lumiria.">
+
+  <!-- Prevención de FOUC de tema oscuro/claro -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem("vq-theme") ||
+        (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document.addEventListener('DOMContentLoaded', function() {
+        if (document.body) document.body.setAttribute('data-theme', savedTheme);
+      });
+    })();
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ValenQuest Códice">
+
+  <!-- Tipografía Variable Fredoka: Cero FOUT/CLS -->
+  <link rel="preload" href="assets/fonts/fredoka-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Arquitectura Modular CSS -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/theme-light.css">
+  <link rel="stylesheet" href="css/theme-dark.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/personajes.css">
+  <script type="module" src="js/components/header.js"></script>
+  <script type="module" src="js/components/footer.js"></script>
+  <script type="module" src="js/services/icons.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <!-- Biblioteca de Sprites SVG desacoplada: carga dinámica desde assets/*.svg vía js/services/icons.js -->
+
+  <div class="codex-app">
+
+    <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+    <vq-header current="personajes"></vq-header>
+
+    <main class="codex-main" role="main" id="main-content" tabindex="-1">
+      <h1 class="vq-sr-only">ValenQuest: Códice de Personajes de Lumiria</h1>
+
+      <section class="codex-hero" aria-label="Portada del códice">
+        <div class="codex-badge-row">
+          <span class="codex-status-pill">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+            <span>Códice del Reino</span>
+          </span>
+          <span class="temple-number-pill" id="codex-count-pill">Cargando el grimorio…</span>
+        </div>
+        <h2 class="codex-hero-title">
+          <svg class="vq-icon vq-icon--lg" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+          <span>Personajes de Lumiria</span>
+        </h2>
+        <p class="codex-hero-desc" id="codex-hero-desc">
+          Heroínas, guardianes y sombras: quién es quién, qué poder otorga cada amistad y cómo se ata cada destino a los templos, capítulos y recompensas.
+        </p>
+        <div class="codex-filters" role="group" aria-label="Filtrar personajes">
+          <button type="button" class="codex-filter-btn active" data-filter="all">Todos</button>
+          <button type="button" class="codex-filter-btn" data-filter="heroines">Heroínas</button>
+          <button type="button" class="codex-filter-btn" data-filter="guardians">Guardianes</button>
+          <button type="button" class="codex-filter-btn" data-filter="lore">Lore</button>
+        </div>
+      </section>
+
+      <section class="codex-section" id="codex-heroines-section" aria-label="Cuarteto de la Armonía">
+        <h3 class="codex-section-title">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
+          <span>El Cuarteto de la Armonía</span>
+        </h3>
+        <div class="codex-grid" id="codex-heroines-grid"></div>
+      </section>
+
+      <section class="codex-section" id="codex-guardians-section" aria-label="Guardianes de los templos">
+        <h3 class="codex-section-title">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>
+          <span>Guardianes de los Diez Templos</span>
+        </h3>
+        <div class="codex-grid" id="codex-guardians-grid"></div>
+      </section>
+
+      <section class="codex-section" id="codex-lore-section" aria-label="Figuras del lore">
+        <h3 class="codex-section-title">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+          <span>Sombras y Sabios</span>
+        </h3>
+        <div class="codex-grid" id="codex-lore-grid"></div>
+      </section>
+
+      <section class="codex-section" aria-label="Mapa de relaciones">
+        <h3 class="codex-section-title">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
+          <span>Mapa de Relaciones: templo → guardián → capítulo → recompensa</span>
+        </h3>
+        <div class="codex-table-wrap">
+          <table class="codex-table" id="codex-relations-table">
+            <thead>
+              <tr>
+                <th scope="col">Templo</th>
+                <th scope="col">Guardián</th>
+                <th scope="col">Acto</th>
+                <th scope="col">Desbloquea</th>
+                <th scope="col">Recompensa</th>
+              </tr>
+            </thead>
+            <tbody id="codex-relations-body"></tbody>
+          </table>
+        </div>
+        <p class="codex-source-note">Fuente de verdad: <code>www/data/levels.json</code>, <code>www/data/story-chapters.json</code> y el catálogo de heroínas. Esta página solo visualiza; el contenido se edita en esos archivos.</p>
+      </section>
+    </main>
+
+    <!-- Pie de Página Modular Homologado (Web Component: vq-footer) -->
+    <vq-footer></vq-footer>
+  </div>
+
+  <!-- Controlador del Códice -->
+  <script type="module" src="js/personajes-page.js"></script>
+</body>
+</html>

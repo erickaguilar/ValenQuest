@@ -4,7 +4,7 @@
       "id": 1,
       "number": "Capítulo I",
       "title": "El Gran Grimorio y las Cuatro Razas",
-      "heroineId": "valen",
+      "heroineId": "zoe",
       "symbolId": "vq-icon-unicorn",
       "characterName": "El Reino de Lumiria",
       "characterSubtitle": "La Alianza del Templo Supremo",
@@ -22,7 +22,7 @@
       "id": 2,
       "number": "Capítulo II",
       "title": "La Emperatriz Eclipse y el Sueño del Olvido",
-      "heroineId": "valen",
+      "heroineId": "lia",
       "symbolId": "vq-heroine-eclipse",
       "characterName": "La Emperatriz Eclipse",
       "characterSubtitle": "Soberana de la Noche Estelar • El Velo de la Duda",
@@ -39,7 +39,7 @@
     {
       "id": 3,
       "number": "Capítulo III",
-      "title": "Valen, la Princesa Astral",
+      "title": "Valen, Princesa de las Estrellas",
       "heroineId": "valen",
       "symbolId": "vq-heroine-valen",
       "characterName": "Valen la Princesa Astral",
@@ -47,7 +47,7 @@
       "sceneType": "valen",
       "dropCap": "V",
       "paragraphs": [
-        "alen nació bajo la bendición de las dos lunas de Lumiria, dotada con las alas emplumadas de un pegaso y el cuerno brillante de un unicornio. Como líder del Cuarteto de la Armonía, su corazón no conoce el desánimo: donde otros ven sombras, Valen ve la oportunidad de recomenzar.",
+        "alen nació bajo la bendición de las dos lunas de Lumiria, dotada con las alas emplumadas de un pegaso y el cuerno brillante de un unicornio. Como primera voz del Cuarteto de la Armonía —un consejo de cuatro princesas sin corona mayor—, su corazón no conoce el desánimo: donde otros ven sombras, Valen ve la oportunidad de recomenzar.",
         "En su pecho late el Prisma Real, una joya ancestral tallada en cuarzo estelar. Cuando un aprendiz enfrenta un desafío difícil y se siente abrumado por opciones confusas, Valen canaliza su prisma para refractar la verdad, tachar dos caminos erróneos y activar un multiplicador que duplica todas las estrellas ganadas.",
         "«No temas al tropiezo, valiente heroína», dice Valen con una sonrisa cálida. «Cada intento sincero es un chispazo que enciende de nuevo el firmamento.»"
       ],
@@ -57,7 +57,7 @@
     {
       "id": 4,
       "number": "Capítulo IV",
-      "title": "Reni, el Alquimista de los Vientos",
+      "title": "Reni, Princesa de los Vientos",
       "heroineId": "reni",
       "symbolId": "vq-heroine-reni",
       "characterName": "Reni el Alquimista de los Vientos",
@@ -75,7 +75,7 @@
     {
       "id": 5,
       "number": "Capítulo V",
-      "title": "Zoe, el Ancla de la Naturaleza",
+      "title": "Zoe, Princesa de la Naturaleza",
       "heroineId": "zoe",
       "symbolId": "vq-heroine-zoe",
       "characterName": "Zoe el Ancla de la Naturaleza",
@@ -93,7 +93,7 @@
     {
       "id": 6,
       "number": "Capítulo VI",
-      "title": "Lía, la Maga del Cristal Cósmico",
+      "title": "Lía, Princesa de los Cristales",
       "heroineId": "lia",
       "symbolId": "vq-heroine-lia",
       "characterName": "Lía la Maga del Cristal",
@@ -112,7 +112,7 @@
       "id": 7,
       "number": "Capítulo VII",
       "title": "La Travesía de las Diez Lunas y los Tres Actos",
-      "heroineId": "valen",
+      "heroineId": "reni",
       "symbolId": "vq-icon-journey",
       "characterName": "El Mapa de los Diez Templos",
       "characterSubtitle": "Del Manantial al Trono Estelar",

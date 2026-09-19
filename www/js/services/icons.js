@@ -51,8 +51,9 @@ export async function loadSvgSprites() {
     };
 
     // 1. Inyección ultrarrápida desde caché de sesión con invalidación de versión
-    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_6_minimal';
-    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_6_chibi';
+    const ICONS_CACHE_KEY = 'vq_icons_svg_v2_1_8_minimal';
+    const HEROINES_CACHE_KEY = 'vq_heroines_svg_v2_1_8_chibi';
+    const GUARDIANS_CACHE_KEY = 'vq_guardians_svg_v2_1_8_temples';
 
     try {
       // Limpiar versiones obsoletas de la caché de sesión
@@ -61,21 +62,26 @@ export async function loadSvgSprites() {
       });
       const cachedIcons = sessionStorage.getItem(ICONS_CACHE_KEY);
       const cachedHeroines = sessionStorage.getItem(HEROINES_CACHE_KEY);
-      if (cachedIcons && cachedHeroines) {
-        doInject(cachedIcons + cachedHeroines);
+      const cachedGuardians = sessionStorage.getItem(GUARDIANS_CACHE_KEY);
+      if (cachedIcons && cachedHeroines && cachedGuardians) {
+        doInject(cachedIcons + cachedHeroines + cachedGuardians);
         return;
       }
     } catch (_) {}
 
-    // 2. Carga asíncrona desde assets/icons.svg y assets/heroines.svg con cache busting
+    // 2. Carga asíncrona de los tres sprites con cache busting
     try {
-      const [iconsRes, heroinesRes] = await Promise.all([
-        fetch(`assets/icons.svg?v=2.1.6_${Date.now()}`).catch((e) => {
+      const [iconsRes, heroinesRes, guardiansRes] = await Promise.all([
+        fetch(`assets/icons.svg?v=2.1.8_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/icons.svg:', e);
           return null;
         }),
-        fetch(`assets/heroines.svg?v=2.1.6_${Date.now()}`).catch((e) => {
+        fetch(`assets/heroines.svg?v=2.1.8_${Date.now()}`).catch((e) => {
           console.warn('⚠️ [Icons] Error al cargar assets/heroines.svg:', e);
+          return null;
+        }),
+        fetch(`assets/guardians.svg?v=2.1.8_${Date.now()}`).catch((e) => {
+          console.warn('⚠️ [Icons] Error al cargar assets/guardians.svg:', e);
           return null;
         }),
       ]);
@@ -95,6 +101,14 @@ export async function loadSvgSprites() {
         combinedSvg += heroinesText;
         try {
           sessionStorage.setItem(HEROINES_CACHE_KEY, heroinesText);
+        } catch (_) {}
+      }
+
+      if (guardiansRes && guardiansRes.ok) {
+        const guardiansText = await guardiansRes.text();
+        combinedSvg += guardiansText;
+        try {
+          sessionStorage.setItem(GUARDIANS_CACHE_KEY, guardiansText);
         } catch (_) {}
       }
 

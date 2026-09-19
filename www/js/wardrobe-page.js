@@ -215,7 +215,7 @@ class WardrobePageController {
         if (costStars > 0) {
           costBadgesHtml += `<span class="item-status-pill cost-pill" title="Estrellas de campaña"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg> ${costStars}</span>`;
         } else if (isTempleReward) {
-          costBadgesHtml += `<span class="item-status-pill cost-pill" title="Recompensa de Templo Lunar"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-portal"></use></svg> Templo</span>`;
+          costBadgesHtml += `<span class="item-status-pill cost-pill" title="Recompensa de Templo Lunar"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-galaxy"></use></svg> Templo</span>`;
         }
       }
 
