@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <title>ValenQuest — El Gran Libro de las Princesas y el Reino de Lumiria</title>
+  <meta name="description" content="ValenQuest: El Gran Libro de las Princesas. Cuentos interactivos con narración por voz en el reino de Lumiria.">
   
   <!-- Prevención de FOUC de tema oscuro/claro -->
   <script>
@@ -41,6 +42,7 @@
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#fairytale-book">Saltar al contenido principal</a>
 
   <!-- Biblioteca de Sprites SVG desacoplada: carga dinámica desde assets/icons.svg y assets/heroines.svg vía js/services/icons.js -->
 
@@ -85,7 +87,7 @@
               <header class="chapter-header">
                 <div class="chapter-header-top">
                   <span id="chapter-num" class="chapter-number">Capítulo I</span>
-                  <button type="button" id="btn-read-aloud" class="chapter-speech-btn" aria-label="Escuchar relato con el Maestro Orión" title="Escuchar relato con el Maestro Orión">
+                  <button type="button" id="btn-read-aloud" class="chapter-speech-btn" title="Escuchar relato con el Maestro Orión">
                     <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
                     <span>Voz de Orión</span>
                   </button>

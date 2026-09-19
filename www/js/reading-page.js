@@ -87,7 +87,7 @@ class ReadingPageController {
     }
 
     // Saludo inicial de Orión
-    speech.speak('¡Bienvenida a La Pluma de la Fluidez! Elige tu nivel y leamos juntos.');
+    speech.speak('¡Bienvenida a La Pluma de la Fluidez! Elige tu nivel y leamos juntos.', { deferUntilActivation: true });
   }
 
   // =========================================================================
@@ -230,6 +230,8 @@ class ReadingPageController {
       if (!isUnlocked) {
         chip.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg>';
         chip.title = `Nivel ${chipLvl} (Bloqueado: Corona el Nivel ${Math.max(1, chipLvl - 1)} para abrir)`;
+        // El candado es solo icono: el nombre accesible va en aria-label.
+        chip.setAttribute('aria-label', `Nivel ${chipLvl} bloqueado. Corona el Nivel ${Math.max(1, chipLvl - 1)} para abrirlo.`);
       } else if (isMastered) {
         chip.innerHTML = `${chipLvl}<span class="chip-crown-badge"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></span>`;
         chip.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;

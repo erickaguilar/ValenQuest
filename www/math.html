@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <title>ValenQuest | El Prisma Numérico</title>
+  <meta name="description" content="ValenQuest: práctica de cálculo mental adaptativo para primaria en el reino de Lumiria. Sumas, restas, tablas y operaciones con el motor Rust + WebAssembly.">
 
   <!-- Prevención de FOUC de tema oscuro/claro -->
   <script>
@@ -40,6 +41,7 @@
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
   <!-- Biblioteca de Sprites SVG desacoplada: carga dinámica desde assets/icons.svg y assets/heroines.svg vía js/services/icons.js -->
 
@@ -104,7 +106,7 @@
               <span>0/50 aciertos</span>
             </span>
           </div>
-          <div class="math-mastery-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="math-mastery-track" role="progressbar" aria-label="Maestría del nivel" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
             <div class="math-mastery-fill" id="math-mastery-fill" style="width: 0%"></div>
           </div>
         </div>
@@ -122,7 +124,7 @@
             </span>
             <span class="math-combo-pct" id="math-combo-pct">0%</span>
           </div>
-          <div class="math-combo-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="math-combo-track" role="progressbar" aria-label="Combo astral" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
             <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
           </div>
         </div>
@@ -138,7 +140,7 @@
             </span>
             <span class="math-timer-status" id="math-timer-status">5.0s</span>
           </div>
-          <div class="math-timer-track" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+          <div class="math-timer-track" role="progressbar" aria-label="Tiempo de bonificación ágil" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
             <div class="math-timer-fill" id="math-timer-fill" style="width: 100%"></div>
           </div>
         </div>
@@ -146,7 +148,8 @@
     </section>
 
     <!-- Tarjeta Principal del Desafío Matemático Interactivo (Homologada) -->
-    <main class="math-challenge-layout" role="main">
+    <main class="math-challenge-layout" role="main" id="main-content" tabindex="-1">
+      <h1 class="vq-sr-only">ValenQuest: El Prisma Numérico, cálculo mental</h1>
       <article class="math-challenge-card" id="math-challenge-card" aria-live="polite">
         
         <!-- Cabecera de la Consigna -->

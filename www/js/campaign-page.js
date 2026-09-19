@@ -52,7 +52,7 @@ class CampaignPageController {
 
     // Saludo inicial suave
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
-    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura abrirá muy pronto. Explora el mapa y entrena tus poderes.`);
+    speech.speakHeroine(this.activeHeroineId, `¡Bienvenida ${hero.name}! La Gran Aventura abrirá muy pronto. Explora el mapa y entrena tus poderes.`, { deferUntilActivation: true });
   }
 
   // =========================================================================

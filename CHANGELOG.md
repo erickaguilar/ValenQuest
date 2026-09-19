@@ -9,6 +9,14 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### ♿ Accesibilidad infantil verificada (Lighthouse + axe + teclado)
+- **Lighthouse a11y/BP/SEO 100/100/100** en las 5 páginas (index, math, reading, story, campaign), medido contra `www/` en servidor local.
+- **Contraste WCAG AA:** rosa `#ffafcc` → `#c2255c` y ámbar `#f59e0b` → `#b45309` en insignias, combos, títulos y dedicatoria (con overrides de tema oscuro); badge de lectura `#059669` → `#047857`, story `#d97706` → `#92400e`, ropero `#db2777` → `#c2255c`.
+- **Nombres accesibles:** `aria-label` en las 6 barras `progressbar`, CTAs con nombre que contiene el texto visible, ribbons `Capítulo N: título`, chips bloqueados con `aria-label`, tarjetas de heroínas por `aria-labelledby`.
+- **Teclado:** skip-link + `h1` sr-only por página, foco global `:focus-visible`, `tabindex` positivos inexistentes, modales cierran con Escape (verificado por CDP).
+- **Voz sin bloqueo futuro:** saludos automáticos con `deferUntilActivation` (suenan al primer gesto); Chrome ya depreca `speak()` sin activación.
+- **Infra:** auditoría con axe-core + recorrido Tab por CDP y Lighthouse headless; scripts efímeros en `/tmp` (no versionados).
+
 ### 🧮 Más variedad en el generador matemático
 - **Modos nuevos:** factor faltante en N5 ($t \times ? = p$), dividendo faltante en N7 ($? \div d = q$), fracciones con numerador $k \ge 2$ en N8 e identidad con cero en N1 ($0 + b$).
 - **Rangos ampliados:** N2 sumas hasta 17, N3 decenas hasta 30, N4 hasta 50, N6 mitades/dobles hasta 20, N7 cocientes hasta 11, N8 factor hasta 7, N9/N10 operandos mayores.

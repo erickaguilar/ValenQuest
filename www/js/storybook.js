@@ -131,7 +131,8 @@ class StorybookManager {
 
     const hero = HEROINES[this.activeHeroineId] || HEROINES.valen;
     speech.speakOrion(
-      `¡Bienvenida ${hero.name} a El Gran Libro de las Princesas! Explora las leyendas sagradas de Lumiria y pulsa la Voz de Orión para escuchar cada capítulo.`
+      `¡Bienvenida ${hero.name} a El Gran Libro de las Princesas! Explora las leyendas sagradas de Lumiria y pulsa la Voz de Orión para escuchar cada capítulo.`,
+      { deferUntilActivation: true }
     );
   }
 
@@ -285,7 +286,7 @@ class StorybookManager {
     const bar = document.getElementById('chapter-ribbons');
     if (!bar) return;
     bar.innerHTML = CHAPTERS.map((ch, idx) => `
-      <button type="button" class="ribbon-tab ${idx === 0 ? 'active-ribbon' : ''}" data-index="${idx}" aria-label="${ch.title}">
+      <button type="button" class="ribbon-tab ${idx === 0 ? 'active-ribbon' : ''}" data-index="${idx}" aria-label="${ch.number}: ${ch.title}">
         <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
         <span>${ch.number}</span>
       </button>

@@ -313,7 +313,8 @@
 .chapter-number {
   font-size: 0.82rem;
   font-weight: 900;
-  color: var(--vq-pink-bubble);
+  /* Rosa profundo en tema claro (5.6:1 sobre blanco) por accesibilidad. */
+  color: #c2255c;
   text-transform: uppercase;
   letter-spacing: 1px;
 }

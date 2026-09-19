@@ -58,7 +58,7 @@ class MathPageController {
       if (wantsCampaign) {
         window.history.replaceState({}, '', 'math.html');
         setTimeout(() => {
-          try { speech.speak('La Gran Aventura abrirá muy pronto. Mientras tanto, practica en el Prisma Numérico.'); } catch {}
+          try { speech.speak('La Gran Aventura abrirá muy pronto. Mientras tanto, practica en el Prisma Numérico.', { deferUntilActivation: true }); } catch {}
         }, 1200);
       }
     } catch {
@@ -135,7 +135,7 @@ class MathPageController {
     } catch (err) {
       console.log('Math practice using built-in JS challenge engine:', err?.message || err);
       if (this.campaignMode) {
-        speech.speak('La campaña necesita el motor de Lumiria. Revisa tu conexión y recarga la página.');
+        speech.speak('La campaña necesita el motor de Lumiria. Revisa tu conexión y recarga la página.', { deferUntilActivation: true });
       }
       this.renderChallenge();
     }
@@ -143,9 +143,9 @@ class MathPageController {
     // Saludo inicial de Orión
     if (this.campaignMode && campaignEngine.isReady) {
       const t = campaignEngine.temple;
-      speech.speak(`¡La Gran Aventura te espera! Templo ${t}: ${adventure.getState().templeName}. Resuelve con calma para abrir el portal.`);
+      speech.speak(`¡La Gran Aventura te espera! Templo ${t}: ${adventure.getState().templeName}. Resuelve con calma para abrir el portal.`, { deferUntilActivation: true });
     } else {
-      speech.speak('¡Bienvenida a El Prisma Numérico! Elige tu nivel de cálculo y que la luz guíe tu camino.');
+      speech.speak('¡Bienvenida a El Prisma Numérico! Elige tu nivel de cálculo y que la luz guíe tu camino.', { deferUntilActivation: true });
     }
   }
 
@@ -424,6 +424,8 @@ class MathPageController {
       if (!isUnlocked) {
         chip.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg>';
         chip.title = `Nivel ${chipLvl} (Bloqueado: Corona el Nivel ${Math.max(1, chipLvl - 1)} al 100% para abrir)`;
+        // El candado es solo icono: el nombre accesible va en aria-label.
+        chip.setAttribute('aria-label', `Nivel ${chipLvl} bloqueado. Corona el Nivel ${Math.max(1, chipLvl - 1)} para abrirlo.`);
       } else if (isMastered) {
         chip.innerHTML = `${chipLvl}<span class="chip-crown-badge"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></span>`;
         chip.title = `Nivel ${chipLvl} (¡Coronado 100%! Puedes seguir practicando)`;

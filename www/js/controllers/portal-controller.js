@@ -169,9 +169,12 @@ export class PortalController {
     const modal = document.getElementById('portal-challenge-modal');
     if (modal) modal.hidden = false;
 
-    // Narrar automáticamente tras breve pausa
+    // Narrar automáticamente tras breve pausa (solo si ya hubo un gesto;
+    // los navegadores bloquean el habla sin activación del usuario).
     setTimeout(() => {
-      this.speakPortalStory(levelData);
+      try {
+        if (speech.isUserActivated && speech.isUserActivated()) this.speakPortalStory(levelData);
+      } catch {}
     }, 450);
   }
 

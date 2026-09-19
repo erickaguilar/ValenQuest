@@ -16,6 +16,10 @@ class SpeechEngine {
     this.isSpeaking = false;
     this.speakingListeners = new Set();
     this.warmedUp = false;
+    // Chrome depreca speak() sin activación del usuario: los saludos
+    // automáticos se difieren hasta el primer gesto (ver speak()).
+    this.userActivated = false;
+    this._pendingAuto = null;
     this._currentUtterance = null;
     this.rateMultiplier = 1.0;
 
@@ -42,6 +46,15 @@ class SpeechEngine {
     if (typeof window === 'undefined' || !this.synth) return;
 
     const warmUpHandler = () => {
+      if (!this.userActivated) {
+        this.userActivated = true;
+        // Reproducir el último saludo diferido, si existe.
+        const pending = this._pendingAuto;
+        this._pendingAuto = null;
+        if (pending) {
+          setTimeout(() => this.speak(pending.text, pending.options), 350);
+        }
+      }
       if (this.warmedUp) return;
       this.warmedUp = true;
 
@@ -259,13 +272,26 @@ class SpeechEngine {
     return 'female';
   }
 
+  /** ¿El usuario ya interactuó? (puerta para narración automática) */
+  isUserActivated() {
+    return this.userActivated === true;
+  }
+
   /**
    * Speaks raw text with child-friendly prosody and automatic male/female voice selection.
    * - Masculine (Master Orion): deep, calm and noble timbre.
    * - Feminine (Heroines / Lumiria): warm, bright and enthusiastic timbre.
+   * - `deferUntilActivation`: si no hubo gesto aún, guarda el saludo y lo
+   *   reproduce al primer toque/tecla (los navegadores bloquean/deprecam el
+   *   habla automática). Usar en saludos de carga, nunca en respuestas a clic.
    */
-  speak(text, { character, gender, rate = 0.92, pitch } = {}) {
+  speak(text, { character, gender, rate = 0.92, pitch, deferUntilActivation = false } = {}) {
     if (!this.synth || !this.enabled || !text) return;
+
+    if (deferUntilActivation && !this.userActivated) {
+      this._pendingAuto = { text, options: { character, gender, rate, pitch } };
+      return;
+    }
 
     // Guard: ensure voices are initialized
     if (!this.voice) {

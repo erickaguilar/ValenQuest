@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <title>ValenQuest | La Gran Aventura de Lumiria</title>
+  <meta name="description" content="ValenQuest: la Gran Aventura por los 10 Templos Lunares de Lumiria. Mapa de campaña, heroínas y desafíos de portal.">
 
   <!-- Prevención de FOUC de tema oscuro/claro -->
   <script>
@@ -40,6 +41,7 @@
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
   <!-- Biblioteca de Sprites SVG desacoplada: carga dinámica desde assets/icons.svg y assets/heroines.svg vía js/services/icons.js -->
 
@@ -49,7 +51,8 @@
     <vq-header current="campaign"></vq-header>
 
     <!-- Banner Principal: Estado de Construcción Mágica -->
-    <main class="campaign-main-layout" role="main">
+    <main class="campaign-main-layout" role="main" id="main-content" tabindex="-1">
+      <h1 class="vq-sr-only">ValenQuest: La Gran Aventura de Lumiria</h1>
       <section class="campaign-hero-banner" aria-label="Estado del Modo Campaña">
         <div class="campaign-badge-row">
           <span class="construction-status-pill">
@@ -99,7 +102,7 @@
             <p class="dialogue-quote">
               «¡Paciencia, valiente aventurera! Los cristales de los 10 Templos están alineándose. Mientras tanto, tu deber real es entrenar tu mente en el Prisma Numérico y la Pluma de la Fluidez para ganar diamantes y dominar los poderes de la amistad.»
             </p>
-            <button id="btn-speak-campaign" class="dialogue-speak-btn" type="button" aria-label="Escuchar mensaje de Orión">
+            <button id="btn-speak-campaign" class="dialogue-speak-btn" type="button" aria-label="Escuchar Consejo de Orión">
               <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
               <span>Escuchar Consejo de Orión</span>
             </button>
@@ -153,58 +156,58 @@
         <div class="quartet-grid trio-grid">
           
           <!-- Heroína 1: Valen (Alicornio - Líder) -->
-          <div class="heroine-card active-companion" id="card-heroine-valen" role="button" tabindex="0" aria-label="Elegir a Valen">
+          <div class="heroine-card active-companion" id="card-heroine-valen" role="button" tabindex="0" aria-labelledby="heroine-name-valen heroine-role-valen heroine-power-valen">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Valen">
                 <use href="#vq-heroine-valen"></use>
               </svg>
             </div>
-            <div class="heroine-name">Valen <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></div>
-            <div class="heroine-role">Alicornio • Líder de Lumiria</div>
+            <div class="heroine-name" id="heroine-name-valen">Valen <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg></div>
+            <div class="heroine-role" id="heroine-role-valen">Alicornio • Líder de Lumiria</div>
             <div class="heroine-power-tag" title="Descarta 2 opciones incorrectas y duplica estrellas (2x)">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Prisma Real</span>
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span id="heroine-power-valen">Prisma Real</span>
             </div>
           </div>
 
           <!-- Heroína 2: Reni (Pegaso) -->
-          <div class="heroine-card" id="card-heroine-reni" role="button" tabindex="0" aria-label="Elegir a Reni">
+          <div class="heroine-card" id="card-heroine-reni" role="button" tabindex="0" aria-labelledby="heroine-name-reni heroine-role-reni heroine-power-reni">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Reni">
                 <use href="#vq-heroine-reni"></use>
               </svg>
             </div>
-            <div class="heroine-name">Reni <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-wing"></use></svg></div>
-            <div class="heroine-role">Pegaso • Vuelo y Tiempo</div>
+            <div class="heroine-name" id="heroine-name-reni">Reni <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-wing"></use></svg></div>
+            <div class="heroine-role" id="heroine-role-reni">Pegaso • Vuelo y Tiempo</div>
             <div class="heroine-power-tag" title="Pausa el tiempo para pensar sin prisa y asegura maestría máxima">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Brisa Temporal</span>
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span id="heroine-power-reni">Brisa Temporal</span>
             </div>
           </div>
 
           <!-- Heroína 3: Zoe (Poni Terrestre) -->
-          <div class="heroine-card" id="card-heroine-zoe" role="button" tabindex="0" aria-label="Elegir a Zoe">
+          <div class="heroine-card" id="card-heroine-zoe" role="button" tabindex="0" aria-labelledby="heroine-name-zoe heroine-role-zoe heroine-power-zoe">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Zoe">
                 <use href="#vq-heroine-zoe"></use>
               </svg>
             </div>
-            <div class="heroine-name">Zoe <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg></div>
-            <div class="heroine-role">Poni Terrestre • Raíces</div>
+            <div class="heroine-name" id="heroine-name-zoe">Zoe <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg></div>
+            <div class="heroine-role" id="heroine-role-zoe">Poni Terrestre • Raíces</div>
             <div class="heroine-power-tag" title="Protege tu racha ante errores y explica el reto paso a paso">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>Escudo de Raíces</span>
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span id="heroine-power-zoe">Escudo de Raíces</span>
             </div>
           </div>
 
           <!-- Heroína 4: Lía (Unicornio) -->
-          <div class="heroine-card" id="card-heroine-lia" role="button" tabindex="0" aria-label="Elegir a Lía">
+          <div class="heroine-card" id="card-heroine-lia" role="button" tabindex="0" aria-labelledby="heroine-name-lia heroine-role-lia heroine-power-lia">
             <div class="heroine-svg-wrapper">
               <svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-label="Lía">
                 <use href="#vq-heroine-lia"></use>
               </svg>
             </div>
-            <div class="heroine-name">Lía <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg></div>
-            <div class="heroine-role">Unicornio • Cristal y Magia</div>
+            <div class="heroine-name" id="heroine-name-lia">Lía <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg></div>
+            <div class="heroine-role" id="heroine-role-lia">Unicornio • Cristal y Magia</div>
             <div class="heroine-power-tag" title="Resalta la pista clave del reto (el acarreo o la descomposición)">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Foco de Cristal</span>
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span id="heroine-power-lia">Foco de Cristal</span>
             </div>
           </div>
 
@@ -234,7 +237,7 @@
                 </p>
               </div>
             </div>
-            <a href="wardrobe.html" id="btn-campaign-wardrobe" class="campaign-wardrobe-btn" role="button" aria-label="Entrar al Ropero Mágico">
+            <a href="wardrobe.html" id="btn-campaign-wardrobe" class="campaign-wardrobe-btn" role="button" aria-label="¡Entrar al Ropero! Ropero Mágico">
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wardrobe"></use></svg>
               <span>¡Entrar al Ropero!</span>
               <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
