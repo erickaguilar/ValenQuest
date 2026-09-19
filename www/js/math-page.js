@@ -148,6 +148,13 @@ export class MathPageController extends ArenaPageController {
     const opEl = this.el('operator');
     if (opEl) opEl.className = 'math-operator';
 
+    // El Foco de Lía marca operandos: sin esto los números del reto
+    // siguiente heredan el brillo (bug: marcas persistentes).
+    for (const id of ['op1', 'op2']) {
+      const opNum = this.el(id);
+      if (opNum) opNum.classList.remove('crystal-operand-glow');
+    }
+
     const optionsGrid = this.el('options-grid');
     if (optionsGrid) {
       optionsGrid.classList.remove('lia-hint-grid-active');

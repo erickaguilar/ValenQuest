@@ -9,6 +9,11 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 🌙 Fixes modo oscuro + poderes
+- **Foco de Lía:** `resetChallengeVisuals()` ahora retira `crystal-operand-glow` de los operandos; los números del reto siguiente ya no heredan el brillo.
+- **Escudo de Zoe:** confirmado por diseño — queda armado hasta absorber un fallo (no caduca por tiempo ni por retos).
+- **Iconos en oscuro:** auditados los 79 símbolos en ambos temas (todos pintan); si Vercel muestra tinta invisible es despliegue anterior al token `--vq-ink-line`: redesplegar `main` y recarga dura (SW + caché de sesión versionados).
+
 ### 📐 Arenas despejadas (mate + lectura)
 - `math-practice-bar` partida como en lectura: arriba identidad y controles; maestría/combo/tiempo en nueva `math-progress-section` bajo el `main`. Sin cambios de ids.
 - `reading-practice-bar` partida en dos: arriba quedan identidad y controles (título, racha, diamantes, chips); las barras de maestría/combo/tiempo bajan a una nueva sección bajo el `main`. El reto aparece primero en móvil sin cambiar ningún id (JS intacto).
