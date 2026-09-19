@@ -9,6 +9,13 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 🛡️ Tinta y papel por clases (compatibilidad Safari/iOS)
+- **Causa del "todo blanco":** `var()` en atributos `fill`/`stroke` no lo soporta Safari: las formas quedaban negras y solo se veían los brillos blancos. 331 atributos migrados a `.vq-ink-stroke` / `.vq-ink-fill` / `.vq-paper-fill` en hoja de estilos (universal).
+- **Paridad verificada:** mismos valores computados que antes en Chrome claro/oscuro + barrido de píxeles 0 invisibles.
+
+### 🏷️ Meta estándar mobile-web-app-capable
+- Añadido junto al `apple-*` (que se conserva para iOS) en las 8 páginas: silencia el aviso de deprecación de Chrome sin perder "Añadir a inicio" en Safari.
+
 ### ⚙️ Ajustes: copy honesto, letra global y grupos
 - **Botón:** "¡Listo, guardar ajustes!" → "¡Listo!" (todo aplica al instante).
 - **Tamaño de Letra global** (A−/A/A+ → 0.9/1.0/1.15 en raíz, persistido en `vq-font-size`): escala todo el reino; corrección propia —verificado que story NO tenía control local, así que es neto, no duplicado.
