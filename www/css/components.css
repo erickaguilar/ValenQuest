@@ -2922,6 +2922,11 @@
    ========================================================================== */
 .settings-modal-content {
   max-width: 440px;
+  width: min(440px, 100%);
+  /* En móvil la lista (9 filas + grupos) excede la pantalla: scroll interno. */
+  max-height: min(88dvh, 640px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 24px 20px;
   gap: 16px;
   text-align: left;
