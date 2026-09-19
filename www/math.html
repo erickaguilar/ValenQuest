@@ -50,7 +50,7 @@
     <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
     <vq-header current="math"></vq-header>
 
-    <!-- Barra Arcade de Matemáticas en Vivo (Nivel, Racha, Diamantes y Combo) -->
+    <!-- Barra Arcade de Matemáticas en Vivo (Nivel, Racha y Diamantes) -->
     <section class="math-practice-bar" id="math-practice-bar" aria-label="Controles del modo práctica de cálculo">
       <div class="math-bar-row">
         <div class="math-bar-info">
@@ -89,62 +89,6 @@
         </div>
       </div>
 
-      <!-- Barras de Progreso: Maestría del Nivel Actual, Combo Astral y Tiempo Ágil -->
-      <div class="math-progress-dual-grid math-progress-grid" id="math-progress-grid">
-        <!-- 1. Barra de Maestría del Nivel Actual (Hacia la Corona) -->
-        <div class="math-mastery-wrapper" id="math-mastery-wrapper" aria-label="Progreso de Maestría del Nivel">
-          <div class="math-mastery-header">
-            <span class="math-mastery-title">
-              <span class="mastery-crown-icon" aria-hidden="true">
-                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
-              </span>
-              <strong>Maestría del Nivel</strong>
-              <span class="math-mastery-badge" id="math-mastery-badge">0%</span>
-            </span>
-            <span class="math-mastery-status" id="math-mastery-status">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-              <span>0/50 aciertos</span>
-            </span>
-          </div>
-          <div class="math-mastery-track" role="progressbar" aria-label="Maestría del nivel" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-            <div class="math-mastery-fill" id="math-mastery-fill" style="width: 0%"></div>
-          </div>
-        </div>
-
-        <!-- 2. Barra de Combo Astral -->
-        <div class="math-combo-wrapper" id="math-combo-wrapper" aria-label="Barra de Combo Astral">
-          <div class="math-combo-header">
-            <span class="math-combo-title">
-              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-              <strong>Combo Astral</strong>
-              <span class="math-combo-badge" id="math-combo-badge">
-                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg>
-                <span>x1</span>
-              </span>
-            </span>
-            <span class="math-combo-pct" id="math-combo-pct">0%</span>
-          </div>
-          <div class="math-combo-track" role="progressbar" aria-label="Combo astral" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-            <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
-          </div>
-        </div>
-
-        <!-- 3. Barra de Brisa y Bonificación Ágil (Reni - 5 segundos) -->
-        <div class="math-timer-wrapper math-timer-bar-wrap" id="math-timer-bar-wrap" aria-label="Tiempo de bonificación ágil">
-          <div class="math-timer-header">
-            <span class="math-timer-title">
-              <span class="timer-icon" id="math-timer-icon" aria-hidden="true">
-                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-timer"></use></svg>
-              </span>
-              <strong id="math-timer-text">Brisa Ágil: +2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg></strong>
-            </span>
-            <span class="math-timer-status" id="math-timer-status">5.0s</span>
-          </div>
-          <div class="math-timer-track" role="progressbar" aria-label="Tiempo de bonificación ágil" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-            <div class="math-timer-fill" id="math-timer-fill" style="width: 100%"></div>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- Tarjeta Principal del Desafío Matemático Interactivo (Homologada) -->
@@ -282,6 +226,66 @@
 
       </article>
     </main>
+
+    <!-- Barras de Progreso (Maestría, Combo y Tiempo): debajo del reto para despejar la arena -->
+    <section class="math-progress-section" aria-label="Progreso de maestría, combo y tiempo">
+      <!-- Barras de Progreso: Maestría del Nivel Actual, Combo Astral y Tiempo Ágil -->
+      <div class="math-progress-dual-grid math-progress-grid" id="math-progress-grid">
+        <!-- 1. Barra de Maestría del Nivel Actual (Hacia la Corona) -->
+        <div class="math-mastery-wrapper" id="math-mastery-wrapper" aria-label="Progreso de Maestría del Nivel">
+          <div class="math-mastery-header">
+            <span class="math-mastery-title">
+              <span class="mastery-crown-icon" aria-hidden="true">
+                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
+              </span>
+              <strong>Maestría del Nivel</strong>
+              <span class="math-mastery-badge" id="math-mastery-badge">0%</span>
+            </span>
+            <span class="math-mastery-status" id="math-mastery-status">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <span>0/50 aciertos</span>
+            </span>
+          </div>
+          <div class="math-mastery-track" role="progressbar" aria-label="Maestría del nivel" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-mastery-fill" id="math-mastery-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- 2. Barra de Combo Astral -->
+        <div class="math-combo-wrapper" id="math-combo-wrapper" aria-label="Barra de Combo Astral">
+          <div class="math-combo-header">
+            <span class="math-combo-title">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <strong>Combo Astral</strong>
+              <span class="math-combo-badge" id="math-combo-badge">
+                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg>
+                <span>x1</span>
+              </span>
+            </span>
+            <span class="math-combo-pct" id="math-combo-pct">0%</span>
+          </div>
+          <div class="math-combo-track" role="progressbar" aria-label="Combo astral" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-combo-fill" id="math-combo-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- 3. Barra de Brisa y Bonificación Ágil (Reni - 5 segundos) -->
+        <div class="math-timer-wrapper math-timer-bar-wrap" id="math-timer-bar-wrap" aria-label="Tiempo de bonificación ágil">
+          <div class="math-timer-header">
+            <span class="math-timer-title">
+              <span class="timer-icon" id="math-timer-icon" aria-hidden="true">
+                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-timer"></use></svg>
+              </span>
+              <strong id="math-timer-text">Brisa Ágil: +2 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg></strong>
+            </span>
+            <span class="math-timer-status" id="math-timer-status">5.0s</span>
+          </div>
+          <div class="math-timer-track" role="progressbar" aria-label="Tiempo de bonificación ágil" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            <div class="math-timer-fill" id="math-timer-fill" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Pie de Página Modular Homologado (Web Component: vq-footer) -->
     <vq-footer></vq-footer>

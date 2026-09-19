@@ -270,6 +270,21 @@
 }
 
 /* ==========================================================================
+   PROGRESS METERS BAJO EL RETO (despejan la arena en móvil)
+   ========================================================================== */
+.reading-progress-section {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  padding: 14px 18px;
+  box-shadow: var(--vq-shadow-hard);
+  margin-top: 12px;
+}
+
+/* ==========================================================================
    PROGRESS METERS: MAESTRÍA LECTORA, COMBO LÍRICO Y MODO CALMA / BRISA ÁGIL
    ========================================================================== */
 .reading-progress-dual-grid,
@@ -1513,6 +1528,7 @@
   }
 
   .reading-practice-bar,
+  .reading-progress-section,
   .reading-challenge-card {
     padding: 12px 10px;
     border-radius: var(--vq-radius-card);

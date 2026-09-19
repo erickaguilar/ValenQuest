@@ -9,6 +9,10 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 📐 Arenas despejadas (mate + lectura)
+- `math-practice-bar` partida como en lectura: arriba identidad y controles; maestría/combo/tiempo en nueva `math-progress-section` bajo el `main`. Sin cambios de ids.
+- `reading-practice-bar` partida en dos: arriba quedan identidad y controles (título, racha, diamantes, chips); las barras de maestría/combo/tiempo bajan a una nueva sección bajo el `main`. El reto aparece primero en móvil sin cambiar ningún id (JS intacto).
+
 ### 👑 Cuarteto en igualdad (adiós a la monarquía)
 - **Mismo rango:** las cuatro son Princesas (Estrellas, Vientos, Naturaleza, Cristales); eliminado `isLeader` del catálogo, el seed y la migración de IndexedDB (que ahora limpia el flag legacy).
 - **Capítulos 2-2-2-2:** I→Zoe (cimientos), II→Lía (cristal vs sombra), VII→Reni (travesía); Valen conserva III (origen) y VIII (final). Títulos de origen actualizados.
