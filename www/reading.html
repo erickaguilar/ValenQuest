@@ -59,6 +59,10 @@
           <span class="reading-streak-tag" id="reading-streak-tag">
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-flame"></use></svg>
             <span>Racha: <strong id="reading-streak-val">0</strong> • Récord: <span id="reading-record-val">0</span></span>
+            <span class="reading-shield-badge" id="reading-shield-badge" hidden title="¡Escudo de Zoe activo! Tu racha está protegida">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>
+              <span>Protegida</span>
+            </span>
           </span>
           <span class="reading-diamonds-tag" id="reading-diamonds-tag" title="Diamantes ganados en práctica de lectura">
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>
@@ -151,6 +155,35 @@
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
             <span>Escuchar a Orión</span>
           </button>
+        </div>
+
+        <!-- Banners Visuales de Poderes de las Princesas (Valen, Reni, Zoe, Lía) -->
+        <div id="reading-valen-banner" class="reading-power-banner reading-valen-banner" hidden aria-live="polite" title="Toca para cerrar este mensaje">
+          <span class="valen-banner-icon" aria-hidden="true">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rainbow"></use></svg>
+          </span>
+          <span id="reading-valen-clue-text" class="valen-clue-text">¡Prisma Real de Valen! La luz desintegra opciones erróneas.</span>
+        </div>
+
+        <div id="reading-reni-banner" class="reading-power-banner reading-reni-banner" hidden aria-live="polite" title="Toca para cerrar este mensaje">
+          <span class="reni-banner-icon" aria-hidden="true">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg>
+          </span>
+          <span id="reading-reni-clue-text" class="reni-clue-text">¡Brisa Temporal de Reni! El tiempo se detiene en calma total.</span>
+        </div>
+
+        <div id="reading-zoe-banner" class="reading-power-banner reading-zoe-banner" hidden aria-live="polite" title="Toca para cerrar este mensaje">
+          <span class="zoe-banner-icon" id="reading-zoe-banner-icon" aria-hidden="true">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
+          </span>
+          <span id="reading-zoe-clue-text" class="zoe-clue-text">¡Escudo de Raíces de Zoe! Tu racha está protegida ante cualquier error.</span>
+        </div>
+
+        <div id="reading-lia-banner" class="reading-power-banner reading-lia-banner" hidden aria-live="polite" title="Toca para cerrar este mensaje">
+          <span class="lia-crystal-icon" aria-hidden="true">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg>
+          </span>
+          <span id="reading-lia-clue-text" class="lia-clue-text">¡Foco de Cristal de Lía! Iluminando la pista clave del reto.</span>
         </div>
 
         <!-- Área Dinámica de Visualización Lingüística -->

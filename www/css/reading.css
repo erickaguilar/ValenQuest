@@ -885,6 +885,430 @@
 }
 
 /* ==========================================================================
+   EFECTOS VISUALES Y BANNERS DE PODERES EN LECTURA (VALEN, RENI, ZOE, LÍA)
+   ========================================================================== */
+
+/* 1. Badge del Escudo de Zoe en la Barra de Racha */
+.reading-shield-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #059669;
+  color: #FFFFFF;
+  border: 1.5px solid #34D399;
+  border-radius: var(--vq-radius-pill);
+  padding: 2px 8px;
+  font-size: 0.74rem;
+  font-weight: 900;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  animation: shieldBadgePulse 1.8s ease-in-out infinite alternate;
+}
+
+.reading-shield-badge .vq-icon {
+  width: 1em;
+  height: 1em;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+/* 2. Banners Visuales Interactivos de Poderes */
+.reading-power-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 6px;
+  padding: 10px 14px;
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: var(--vq-shadow-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.reading-power-banner:hover {
+  transform: translateY(-2px);
+}
+
+/* Valen: Prisma Real */
+.reading-valen-banner {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(251, 191, 36, 0.18) 100%);
+  border: 2px solid #F472B6;
+  box-shadow: 0 0 16px rgba(244, 114, 182, 0.4);
+  animation: valenBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] .reading-valen-banner {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(251, 191, 36, 0.22) 100%);
+  border-color: #EC4899;
+}
+
+.reading-valen-banner .valen-banner-icon {
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: prismSpin 1.8s ease-in-out infinite alternate;
+}
+
+.reading-valen-banner .valen-banner-icon .vq-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.reading-valen-banner .valen-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #BE185D;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .reading-valen-banner .valen-clue-text {
+  color: #FCE7F3;
+}
+
+/* Reni: Brisa Temporal */
+.reading-reni-banner {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(147, 197, 253, 0.2) 100%);
+  border: 2px solid #38BDF8;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  animation: reniBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] .reading-reni-banner {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(30, 58, 138, 0.25) 100%);
+  border-color: #0284C7;
+}
+
+.reading-reni-banner .reni-banner-icon {
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: breezeWingFloat 1.6s ease-in-out infinite alternate;
+}
+
+.reading-reni-banner .reni-banner-icon .vq-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #0284C7;
+}
+
+[data-theme="dark"] .reading-reni-banner .reni-banner-icon .vq-icon {
+  color: #38BDF8;
+}
+
+.reading-reni-banner .reni-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0369A1;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .reading-reni-banner .reni-clue-text {
+  color: #E0F2FE;
+}
+
+/* Zoe: Escudo de Raíces */
+.reading-zoe-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 6px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(52, 211, 153, 0.2) 100%);
+  border: 2px solid #34D399;
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.4);
+  animation: zoeBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: left;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .reading-zoe-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.22) 100%);
+  border-color: #10B981;
+}
+
+.reading-zoe-banner .zoe-banner-icon {
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: shieldLeafFloat 1.5s ease-in-out infinite alternate;
+}
+
+.reading-zoe-banner .zoe-banner-icon .vq-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.reading-zoe-banner .zoe-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #065F46;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .reading-zoe-banner .zoe-clue-text {
+  color: #D1FAE5;
+}
+
+/* Lía: Foco de Cristal */
+.reading-lia-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 6px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(217, 70, 239, 0.18) 100%);
+  border: 2px solid #C084FC;
+  border-radius: var(--vq-radius-bubble);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+  animation: liaBannerSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: left;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .reading-lia-banner {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.25) 0%, rgba(107, 33, 168, 0.25) 100%);
+  border-color: #A855F7;
+}
+
+.reading-lia-banner .lia-crystal-icon {
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: crystalBob 1.6s ease-in-out infinite alternate;
+}
+
+.reading-lia-banner .lia-crystal-icon .vq-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #9333EA;
+}
+
+[data-theme="dark"] .reading-lia-banner .lia-crystal-icon .vq-icon {
+  color: #C084FC;
+}
+
+.reading-lia-banner .lia-clue-text {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #7E22CE;
+  line-height: 1.35;
+}
+
+[data-theme="dark"] .reading-lia-banner .lia-clue-text {
+  color: #E9D5FF;
+}
+
+/* 3. Animaciones Mágicas en la Tarjeta de Reto */
+/* Prisma Real de Valen: Destello Arcoíris */
+.reading-challenge-card.prism-rainbow-beam {
+  position: relative;
+  overflow: hidden;
+  border-color: #F472B6 !important;
+  box-shadow: 0 0 28px rgba(244, 114, 182, 0.55), 0 0 14px rgba(251, 191, 36, 0.4), var(--vq-shadow-hard) !important;
+  animation: prismCardPulse 1.2s ease-in-out;
+}
+
+.reading-challenge-card.prism-rainbow-beam::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(115deg, transparent 30%, rgba(244, 114, 182, 0.35) 45%, rgba(251, 191, 36, 0.45) 50%, rgba(56, 189, 248, 0.35) 55%, transparent 70%);
+  transform: rotate(25deg);
+  animation: prismBeamSweep 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Opciones descartadas con desintegración mágica */
+.reading-choice-btn.prism-discarded {
+  position: relative;
+  opacity: 0.28 !important;
+  filter: grayscale(0.9) blur(0.3px) !important;
+  transform: scale(0.9) !important;
+  border-color: #9CA3AF !important;
+  background: rgba(156, 163, 175, 0.2) !important;
+  text-decoration: line-through 2px #EF4444 !important;
+  pointer-events: none !important;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  animation: prismShatter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Opciones restantes iluminadas con bendición de prisma */
+.reading-choice-btn.prism-blessed {
+  border-color: #F472B6 !important;
+  box-shadow: 0 0 14px rgba(244, 114, 182, 0.6), var(--vq-shadow-md) !important;
+  animation: prismBlessPulse 1.4s ease-in-out infinite alternate;
+}
+
+/* Escudo de Raíces de Zoe: Domo de Protección */
+.reading-challenge-card.shield-protected {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.55), inset 0 0 12px rgba(16, 185, 129, 0.2), var(--vq-shadow-hard) !important;
+  animation: shieldDomeBreath 2.2s ease-in-out infinite alternate;
+}
+
+/* Absorción y Deflexión Heroica del Impacto al Cometer Error */
+.reading-challenge-card.shield-absorbed-impact {
+  border-color: #34D399 !important;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.25) 100%) !important;
+  box-shadow: 0 0 35px rgba(52, 211, 153, 0.9), inset 0 0 20px rgba(16, 185, 129, 0.4) !important;
+  animation: shieldDeflectionFlash 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Foco de Cristal de Lía: Iluminación de Tarjeta */
+.reading-challenge-card.crystal-focus {
+  border-color: #C084FC !important;
+  box-shadow: 0 0 26px rgba(168, 85, 247, 0.6), inset 0 0 14px rgba(192, 132, 252, 0.25), var(--vq-shadow-hard) !important;
+  animation: crystalCardGlow 1.6s ease-in-out;
+}
+
+@keyframes crystalCardGlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); box-shadow: 0 0 32px rgba(168, 85, 247, 0.8), inset 0 0 18px rgba(192, 132, 252, 0.4); }
+  100% { transform: scale(1); }
+}
+
+.reading-choice-btn.crystal-choice-hint {
+  border-color: #A855F7 !important;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.65), var(--vq-shadow-hard) !important;
+  animation: correctBounce 0.6s ease, crystalOpPulse 1.2s ease-in-out infinite alternate;
+}
+
+.crystal-bubble-glow {
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.85), inset 0 0 10px rgba(192, 132, 252, 0.5) !important;
+  border-color: #A855F7 !important;
+  animation: crystalBubblePulse 1.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes crystalBubblePulse {
+  0% { transform: scale(1.03); box-shadow: 0 0 10px rgba(168, 85, 247, 0.6); }
+  100% { transform: scale(1.1); box-shadow: 0 0 22px rgba(192, 132, 252, 0.95); }
+}
+
+.crystal-word-glow {
+  color: #7E22CE !important;
+  text-decoration: underline wavy #C084FC !important;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.7) !important;
+  animation: crystalWordPulse 1.2s ease-in-out infinite alternate;
+}
+
+[data-theme="dark"] .crystal-word-glow {
+  color: #F3E8FF !important;
+  text-decoration-color: #D8B4FE !important;
+}
+
+@keyframes crystalWordPulse {
+  0% { text-shadow: 0 0 8px rgba(192, 132, 252, 0.5); }
+  100% { text-shadow: 0 0 18px rgba(217, 70, 239, 0.9); }
+}
+
+/* Keyframes de Poderes */
+@keyframes valenBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes reniBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes breezeWingFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(-6deg); }
+}
+
+@keyframes prismSpin {
+  0% { transform: scale(1) rotate(-8deg); }
+  100% { transform: scale(1.15) rotate(8deg); }
+}
+
+@keyframes prismBeamSweep {
+  0% { transform: translate(-80%, -80%) rotate(25deg); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(60%, 60%) rotate(25deg); opacity: 0; }
+}
+
+@keyframes prismCardPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes prismShatter {
+  0% { transform: scale(1.08) rotate(-4deg); filter: brightness(1.6) hue-rotate(180deg); }
+  40% { transform: scale(0.95) rotate(3deg); filter: brightness(1.2); }
+  100% { transform: scale(0.9) rotate(0deg); opacity: 0.28; }
+}
+
+@keyframes prismBlessPulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(244, 114, 182, 0.5); }
+  100% { transform: scale(1.03); box-shadow: 0 0 18px rgba(251, 191, 36, 0.7); }
+}
+
+@keyframes zoeBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes shieldLeafFloat {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-4px) scale(1.12); }
+}
+
+@keyframes shieldBadgePulse {
+  0% { transform: scale(1); box-shadow: 0 0 6px rgba(16, 185, 129, 0.4); }
+  100% { transform: scale(1.05); box-shadow: 0 0 14px rgba(52, 211, 153, 0.8); }
+}
+
+@keyframes shieldDomeBreath {
+  0% {
+    border-color: #10B981;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.4), inset 0 0 8px rgba(16, 185, 129, 0.15), var(--vq-shadow-hard);
+  }
+  100% {
+    border-color: #34D399;
+    box-shadow: 0 0 28px rgba(52, 211, 153, 0.7), inset 0 0 16px rgba(52, 211, 153, 0.3), var(--vq-shadow-hard);
+  }
+}
+
+@keyframes shieldDeflectionFlash {
+  0% { transform: scale(1); filter: brightness(1.6); }
+  20% { transform: scale(1.04); filter: brightness(1.8) drop-shadow(0 0 15px #34D399); }
+  50% { transform: scale(0.99); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes liaBannerSlide {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes crystalBob {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(8deg); }
+}
+
+@keyframes crystalOpPulse {
+  0% { transform: scale(1.02); filter: drop-shadow(0 0 6px #A855F7); }
+  100% { transform: scale(1.06); filter: drop-shadow(0 0 16px #D946EF); }
+}
+
+/* ==========================================================================
    5. PIE DE PÁGINA Y NAVEGACIÓN CRUZADA
    ========================================================================== */
 .reading-footer {

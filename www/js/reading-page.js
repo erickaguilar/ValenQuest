@@ -238,6 +238,31 @@ class ReadingPageController {
       comboBadge.innerHTML = `<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-bolt"></use></svg> <span>x${comboNum}</span>`;
     }
 
+    // Ocultar banners efímeros de poderes previos
+    const valenBanner = document.getElementById('reading-valen-banner');
+    if (valenBanner) valenBanner.hidden = true;
+    const reniBanner = document.getElementById('reading-reni-banner');
+    if (reniBanner) reniBanner.hidden = true;
+    const liaBanner = document.getElementById('reading-lia-banner');
+    if (liaBanner) liaBanner.hidden = true;
+
+    // Sincronizar estado persistente del Escudo de Raíces de Zoe
+    const card = document.getElementById('reading-challenge-card');
+    const shieldBadge = document.getElementById('reading-shield-badge');
+    const zoeBanner = document.getElementById('reading-zoe-banner');
+
+    if (this.streakShieldActive) {
+      if (card) card.classList.add('shield-protected');
+      if (shieldBadge) {
+        shieldBadge.hidden = false;
+        shieldBadge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>Protegida</span>';
+      }
+    } else {
+      if (card) card.classList.remove('shield-protected', 'shield-absorbed-impact', 'prism-rainbow-beam', 'crystal-focus', 'royal-boost');
+      if (shieldBadge) shieldBadge.hidden = true;
+      if (zoeBanner && !zoeBanner._isAbsorbing) zoeBanner.hidden = true;
+    }
+
     // 6. Renderizar consigna
     const promptText = document.getElementById('challenge-prompt-text');
     if (promptText) {
@@ -466,14 +491,42 @@ class ReadingPageController {
         }
       } else {
         if (buttonEl) buttonEl.classList.add('incorrect-choice');
-        if (card) card.classList.add('incorrect-shake');
 
-        // Protección de Raíces de Zoe
+        // Protección heroica de Raíces de Zoe
         if (res.shieldAbsorbed) {
           this.streakShieldActive = false;
+          if (card) {
+            card.classList.remove('shield-protected', 'incorrect-shake');
+            void card.offsetWidth;
+            card.classList.add('shield-absorbed-impact');
+            setTimeout(() => card.classList.remove('shield-absorbed-impact'), 1800);
+          }
+
+          const shieldBadge = document.getElementById('reading-shield-badge');
+          if (shieldBadge) {
+            shieldBadge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>¡Absorbido!</span>';
+            setTimeout(() => { if (shieldBadge) shieldBadge.hidden = true; }, 1600);
+          }
+
+          const zoeBanner = document.getElementById('reading-zoe-banner');
+          const clueText = document.getElementById('reading-zoe-clue-text');
+          const icon = document.getElementById('reading-zoe-banner-icon');
+          if (zoeBanner && clueText) {
+            zoeBanner._isAbsorbing = true;
+            if (icon) icon.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>';
+            clueText.textContent = `¡El Escudo de Zoe resistió el impacto! Tu racha de ${res.streak} quedó 100% a salvo.`;
+            zoeBanner.hidden = false;
+            setTimeout(() => {
+              zoeBanner._isAbsorbing = false;
+              if (!this.streakShieldActive) zoeBanner.hidden = true;
+            }, 3200);
+          }
+
           try { sound.playStreak(); } catch (e) {}
-          try { speech.speak(`¡El Escudo de Zoe protegió tu racha de lectura! Tu racha de ${res.streak} sigue a salvo.`); } catch (e) {}
+          try { sound.playLevelUp(); } catch (e) {}
+          try { speech.speak(`¡El Escudo de Raíces de Zoe absorbió el golpe! Tu racha de ${res.streak} continúa a salvo.`); } catch (e) {}
         } else {
+          if (card) card.classList.add('incorrect-shake');
           try { sound.playIncorrect(); } catch (e) {}
         }
 
@@ -662,7 +715,6 @@ class ReadingPageController {
     sound.playStreak();
     speech.speak(`¡${result.powerName}! ${result.description}`);
 
-    const card = document.getElementById('reading-challenge-card');
     const btn = document.getElementById(`btn-power-${heroineId}`);
     if (btn) {
       btn.classList.add('power-activated');
@@ -670,55 +722,178 @@ class ReadingPageController {
     }
 
     if (heroineId === 'zoe') {
-      this.streakShieldActive = true;
-      if (card) {
-        card.classList.add('shield-protect');
-        setTimeout(() => card.classList.remove('shield-protect'), 1600);
-      }
+      this.activateZoeVisuals();
     } else if (heroineId === 'valen') {
-      // Prisma: Descarta una opción incorrecta
-      if (card) {
-        card.classList.add('royal-boost');
-        setTimeout(() => card.classList.remove('royal-boost'), 1600);
-      }
-      const challenge = readingPractice.getState().currentChallenge;
-      if (challenge) {
-        const optionBtns = document.querySelectorAll('.reading-choice-btn');
-        let discarded = false;
-        optionBtns.forEach((btn) => {
-          if (!discarded && btn.textContent !== challenge.answer && !btn.disabled) {
-            btn.disabled = true;
-            btn.style.opacity = '0.35';
-            btn.style.textDecoration = 'line-through';
-            discarded = true;
-          }
-        });
-      }
+      this.activateValenVisuals();
     } else if (heroineId === 'reni') {
-      // Brisa: Calma temporal
-      this.freezeTimer();
-      if (card) {
-        card.classList.add('royal-boost');
-        setTimeout(() => card.classList.remove('royal-boost'), 1600);
-      }
-      speech.speak('¡Brisa Temporal activada! Reni ha congelado el cronómetro: tus 2 diamantes y bonificación ágil están asegurados.');
+      this.activateReniVisuals();
     } else if (heroineId === 'lia') {
-      // Foco: Resalta la pista / palabra clave
-      if (card) {
-        card.classList.add('crystal-focus');
-        setTimeout(() => card.classList.remove('crystal-focus'), 1600);
-      }
-      const promptArea = document.querySelector('.challenge-prompt-text');
-      if (promptArea) {
-        promptArea.style.transform = 'scale(1.05)';
-        promptArea.style.transition = 'transform 0.3s ease';
-        setTimeout(() => {
-          promptArea.style.transform = 'none';
-        }, 1500);
-      }
+      this.activateLiaVisuals();
     }
 
     this.updatePowersBadges();
+  }
+
+  activateValenVisuals() {
+    const card = document.getElementById('reading-challenge-card');
+    if (card) {
+      card.classList.remove('prism-rainbow-beam');
+      void card.offsetWidth;
+      card.classList.add('prism-rainbow-beam');
+      setTimeout(() => card.classList.remove('prism-rainbow-beam'), 1600);
+    }
+
+    const valenBanner = document.getElementById('reading-valen-banner');
+    const clueText = document.getElementById('reading-valen-clue-text');
+    if (valenBanner && clueText) {
+      valenBanner.hidden = false;
+      if (!valenBanner._closeBound) {
+        valenBanner._closeBound = true;
+        valenBanner.addEventListener('click', () => { valenBanner.hidden = true; });
+      }
+    }
+
+    const state = readingPractice.getState();
+    const challenge = state.currentChallenge;
+    let discardedCount = 0;
+    if (challenge && challenge.options) {
+      const optionBtns = document.querySelectorAll('.reading-choice-btn');
+      const ansTxt = (challenge.answer || '').trim().toLowerCase();
+      optionBtns.forEach((btn) => {
+        const btnTxt = btn.textContent.trim().toLowerCase();
+        if (discardedCount < 2 && btnTxt !== ansTxt && !btn.disabled) {
+          btn.disabled = true;
+          btn.classList.add('prism-discarded');
+          btn.setAttribute('aria-disabled', 'true');
+          discardedCount++;
+        } else if (btnTxt === ansTxt || !btn.disabled) {
+          btn.classList.add('prism-blessed');
+        }
+      });
+      if (clueText) {
+        clueText.textContent = `¡Prisma Real de Valen! La luz refractó y desintegró ${discardedCount} opciones falsas. ¡Elige entre las restantes!`;
+      }
+    } else if (clueText) {
+      clueText.textContent = '¡Prisma Real de Valen! La luz mágica despeja opciones incorrectas para encontrar la respuesta.';
+    }
+
+    speech.speak('¡Prisma Real de Valen! La luz descompone las ilusiones y desintegra opciones erróneas.');
+  }
+
+  activateReniVisuals() {
+    this.freezeTimer();
+    const card = document.getElementById('reading-challenge-card');
+    if (card) {
+      card.classList.add('royal-boost');
+      setTimeout(() => card.classList.remove('royal-boost'), 1600);
+    }
+
+    const reniBanner = document.getElementById('reading-reni-banner');
+    const clueText = document.getElementById('reading-reni-clue-text');
+    if (reniBanner && clueText) {
+      clueText.textContent = '¡Brisa Temporal de Reni! El tiempo se ha detenido en calma total: tus 2 diamantes y bonificación ágil están asegurados.';
+      reniBanner.hidden = false;
+      if (!reniBanner._closeBound) {
+        reniBanner._closeBound = true;
+        reniBanner.addEventListener('click', () => { reniBanner.hidden = true; });
+      }
+    }
+
+    speech.speak('¡Brisa Temporal activada! Reni ha congelado el cronómetro: tus 2 diamantes y bonificación ágil están asegurados.');
+  }
+
+  activateZoeVisuals() {
+    this.streakShieldActive = true;
+    const card = document.getElementById('reading-challenge-card');
+    if (card) {
+      card.classList.add('shield-protected');
+    }
+
+    const shieldBadge = document.getElementById('reading-shield-badge');
+    if (shieldBadge) {
+      shieldBadge.hidden = false;
+      shieldBadge.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg> <span>Protegida</span>';
+    }
+
+    const zoeBanner = document.getElementById('reading-zoe-banner');
+    const clueText = document.getElementById('reading-zoe-clue-text');
+    const icon = document.getElementById('reading-zoe-banner-icon');
+    if (zoeBanner && clueText) {
+      if (icon) icon.innerHTML = '<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>';
+      clueText.textContent = '¡Escudo de Raíces de Zoe! Una barrera sagrada protegerá tu racha y combo ante cualquier tropiezo.';
+      zoeBanner.hidden = false;
+      if (!zoeBanner._closeBound) {
+        zoeBanner._closeBound = true;
+        zoeBanner.addEventListener('click', () => { zoeBanner.hidden = true; });
+      }
+    }
+
+    speech.speak('¡Escudo de Raíces de Zoe activado! Una barrera sagrada protegerá tu racha y combo de cualquier tropiezo.');
+  }
+
+  activateLiaVisuals() {
+    const card = document.getElementById('reading-challenge-card');
+    if (card) {
+      card.classList.add('crystal-focus');
+      setTimeout(() => card.classList.remove('crystal-focus'), 1600);
+    }
+
+    const state = readingPractice.getState();
+    const challenge = state.currentChallenge;
+    if (!challenge) return;
+
+    // Resaltar elementos lingüísticos clave del reto
+    const bubbles = document.querySelectorAll('.syllable-bubble, .syl, .blend-display span');
+    bubbles.forEach((b) => b.classList.add('crystal-bubble-glow'));
+
+    const sentences = document.querySelectorAll('.sentence-text, .sentence-question, .fable-title');
+    sentences.forEach((s) => s.classList.add('crystal-word-glow'));
+
+    // En modo de opciones, iluminar suavemente la respuesta correcta con aura de cristal
+    const optionBtns = document.querySelectorAll('.reading-choice-btn');
+    const ansTxt = (challenge.answer || '').trim().toLowerCase();
+    optionBtns.forEach((btn) => {
+      const btnTxt = btn.textContent.trim().toLowerCase();
+      if (btnTxt === ansTxt) {
+        btn.classList.add('crystal-choice-hint');
+      }
+    });
+
+    const liaBanner = document.getElementById('reading-lia-banner');
+    const clueText = document.getElementById('reading-lia-clue-text');
+
+    let message = '';
+    let speechMsg = '';
+    if (challenge.type === 'syllables') {
+      message = `¡Foco de Lía! Las sílabas se unen con su sonido musical. ¡Encuentra «${challenge.answer}»!`;
+      speechMsg = `¡Lía enfoca el sonido de las sílabas! Observa la pista amatista resaltada.`;
+    } else if (challenge.type === 'blend') {
+      message = `¡Foco de Lía! Sigue la melodía de las letras para pronunciar «${challenge.answer}».`;
+      speechMsg = `¡Lía enfoca el sonido! Fíjate en la pista amatista iluminada.`;
+    } else if (challenge.type === 'sentence') {
+      message = `¡Foco de Lía! Completa la idea mágica de la oración con la palabra que encaja.`;
+      speechMsg = `¡Lía ilumina la oración! Lee con atención la pista en pantalla.`;
+    } else if (challenge.type === 'rsvp') {
+      message = `¡Foco de Lía! Las palabras pasaron veloces, ¡pero tu memoria de cristal recuerda la respuesta!`;
+      speechMsg = `¡Lía ilumina el velocímetro lector! Observa la opción correcta.`;
+    } else if (challenge.type === 'fable') {
+      message = `¡Foco de Lía! La sabiduría de la fábula se revela en sus frases clave.`;
+      speechMsg = `¡Lía enfoca la fábula! Lee la pista iluminada con atención.`;
+    } else {
+      message = `¡Foco de Lía! Iluminando la pista clave del reto.`;
+      speechMsg = `¡Lía enfoca el reto! Observa la pista resaltada.`;
+    }
+
+    if (liaBanner && clueText) {
+      clueText.textContent = message;
+      liaBanner.hidden = false;
+      if (!liaBanner._closeBound) {
+        liaBanner._closeBound = true;
+        liaBanner.addEventListener('click', () => { liaBanner.hidden = true; });
+      }
+    }
+
+    speech.speak(speechMsg);
   }
 
   async handlePowerRecharge(heroineId) {
