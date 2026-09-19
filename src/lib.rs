@@ -12,7 +12,7 @@ use wasm_bindgen::prelude::*;
 /// Returns engine version and build info for client telemetry
 #[wasm_bindgen]
 pub fn get_engine_version() -> String {
-    "KidsLearn-WASM Engine v2.1.8 (Rust+Wasm)".to_string()
+    "KidsLearn-WASM Engine v2.1.9 (Rust+Wasm)".to_string()
 }
 
 #[cfg(test)]

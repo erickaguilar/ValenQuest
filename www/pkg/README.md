@@ -1,13 +1,13 @@
 # ValenQuest 🦄✨ (KidsLearn-WASM)
 
-[![Version](https://img.shields.io/badge/version-2.1.6-f472b6.svg)](VERSION)
+[![Version](https://img.shields.io/badge/version-2.1.9-f472b6.svg)](VERSION)
 [![Rust](https://img.shields.io/badge/rust-2021_edition-orange.svg)](Cargo.toml)
 [![WASM](https://img.shields.io/badge/wasm-wasm--pack-6366f1.svg)](www/pkg/)
 [![License](https://img.shields.io/badge/license-MIT%20%7C%20Apache--2.0-blue.svg)](LICENSE.md)
 
 > Plataforma educativa web local-first (PWA) para educación primaria (matemáticas adaptativas y fluidez lectora), ambientada en el universo de **Lumiria** con estética pastel mágica (*My Little Pony* + *Gacha Club*). Impulsada por un núcleo en **Rust + WebAssembly** y una presentación ultra-ligera en **Vanilla JavaScript (ES Modules) + HTML5/CSS3**.
 > 
-> Acompaña a la heroína y princesa **Valen** (Alicornio) y a su equipo del Cuarteto de la Armonía, **Reni** (Pegaso), **Zoe** (Poni Terrestre) y **Lía** (Unicornio), usando sus **Poderes de Amistad** para restaurar las constelaciones de la Gran Biblioteca de Lumiria.
+> Acompaña al **Cuarteto de la Armonía** —consejo de cuatro princesas en igualdad—: **Valen** (Alicornio, Estrellas), **Reni** (Pegaso, Vientos), **Zoe** (Poni Terrestre, Naturaleza) y **Lía** (Unicornio, Cristales), usando sus **Poderes de Amistad** para restaurar las constelaciones de la Gran Biblioteca de Lumiria.
 
 ---
 
@@ -56,7 +56,7 @@ La aventura se estructura en tres actos que abarcan la educación primaria y cul
    - **Nivel 9 - Cúspide de la Aurora:** Operaciones combinadas con paréntesis | Inferencia moral | *Fénix Boreal* 🦅 | Alas Tornasol de Aurora
    - **Nivel 10 - Trono de las Estrellas:** Alta fluidez mental ($t \le 3500\text{ ms}$) | Reconstrucción del poema | *Emperatriz Eclipse Purificada* 👑✨ | Corona Suprema
 
-*Criterio de Desafío de Portal:* $M_k \ge 0.82$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual).  
+*Criterio de Desafío de Portal:* $M_k \ge 0.82$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual). *Regla de piedad:* 8 aciertos consecutivos a cualquier velocidad también lo activan (la persistencia lenta-pero-correcta nunca queda atascada).  
 *Criterio de Refuerzo:* $M_k < 0.38$ y 2 fallos consecutivos (retrocede un nivel para afianzar confianza).
 
 ---

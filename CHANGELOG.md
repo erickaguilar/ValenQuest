@@ -7,7 +7,10 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ---
 
-## [Unreleased]
+## [2.1.9] - 2026-09-19
+
+### 🛡️ Release de invalidación de cachés
+Esta versión cambia el nombre de caché del Service Worker y las claves de sprites para forzar la renovación en navegadores atascados en snapshots anteriores. Incluye todo lo acumulado: tinta y papel fijos, limpieza de Lía, ajustes (letra global), layouts de arenas, meta estándar y compatibilidad Safari/iOS de los SVG.
 
 ### 🎨 Tinta y papel fijos (look sticker en noche)
 - Decisión visual: `--vq-ink-line: #4A3E56` y `--vq-icon-paper: #FDF7FF` en ambos temas (tinta clara sobre papel oscuro se veía lavado). Las clases `.vq-ink-*`/`.vq-paper-fill` quedan como punto único de control.

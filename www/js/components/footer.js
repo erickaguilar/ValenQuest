@@ -47,7 +47,7 @@ export class VqFooter extends HTMLElement {
 
       <!-- Pie de página final con versión real actual -->
       <div class="footer-bottom">
-        <p>ValenQuest v2.1.8 • Edición Lumiria © 2026</p>
+        <p>ValenQuest v2.1.9 • Edición Lumiria © 2026</p>
       </div>
     </footer>
     `;
