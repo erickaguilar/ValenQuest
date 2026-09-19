@@ -714,11 +714,18 @@ impl MathSession {
         // FSM Tier Progression / Regression Rules
         self.tier_changed = 0;
 
-        // Portal listo: maestría alta (>= 0.82) con racha sostenida (>= 3).
+        // Portal listo: maestría alta (>= 0.82) con racha sostenida (>= 3),
+        // o REGLA DE PIEDAD: 8 aciertos consecutivos a cualquier velocidad.
+        // Sin la piedad, un niño lento-pero-correcto (P = 0.70, asíntota 0.70
+        // < 0.82) jamás abriría el portal por más que persistiera. La racha
+        // ya exige 8 CORRECTAS seguidas (adivinar 8 seguidas es ~0.002%),
+        // así que no hay vía de juego sucio. Vale también en el Nivel 10.
         // El avance de tier NO es automático: ocurre en advance_tier(),
         // tras superar el Desafío de Portal (la UI abre el portal del
-        // templo vigente). Vale también en el Nivel 10 (victoria final).
-        if self.mastery >= 0.82 && self.streak >= 3 && !self.portal_ready {
+        // templo vigente).
+        let mastered = self.mastery >= 0.82 && self.streak >= 3;
+        let persistent = self.streak >= 8;
+        if (mastered || persistent) && !self.portal_ready {
             self.tier_changed = 1;
             self.portal_ready = true;
         }
@@ -1096,6 +1103,27 @@ mod tests {
             }
         }
         assert!(seen, "el conteo con cero nunca apareció en N1");
+    }
+
+    #[test]
+    fn test_mercy_rule_slow_but_correct_opens_portal() {
+        // Regla de piedad: 8 aciertos pausados (P = 0.70) abren el portal
+        // aunque la maestría (~0.68) jamás alcanzaría 0.82 por sí sola.
+        let mut session = MathSession::new(4242, 1);
+        for i in 1..=8u32 {
+            let ans = session.get_correct_answer();
+            session.submit_answer(ans, 9000);
+            if i < 8 {
+                assert!(!session.is_portal_ready(), "portal prematuro en racha {}", i);
+            }
+            session.generate_next_challenge();
+        }
+        assert!(session.is_portal_ready());
+        assert!(session.get_mastery() < 0.82, "la piedad no debe necesitar maestría alta");
+        assert_eq!(session.get_streak(), 8);
+        // El tier sigue intacto hasta vencer el portal.
+        assert_eq!(session.get_tier(), 1);
+        assert_eq!(session.advance_tier(), 2);
     }
 
     #[test]

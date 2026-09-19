@@ -88,16 +88,18 @@ Donde el desempeño $P$ pondera exactitud y latencia cognitiva:
 
 Al alcanzar **maestría suficiente** ($M_k \ge 0.82$ con racha consecutiva $\ge 3$), el motor adaptativo activa el estado `PortalReady` (sin bloquear la práctica: la interfaz decide cuándo presentar el modal). La interfaz despliega entonces el modal inmersivo del **Desafío de Portal**. Tras superarlo, `advance_tier()` recalibra la maestría a $0.65$ en el nuevo templo.
 
+**Regla de piedad:** 8 aciertos consecutivos a cualquier velocidad también activan el portal. Sin ella, un jugador lento-pero-correcto ($P = 0.70$, asíntota $0.70 < 0.82$) persistiría sin avanzar jamás; la racha ya exige 8 *correctas* seguidas, sin vía de juego sucio.
+
 **Regla de refuerzo:** con $M_k < 0.38$ y 2 fallos consecutivos, el motor retrocede un tier para afianzar confianza (recalibra a $0.55$), salvo en el Nivel 1.
 
 ```
 [ Ejercicios Adaptativos WASM ]
               │
               ▼
-   ¿Maestría Mk >= 0.82 y racha >= 3? ──(No)──► Continuar práctica adaptativa
-              │ (Sí)
-              ▼
-   [ ESTADO PORTALREADY ACTIVADO ]
+   ¿Maestría Mk >= 0.82 y racha >= 3? ──(No)──► ¿Racha >= 8 (piedad)? ──(No)──► Continuar práctica
+              │ (Sí)                                  │ (Sí)
+              ▼                                       ▼
+   [ ESTADO PORTALREADY ACTIVADO ]◄───────────────────┘
               │
               ▼
    [ DESAFÍO DE PORTAL ACTIVADO ]

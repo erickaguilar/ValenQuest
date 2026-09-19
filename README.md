@@ -56,7 +56,7 @@ La aventura se estructura en tres actos que abarcan la educación primaria y cul
    - **Nivel 9 - Cúspide de la Aurora:** Operaciones combinadas con paréntesis | Inferencia moral | *Fénix Boreal* 🦅 | Alas Tornasol de Aurora
    - **Nivel 10 - Trono de las Estrellas:** Alta fluidez mental ($t \le 3500\text{ ms}$) | Reconstrucción del poema | *Emperatriz Eclipse Purificada* 👑✨ | Corona Suprema
 
-*Criterio de Desafío de Portal:* $M_k \ge 0.82$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual).  
+*Criterio de Desafío de Portal:* $M_k \ge 0.82$ y racha consecutiva $\ge 3$ activa el Desafío de Portal (Micro-cuento + Acertijo Dual). *Regla de piedad:* 8 aciertos consecutivos a cualquier velocidad también lo activan (la persistencia lenta-pero-correcta nunca queda atascada).  
 *Criterio de Refuerzo:* $M_k < 0.38$ y 2 fallos consecutivos (retrocede un nivel para afianzar confianza).
 
 ---
