@@ -9,6 +9,17 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 🏛️ Arquitectura www/js/ (ArenaBase + campaña modular)
+- **Nuevo `controllers/arena-base.js`:** poderes, cronómetro, insignias, billetera, chips, coronación, HUD y envío de respuestas centralizados; `math-page` 1342→473 y `reading-page` 1043→366 líneas (−65% duplicación).
+- **Campaña dormida extraída** a `controllers/campaign-arena.js` (extiende la arena de mate; se activa por bootstrap cuando se reabra).
+- **Higiene:** `db` como única API de storage (alias `storage` eliminado), diálogos de heroínas centralizados en `companions.getIntroDialogue`, import muerto `wasmLoader` fuera.
+- **Bug latente corregido:** `e.currentTarget` leído tras `await` era `null` y rompía el shake de chips bloqueados (afectaba a ambas arenas desde antes del refactor).
+- **Verificado en navegador headless:** 13 checks runtime (responder, diamantes, racha, teclado, poderes, Escape) sin errores de consola; axe 0 violaciones.
+
+### ⚖️ Calibración EMA + regla de piedad
+- **Diagnóstico (simulación exacta):** rápidos portan en 3-4, reflexivos en 7-9, pero pausados ($P=0.70$, asíntota $0.70<0.82$) **jamás**; 1 fallo ≈ 3 aciertos ($\alpha=0.25$ reactivo, correcto para sesiones cortas); regresión en 2-3 fallos.
+- **Regla de piedad:** racha $\ge 8$ a cualquier velocidad arma el portal. Sin auto-avance (contrato vigente) y válida en N10. Test `test_mercy_rule_*` + spec y README actualizados.
+
 ### ♿ Accesibilidad infantil verificada (Lighthouse + axe + teclado)
 - **Lighthouse a11y/BP/SEO 100/100/100** en las 5 páginas (index, math, reading, story, campaign), medido contra `www/` en servidor local.
 - **Contraste WCAG AA:** rosa `#ffafcc` → `#c2255c` y ámbar `#f59e0b` → `#b45309` en insignias, combos, títulos y dedicatoria (con overrides de tema oscuro); badge de lectura `#059669` → `#047857`, story `#d97706` → `#92400e`, ropero `#db2777` → `#c2255c`.

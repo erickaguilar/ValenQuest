@@ -2,7 +2,7 @@
  * ValenQuest: Math Practice Service (El Prisma Numérico)
  * Orquestador del modo arcade de cálculo mental estructurado en 5 niveles de maestría.
  */
-import { storage } from './storage.js';
+import { db } from './storage.js';
 
 export const MATH_LEVELS = [
   {
@@ -91,7 +91,7 @@ export class MathPracticeService {
 
   async loadState() {
     try {
-      const state = await storage.getModuleState('math_practice');
+      const state = await db.getModuleState('math_practice');
       if (state) {
         this.selectedLevel = state.selectedLevel || 1;
         this.unlockedLevels = Array.isArray(state.unlockedLevels) && state.unlockedLevels.length > 0
@@ -148,7 +148,7 @@ export class MathPracticeService {
         combo: this.combo || 0,
         inputMode: this.inputMode,
       };
-      await storage.saveModuleState('math_practice', payload);
+      await db.saveModuleState('math_practice', payload);
     } catch (err) {
       console.warn('MathPracticeService: error saving state:', err);
     }

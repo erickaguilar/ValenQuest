@@ -980,4 +980,4 @@ class StorageService {
 }
 
 export const db = new StorageService();
-export const storage = db;
+// SSOT de persistencia: importar siempre `db` (el alias `storage` se eliminó).

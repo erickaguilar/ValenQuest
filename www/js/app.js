@@ -9,7 +9,7 @@ import { loadWasm } from './services/wasm-loader.js';
 import { sound } from './services/audio.js';
 import { db } from './services/storage.js';
 import { speech } from './services/speech.js';
-import { companions, HEROINES } from './services/companions.js';
+import { companions, HEROINES, getIntroDialogue } from './services/companions.js';
 import { pwa } from './services/pwa.js';
 import { loadLevelsData } from './data/levels-data.js';
 import { theme } from './services/theme.js';
@@ -231,13 +231,7 @@ class KidsLearnApp {
       speakerRole.textContent = `${hero.race} • ${hero.title}`;
     }
     if (dialogueText) {
-      const quotes = {
-        valen: '«¡Las constelaciones de <strong>Lumiria</strong> nos llaman! El <strong>Velo de la Duda</strong> de la Emperatriz Eclipse ha dispersado los diez sellos estelares. Con el <strong>Cuarteto de la Armonía</strong> y el poder de la amistad, resolveremos cada enigma para encender todas las estrellas. ¡Elige tu misión y comencemos!»',
-        reni: '«¡Siente la brisa fresca de las nubes! Mi <strong>Brisa Temporal</strong> te dará todo el tiempo del mundo para pensar con calma. ¡Ningún reto es demasiado rápido cuando volamos juntas!»',
-        zoe: '«¡La arboleda sagrada nos protege! Con mi <strong>Escudo de Raíces</strong> nunca perderás tu racha y descubriremos el secreto de cada número paso a pasito. ¡La paciencia florece en sabiduría!»',
-        lia: '«¡Los cristales del palacio refractan la verdad! Mi <strong>Foco de Cristal</strong> iluminará la pista clave de cada problema matemático y de lectura. ¡La magia de aprender es infinita!»'
-      };
-      dialogueText.innerHTML = quotes[id] || quotes.valen;
+      dialogueText.innerHTML = getIntroDialogue(id);
     }
   }
 

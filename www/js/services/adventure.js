@@ -3,7 +3,7 @@
  * Orquestador del modo campaña principal e híbrido (Práctica Intercalada).
  * Alterna entre retos matemáticos y retos de lectura a través de los 10 Templos Lunares.
  */
-import { storage } from './storage.js';
+import { db } from './storage.js';
 import { loadLevelsData } from '../data/levels-data.js';
 
 export const TEMPLE_CHAPTER_UNLOCKS = {
@@ -58,7 +58,7 @@ export class AdventureService {
 
   async loadState() {
     try {
-      const state = await storage.getModuleState('adventure');
+      const state = await db.getModuleState('adventure');
       if (state) {
         this.currentTemple = state.currentTemple || 1;
         this.phase = state.phase || 'math';
@@ -107,7 +107,7 @@ export class AdventureService {
         portalReady: this.portalReady,
         campaignCompleted: this.campaignCompleted,
       };
-      await storage.saveModuleState('adventure', payload);
+      await db.saveModuleState('adventure', payload);
     } catch (err) {
       console.warn('AdventureService: error saving state:', err);
     }

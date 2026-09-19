@@ -5,7 +5,7 @@
  * progresión de maestría (desbloqueo de niveles por aciertos)
  * y recompensas en Diamantes (💎) con persistencia en IndexedDB (valenquest_db).
  */
-import { storage } from './storage.js';
+import { db } from './storage.js';
 
 export const READING_LEVELS = [
   {
@@ -284,7 +284,7 @@ export class ReadingPracticeService {
       console.warn('ReadingPracticeService: banco:', err?.message || err);
     }
     try {
-      const state = await storage.getModuleState('reading_practice');
+      const state = await db.getModuleState('reading_practice');
       if (state) {
         this.selectedLevel = state.selectedLevel || 1;
         this.unlockedLevels = Array.isArray(state.unlockedLevels) && state.unlockedLevels.length > 0
@@ -336,7 +336,7 @@ export class ReadingPracticeService {
         wordsRead: this.wordsRead,
         highestWpm: this.highestWpm,
       };
-      await storage.saveModuleState('reading_practice', payload);
+      await db.saveModuleState('reading_practice', payload);
     } catch (err) {
       console.warn('ReadingPracticeService: error saving state:', err);
     }
