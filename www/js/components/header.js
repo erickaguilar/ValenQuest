@@ -114,7 +114,8 @@ export class VqHeader extends HTMLElement {
         </div>
 
         <div class="settings-list">
-          <!-- Fila: Aspecto Astral (Tema Noche / Día) -->
+                    <p class="settings-group-title">Pantalla y juego</p>
+<!-- Fila: Aspecto Astral (Tema Noche / Día) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
               <span class="settings-item-label">
@@ -127,8 +128,36 @@ export class VqHeader extends HTMLElement {
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-moon"></use></svg>
             </button>
           </div>
-
-          <!-- Fila: Efectos de Sonido Web Audio API -->
+<!-- Fila: Modo Calma (Reducción de Movimiento & Estímulos) -->
+          <div class="settings-item-row">
+            <div class="settings-item-info">
+              <span class="settings-item-label">
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
+                Modo Calma
+              </span>
+              <span class="settings-item-desc">Movimientos suaves y menor estímulo visual</span>
+            </div>
+            <button id="btn-toggle-calm" class="icon-btn" aria-label="Alternar modo calma" title="Activar movimientos suaves">
+              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
+            </button>
+          </div>
+          <!-- Fila: Tamaño de Letra (Escala global de la app) -->
+          <div class="settings-item-row">
+            <div class="settings-item-info">
+              <span class="settings-item-label">
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-reading"></use></svg>
+                Tamaño de Letra
+              </span>
+              <span class="settings-item-desc">Texto más grande en todo el reino</span>
+            </div>
+            <div class="settings-segmented-group" id="settings-font-size-group" role="group" aria-label="Tamaño de letra de la aplicación">
+              <button type="button" class="segment-btn" data-scale="0.9" title="Letra compacta" aria-pressed="false">A−</button>
+              <button type="button" class="segment-btn active" data-scale="1" title="Letra normal" aria-pressed="true">A</button>
+              <button type="button" class="segment-btn" data-scale="1.15" title="Letra grande" aria-pressed="false">A+</button>
+            </div>
+          </div>
+          <p class="settings-group-title">Sonido y voz</p>
+<!-- Fila: Efectos de Sonido Web Audio API -->
           <div class="settings-item-row">
             <div class="settings-item-info">
               <span class="settings-item-label">
@@ -141,8 +170,7 @@ export class VqHeader extends HTMLElement {
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sound-on"></use></svg>
             </button>
           </div>
-
-          <!-- Fila: Cajita Musical de Lumiria (Música Ambiental Procedural) -->
+<!-- Fila: Cajita Musical de Lumiria (Música Ambiental Procedural) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
               <span class="settings-item-label">
@@ -155,8 +183,7 @@ export class VqHeader extends HTMLElement {
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
             </button>
           </div>
-
-          <!-- Fila: Voz de Orión (Web Speech API) -->
+<!-- Fila: Voz de Orión (Web Speech API) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
               <span class="settings-item-label">
@@ -169,8 +196,7 @@ export class VqHeader extends HTMLElement {
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-owl"></use></svg>
             </button>
           </div>
-
-          <!-- Fila: Ritmo de Lectura de Orión (Velocidad de locución) -->
+<!-- Fila: Ritmo de Lectura de Orión (Velocidad de locución) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
               <span class="settings-item-label">
@@ -185,22 +211,8 @@ export class VqHeader extends HTMLElement {
               <button type="button" class="segment-btn" data-rate="1.2" title="Lectura dinámica">Ágil</button>
             </div>
           </div>
-
-          <!-- Fila: Modo Calma (Reducción de Movimiento & Estímulos) -->
-          <div class="settings-item-row">
-            <div class="settings-item-info">
-              <span class="settings-item-label">
-                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
-                Modo Calma
-              </span>
-              <span class="settings-item-desc">Movimientos suaves y menor estímulo visual</span>
-            </div>
-            <button id="btn-toggle-calm" class="icon-btn" aria-label="Alternar modo calma" title="Activar movimientos suaves">
-              <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg>
-            </button>
-          </div>
-
-          <!-- Fila: Descargar / Instalar App (PWA) -->
+          <p class="settings-group-title">Aplicación</p>
+<!-- Fila: Descargar / Instalar App (PWA) -->
           <div class="settings-item-row" id="settings-pwa-row" hidden>
             <div class="settings-item-info">
               <span class="settings-item-label">
@@ -213,8 +225,7 @@ export class VqHeader extends HTMLElement {
               <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg>
             </button>
           </div>
-
-          <!-- Fila: Reiniciar Aventura (Volver todo a cero con confirmación) -->
+<!-- Fila: Reiniciar Aventura (Volver todo a cero con confirmación) -->
           <div class="settings-item-row settings-item-row--danger">
             <div class="settings-item-info">
               <span class="settings-item-label settings-item-label--danger">
@@ -228,10 +239,9 @@ export class VqHeader extends HTMLElement {
             </button>
           </div>
         </div>
-
         <div class="settings-footer">
           <button id="btn-settings-done" class="action-btn" style="width:100%; justify-content:center;">
-            ¡Listo, guardar ajustes!
+            ¡Listo!
           </button>
         </div>
       </div>
@@ -377,6 +387,35 @@ export class VqHeader extends HTMLElement {
             else if (r > 1.1) speech.speak('Lectura ágil activada');
             else speech.speak('Lectura normal activada');
           }
+        });
+      });
+    }
+
+    // 3b. Tamaño de Letra global (escala la raíz: todo el reino crece)
+    const fontGroup = this.querySelector('#settings-font-size-group');
+    const applyFontScale = (scale) => {
+      const s = Math.min(1.3, Math.max(0.85, Number(scale) || 1));
+      document.documentElement.style.fontSize = `${Math.round(16 * s)}px`;
+      try {
+        if (typeof localStorage !== 'undefined') localStorage.setItem('vq-font-size', String(s));
+      } catch (_) {}
+      if (fontGroup) {
+        fontGroup.querySelectorAll('.segment-btn').forEach((b) => {
+          const on = Math.abs(parseFloat(b.dataset.scale) - s) < 0.01;
+          b.classList.toggle('active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+    };
+    try {
+      const saved = typeof localStorage !== 'undefined' ? parseFloat(localStorage.getItem('vq-font-size')) : NaN;
+      applyFontScale(isNaN(saved) ? 1 : saved);
+    } catch (_) {}
+    if (fontGroup) {
+      fontGroup.querySelectorAll('.segment-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          try { sound.playClick(); } catch (_) {}
+          applyFontScale(btn.dataset.scale);
         });
       });
     }

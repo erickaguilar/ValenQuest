@@ -9,6 +9,11 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### ⚙️ Ajustes: copy honesto, letra global y grupos
+- **Botón:** "¡Listo, guardar ajustes!" → "¡Listo!" (todo aplica al instante).
+- **Tamaño de Letra global** (A−/A/A+ → 0.9/1.0/1.15 en raíz, persistido en `vq-font-size`): escala todo el reino; corrección propia —verificado que story NO tenía control local, así que es neto, no duplicado.
+- **3 grupos pegajosos:** Pantalla y juego (tema, calma, letra) · Sonido y voz (efectos, cajita, voz, ritmo) · Aplicación (instalar, reiniciar).
+
 ### 🌙 Papel temático en iconos (adiós "blancos sin líneas")
 - **Causa:** la tinta se tematizó (`--vq-ink-line` clara en oscuro) pero los fondos blancos no: iconos mayormente blancos quedaban sin definición en modo oscuro.
 - **Fix:** 35 rellenos papel (`#FDF7FF`, `#F5EEFA`) → `var(--vq-icon-paper)` (`#FDF7FF` día / `#4A3A68` noche); pupilas sobre esclerótica blanca fijas en `#4A3E56` (brillos intactos).

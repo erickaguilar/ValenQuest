@@ -2964,6 +2964,21 @@
   transition: transform 0.15s ease, background-color 0.2s ease;
 }
 
+/* Subtítulos pegajosos que agrupan filas (Juego / Sonido / App). */
+.settings-group-title {
+  position: sticky;
+  top: -4px;
+  z-index: 2;
+  margin: 6px 0 -4px;
+  padding: 4px 2px;
+  background: var(--vq-bg-card);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--vq-text-muted);
+}
+
 .settings-item-info {
   display: flex;
   flex-direction: column;
