@@ -9,6 +9,9 @@ y este proyecto se adhiere a [Semantic Versioning (SemVer)](https://semver.org/l
 
 ## [Unreleased]
 
+### 🎨 Tinta y papel fijos (look sticker en noche)
+- Decisión visual: `--vq-ink-line: #4A3E56` y `--vq-icon-paper: #FDF7FF` en ambos temas (tinta clara sobre papel oscuro se veía lavado). Las clases `.vq-ink-*`/`.vq-paper-fill` quedan como punto único de control.
+
 ### 🛡️ Tinta y papel por clases (compatibilidad Safari/iOS)
 - **Causa del "todo blanco":** `var()` en atributos `fill`/`stroke` no lo soporta Safari: las formas quedaban negras y solo se veían los brillos blancos. 331 atributos migrados a `.vq-ink-stroke` / `.vq-ink-fill` / `.vq-paper-fill` en hoja de estilos (universal).
 - **Paridad verificada:** mismos valores computados que antes en Chrome claro/oscuro + barrido de píxeles 0 invisibles.
