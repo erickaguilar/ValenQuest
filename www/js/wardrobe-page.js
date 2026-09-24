@@ -88,8 +88,12 @@ class WardrobePageController {
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
         sound.playClick();
-        chips.forEach((c) => c.classList.remove('active'));
+        chips.forEach((c) => {
+          c.classList.remove('active');
+          c.setAttribute('aria-pressed', 'false');
+        });
         chip.classList.add('active');
+        chip.setAttribute('aria-pressed', 'true');
         this.activeCategory = chip.dataset.category || 'all';
         this.renderCatalogOnly();
       });
@@ -127,7 +131,8 @@ class WardrobePageController {
       if (tab) {
         const isActive = id === this.activeHeroineId;
         tab.classList.toggle('active', isActive);
-        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        tab.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        tab.removeAttribute('aria-selected');
       }
     });
 

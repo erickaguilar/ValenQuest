@@ -87,7 +87,7 @@ www/js/
 └── services/            # Servicios transversales y motores del sistema
     ├── audio.js         # Sintetizador procedural Web Audio API
     ├── speech.js        # Motor de voz nativa Web Speech API (TTS)
-    ├── storage.js       # Persistencia transaccional IndexedDB (valenquest_db v4)
+    ├── storage.js       # Persistencia transaccional IndexedDB (valenquest_db v5)
     ├── companions.js    # Estado, poderes y cargas del Cuarteto de la Armonía
     ├── pwa.js           # Gestor de instalación PWA y eventos offline
     └── wasm-loader.js   # Carga asíncrona y resiliente del binario Rust WebAssembly

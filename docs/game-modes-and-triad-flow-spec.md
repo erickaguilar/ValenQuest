@@ -59,7 +59,7 @@ En cada uno de los 10 Templos Lunares, el avance no es monótono ni puramente nu
                  ┌───────────────▼───────────────┐
                  │ 3. Hito Narrativo de Orión    │ ➔ Diálogo pedagógico y feedback
                  └───────────────┬───────────────┘
-                                 │ (Maestría acumulada ≥ 0.95)
+                                 │ (Maestría acumulada ≥ 0.82 con racha ≥ 3, o piedad racha ≥ 8)
                  ┌───────────────▼───────────────┐
                  │ 4. Desafío de Portal (Jefe)   │ ➔ Prueba bifásica con el Guardián
                  └───────────────┬───────────────┘

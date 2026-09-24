@@ -19,6 +19,7 @@ docs/
 │
 ├── ⚙️ ARQUITECTURA TÉCNICA Y MOTORES
 │   ├── frontend-modular-architecture-spec.md # Arquitectura modular frontend, Web Components y Hub & Spoke
+│   ├── terminal-tonto-contract-spec.md       # [NUEVO] Contrato JS↔WASM: Rust decide, JS renderiza (`npm run test:contract`)
 │   ├── modular-css-darkmode-speech-spec.md    # CSS modular en 5 capas, noche astral y síntesis de voz (TTS)
 │   └── valenquest-visual-spec.md              # Sistema visual de diseño, tokens, paleta y estética chibi
 │
@@ -66,7 +67,7 @@ docs/
   * Estructura en 3 Actos: *El Despertar de los Elementos* (1-3), *Los Secretos de Cristal* (4-7) y *La Purificación del Eclipse* (8-10).
   * Matriz curricular dual: operaciones aritméticas progresivas y habilidades de comprensión lectora.
   * Los 10 Guardianes Astrales y sus 10 recompensas cosméticas registradas en IndexedDB.
-  * Mecánica del Desafío de Portal al alcanzar el 100% de maestría adaptativa ($M_k \ge 0.95$ por EMA).
+  * Mecánica del Desafío de Portal al alcanzar maestría suficiente ($M_k \ge 0.82$ con racha ≥ 3 por EMA, o regla de piedad racha ≥ 8).
 
 ---
 
@@ -75,7 +76,7 @@ docs/
 * **Contenido Principal:**
   * Poderes de amistad: *Prisma Real* (Valen), *Brisa Temporal* (Reni), *Escudo de Raíces* (Zoe) y *Foco de Cristal* (Lía).
   * Gating cognitivo intencional de 1.8 segundos antes de sugerir ayudas.
-  * Persistencia en `IndexedDB` (`valenquest_db` v4) y catálogo de atuendos del Ropero Mágico.
+  * Persistencia en `IndexedDB` (`valenquest_db` v5) y catálogo de atuendos del Ropero Mágico.
 
 ---
 

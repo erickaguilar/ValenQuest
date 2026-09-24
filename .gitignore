@@ -5,3 +5,5 @@ node_modules/
 *.swp
 *~
 *.log
+test-results/
+playwright-report/

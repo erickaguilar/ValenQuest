@@ -4,7 +4,7 @@
 > **Documento:** Especificación Técnica y Pedagógica de Progresión  
 > **Versión:** 1.0.0  
 > **Estado:** Activo / Canónico  
-> **Arquitectura:** Rust WASM (Motor de Dificultad Adaptativa) + IndexedDB v4 + Web Speech API (TTS)
+> **Arquitectura:** Rust WASM (Motor de Dificultad Adaptativa) + IndexedDB v5 + Web Speech API (TTS)
 
 ---
 

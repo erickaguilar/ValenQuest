@@ -1,5 +1,5 @@
 /**
- * ValenQuest Local-First Storage Architecture (valenquest_db v2)
+ * ValenQuest Local-First Storage Architecture (valenquest_db v5)
  * Robust Promise-oriented IndexedDB service managing:
  * - player_profile: Stars balance, active companion, settings, tiers
  * - companions_state: Heroine charges, usage counter, equipped cosmetics
@@ -108,7 +108,7 @@ class StorageService {
   }
 
   /**
-   * Initializes or upgrades IndexedDB to v2 schema with transactional seeding
+   * Initializes or upgrades IndexedDB to v5 schema with transactional seeding
    */
   async init() {
     if (this.db) return this.db;

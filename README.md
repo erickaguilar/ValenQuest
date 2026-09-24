@@ -70,7 +70,7 @@ kidslearn-wasm/
 │   ├── lib.rs               # Punto de entrada wasm-bindgen y re-exportaciones
 │   ├── engine/
 │   │   ├── mod.rs           # Módulo del motor
-│   │   ├── math_fsm.rs      # FSM de 6 tiers curriculares y cálculo EMA
+│   │   ├── math_fsm.rs      # FSM de 10 tiers curriculares y cálculo EMA
 │   │   ├── prng.rs          # Generador Xorshift64* determinista
 │   │   └── reading.rs       # Algoritmo de silabeo fonotáctico y RSVP
 │   └── tests/

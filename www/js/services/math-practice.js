@@ -321,10 +321,11 @@ export class MathPracticeService {
         options = [answer, answer + 1, answer + 2, Math.max(1, answer - 1)];
       }
 
-      // GARANTÍA: La respuesta correcta SIEMPRE debe estar presente en las opciones
+      // GARANTÍA (degradado-only: el WASM ya incluye la respuesta mezclada
+      // con Xorshift): si faltara, se inserta en posición determinista
+      // derivada de la respuesta — sin aleatoriedad JS fuera del fallback.
       if (!options.includes(answer)) {
-        options[0] = answer;
-        options.sort(() => Math.random() - 0.5);
+        options[options.length % 4] = answer;
       }
 
       this.currentChallenge = {
@@ -349,8 +350,25 @@ export class MathPracticeService {
       this.generateChallenge();
     }
 
-    const isCorrect = Number(userAnswer) === this.currentChallenge.answer;
+    // CONTRATO TERMINAL-TONTO: la veracidad del acierto la dicta el motor
+    // WASM (`submit_answer`). La economía arcade (racha/combo/diamantes al
+    // +2%/+3% y desbloqueos 0-100%) sigue siendo capa JS por diseño y NO es
+    // la maestría EMA del motor (0.0-1.0). Excepción: con escudo activo y
+    // fallo NO se despacha al WASM para no manchar su EMA/racha.
+    const expected = this.currentChallenge.answer;
+    const localCorrect = Number(userAnswer) === expected;
     const isShieldActive = Boolean(options?.shieldActive);
+    let isCorrect = localCorrect;
+    if (this.session && typeof this.session.submit_answer === 'function') {
+      if (!(isShieldActive && !localCorrect)) {
+        try {
+          isCorrect = Boolean(this.session.submit_answer(Number(userAnswer), Math.max(0, Math.round(elapsedMs) || 0)));
+        } catch (err) {
+          console.warn('MathPracticeService: fallo submit WASM, uso validación local:', err?.message || err);
+          isCorrect = localCorrect;
+        }
+      }
+    }
     this.totalAnswered++;
     let comboBurst = false;
     let earnedDiamonds = 0;

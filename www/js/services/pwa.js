@@ -32,7 +32,7 @@ class PWAManager {
 
   registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
+      const register = () => {
         navigator.serviceWorker
           .register('/sw.js')
           .then((reg) => {
@@ -41,7 +41,13 @@ class PWAManager {
           .catch((err) => {
             console.warn('[ValenQuest PWA] Service Worker registration failed:', err);
           });
-      });
+      };
+
+      if (document.readyState === 'complete') {
+        register();
+      } else {
+        window.addEventListener('load', register);
+      }
     }
   }
 

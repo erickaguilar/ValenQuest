@@ -217,8 +217,10 @@
 }
 
 .level-chip-btn {
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   border: 2px solid var(--vq-border);
   background: var(--vq-bg-well);
@@ -507,6 +509,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
+  min-height: 44px;
   background: var(--vq-bg-well);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
@@ -846,8 +849,10 @@
   }
 
   .icon-btn {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .math-practice-bar,
@@ -891,8 +896,10 @@
   }
 
   .level-chip-btn {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 0.82rem;
   }
 

@@ -68,7 +68,7 @@ src/engine/
 Crear una vista dedicada accesible mediante un gesto o PIN parental simple (p. ej., resolver una multiplicación mental de desbloqueo):
 
 * **Matriz de Dominio Curricular:**
-  * Representación visual del estado en las *Diez Lunas* (Nivel 1 al 10), señalando si el estudiante se encuentra en fase de exploración ($M_k < 0.65$), consolidación ($0.65 \le M_k < 0.95$) o maestría ($M_k \ge 0.95$).
+  * Representación visual del estado en las *Diez Lunas* (Nivel 1 al 10), señalando si el estudiante se encuentra en fase de exploración ($M_k < 0.65$), consolidación ($0.65 \le M_k < 0.82$) o maestría ($M_k \ge 0.82$ con racha ≥ 3, canónico del motor `math_fsm.rs`).
 * **Curva de Aprendizaje Temporal (Sin librerías externas):**
   * Gráfico vectorial SVG ultra-ligero generado procedimentalmente desde JS, mostrando la evolución de la latencia cognitiva ponderada ($P$) a lo largo de las últimas 30 sesiones.
 * **Diagnóstico de Patrones de Error:**
@@ -152,7 +152,7 @@ Para asegurar un desarrollo ordenado que no comprometa la estabilidad del entorn
 | :--- | :--- | :---: | :---: | :--- |
 | **Fase 1 (Corto Plazo)** | **Integración Bifásica de Portales** | Muy Alto | Media | `palacio-prisma.html`, `levels-data.js` |
 | **Fase 1 (Corto Plazo)** | **Resiliencia de Voz y Karaoke Visual** | Alto | Baja | `www/js/speech.js`, `reading.rs` |
-| **Fase 2 (Mediano Plazo)**| **Dashboard Familiar/Docente Local** | Muy Alto | Media | `storage.js` (`IndexedDB` v4), CSS Nativo |
+| **Fase 2 (Mediano Plazo)**| **Dashboard Familiar/Docente Local** | Muy Alto | Media | `storage.js` (`IndexedDB` v5), CSS Nativo |
 | **Fase 2 (Mediano Plazo)**| **Suite E2E & Auditoría WCAG AAA** | Alto | Media | GitHub Actions, `.gitlab-ci.yml` |
 | **Fase 3 (Largo Plazo)** | **Índice de Legibilidad RAE en WASM** | Medio | Alta | `src/engine/reading.rs` |
 | **Fase 3 (Largo Plazo)** | **Módulo de Autoría de Cuentos JSON** | Alto | Media | Esquema serde en Rust + Interfaz UI |

@@ -60,17 +60,17 @@
       <section class="wardrobe-stage-column" aria-label="Probador de la heroína">
         
         <!-- Pestañas de Selección de Heroína -->
-        <div class="wardrobe-heroine-tabs" role="tablist" aria-label="Elegir heroína para vestir">
-          <button id="tab-wardrobe-valen" class="wardrobe-tab-btn active" role="tab" aria-selected="true" type="button">
+        <div class="wardrobe-heroine-tabs" role="group" aria-label="Elegir heroína para vestir">
+          <button id="tab-wardrobe-valen" class="wardrobe-tab-btn active" aria-pressed="true" type="button">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crown"></use></svg> <span>Valen</span>
           </button>
-          <button id="tab-wardrobe-reni" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
+          <button id="tab-wardrobe-reni" class="wardrobe-tab-btn" aria-pressed="false" type="button">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-wing"></use></svg> <span>Reni</span>
           </button>
-          <button id="tab-wardrobe-zoe" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
+          <button id="tab-wardrobe-zoe" class="wardrobe-tab-btn" aria-pressed="false" type="button">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-leaf"></use></svg> <span>Zoe</span>
           </button>
-          <button id="tab-wardrobe-lia" class="wardrobe-tab-btn" role="tab" aria-selected="false" type="button">
+          <button id="tab-wardrobe-lia" class="wardrobe-tab-btn" aria-pressed="false" type="button">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-crystal"></use></svg> <span>Lía</span>
           </button>
         </div>
@@ -119,11 +119,11 @@
           </div>
 
           <!-- Filtro por Categorías -->
-          <div class="wardrobe-category-filters" role="tablist" aria-label="Filtrar por tipo de accesorio">
-            <button class="category-chip active" data-category="all" type="button">Todos</button>
-            <button class="category-chip" data-category="head" type="button">Coronas y Tiaras</button>
-            <button class="category-chip" data-category="wings" type="button">Alas y Capas</button>
-            <button class="category-chip" data-category="charm" type="button">Amuletos y Broches</button>
+          <div class="wardrobe-category-filters" role="group" aria-label="Filtrar por tipo de accesorio">
+            <button class="category-chip active" data-category="all" type="button" aria-pressed="true">Todos</button>
+            <button class="category-chip" data-category="head" type="button" aria-pressed="false">Coronas y Tiaras</button>
+            <button class="category-chip" data-category="wings" type="button" aria-pressed="false">Alas y Capas</button>
+            <button class="category-chip" data-category="charm" type="button" aria-pressed="false">Amuletos y Broches</button>
           </div>
         </div>
 

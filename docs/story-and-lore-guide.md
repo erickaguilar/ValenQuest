@@ -181,7 +181,7 @@ Para la experiencia de lectura inmersiva ([`www/story.html`](file:///data/data/c
 * **Foco de Cristal:** Poder de Lía que resalta la chispa matemática oculta.
 * **Estrellas de Lumiria:** La energía mágica acumulada que premia la constancia y desbloquea atuendos en el Ropero.
 * **Ropero Mágico:** La pasarela donde las heroínas lucen tiaras, alas y coronas ganadas en los templos.
-* **Desafío de Portal:** El encuentro final de cada templo al alcanzar el 100% de maestría adaptativa.
+* **Desafío de Portal:** El encuentro final de cada templo al alcanzar maestría suficiente ($M_k \ge 0.82$ con racha ≥ 3, o regla de piedad racha ≥ 8).
 
 ---
 

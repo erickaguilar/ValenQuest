@@ -307,6 +307,10 @@
 
 .category-chip {
   padding: 6px 14px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--vq-bg-well);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);

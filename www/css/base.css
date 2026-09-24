@@ -195,8 +195,8 @@ button,
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   background: var(--vq-pink-light);
   border: 2px solid var(--vq-border);
   border-radius: 50%;
@@ -419,10 +419,10 @@ button,
   background: var(--vq-bg-card);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
-  width: 42px;
-  height: 42px;
-  min-width: 42px;
-  min-height: 42px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -435,10 +435,10 @@ button,
 @media (max-width: 640px) {
   .icon-btn {
     flex: 0 0 auto;
-    width: 36px;
-    height: 36px;
-    min-height: 36px;
-    min-width: 36px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
 

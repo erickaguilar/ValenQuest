@@ -11,6 +11,8 @@
     "test": "cargo test",
     "test:campaign": "node scripts/smoke-campaign.mjs",
     "test:content": "node scripts/smoke-content.mjs",
+    "test:contract": "node scripts/check-terminal-tonto.mjs",
+    "test:e2e": "playwright test",
     "serve": "python3 -m http.server 8090 --directory www",
     "serve:dist": "python3 -m http.server 8090 --directory dist"
   },
@@ -25,6 +27,8 @@
   "author": "Erick Aguilar",
   "license": "MIT OR Apache-2.0",
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "purgecss": "^8.0.0"
   }
 }

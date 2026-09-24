@@ -129,6 +129,7 @@
   border: 1.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   padding: 6px 12px;
+  min-height: 44px;
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: 800;
@@ -253,6 +254,7 @@
   border: 1.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   padding: 6px 12px;
+  min-height: 44px;
   font-family: inherit;
   font-size: 0.78rem;
   font-weight: 800;
@@ -328,6 +330,7 @@
   align-items: center;
   gap: 6px;
   padding: 5px 12px;
+  min-height: 44px;
   background: var(--vq-bg-well);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
@@ -460,6 +463,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 44px;
   background: var(--vq-bg-well);
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
@@ -575,6 +579,7 @@
 
   .book-nav-btn {
     padding: 8px 12px;
+    min-height: 44px;
     font-size: 0.8rem;
   }
 }

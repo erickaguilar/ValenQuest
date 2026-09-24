@@ -1,6 +1,6 @@
 # ValenQuest: El Cuarteto de la Armonía, Las 4 Razas de Lumiria y Poderes de Amistad
 
-Especificación técnica y narrativa del **Cuarteto de la Armonía** de **ValenQuest**, su implementación gráfica en SVG animado, el sistema de poderes de amistad cooperativos integrados al motor **Rust + WebAssembly**, y la sincronización con **IndexedDB v2**, **Web Speech TTS** y el **Ropero Mágico**.
+Especificación técnica y narrativa del **Cuarteto de la Armonía** de **ValenQuest**, su implementación gráfica en SVG animado, el sistema de poderes de amistad cooperativos integrados al motor **Rust + WebAssembly**, y la sincronización con **IndexedDB v5**, **Web Speech TTS** y el **Ropero Mágico**.
 
 ---
 
@@ -117,7 +117,7 @@ Los poderes no son trampas que anulen el aprendizaje; son **andamios pedagógico
   3. Guía por voz TTS con tono calmado: *"¡Mi cuerno de cristal enfoca el camino! Observa la pista luminosa."*
 
 ### 3.2. Sistema de Cargas y Racha de Amistad
-* Cada heroína inicia con **2 cargas** de poder en `valenquest_db` (v4).
+* Cada heroína inicia con **2 cargas** de poder en `valenquest_db` (v5).
 * **Recarga por Racha:** Por cada **3 aciertos consecutivos** validados por Rust (`currentStreak % 3 === 0`), todas las heroínas del cuarteto recuperan **+1 carga** (hasta un máximo de 3).
 * Esto enseña a los niños la disciplina del esfuerzo constante: usar un poder para desbloquearse, pero esforzarse para recargarlo.
 

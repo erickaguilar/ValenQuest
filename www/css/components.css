@@ -95,6 +95,7 @@
   border: 2px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   padding: 6px 14px;
+  min-height: 44px;
   font-size: 0.85rem;
   font-weight: 800;
   color: var(--vq-text);
@@ -792,6 +793,7 @@
   border: 2px solid #F59E0B;
   border-radius: var(--vq-radius-pill);
   padding: 5px 13px;
+  min-height: 44px;
   font-size: 0.85rem;
   font-weight: 900;
   color: #92400E;
@@ -1274,6 +1276,7 @@
 
 .power-btn {
   width: 100%;
+  min-height: 44px;
   background: var(--vq-bg-card);
   border: 2.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
@@ -1797,6 +1800,7 @@
   border: none;
   border-radius: var(--vq-radius-pill);
   padding: 8px 12px;
+  min-height: 44px;
   font-size: 0.9rem;
   font-weight: 800;
   color: var(--vq-text-muted);
@@ -2153,10 +2157,10 @@
   }
 
   .icon-btn {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     flex: 0 0 auto;
   }
 
@@ -2187,11 +2191,13 @@
   .powers-info-btn {
     font-size: 0.80rem;
     padding: 4px 10px;
+    min-height: 44px;
     gap: 5px;
   }
 
   .power-btn {
     width: 100%;
+    min-height: 44px;
     justify-content: center;
     padding: 6px 8px;
     font-size: 0.78rem;
@@ -2227,12 +2233,14 @@
   .powers-info-btn {
     font-size: 0.76rem;
     padding: 3px 8px;
+    min-height: 44px;
     gap: 4px;
   }
 
   .power-btn {
     font-size: 0.72rem;
     padding: 5px 6px;
+    min-height: 44px;
   }
 }
 
@@ -3399,8 +3407,10 @@ html.vq-calm-mode .floating-heroine {
 }
 
 .level-chip-btn {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   border: 2px solid var(--vq-border);
   background: var(--vq-bg-well);
@@ -3456,7 +3466,7 @@ html.vq-calm-mode .floating-heroine {
 .practice-action-btn {
   width: 100%;
   max-width: 240px;
-  min-height: 42px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

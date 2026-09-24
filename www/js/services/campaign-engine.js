@@ -15,7 +15,14 @@
 
 import { adventure } from './adventure.js';
 
+// SSOT de actos: espejo de `www/data/levels.json` (campo `act` por nivel:
+// 1-3 → Acto 1, 4-7 → Acto 2, 8-10 → Acto 3). No duplicar estos límites en
+// otros ficheros: usar `actOf()` / `ACT_FINAL_TEMPLES`.
 export const ACT_FINAL_TEMPLES = { 1: 3, 2: 7, 3: 10 };
+export function actOf(temple) {
+  const t = Math.max(1, Math.min(10, Number(temple) || 1));
+  return t <= 3 ? 1 : t <= 7 ? 2 : 3;
+}
 
 export class CampaignEngine {
   constructor() {
@@ -70,7 +77,10 @@ export class CampaignEngine {
     let options = [];
     try {
       options = JSON.parse(this.session.get_options_json());
-    } catch {
+    } catch (err) {
+      // DEGRADADO-ONLY: el WASM siempre da 4 opciones; esto solo cubre un
+      // JSON corrupto sin ocultar el fallo.
+      console.warn('CampaignEngine: options JSON inválido, respaldo degradado:', err?.message || err);
       const answer = this.session.get_correct_answer();
       options = [answer, answer + 1, answer + 2, Math.max(1, answer - 1)];
     }
@@ -166,10 +176,12 @@ export class CampaignEngine {
     });
 
     this.nextChallenge();
+    const prevAct = actOf(beatenTemple);
+    const nextAct = actOf(this.temple);
     return {
       beatenTemple,
       advancedTo: this.temple,
-      actClosed: beatenTemple === 3 ? 1 : beatenTemple === 7 ? 2 : beatenTemple === 10 ? 3 : 0,
+      actClosed: nextAct !== prevAct || beatenTemple >= 10 ? prevAct : 0,
       victory: beatenTemple >= 10,
       newChapterUnlocked: adv.newChapterUnlocked ?? null,
     };

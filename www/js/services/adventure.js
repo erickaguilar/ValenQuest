@@ -134,6 +134,9 @@ export class AdventureService {
   }
 
   getState() {
+    // CONTRATO TERMINAL-TONTO: el portal lo dicta SOLO el motor WASM
+    // (`portal_ready`). `templeProgress` / `consecutiveCorrect` son legado
+    // solo-display para barras de UI; jamás deciden el portal.
     return {
       currentTemple: this.currentTemple,
       templeName: this.templeNameOf(this.currentTemple),
@@ -146,7 +149,7 @@ export class AdventureService {
       wasmHighestStreak: this.wasmHighestStreak,
       campaignCompleted: this.campaignCompleted,
       regressed: this.regressed,
-      isPortalReady: this.portalReady || this.templeProgress >= 100
+      isPortalReady: this.portalReady
     };
   }
 
