@@ -203,7 +203,10 @@ class StorageService {
             const store = tx.objectStore('player_profile');
             const initialProfile = {
               id: 'active',
-              name: 'Valen',
+              name: 'Aventurero',
+              gender: 'neutral',
+              age: 7,
+              onboardingCompleted: false,
               avatar: 'vq-heroine-valen',
               stars: 5, // 5 starter stars for instant celebration!
               selectedCompanion: 'valen',
@@ -349,6 +352,52 @@ class StorageService {
           res(false);
         }
       });
+
+      // 1g. Migration: Player identity & onboarding state in player_profile
+      if (profExists) {
+        await new Promise((res) => {
+          try {
+            const tx = this.db.transaction('player_profile', 'readwrite');
+            const store = tx.objectStore('player_profile');
+            const req = store.get('active');
+            req.onsuccess = () => {
+              const prof = req.result;
+              if (prof) {
+                let updated = false;
+                if (!prof.name) {
+                  prof.name = 'Valen';
+                  updated = true;
+                }
+                if (!prof.gender) {
+                  prof.gender = 'neutral';
+                  updated = true;
+                }
+                if (typeof prof.age !== 'number') {
+                  prof.age = 7;
+                  updated = true;
+                }
+                if (typeof prof.onboardingCompleted !== 'boolean') {
+                  // Si el jugador ya ha jugado (estrellas > 5, tiers superados o retos resueltos),
+                  // marcamos onboardingCompleted para no interrumpir su partida actual.
+                  const hasPlayed = (typeof prof.stars === 'number' && prof.stars > 5) ||
+                    (typeof prof.currentTier === 'number' && prof.currentTier > 1) ||
+                    (typeof prof.totalMathSolved === 'number' && prof.totalMathSolved > 0) ||
+                    (typeof prof.bestStreak === 'number' && prof.bestStreak > 0);
+                  prof.onboardingCompleted = hasPlayed;
+                  updated = true;
+                }
+                if (updated) {
+                  store.put(prof);
+                }
+              }
+            };
+            tx.oncomplete = () => res(true);
+            tx.onerror = () => res(false);
+          } catch (e) {
+            res(false);
+          }
+        });
+      }
 
       // 2. Seed Companions State (Seed defaults and ensure missing heroines like Lía are added)
       const existingCompKeys = await new Promise((res) => {
@@ -542,11 +591,18 @@ class StorageService {
           if (req.result) {
             const p = req.result;
             if (typeof p.diamonds !== 'number') p.diamonds = 0;
+            if (typeof p.name !== 'string' || !p.name.trim()) p.name = 'Aventurero';
+            if (!['girl', 'boy', 'neutral'].includes(p.gender)) p.gender = 'neutral';
+            if (typeof p.age !== 'number') p.age = 7;
+            if (typeof p.onboardingCompleted !== 'boolean') p.onboardingCompleted = false;
             resolve(p);
           } else {
             resolve({
               id: 'active',
-              name: 'Valen',
+              name: 'Aventurero',
+              gender: 'neutral',
+              age: 7,
+              onboardingCompleted: false,
               avatar: 'vq-heroine-valen',
               stars: 5,
               diamonds: 0,
@@ -557,7 +613,10 @@ class StorageService {
         };
         req.onerror = () => resolve({
           id: 'active',
-          name: 'Valen',
+          name: 'Aventurero',
+          gender: 'neutral',
+          age: 7,
+          onboardingCompleted: false,
           avatar: 'vq-heroine-valen',
           stars: 5,
           diamonds: 0,
@@ -567,7 +626,10 @@ class StorageService {
       } catch (err) {
         resolve({
           id: 'active',
-          name: 'Valen',
+          name: 'Aventurero',
+          gender: 'neutral',
+          age: 7,
+          onboardingCompleted: false,
           avatar: 'vq-heroine-valen',
           stars: 5,
           diamonds: 0,
@@ -586,6 +648,10 @@ class StorageService {
       const toSave = {
         ...profile,
         id: 'active',
+        name: (typeof profile.name === 'string' && profile.name.trim()) ? profile.name.trim().slice(0, 25) : (profile.name || 'Aventurero'),
+        gender: ['girl', 'boy', 'neutral'].includes(profile.gender) ? profile.gender : (profile.gender || 'neutral'),
+        age: typeof profile.age === 'number' ? Math.round(profile.age) : 7,
+        onboardingCompleted: typeof profile.onboardingCompleted === 'boolean' ? profile.onboardingCompleted : false,
         diamonds: typeof profile.diamonds === 'number' ? profile.diamonds : 0,
         lastPlayed: new Date().toISOString(),
       };
@@ -594,6 +660,38 @@ class StorageService {
       req.onsuccess = () => resolve(toSave);
       req.onerror = () => reject(req.error);
     });
+  }
+
+  /**
+   * Saves or updates the player's identity (name, gender, age, preferred companion)
+   * and marks the onboarding as completed.
+   */
+  async savePlayerIdentity({ name, gender, age, selectedCompanion } = {}) {
+    const profile = (await this.getProfile()) || {};
+    if (typeof name === 'string' && name.trim().length > 0) {
+      profile.name = name.trim().slice(0, 25);
+    }
+    if (gender && ['girl', 'boy', 'neutral'].includes(gender)) {
+      profile.gender = gender;
+    }
+    if (typeof age === 'number' && age >= 3 && age <= 18) {
+      profile.age = Math.round(age);
+    }
+    if (selectedCompanion && ['valen', 'reni', 'zoe', 'lia'].includes(selectedCompanion)) {
+      profile.selectedCompanion = selectedCompanion;
+    }
+    profile.onboardingCompleted = true;
+    await this.saveProfile(profile);
+    return profile;
+  }
+
+  /**
+   * Checks whether the player needs to complete onboarding.
+   * Returns true if profile is missing or onboardingCompleted is false.
+   */
+  async isOnboardingNeeded() {
+    const profile = await this.getProfile();
+    return !profile?.onboardingCompleted;
   }
 
   /**
@@ -972,6 +1070,7 @@ class StorageService {
     profile.currentTier = 1;
     profile.mathTier = 1;
     profile.readingTier = 1;
+    profile.onboardingCompleted = false;
     await this.saveProfile(profile);
 
     return true;

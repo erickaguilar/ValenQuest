@@ -3079,6 +3079,27 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
+.settings-text-input {
+  max-width: 140px;
+  width: 100%;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill, 999px);
+  background: var(--vq-bg-card);
+  color: var(--vq-text);
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-text-input:focus-visible {
+  border-color: var(--vq-pink-bubble);
+  box-shadow: 0 0 0 2px rgba(255, 175, 204, 0.4);
+}
+
 /* Modo Calma (Sensibilidad sensorial y reducción de animaciones) */
 html.vq-calm-mode *,
 html.vq-calm-mode *::before,
@@ -3790,6 +3811,449 @@ html.vq-calm-mode .floating-heroine {
 [data-theme="dark"] .reading-timer-bar-wrap.timer-frozen .reading-timer-title,
 [data-theme="dark"] .reading-timer-bar-wrap.timer-frozen .reading-timer-status {
   color: #7DD3FC;
+}
+
+.player-name-highlight {
+  color: var(--vq-pink-bubble);
+  font-weight: 900;
+  text-decoration: underline;
+  text-decoration-color: var(--vq-gold);
+  text-underline-offset: 4px;
+}
+
+/* ==========================================================================
+   20. ONBOARDING & PERGAMINO MÁGICO DE LUMIRIA
+   ========================================================================== */
+.onboarding-backdrop {
+  z-index: 1200;
+  background: rgba(15, 10, 26, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.onboarding-modal-content {
+  max-width: 540px;
+  width: 100%;
+  max-height: 92dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: 28px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.onboarding-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.onboarding-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.onboarding-realm-pill {
+  background: var(--vq-bg-well);
+  color: var(--vq-text);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--vq-radius-pill);
+  border: 1.5px solid var(--vq-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.onboarding-step-pill {
+  background: var(--vq-gold);
+  color: var(--vq-text);
+  font-size: 0.8rem;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: var(--vq-radius-pill);
+  border: 1.5px solid var(--vq-border);
+}
+
+.onboarding-emblem-wrap {
+  width: 64px;
+  height: 64px;
+  margin: 4px 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vq-bg-well);
+  border-radius: 50%;
+  border: 2px solid var(--vq-border);
+  box-shadow: var(--vq-shadow-sm);
+}
+
+.onboarding-emblem-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.onboarding-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.onboarding-subtitle {
+  font-size: 0.88rem;
+  color: var(--vq-text-muted);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.onboarding-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+}
+
+.onboarding-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+  border-radius: 20px;
+  padding: 14px;
+}
+
+.onboarding-label {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: var(--vq-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.onboarding-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.onboarding-name-input {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  background: var(--vq-bg-card);
+  color: var(--vq-text);
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.onboarding-name-input:focus-visible {
+  border-color: var(--vq-pink-bubble);
+  box-shadow: 0 0 0 3px rgba(255, 175, 204, 0.35);
+}
+
+.onboarding-input-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--vq-text-muted);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.onboarding-quick-names {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.onboarding-quick-label {
+  font-size: 0.78rem;
+  color: var(--vq-text-muted);
+  font-weight: 700;
+}
+
+.onboarding-quick-btn {
+  background: var(--vq-bg-card);
+  border: 1.5px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  cursor: pointer;
+  box-shadow: var(--vq-shadow-sm);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.onboarding-quick-btn:hover,
+.onboarding-quick-btn:focus-visible {
+  background: var(--vq-pink-bubble);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* Gender grid */
+.onboarding-gender-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 440px) {
+  .onboarding-gender-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.onboarding-gender-card {
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: 16px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 56px;
+}
+
+.onboarding-gender-card:hover {
+  transform: translateY(-2px);
+}
+
+.onboarding-gender-card.active {
+  border-color: var(--vq-pink-bubble);
+  background: var(--vq-pink-bubble-light, rgba(255, 175, 204, 0.12));
+  box-shadow: 0 0 0 2px var(--vq-pink-bubble), var(--vq-shadow-sm);
+}
+
+.gender-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+}
+
+.gender-card-icon--boy { color: #38BDF8; }
+.gender-card-icon--girl { color: #F472B6; }
+.gender-card-icon--neutral { color: #FBBF24; }
+
+.gender-card-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gender-card-title {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.gender-card-hint {
+  font-size: 0.72rem;
+  color: var(--vq-text-muted);
+  line-height: 1.2;
+}
+
+/* Age bubbles */
+.onboarding-age-bubbles {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 440px) {
+  .onboarding-age-bubbles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.onboarding-age-bubble {
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: 14px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-height: 48px;
+  transition: transform 0.12s ease, border-color 0.2s ease, background 0.15s ease;
+}
+
+.onboarding-age-bubble:hover {
+  transform: translateY(-2px);
+}
+
+.onboarding-age-bubble.active {
+  border-color: var(--vq-border);
+  background: var(--vq-gold);
+  color: var(--vq-text);
+  box-shadow: 0 3px 0 var(--vq-border);
+  transform: scale(1.04);
+}
+
+.age-num {
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.age-sub {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+}
+
+.onboarding-age-bubble.active .age-sub {
+  color: var(--vq-text);
+}
+
+/* Companions grid */
+.onboarding-companion-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .onboarding-companion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.onboarding-companion-card {
+  background: var(--vq-bg-card);
+  border: 2px solid var(--vq-border);
+  border-radius: 16px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.2s ease;
+}
+
+.onboarding-companion-card:hover {
+  transform: translateY(-2px);
+}
+
+.onboarding-companion-card.active {
+  border-color: var(--vq-pink-bubble);
+  background: var(--vq-pink-bubble-light, rgba(255, 175, 204, 0.12));
+  box-shadow: 0 0 0 2px var(--vq-pink-bubble), var(--vq-shadow-sm);
+}
+
+.onboarding-companion-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vq-bg-well);
+  border: 1.5px solid var(--vq-border);
+}
+
+.onboarding-companion-avatar .vq-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.onboarding-companion-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.companion-name {
+  font-size: 0.86rem;
+  font-weight: 900;
+  color: var(--vq-text);
+}
+
+.companion-role {
+  font-size: 0.7rem;
+  color: var(--vq-text-muted);
+  font-weight: 700;
+}
+
+/* Actions */
+.onboarding-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.onboarding-submit-btn {
+  width: 100%;
+  min-height: 56px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  border-radius: var(--vq-radius-pill);
+  justify-content: center;
+  background: linear-gradient(135deg, var(--vq-gold) 0%, var(--vq-pink-bubble) 100%);
+  color: #FFFFFF;
+  border: 2.5px solid var(--vq-border);
+  box-shadow: 0 4px 0 var(--vq-border), var(--vq-shadow-md);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.15s ease;
+}
+
+.onboarding-submit-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+}
+
+.onboarding-submit-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--vq-border);
+}
+
+[data-theme="dark"] .onboarding-submit-btn {
+  color: #1F172E;
+  text-shadow: none;
 }
 
 

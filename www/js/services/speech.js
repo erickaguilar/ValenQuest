@@ -242,6 +242,21 @@ class SpeechEngine {
   }
 
   /**
+   * Calibrates speech rate adaptively based on child age.
+   * - Ages <= 6: slightly slower cadence (0.85) for phonological clarity.
+   * - Ages >= 7: standard cadence (1.0).
+   * Note: manual user overrides in localStorage take precedence unless force is true.
+   */
+  calibrateRateForAge(age, force = false) {
+    if (typeof age !== 'number') return;
+    if (!force && typeof localStorage !== 'undefined' && localStorage.getItem('vq-speech-rate')) {
+      return;
+    }
+    const suggestedRate = age <= 6 ? 0.85 : 1.0;
+    this.rateMultiplier = suggestedRate;
+  }
+
+  /**
    * Resolves whether the spoken text should use a Male (Orion) or Female (Heroines) voice persona.
    */
   resolveGender(options = {}, text = '') {

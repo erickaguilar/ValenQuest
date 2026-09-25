@@ -114,7 +114,55 @@ export class VqHeader extends HTMLElement {
         </div>
 
         <div class="settings-list">
-                    <p class="settings-group-title">Pantalla y juego</p>
+          <p class="settings-group-title">Perfil del Aventurero</p>
+          <!-- Fila: Nombre del jugador -->
+          <div class="settings-item-row">
+            <div class="settings-item-info">
+              <span class="settings-item-label">
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+                Nombre o Apodo
+              </span>
+              <span class="settings-item-desc">Cómo te llaman las princesas en Lumiria</span>
+            </div>
+            <div class="settings-input-wrap">
+              <input type="text" id="settings-player-name" class="settings-text-input" maxlength="20" placeholder="Aventurero" autocomplete="nickname" spellcheck="false" />
+            </div>
+          </div>
+          <!-- Fila: Tratamiento Gramatical -->
+          <div class="settings-item-row">
+            <div class="settings-item-info">
+              <span class="settings-item-label">
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+                Tratamiento
+              </span>
+              <span class="settings-item-desc">Saludo y mención en diplomas y retos</span>
+            </div>
+            <div class="settings-segmented-group" id="settings-gender-group" role="group" aria-label="Tratamiento del jugador">
+              <button type="button" class="segment-btn" data-gender="boy" title="Explorador (Él)" aria-pressed="false">Él</button>
+              <button type="button" class="segment-btn" data-gender="girl" title="Exploradora (Ella)" aria-pressed="false">Ella</button>
+              <button type="button" class="segment-btn active" data-gender="neutral" title="Aventurero (Neutral)" aria-pressed="true">Neutral</button>
+            </div>
+          </div>
+          <!-- Fila: Edad -->
+          <div class="settings-item-row">
+            <div class="settings-item-info">
+              <span class="settings-item-label">
+                <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-trophy"></use></svg>
+                Edad
+              </span>
+              <span class="settings-item-desc">Calibra el ritmo de voz sugerido</span>
+            </div>
+            <div class="settings-segmented-group" id="settings-age-group" role="group" aria-label="Edad del jugador">
+              <button type="button" class="segment-btn" data-age="5">5</button>
+              <button type="button" class="segment-btn" data-age="6">6</button>
+              <button type="button" class="segment-btn active" data-age="7">7</button>
+              <button type="button" class="segment-btn" data-age="8">8</button>
+              <button type="button" class="segment-btn" data-age="9">9</button>
+              <button type="button" class="segment-btn" data-age="10">10+</button>
+            </div>
+          </div>
+
+          <p class="settings-group-title">Pantalla y juego</p>
 <!-- Fila: Aspecto Astral (Tema Noche / Día) -->
           <div class="settings-item-row">
             <div class="settings-item-info">
@@ -301,6 +349,77 @@ export class VqHeader extends HTMLElement {
     if (themeBtn) {
       theme.bindButton(themeBtn);
     }
+
+    // 0. Perfil del Aventurero (Nombre, Género, Edad)
+    const nameInput = this.querySelector('#settings-player-name');
+    const genderGroup = this.querySelector('#settings-gender-group');
+    const ageGroup = this.querySelector('#settings-age-group');
+
+    const syncPlayerProfileUI = async () => {
+      const profile = await db.getProfile();
+      if (!profile) return;
+      if (nameInput) nameInput.value = profile.name || '';
+      if (genderGroup) {
+        genderGroup.querySelectorAll('.segment-btn').forEach((btn) => {
+          const on = btn.dataset.gender === (profile.gender || 'neutral');
+          btn.classList.toggle('active', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+      if (ageGroup) {
+        ageGroup.querySelectorAll('.segment-btn').forEach((btn) => {
+          const on = parseInt(btn.dataset.age, 10) === (profile.age || 7);
+          btn.classList.toggle('active', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+    };
+    syncPlayerProfileUI();
+
+    if (nameInput) {
+      nameInput.addEventListener('change', async () => {
+        const val = nameInput.value.trim();
+        if (val) {
+          const updated = await db.savePlayerIdentity({ name: val });
+          window.dispatchEvent(new CustomEvent('vq-profile-updated', { detail: updated }));
+        }
+      });
+    }
+
+    if (genderGroup) {
+      genderGroup.querySelectorAll('.segment-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          try { sound.playClick(); } catch (_) {}
+          genderGroup.querySelectorAll('.segment-btn').forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+          const updated = await db.savePlayerIdentity({ gender: btn.dataset.gender });
+          window.dispatchEvent(new CustomEvent('vq-profile-updated', { detail: updated }));
+        });
+      });
+    }
+
+    if (ageGroup) {
+      ageGroup.querySelectorAll('.segment-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          try { sound.playClick(); } catch (_) {}
+          ageGroup.querySelectorAll('.segment-btn').forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+          const ageNum = parseInt(btn.dataset.age, 10);
+          const updated = await db.savePlayerIdentity({ age: ageNum });
+          window.dispatchEvent(new CustomEvent('vq-profile-updated', { detail: updated }));
+        });
+      });
+    }
+
+    window.addEventListener('vq-profile-updated', () => syncPlayerProfileUI());
 
     // 1. Control de Efectos de Sonido
     const updateMuteBtn = () => {
@@ -514,6 +633,7 @@ export class VqHeader extends HTMLElement {
     const openModal = () => {
       if (modal) {
         sound.playClick();
+        syncPlayerProfileUI();
         modal.hidden = false;
         btnClose?.focus();
       }

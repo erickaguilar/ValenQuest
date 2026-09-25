@@ -82,7 +82,7 @@
           <span class="journey-eyebrow-sparkle" aria-hidden="true"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg></span>
         </div>
 
-        <h2 class="journey-title">
+        <h2 class="journey-title" id="journey-welcome-title">
           ¡Bienvenida a tu Aventura en <span>Lumiria</span>!
         </h2>
 
@@ -422,6 +422,220 @@
           <span>¡Entendido, a jugar!</span>
           <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
         </button>
+      </div>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- Modal de Iniciación: La Credencial de Aventurero de Lumiria         -->
+    <!-- =================================================================== -->
+    <div id="onboarding-modal" class="modal-backdrop onboarding-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="onboarding-modal-title">
+      <div class="modal-content onboarding-modal-content">
+        <!-- Encabezado Mágico del Pergamino -->
+        <div class="onboarding-header">
+          <div class="onboarding-badge-row">
+            <span class="onboarding-realm-pill">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <span>Reino de Lumiria</span>
+            </span>
+            <span class="onboarding-step-pill">Iniciación Real</span>
+          </div>
+          <div class="onboarding-emblem-wrap">
+            <svg class="onboarding-emblem-icon vq-anim-float" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
+          </div>
+          <h2 id="onboarding-modal-title" class="onboarding-title">
+            ¡Tu Pergamino de Aventurero!
+          </h2>
+          <p class="onboarding-subtitle">
+            El Cuarteto de la Armonía quiere conocerte para comenzar tu viaje
+          </p>
+        </div>
+
+        <form id="onboarding-form" class="onboarding-form" novalidate>
+          <!-- Paso 1: Nombre o Apodo Mágico -->
+          <div class="onboarding-group">
+            <label for="onboarding-input-name" class="onboarding-label">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+              <span>1. ¿Cómo te gusta que te llamen?</span>
+            </label>
+            <div class="onboarding-input-wrapper">
+              <input
+                type="text"
+                id="onboarding-input-name"
+                class="onboarding-name-input"
+                placeholder="Escribe tu nombre o apodo..."
+                maxlength="20"
+                autocomplete="nickname"
+                spellcheck="false"
+                required
+              />
+              <button type="button" id="btn-onboarding-clear-name" class="onboarding-input-clear-btn" aria-label="Borrar nombre" hidden>
+                <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-close"></use></svg>
+              </button>
+            </div>
+            <!-- Sugerencias de apodos rápidos táctiles -->
+            <div class="onboarding-quick-names" aria-label="Sugerencias de nombres rápidos">
+              <span class="onboarding-quick-label">Sugerencias:</span>
+              <button type="button" class="onboarding-quick-btn" data-name="Valen">Valen</button>
+              <button type="button" class="onboarding-quick-btn" data-name="Leo">Leo</button>
+              <button type="button" class="onboarding-quick-btn" data-name="Sofi">Sofi</button>
+              <button type="button" class="onboarding-quick-btn" data-name="Estrella">Estrella</button>
+              <button type="button" class="onboarding-quick-btn" data-name="Rayo">Rayo</button>
+            </div>
+          </div>
+
+          <!-- Paso 2: Tratamiento Gramatical / Identidad -->
+          <div class="onboarding-group">
+            <label class="onboarding-label" id="onboarding-gender-label">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <span>2. ¿Cómo quieres que te llamemos en el reino?</span>
+            </label>
+            <div class="onboarding-gender-grid" role="radiogroup" aria-labelledby="onboarding-gender-label">
+              <button
+                type="button"
+                class="onboarding-gender-card"
+                role="radio"
+                aria-checked="false"
+                data-gender="boy"
+              >
+                <div class="gender-card-icon gender-card-icon--boy" aria-hidden="true">
+                  <svg class="vq-icon"><use href="#vq-icon-shield"></use></svg>
+                </div>
+                <div class="gender-card-texts">
+                  <span class="gender-card-title">Explorador</span>
+                  <span class="gender-card-hint">Él • Bienvenido, Campeón</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                class="onboarding-gender-card"
+                role="radio"
+                aria-checked="false"
+                data-gender="girl"
+              >
+                <div class="gender-card-icon gender-card-icon--girl" aria-hidden="true">
+                  <svg class="vq-icon"><use href="#vq-icon-crown"></use></svg>
+                </div>
+                <div class="gender-card-texts">
+                  <span class="gender-card-title">Exploradora</span>
+                  <span class="gender-card-hint">Ella • Bienvenida, Campeona</span>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                class="onboarding-gender-card active"
+                role="radio"
+                aria-checked="true"
+                data-gender="neutral"
+              >
+                <div class="gender-card-icon gender-card-icon--neutral" aria-hidden="true">
+                  <svg class="vq-icon"><use href="#vq-icon-sparkles"></use></svg>
+                </div>
+                <div class="gender-card-texts">
+                  <span class="gender-card-title">Aventurero</span>
+                  <span class="gender-card-hint">Neutral • Gran Guía</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Paso 3: Selector de Edad -->
+          <div class="onboarding-group">
+            <label class="onboarding-label" id="onboarding-age-label">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-trophy"></use></svg>
+              <span>3. ¿Cuántos años tienes?</span>
+            </label>
+            <div class="onboarding-age-bubbles" role="radiogroup" aria-labelledby="onboarding-age-label">
+              <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="5">
+                <span class="age-num">5</span>
+                <span class="age-sub">años</span>
+              </button>
+              <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="6">
+                <span class="age-num">6</span>
+                <span class="age-sub">años</span>
+              </button>
+              <button type="button" class="onboarding-age-bubble active" role="radio" aria-checked="true" data-age="7">
+                <span class="age-num">7</span>
+                <span class="age-sub">años</span>
+              </button>
+              <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="8">
+                <span class="age-num">8</span>
+                <span class="age-sub">años</span>
+              </button>
+              <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="9">
+                <span class="age-num">9</span>
+                <span class="age-sub">años</span>
+              </button>
+              <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="10">
+                <span class="age-num">10+</span>
+                <span class="age-sub">años</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Paso 4: Princesa Guía Inicial -->
+          <div class="onboarding-group">
+            <label class="onboarding-label" id="onboarding-companion-label">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+              <span>4. Elige a tu Princesa Guía para comenzar:</span>
+            </label>
+            <div class="onboarding-companion-grid" role="radiogroup" aria-labelledby="onboarding-companion-label">
+              <button type="button" class="onboarding-companion-card active" role="radio" aria-checked="true" data-companion="valen">
+                <div class="onboarding-companion-avatar">
+                  <svg class="vq-icon"><use href="#vq-heroine-valen"></use></svg>
+                </div>
+                <div class="onboarding-companion-meta">
+                  <strong class="companion-name">Valen</strong>
+                  <span class="companion-role">Prisma Real</span>
+                </div>
+              </button>
+
+              <button type="button" class="onboarding-companion-card" role="radio" aria-checked="false" data-companion="reni">
+                <div class="onboarding-companion-avatar">
+                  <svg class="vq-icon"><use href="#vq-heroine-reni"></use></svg>
+                </div>
+                <div class="onboarding-companion-meta">
+                  <strong class="companion-name">Reni</strong>
+                  <span class="companion-role">Brisa Temporal</span>
+                </div>
+              </button>
+
+              <button type="button" class="onboarding-companion-card" role="radio" aria-checked="false" data-companion="zoe">
+                <div class="onboarding-companion-avatar">
+                  <svg class="vq-icon"><use href="#vq-heroine-zoe"></use></svg>
+                </div>
+                <div class="onboarding-companion-meta">
+                  <strong class="companion-name">Zoe</strong>
+                  <span class="companion-role">Escudo Raíces</span>
+                </div>
+              </button>
+
+              <button type="button" class="onboarding-companion-card" role="radio" aria-checked="false" data-companion="lia">
+                <div class="onboarding-companion-avatar">
+                  <svg class="vq-icon"><use href="#vq-heroine-lia"></use></svg>
+                </div>
+                <div class="onboarding-companion-meta">
+                  <strong class="companion-name">Lía</strong>
+                  <span class="companion-role">Foco Cristal</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botón de Envío / Confirmación Mágica -->
+          <div class="onboarding-actions">
+            <button type="submit" id="btn-onboarding-submit" class="action-btn onboarding-submit-btn">
+              <span class="onboarding-submit-icon" aria-hidden="true">
+                <svg class="vq-icon"><use href="#vq-icon-sparkles"></use></svg>
+              </span>
+              <span class="onboarding-submit-text">¡Firmar Pergamino y Jugar!</span>
+              <span class="onboarding-submit-icon" aria-hidden="true">
+                <svg class="vq-icon"><use href="#vq-icon-rocket"></use></svg>
+              </span>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
 

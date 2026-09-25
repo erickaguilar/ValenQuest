@@ -11,6 +11,7 @@
     "test": "cargo test",
     "test:campaign": "node scripts/smoke-campaign.mjs",
     "test:content": "node scripts/smoke-content.mjs",
+    "test:profile": "node scripts/smoke-profile-storage.mjs",
     "serve": "python3 -m http.server 8090 --directory www",
     "serve:dist": "python3 -m http.server 8090 --directory dist"
   },
