@@ -24,7 +24,7 @@ import { getWelcomeHeadlineHtml, getPersonalizedVoiceGreeting } from './services
 import './components/header.js';
 import './components/footer.js';
 
-export const APP_VERSION = '2.1.10';
+export const APP_VERSION = '2.2.0';
 
 class KidsLearnApp {
   constructor() {
