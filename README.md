@@ -1,6 +1,6 @@
 # ValenQuest 🦄✨ (KidsLearn-WASM)
 
-[![Version](https://img.shields.io/badge/version-2.1.10-f472b6.svg)](VERSION)
+[![Version](https://img.shields.io/badge/version-2.2.0-f472b6.svg)](VERSION)
 [![Rust](https://img.shields.io/badge/rust-2021_edition-orange.svg)](Cargo.toml)
 [![WASM](https://img.shields.io/badge/wasm-wasm--pack-6366f1.svg)](www/pkg/)
 [![License](https://img.shields.io/badge/license-MIT%20%7C%20Apache--2.0-blue.svg)](LICENSE.md)

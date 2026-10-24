@@ -1,6 +1,6 @@
 {
   "name": "valenquest",
-  "version": "2.1.10",
+  "version": "2.2.0",
   "description": "KidsLearn-WASM: Plataforma interactiva en Rust WebAssembly y Vanilla JS para el aprendizaje infantil en Lumiria",
   "type": "module",
   "scripts": {
@@ -12,6 +12,7 @@
     "test:campaign": "node scripts/smoke-campaign.mjs",
     "test:content": "node scripts/smoke-content.mjs",
     "test:contract": "node scripts/check-terminal-tonto.mjs",
+    "test:profile": "node scripts/smoke-profile-storage.mjs",
     "test:e2e": "playwright test",
     "serve": "python3 -m http.server 8090 --directory www",
     "serve:dist": "python3 -m http.server 8090 --directory dist"
