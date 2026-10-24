@@ -46,52 +46,56 @@
   <script type="module" src="js/services/icons.js"></script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
-  <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
-  <vq-header current="onboarding"></vq-header>
+  <!-- Contenedor Maestro Homologado (app-container) -->
+  <div class="app-container">
+    
+    <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+    <vq-header current="onboarding"></vq-header>
 
-  <!-- Layout Principal de Iniciación Real -->
-  <main class="onboarding-page-main" role="main">
-    <section class="royal-parchment-sheet" aria-label="Pergamino de Iniciación Real de Lumiria">
-      
-      <!-- Encabezado Mágico del Pergamino -->
-      <header class="onboarding-header">
-        <div class="onboarding-badge-row">
-          <span class="onboarding-realm-pill">
-            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-            <span>Reino de Lumiria</span>
-          </span>
-          <span class="onboarding-step-pill">Iniciación Real</span>
-        </div>
-        <div class="onboarding-emblem-wrap">
-          <svg class="onboarding-emblem-icon vq-anim-float" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
-        </div>
-        <h1 class="onboarding-title">
-          ¡Tu Gran Pergamino de Aventurero!
-        </h1>
-        <p class="onboarding-subtitle">
-          El Cuarteto de la Armonía te da la bienvenida a Lumiria. Cuéntanos sobre ti para comenzar tu viaje.
-        </p>
-      </header>
-
-      <!-- Spotlight de Previsualización en Vivo de la Heroína -->
-      <div class="onboarding-live-preview" aria-live="polite" aria-atomic="true">
-        <div class="live-preview-avatar-box">
-          <svg id="preview-avatar-icon" class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
-        </div>
-        <div class="live-preview-content">
-          <span id="preview-heroine-tag" class="live-preview-name-tag">Valen • Prisma Real</span>
-          <p id="preview-dialogue-text" class="live-preview-speech-bubble">
-            ¡Hola, Valen! Estoy lista para explorar el reino contigo.
+    <!-- Layout Principal de Iniciación Real -->
+    <main id="main-content" class="app-main onboarding-page-main" role="main">
+      <section class="royal-parchment-sheet" aria-label="Pergamino de Iniciación Real de Lumiria">
+        
+        <!-- Encabezado Mágico del Pergamino -->
+        <header class="onboarding-header">
+          <div class="onboarding-badge-row">
+            <span class="onboarding-realm-pill">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+              <span>Reino de Lumiria</span>
+            </span>
+            <span class="onboarding-step-pill">Iniciación Real</span>
+          </div>
+          <div class="onboarding-emblem-wrap">
+            <svg class="onboarding-emblem-icon vq-anim-float" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
+          </div>
+          <h1 class="onboarding-title">
+            ¡Tu Gran Pergamino de Aventurero!
+          </h1>
+          <p class="onboarding-subtitle">
+            El Cuarteto de la Armonía te da la bienvenida a Lumiria. Cuéntanos sobre ti para comenzar tu viaje.
           </p>
-        </div>
-        <button type="button" id="btn-preview-listen-speech" class="live-preview-listen-btn" aria-label="Escuchar bienvenida con voz mágica" title="Escuchar saludo">
-          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-volume-high"></use></svg>
-        </button>
-      </div>
+        </header>
 
-      <!-- Formulario de la Iniciación Real -->
-      <form id="onboarding-form" class="onboarding-form" novalidate>
+        <!-- Spotlight de Previsualización en Vivo de la Heroína -->
+        <div class="onboarding-live-preview" aria-live="polite" aria-atomic="true">
+          <div class="live-preview-avatar-box">
+            <svg id="preview-avatar-icon" class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
+          </div>
+          <div class="live-preview-content">
+            <span id="preview-heroine-tag" class="live-preview-name-tag">Valen • Prisma Real</span>
+            <p id="preview-dialogue-text" class="live-preview-speech-bubble">
+              ¡Hola, Valen! Estoy lista para explorar el reino contigo.
+            </p>
+          </div>
+          <button type="button" id="btn-preview-listen-speech" class="live-preview-listen-btn" aria-label="Escuchar bienvenida con voz mágica" title="Escuchar bienvenida">
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-speech"></use></svg>
+          </button>
+        </div>
+
+        <!-- Formulario de la Iniciación Real -->
+        <form id="onboarding-form" class="onboarding-form" novalidate>
         
         <!-- Paso 1: Nombre o Apodo Mágico -->
         <fieldset class="onboarding-group">
@@ -288,8 +292,10 @@
     </section>
   </main>
 
-  <!-- Pie de Página Modular (Web Component: vq-footer) -->
-  <vq-footer></vq-footer>
+    <!-- Pie de Página Modular (Web Component: vq-footer) -->
+    <vq-footer></vq-footer>
+
+  </div>
 
   <!-- Controlador Independiente de la Página de Iniciación Real -->
   <script type="module" src="js/onboarding-page.js"></script>

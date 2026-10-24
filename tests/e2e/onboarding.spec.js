@@ -19,8 +19,11 @@ test.describe('Iniciación Real & Pergamino Mágico', () => {
     // 1. Verificar elementos principales
     const nameInput = page.locator('#onboarding-input-name');
     const submitBtn = page.locator('#btn-onboarding-submit');
+    const listenBtn = page.locator('#btn-preview-listen-speech');
     await expect(nameInput).toBeVisible();
     await expect(submitBtn).toBeVisible();
+    await expect(listenBtn).toBeVisible();
+    await expect(listenBtn.locator('use')).toHaveAttribute('href', '#vq-icon-speech');
 
     // 2. Probar chip táctil de apodo rápido (Valen)
     const valenChip = page.locator('.onboarding-quick-btn[data-name="Valen"]');

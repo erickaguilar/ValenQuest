@@ -38,6 +38,14 @@ class OnboardingPageController {
       this.setupDOM(profile);
       this.updateLivePreview();
       speech.calibrateRateForAge(this.selectedAge);
+
+      // Vincular animación del botón de audio y el diálogo con la voz activa
+      speech.onSpeakingChange((speaking) => {
+        const listenBtn = document.getElementById('btn-preview-listen-speech');
+        if (listenBtn) listenBtn.classList.toggle('vq-anim-speaking', speaking);
+        const bubble = document.getElementById('preview-dialogue-text');
+        if (bubble) bubble.classList.toggle('vq-anim-speaking', speaking);
+      });
     } catch (err) {
       console.error('Error inicializando Iniciación Real:', err);
     }
