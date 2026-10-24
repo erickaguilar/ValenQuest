@@ -111,9 +111,9 @@ export class PortalController {
     if (wrapper) wrapper.className = 'guardian-avatar-wrapper vq-anim-corrupted';
     if (emoji) {
       if (levelData.guardian?.symbolId) {
-        emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100" style="width: 72px; height: 72px;" aria-hidden="true"><use href="#${levelData.guardian.symbolId}"></use></svg>`;
+        emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100" aria-hidden="true"><use href="#${levelData.guardian.symbolId}"></use></svg>`;
       } else if (levelData.pageNumber === 10) {
-        emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100" style="width: 72px; height: 72px;"><use href="#vq-heroine-eclipse"></use></svg>`;
+        emoji.innerHTML = `<svg class="heroine-svg-avatar" viewBox="0 0 100 100"><use href="#vq-heroine-eclipse"></use></svg>`;
       } else {
         emoji.innerHTML = `<svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>`;
       }
@@ -317,7 +317,7 @@ export class PortalController {
         card.className = 'act-guardian-card';
         card.style.animationDelay = `${idx * 0.4}s`;
         const avatar = guardian.symbolId
-          ? `<svg class="vq-icon" aria-hidden="true" style="width: 44px; height: 44px;"><use href="#${guardian.symbolId}"></use></svg>`
+          ? `<svg class="vq-icon act-guardian-icon" aria-hidden="true"><use href="#${guardian.symbolId}"></use></svg>`
           : guardian.emoji;
         card.innerHTML = `
           <div class="act-guardian-emoji" style="text-shadow: 0 0 16px ${guardian.color};">${avatar}</div>

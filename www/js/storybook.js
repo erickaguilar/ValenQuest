@@ -359,7 +359,7 @@ class StorybookManager {
       pagePill.textContent = `${index + 1} / ${CHAPTERS.length}`;
     }
     if (ctaContainer) {
-      ctaContainer.style.display = index === CHAPTERS.length - 1 ? 'block' : 'none';
+      ctaContainer.hidden = index !== CHAPTERS.length - 1;
     }
 
     // Cancel ongoing speech if reading previous chapter

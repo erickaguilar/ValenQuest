@@ -134,6 +134,15 @@
   box-shadow: var(--vq-shadow-active);
 }
 
+.action-btn--full {
+  width: 100%;
+  justify-content: center;
+}
+
+.action-btn--centered {
+  justify-content: center;
+}
+
 /* ==========================================================================
    6. JOURNEY INTRODUCTION (LORE ONBOARDING)
    ========================================================================== */
@@ -154,6 +163,17 @@
   gap: 20px;
   align-items: center;
   text-align: center;
+}
+
+.journey-emblem-badge {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.journey-emblem-svg {
+  width: 108px;
+  height: 108px;
 }
 
 .journey-eyebrow {
@@ -364,16 +384,110 @@
   color: var(--vq-text-muted);
 }
 
+/* ==========================================================================
+   BANNER DE LA HEROÍNA ACTIVA EN HOME (CONEXIÓN Y PERSONALIZACIÓN 8 AÑOS)
+   ========================================================================== */
+.home-heroine-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--vq-bg-card);
+  border: var(--vq-border-width) solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  padding: 8px 16px 8px 8px;
+  margin: 12px auto 16px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--vq-shadow-sm);
+  box-sizing: border-box;
+}
+
+.home-heroine-avatar-wrap {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  background: var(--vq-pink-light, #FFC8DD);
+  border: 2px solid var(--vq-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.home-heroine-avatar .vq-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.home-heroine-info {
+  flex: 1;
+  text-align: left;
+  min-width: 0;
+}
+
+.home-heroine-greeting {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--vq-text);
+  line-height: 1.2;
+}
+
+.home-heroine-greeting strong {
+  color: #BE185D;
+}
+[data-theme="dark"] .home-heroine-greeting strong {
+  color: var(--vq-pink-bubble);
+}
+
+.home-heroine-role {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--vq-text-muted);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.home-wardrobe-shortcut-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  min-height: 44px;
+  background: var(--vq-gold, #FFD166);
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-pill);
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #4A3E56;
+  text-decoration: none;
+  box-shadow: 0 2px 0 var(--vq-border);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  white-space: nowrap;
+}
+
+.home-wardrobe-shortcut-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--vq-border);
+}
+
+.home-wardrobe-shortcut-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
 .artifacts-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
   width: 100%;
 }
 
 @media (max-width: 520px) {
   .artifacts-grid {
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 }
 
@@ -429,6 +543,14 @@
   align-items: center;
   margin-top: 24px;
   padding: 0 4px;
+}
+
+.cta-start-wrapper--compact {
+  margin-top: 6px;
+}
+
+.cta-start-wrapper--tight {
+  margin: 10px 0 2px;
 }
 
 /* Botón Heroico Estelar Mágico (Chibi Pastel Glow) */
@@ -603,6 +725,41 @@
   gap: 16px;
   animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: var(--vq-text);
+}
+
+.modal-icon-group {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.modal-tier-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+}
+
+.modal-ios-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--vq-pink-bubble);
+}
+
+.modal-desc-muted {
+  color: var(--vq-text-muted);
+  font-weight: 600;
+}
+
+.modal-desc-muted--sm {
+  color: var(--vq-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.modal-btn-dismiss {
+  justify-content: center;
+  margin-top: 8px;
 }
 
 /* ==========================================================================
@@ -1742,287 +1899,6 @@
   }
 }
 
-
-
-.wardrobe-stars-pill {
-  background: var(--vq-gold);
-  border: 1.5px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 4px 12px;
-  color: var(--vq-text);
-  font-weight: 900;
-  font-size: 0.95rem;
-  box-shadow: var(--vq-shadow-sm);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.wardrobe-diamonds-pill {
-  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
-  border: 1.5px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 4px 12px;
-  color: var(--vq-text);
-  font-weight: 900;
-  font-size: 0.95rem;
-  box-shadow: var(--vq-shadow-sm);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.wardrobe-diamond-icon {
-  font-size: 1.1rem;
-  line-height: 1;
-}
-
-/* Wardrobe Heroine Selector Tabs */
-.wardrobe-heroine-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  background: var(--vq-bg-well);
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 4px;
-}
-
-@media (max-width: 520px) {
-  .wardrobe-heroine-tabs {
-    grid-template-columns: repeat(2, 1fr);
-    border-radius: var(--vq-radius-card);
-  }
-}
-
-.wardrobe-tab-btn {
-  background: transparent;
-  border: none;
-  border-radius: var(--vq-radius-pill);
-  padding: 8px 12px;
-  min-height: 44px;
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: var(--vq-text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: background 0.15s ease, color 0.15s ease;
-  font-family: inherit;
-}
-
-.wardrobe-tab-btn.active {
-  background: var(--vq-bg-card);
-  color: var(--vq-text);
-  box-shadow: var(--vq-shadow-sm);
-  font-weight: 900;
-  border: 1.5px solid var(--vq-border);
-}
-
-/* Live Avatar Preview Box */
-.wardrobe-preview-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  background: var(--vq-bg-well);
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-card);
-  padding: 16px;
-}
-
-.wardrobe-avatar-box {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  background: var(--vq-bg-card);
-  border: 3px solid var(--vq-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--vq-shadow-sm);
-  position: relative;
-}
-
-.wardrobe-preview-svg {
-  width: 90px;
-  height: 90px;
-}
-
-.wardrobe-preview-title {
-  font-size: 1rem;
-  font-weight: 900;
-  color: var(--vq-text);
-}
-
-/* Cosmetics Grid */
-.wardrobe-items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  width: 100%;
-}
-
-.wardrobe-item-card {
-  background: var(--vq-bg-card);
-  border: 2px solid var(--vq-border);
-  border-radius: var(--vq-radius-card);
-  padding: 14px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 6px;
-  box-shadow: var(--vq-shadow-sm);
-  position: relative;
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-
-.wardrobe-item-card.equipped {
-  border-color: var(--vq-pink-bubble);
-  box-shadow: 0 0 0 2px var(--vq-pink-bubble), var(--vq-shadow-sm);
-}
-
-.wardrobe-item-card.locked {
-  opacity: 0.9;
-}
-
-.item-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 4px;
-}
-
-.item-slot-badge {
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: var(--vq-text-muted);
-  background: var(--vq-bg-well);
-  border: 1px solid var(--vq-border);
-  border-radius: var(--vq-radius-pill);
-  padding: 2px 8px;
-}
-
-.item-status-pill {
-  font-size: 0.72rem;
-  font-weight: 900;
-  border-radius: var(--vq-radius-pill);
-  padding: 2px 8px;
-  border: 1px solid var(--vq-border);
-}
-
-.item-status-pill.equipped-pill {
-  background: var(--vq-pink-bubble);
-  color: #32213F;
-}
-
-.item-status-pill.cost-pill {
-  background: var(--vq-gold);
-  color: #32213F !important;
-  font-weight: 900;
-}
-
-.item-status-pill.cost-diamond-pill {
-  background: linear-gradient(135deg, #BDE0FE 0%, #A2D2FF 100%);
-  color: #1D3557;
-}
-
-.item-icon-display {
-  font-size: 2.2rem;
-  line-height: 1;
-  margin: 4px 0;
-}
-
-.item-name {
-  font-size: 0.95rem;
-  font-weight: 900;
-  color: var(--vq-text);
-}
-
-.item-desc {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--vq-text-muted);
-  line-height: 1.25;
-  min-height: 2.5em;
-}
-
-.item-card-action {
-  width: 100%;
-  margin-top: 4px;
-}
-
-.wardrobe-action-btn {
-  width: 100%;
-  border-radius: var(--vq-radius-pill);
-  border: 2px solid var(--vq-border);
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  font-weight: 900;
-  cursor: pointer;
-  font-family: inherit;
-  box-shadow: 0 2px 0 var(--vq-border);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-@media (hover: hover) {
-  .wardrobe-action-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 0 var(--vq-border);
-  }
-}
-
-.wardrobe-action-btn:active:not(:disabled) {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 var(--vq-border);
-}
-
-.wardrobe-action-btn.unlock-btn {
-  background: var(--vq-gold);
-  color: #32213F !important;
-  font-weight: 900;
-}
-
-@media (hover: hover) {
-  .wardrobe-action-btn.unlock-btn:hover {
-    background: #FFE082;
-    color: #32213F !important;
-  }
-}
-
-.wardrobe-action-btn.locked-btn {
-  background: var(--vq-bg-well);
-  color: var(--vq-text-muted);
-  opacity: 0.75;
-  cursor: not-allowed;
-}
-
-.wardrobe-action-btn.equip-btn {
-  background: var(--vq-mint);
-  color: #133E32;
-}
-
-.wardrobe-action-btn.unequip-btn {
-  background: var(--vq-bg-well);
-  color: var(--vq-text);
-}
-
-.wardrobe-empty-msg {
-  grid-column: 1 / -1;
-  padding: 24px;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--vq-text-muted);
-}
-
 /* ==========================================================================
    COSMETICS VISIBILITY & CSS CUSTOM VARIABLES TOGGLE
    ========================================================================== */
@@ -2796,6 +2672,12 @@
   margin-bottom: 2px;
 }
 
+.act-guardian-emoji .vq-icon,
+.act-guardian-icon {
+  width: 44px;
+  height: 44px;
+}
+
 .act-guardian-name {
   font-size: 0.88rem;
   font-weight: 800;
@@ -3465,33 +3347,35 @@ html.vq-calm-mode .floating-heroine {
 
 .practice-action-btn {
   width: 100%;
-  max-width: 240px;
-  min-height: 44px;
+  max-width: 260px;
+  min-height: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   background: var(--vq-btn-primary-bg, #FFAFCC);
-  border: 2px solid var(--vq-border);
+  border: 2.5px solid var(--vq-border);
   border-radius: var(--vq-radius-pill);
   font-family: inherit;
-  font-size: 0.92rem;
+  font-size: 0.98rem;
   font-weight: 900;
   color: #4A3E56;
   cursor: pointer;
-  box-shadow: var(--vq-shadow-sm);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  margin-top: 4px;
+  text-decoration: none;
+  box-shadow: 0 4px 0 var(--vq-border);
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+  margin-top: 6px;
+  padding: 8px 16px;
 }
 
 .practice-action-btn:hover {
   transform: translateY(-2px);
-  box-shadow: var(--vq-shadow-active);
+  box-shadow: 0 6px 0 var(--vq-border);
 }
 
 .practice-action-btn:active {
-  transform: translateY(2px);
-  box-shadow: none;
+  transform: translateY(3px) scale(0.97);
+  box-shadow: 0 1px 0 var(--vq-border);
 }
 
 .artifact-reading .practice-action-btn {
@@ -3500,6 +3384,10 @@ html.vq-calm-mode .floating-heroine {
 
 .artifact-math .practice-action-btn {
   background: #FFC8DD;
+}
+
+.artifact-wardrobe .practice-action-btn {
+  background: var(--vq-gold, #FFD166);
 }
 
 /* ==========================================================================

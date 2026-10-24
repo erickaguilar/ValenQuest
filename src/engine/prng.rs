@@ -85,7 +85,7 @@ mod tests {
         let mut rng = Xorshift64::new(999);
         for _ in 0..1000 {
             let n = rng.gen_range(5, 15);
-            assert!(n >= 5 && n <= 15);
+            assert!((5..=15).contains(&n));
         }
     }
 

@@ -503,6 +503,12 @@
   padding: 4px 12px;
 }
 
+.story-cta-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
 .start-quest-cta-btn {
   display: inline-flex;
   align-items: center;

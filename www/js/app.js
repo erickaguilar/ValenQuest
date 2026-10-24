@@ -158,6 +158,16 @@ class KidsLearnApp {
       btnIntroReading.addEventListener('click', () => sound.playClick());
     }
 
+    const btnIntroWardrobe = document.getElementById('btn-intro-goto-wardrobe');
+    if (btnIntroWardrobe) {
+      btnIntroWardrobe.addEventListener('click', () => sound.playClick());
+    }
+
+    const shortcutWardrobe = document.querySelector('.home-wardrobe-shortcut-btn');
+    if (shortcutWardrobe) {
+      shortcutWardrobe.addEventListener('click', () => sound.playClick());
+    }
+
     // 6. Botón de instalación PWA en el banner
     const btnBannerInstall = document.getElementById('btn-banner-install');
     if (btnBannerInstall) {

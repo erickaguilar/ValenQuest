@@ -71,8 +71,8 @@
       <div class="journey-hero-card">
         
         <!-- Emblema Oficial Minimalista de ValenQuest: Prisma Cósmico, Corona y Alas -->
-        <div class="journey-emblem-badge" style="display: flex; justify-content: center; margin-bottom: 10px;">
-          <svg class="vq-anim-float" style="width: 108px; height: 108px;" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
+        <div class="journey-emblem-badge">
+          <svg class="journey-emblem-svg vq-anim-float" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
         </div>
 
         <!-- Rótulo Mágico Ornamental / Eyebrow (Sin affordance de botón) -->
@@ -86,16 +86,35 @@
           ¡Bienvenida a tu Aventura en <span>Lumiria</span>!
         </h2>
 
+        <!-- Heroína Activa del Jugador (Avatar interactivo) -->
+        <div class="home-heroine-banner" id="home-heroine-banner">
+          <div class="home-heroine-avatar-wrap">
+            <span class="home-heroine-avatar" id="gacha-speaker-avatar">
+              <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
+            </span>
+          </div>
+          <div class="home-heroine-info">
+            <div class="home-heroine-greeting">
+              <span>¡Hola, Aventurera! Soy <strong id="gacha-speaker-name">Valen</strong></span>
+            </div>
+            <p class="home-heroine-role" id="gacha-speaker-role">Princesa de las Estrellas • ¡Lista para jugar!</p>
+          </div>
+          <a href="wardrobe.html" class="home-wardrobe-shortcut-btn" title="Personalizar heroína en el Ropero Mágico" aria-label="Personalizar heroína en el Ropero Mágico">
+            <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-crown"></use></svg>
+            <span>Vestir 👗</span>
+          </a>
+        </div>
+
         <!-- Título de Selección de Reto / Misión -->
         <div class="trio-section-title">
-          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>Elige tu Misión de Aprendizaje:</span>
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>¿A qué quieres jugar hoy?</span>
         </div>
 
         <!-- PILAR 1: LA GRAN AVENTURA (MODO CAMPAÑA EJE PRINCIPAL) -->
         <div class="adventure-campaign-card" id="card-adventure-campaign">
           <div class="adventure-campaign-badge">
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
-            <span>Modo Campaña • Próximamente <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-lock"></use></svg></span>
+            <span>Los 10 Templos Lunares • Aventura Principal</span>
           </div>
 
           <h3 class="adventure-campaign-title">
@@ -109,15 +128,15 @@
           </div>
 
           <p class="adventure-campaign-desc">
-            Los 10 templos de Lumiria se están puliendo mientras perfeccionamos la práctica. Explora el mapa y entrena en los modos libres: tus diamantes y poderes te esperarán.
+            ¡Viaja por los 10 Templos de Lumiria! Rescata a los guardianes astrales con el poder de la amistad y restaura las constelaciones perdidas.
           </p>
 
-          <div class="cta-start-wrapper" style="margin-top: 6px;">
-            <a href="campaign.html" id="btn-start-quest" class="cta-start-btn" role="button" aria-label="¡Ver la Gran Aventura! Mapa de Lumiria (próximamente)" style="text-decoration: none;">
+          <div class="cta-start-wrapper cta-start-wrapper--compact">
+            <a href="campaign.html" id="btn-start-quest" class="cta-start-btn" role="button" aria-label="¡Ver la Gran Aventura! Mapa de Lumiria">
               <span class="cta-start-icon-left" aria-hidden="true">
                 <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
               </span>
-              <span class="cta-start-text">¡Ver la Gran Aventura!</span>
+              <span class="cta-start-text">¡Entrar a la Gran Aventura!</span>
               <span class="cta-start-icon-right" aria-hidden="true">
                 <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
               </span>
@@ -125,18 +144,18 @@
           </div>
         </div>
 
-        <!-- PILARES 2 Y 3: MODOS DE PRÁCTICA Y ENTRENAMIENTO INFINITO -->
+        <!-- ACTIVIDADES Y PRÁCTICA: MATEMÁTICAS, LECTURA Y ROPERO -->
         <div class="practice-section-header">
           <h3 class="practice-section-title">
             <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
-            <span>Modos de Práctica y Entrenamiento Infinito:</span>
+            <span>¡Entrena tus Poderes y Gana Diamantes!</span>
           </h3>
         </div>
 
-        <!-- Selección de Artefactos de Aprendizaje con 5 Niveles cada uno -->
+        <!-- Selección de Artefactos de Aprendizaje y Personalización -->
         <div class="artifacts-grid">
           
-          <!-- Pilar 2: El Prisma Numérico (Práctica Matemática) -->
+          <!-- Pilar 2: Matemáticas Mágicas -->
           <div class="artifact-card artifact-math" id="card-practice-math">
             <svg class="artifact-icon vq-anim-float" viewBox="0 0 64 64" aria-hidden="true">
               <polygon points="32,4 58,18 58,46 32,60 6,46 6,18" fill="#CDB4DB" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
@@ -144,17 +163,17 @@
               <polygon points="32,18 48,27 48,43 32,52 16,43 16,27" fill="#FFAFCC" stroke="#4A3E56" stroke-width="3" stroke-linejoin="round"/>
               <polygon points="32,4 48,27 32,52 16,27" fill="#FFFFFF" opacity="0.4"/>
             </svg>
-            <div class="artifact-title">El Prisma Numérico</div>
+            <div class="artifact-title">Matemáticas Mágicas</div>
             <p class="artifact-desc">
-              Arcade de cálculo mental continuo con 5 niveles adaptativos y progresión mágica.
+              ¡Suma, resta y multiplica como un rayo! Supera los 5 niveles y gana diamantes estelares.
             </p>
 
-            <a href="math.html" id="btn-intro-goto-math" class="practice-action-btn" role="button" aria-label="Entrar al Prisma Numérico: práctica de matemáticas" style="text-decoration: none;">
-              <span>Entrar al Prisma Numérico →</span>
+            <a href="math.html" id="btn-intro-goto-math" class="practice-action-btn" role="button" aria-label="Entrar a Matemáticas Mágicas: práctica de cálculo">
+              <span>¡Jugar Matemáticas! →</span>
             </a>
           </div>
 
-          <!-- Pilar 3: La Pluma de la Fluidez (Taller de Lectura) -->
+          <!-- Pilar 3: Club de Lectura -->
           <div class="artifact-card artifact-reading" id="card-practice-reading">
             <svg class="artifact-icon vq-anim-quill" viewBox="0 0 64 64" aria-hidden="true">
               <path d="M54,6 C54,6 30,12 18,32 C14,38 12,46 10,58 C14,54 22,50 28,46 C34,42 46,30 52,18 C56,10 54,6 54,6 Z" 
@@ -163,13 +182,31 @@
               <circle cx="48" cy="14" r="3" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
               <path class="vq-sparkle" d="M42,8 L44,4 L46,8 L50,10 L46,12 L44,16 L42,12 L38,10 Z" fill="#FFD166"/>
             </svg>
-            <div class="artifact-title">La Pluma de la Fluidez</div>
+            <div class="artifact-title">Club de Lectura</div>
             <p class="artifact-desc">
-              Taller de fonética, silabeo RAE, lectura asistida por Orión y velocímetro RSVP.
+              ¡Descubre palabras secretas, escucha al sabio Orión y lee cuentos mágicos!
             </p>
 
-            <a href="reading.html" id="btn-intro-goto-reading" class="practice-action-btn" role="button" aria-label="Entrar a la Pluma de la Fluidez: práctica de lectura" style="text-decoration: none;">
-              <span>Entrar a la Pluma de la Fluidez →</span>
+            <a href="reading.html" id="btn-intro-goto-reading" class="practice-action-btn" role="button" aria-label="Entrar al Club de Lectura: práctica de fluidez lectora">
+              <span>¡Aprender a Leer! →</span>
+            </a>
+          </div>
+
+          <!-- Pilar 4: Ropero de Princesas -->
+          <div class="artifact-card artifact-wardrobe" id="card-wardrobe">
+            <svg class="artifact-icon vq-anim-float" viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M12,20 L52,20 L48,56 L16,56 Z" fill="#FFC8DD" stroke="#4A3E56" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M22,20 C22,12 26,8 32,8 C38,8 42,12 42,20" fill="none" stroke="#4A3E56" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="32" cy="34" r="4" fill="#FFD166" stroke="#4A3E56" stroke-width="2"/>
+              <path class="vq-sparkle" d="M22,38 L24,34 L26,38 L30,40 L26,42 L24,46 L22,42 L18,40 Z" fill="#FFD166"/>
+            </svg>
+            <div class="artifact-title">Ropero Mágico</div>
+            <p class="artifact-desc">
+              ¡Usa tus diamantes para vestir a Valen, Reni, Zoe y Lía con tiaras, lazos y alas brillantes!
+            </p>
+
+            <a href="wardrobe.html" id="btn-intro-goto-wardrobe" class="practice-action-btn" role="button" aria-label="Abrir el Ropero Mágico: personalizar heroínas">
+              <span>¡Abrir Ropero! 👗✨</span>
             </a>
           </div>
 
@@ -180,12 +217,12 @@
           <div class="pwa-banner-left">
             <span class="pwa-banner-icon" aria-hidden="true"><svg class="vq-icon vq-icon--xl" aria-hidden="true"><use href="#vq-icon-download"></use></svg></span>
             <div class="pwa-banner-info">
-              <strong class="pwa-banner-title">¡Descarga e instala ValenQuest!</strong>
-              <span class="pwa-banner-subtitle">Juega en pantalla completa y 100% sin conexión a internet.</span>
+              <strong class="pwa-banner-title">¡Descarga ValenQuest en tu dispositivo!</strong>
+              <span class="pwa-banner-subtitle">Juega en pantalla completa, estés donde estés y sin conexión a internet.</span>
             </div>
           </div>
           <button id="btn-banner-install" class="pwa-banner-btn" type="button">
-            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg> <span>Descargar App</span>
+            <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-download"></use></svg> <span>¡Instalar Juego!</span>
           </button>
         </div>
 
@@ -323,18 +360,18 @@
     <!-- Level Up Celebration Modal (STRICTLY HIDDEN BY DEFAULT) -->
     <div id="level-up-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="modal-tier-title">
       <div class="modal-content">
-        <div style="display:flex;justify-content:center;gap:14px;margin-bottom:12px;">
+        <div class="modal-icon-group">
           <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-party"></use></svg>
           <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-trophy"></use></svg>
           <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
         </div>
-        <h2 id="modal-tier-title" style="font-size:1.5rem;font-weight:900;color:var(--vq-pink-bubble);">
+        <h2 id="modal-tier-title" class="modal-tier-title">
           ¡Subiste de Nivel!
         </h2>
-        <p style="color:var(--vq-text-muted);font-weight:600;">
+        <p class="modal-desc-muted">
           ¡Excelente trabajo! Has demostrado gran dominio y el motor adaptativo ha desbloqueado nuevos retos celestiales.
         </p>
-        <button id="btn-modal-dismiss" class="action-btn" style="justify-content:center;margin-top:8px;">
+        <button id="btn-modal-dismiss" class="action-btn modal-btn-dismiss">
           <span>¡Continuar jugando!</span> <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-rocket"></use></svg>
         </button>
       </div>
@@ -428,14 +465,14 @@
     <!-- Modal de Instrucciones de Instalación para iOS / iPad (Safari) -->
     <div id="pwa-ios-modal" class="modal-backdrop" hidden role="dialog" aria-modal="true" aria-labelledby="ios-modal-title">
       <div class="modal-content">
-        <div style="display:flex;justify-content:center;gap:14px;margin-bottom:12px;">
+        <div class="modal-icon-group">
           <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-download"></use></svg>
           <svg class="vq-icon vq-icon--2xl" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
         </div>
-        <h2 id="ios-modal-title" style="font-size:1.4rem;font-weight:900;color:var(--vq-pink-bubble);">
+        <h2 id="ios-modal-title" class="modal-ios-title">
           Instalar en tu iPad o iPhone
         </h2>
-        <p style="color:var(--vq-text-muted);font-size:0.9rem;font-weight:600;">
+        <p class="modal-desc-muted--sm">
           Sigue estos 3 pasos en Safari para jugar en pantalla completa y sin conexión:
         </p>
         <div class="ios-steps-list">
@@ -452,7 +489,7 @@
             <span>Toca <strong>Añadir</strong> arriba a la derecha. ¡Listo para jugar! <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg></span>
           </div>
         </div>
-        <button id="btn-pwa-ios-dismiss" class="action-btn" style="justify-content:center;margin-top:6px;">
+        <button id="btn-pwa-ios-dismiss" class="action-btn modal-btn-dismiss">
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-check"></use></svg> <span>¡Entendido!</span>
         </button>
       </div>

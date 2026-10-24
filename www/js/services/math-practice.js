@@ -145,7 +145,9 @@ export class MathPracticeService {
       };
       await db.saveModuleState('math_practice', payload);
     } catch (err) {
-      console.warn('MathPracticeService: error saving state:', err);
+      if (typeof window !== 'undefined') {
+        console.warn('MathPracticeService: error saving state:', err);
+      }
     }
     this.notify();
   }

@@ -153,7 +153,7 @@ class ReadingPageController extends ArenaPageController {
                 <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
                 <span>¡Iniciar Velocímetro!</span>
               </button>
-              <div class="sentence-question" id="rsvp-question-tag" style="display:none;"><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>${challenge.question}</span></div>
+              <div class="sentence-question" id="rsvp-question-tag" hidden><svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>${challenge.question}</span></div>
             </div>
           </div>
         `;
@@ -211,7 +211,7 @@ class ReadingPageController extends ArenaPageController {
           clearInterval(this.rsvpTimer);
           this.isRsvpPlaying = false;
           box.innerHTML = '<svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg> <span>¡Lectura Completa!</span>';
-          if (questionTag) questionTag.style.display = 'block';
+          if (questionTag) questionTag.hidden = false;
           btnPlay.disabled = false;
         }
       }, 380);

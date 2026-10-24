@@ -7,6 +7,9 @@
  * - session_history: Longitudinal pedagogical metrics
  */
 
+import { INITIAL_COMPANIONS } from '../data/companions-data.js';
+export { INITIAL_COMPANIONS };
+
 const DB_NAME = 'valenquest_db';
 const DB_VERSION = 5;
 
@@ -65,42 +68,6 @@ export async function loadInitialCosmetics() {
   }
 }
 
-
-export const INITIAL_COMPANIONS = [
-  {
-    heroineId: 'valen',
-    name: 'Valen',
-    race: 'alicorn',
-    charges: 2,
-    timesInvoked: 0,
-    equipped: { head: 'tiara-basica', wings: null, charm: null },
-  },
-  {
-    heroineId: 'reni',
-    name: 'Reni',
-    race: 'pegasus',
-    charges: 2,
-    timesInvoked: 0,
-    equipped: { head: 'lazo-cielo', wings: null, charm: null },
-  },
-  {
-    heroineId: 'zoe',
-    name: 'Zoe',
-    race: 'earth_pony',
-    charges: 2,
-    timesInvoked: 0,
-    equipped: { head: 'corona-hojas', wings: null, charm: null },
-  },
-  {
-    heroineId: 'lia',
-    name: 'Lía',
-    race: 'unicorn',
-    charges: 2,
-    timesInvoked: 0,
-    equipped: { head: 'tiara-solsticio', wings: null, charm: null },
-  },
-];
-
 class StorageService {
   constructor() {
     this.db = null;
@@ -112,7 +79,9 @@ class StorageService {
    */
   async init() {
     if (this.db) return this.db;
-    if (this.initPromise) return this.initPromise;
+    if (typeof indexedDB === 'undefined') {
+      return Promise.reject(new Error('IndexedDB no está disponible en este entorno.'));
+    }
 
     this.initPromise = new Promise((resolve, reject) => {
       const request = indexedDB.open(DB_NAME, DB_VERSION);

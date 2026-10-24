@@ -213,27 +213,27 @@
 
 .level-chips-row {
   display: flex;
-  gap: 4px;
+  gap: 8px;
 }
 
 .level-chip-btn {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: 50%;
-  border: 2px solid var(--vq-border);
+  border: 2.5px solid var(--vq-border);
   background: var(--vq-bg-well);
   color: var(--vq-text);
   font-weight: 900;
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   box-shadow: var(--vq-shadow-sm);
-  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, border-color 0.15s ease;
 }
 
 .level-chip-btn:hover:not(.locked) {
@@ -643,6 +643,7 @@
 
 .math-choice-btn {
   padding: 18px 16px;
+  min-height: 64px;
   background: var(--vq-bg-card);
   border: 3px solid var(--vq-border);
   border-radius: var(--vq-radius-card);
@@ -652,7 +653,7 @@
   color: var(--vq-text);
   cursor: pointer;
   box-shadow: var(--vq-shadow-hard);
-  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -666,7 +667,7 @@
 }
 
 .math-choice-btn:active:not(:disabled) {
-  transform: translateY(2px);
+  transform: translateY(3px) scale(0.97);
   box-shadow: 0 2px 0 var(--vq-border);
 }
 
@@ -892,15 +893,15 @@
 
   .level-chips-row {
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
   }
 
   .level-chip-btn {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
-    font-size: 0.82rem;
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    font-size: 0.95rem;
   }
 
   .challenge-prompt-row {

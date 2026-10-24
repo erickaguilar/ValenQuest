@@ -59,9 +59,9 @@ export class VqHeader extends HTMLElement {
     <header class="app-header" role="banner">
       <!-- Fila Superior: Identidad (Logo + Nombre + Badge de Módulo) -->
       <div class="header-brand-row">
-        <a href="./" id="header-brand-link" class="brand" style="text-decoration:none; color:inherit; cursor:pointer;" title="Volver al Salón Principal (ValenQuest)">
-          <span class="brand-icon" aria-hidden="true" style="overflow: hidden; padding: 0; background: #F5EEFA;">
-            <svg class="brand-emblem-img" width="38" height="38" style="width: 100%; height: 100%;" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
+        <a href="./" id="header-brand-link" class="brand" title="Volver al Salón Principal (ValenQuest)">
+          <span class="brand-icon" aria-hidden="true">
+            <svg class="brand-emblem-img" width="38" height="38" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
           </span>
           <div class="brand-info">
             <h1 class="brand-title">ValenQuest</h1>
@@ -72,11 +72,16 @@ export class VqHeader extends HTMLElement {
 
       <!-- Fila de Utilidades: Balances a la izquierda + Botones de Acción juntos a la derecha -->
       <div class="header-tools-row">
-        <!-- Balances del Jugador (Estrellas de Lumiria) en el Header -->
-        <div class="header-balances-pill" title="Tus Estrellas de Lumiria" aria-label="Estrellas del jugador">
-          <span class="header-balance-item" title="Estrellas de Campaña">
+        <!-- Balances del Jugador (Estrellas y Diamantes de Lumiria) en el Header -->
+        <div class="header-balances-pill" title="Tus Estrellas y Diamantes de Lumiria" aria-label="Balances del jugador">
+          <span class="header-balance-item" title="Estrellas Mágicas">
             <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-star"></use></svg>
             <span id="player-stars-count">0</span>
+          </span>
+          <span class="header-balance-dot" aria-hidden="true">•</span>
+          <span class="header-balance-item" title="Diamantes para el Ropero Mágico">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-gem"></use></svg>
+            <span id="player-diamonds-count">0</span>
           </span>
         </div>
 
@@ -240,7 +245,7 @@ export class VqHeader extends HTMLElement {
           </div>
         </div>
         <div class="settings-footer">
-          <button id="btn-settings-done" class="action-btn" style="width:100%; justify-content:center;">
+          <button id="btn-settings-done" class="action-btn action-btn--full">
             ¡Listo!
           </button>
         </div>
@@ -581,7 +586,7 @@ export class VqHeader extends HTMLElement {
       const diamonds = typeof profile?.diamonds === 'number' ? profile.diamonds : 0;
 
       const starSelectors = '#player-stars-count, #math-star-balance, #reading-star-balance, #wardrobe-star-balance, #campaign-star-balance, #campaign-wardrobe-stars';
-      const diamondSelectors = '#math-diamond-balance, #reading-diamond-balance';
+      const diamondSelectors = '#player-diamonds-count, #math-diamond-balance, #reading-diamond-balance';
 
       document.querySelectorAll(starSelectors).forEach((el) => {
         el.textContent = stars;

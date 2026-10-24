@@ -109,7 +109,9 @@ export class AdventureService {
       };
       await db.saveModuleState('adventure', payload);
     } catch (err) {
-      console.warn('AdventureService: error saving state:', err);
+      if (typeof window !== 'undefined') {
+        console.warn('AdventureService: error saving state:', err);
+      }
     }
     this.notify();
   }

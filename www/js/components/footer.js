@@ -12,8 +12,8 @@ export class VqFooter extends HTMLElement {
     <!-- Footer Compacto: Reino de Lumiria -->
     <footer class="app-footer" role="contentinfo">
       <div class="footer-top">
-        <div class="footer-brand" style="display: flex; align-items: center; gap: 8px;">
-          <svg class="footer-emblem-img" width="26" height="26" style="width: 26px; height: 26px;" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
+        <div class="footer-brand">
+          <svg class="footer-emblem-img" width="26" height="26" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
           <span>ValenQuest: Lumiria</span>
         </div>
         <p class="footer-motto">

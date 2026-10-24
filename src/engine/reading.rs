@@ -153,6 +153,16 @@ impl ReadingSession {
     pub fn new() -> ReadingSession {
         ReadingSession
     }
+}
+
+impl Default for ReadingSession {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[wasm_bindgen]
+impl ReadingSession {
 
     /// Syllabifies an entire text and returns a JSON list of WordSyllables
     pub fn parse_text_syllables(&self, text: &str) -> String {

@@ -575,10 +575,7 @@ impl MathSession {
             };
 
         // El salto ±10 (olvidar/acumular una decena) solo si es plausible.
-        if answer > 10 && ten_mode == 1 {
-            offsets.push(-10);
-            offsets.push(10);
-        } else if ten_mode == 2 && answer > 20 {
+        if (answer > 10 && ten_mode == 1) || (ten_mode == 2 && answer > 20) {
             offsets.push(-10);
             offsets.push(10);
         } else if self.tier == CurricularTier::Tier2SumSub20 && answer > 10 {
@@ -616,7 +613,7 @@ impl MathSession {
                 None
             };
             if let Some(trap) = sign_trap {
-                let capped_out = offset_cap.map_or(false, |cap| trap > cap);
+                let capped_out = offset_cap.is_some_and(|cap| trap > cap);
                 if !capped_out {
                     candidates.push(trap);
                 }

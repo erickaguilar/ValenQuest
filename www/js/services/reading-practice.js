@@ -333,7 +333,9 @@ export class ReadingPracticeService {
       };
       await db.saveModuleState('reading_practice', payload);
     } catch (err) {
-      console.warn('ReadingPracticeService: error saving state:', err);
+      if (typeof window !== 'undefined') {
+        console.warn('ReadingPracticeService: error saving state:', err);
+      }
     }
     this.notify();
   }

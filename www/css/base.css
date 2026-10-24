@@ -188,6 +188,9 @@ button,
   align-items: center;
   gap: 10px;
   min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .brand-icon {
@@ -201,6 +204,13 @@ button,
   border: 2px solid var(--vq-border);
   border-radius: 50%;
   box-shadow: 0 2px 0 var(--vq-border);
+  overflow: hidden;
+  padding: 0;
+}
+
+.brand-emblem-img {
+  width: 100%;
+  height: 100%;
 }
 
 .brand-icon .vq-icon {
@@ -382,6 +392,11 @@ button,
   height: 15px;
 }
 
+.header-balance-dot {
+  opacity: 0.35;
+  font-size: 0.8rem;
+}
+
 @media (max-width: 440px) {
   .header-balances-pill {
     padding: 3px 8px;
@@ -539,10 +554,16 @@ button:focus-visible,
 .footer-brand {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 0.95rem;
   font-weight: 900;
   color: var(--vq-text);
+}
+
+.footer-emblem-img {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
 }
 
 .footer-brand .vq-icon {
@@ -557,6 +578,21 @@ button:focus-visible,
   max-width: 440px;
   line-height: 1.3;
   margin: 0 auto;
+}
+
+.wasm-alert {
+  padding: 16px;
+  background: #FFE5EC;
+  border: 2px solid var(--vq-border);
+  border-radius: var(--vq-radius-bubble);
+  color: var(--vq-text);
+  margin: 16px 0;
+}
+
+.wasm-alert-detail {
+  display: block;
+  margin-top: 6px;
+  opacity: 0.8;
 }
 
 /* Badges de Arquitectura en línea compacta */
