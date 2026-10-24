@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFAFCC">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#201633">
+  <meta name="description" content="ValenQuest - Iniciación Real y Pergamino de Aventurero de Lumiria">
+  <title>ValenQuest | Iniciación Real de Lumiria</title>
+
+  <!-- Prevención de FOUC de tema oscuro/claro -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('vq-theme') || 
+        (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.addEventListener('DOMContentLoaded', function() {
+        if (document.body) document.body.setAttribute('data-theme', savedTheme);
+      });
+    })();
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ValenQuest Iniciación">
+
+  <!-- Tipografía Variable Fredoka: Cero FOUT/CLS -->
+  <link rel="preload" href="assets/fonts/fredoka-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Arquitectura Modular CSS -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/theme-light.css">
+  <link rel="stylesheet" href="css/theme-dark.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/onboarding.css">
+
+  <script type="module" src="js/components/header.js"></script>
+  <script type="module" src="js/components/footer.js"></script>
+  <script type="module" src="js/services/icons.js"></script>
+</head>
+<body>
+
+  <!-- Cabecera Modular Unificada (Web Component: vq-header) -->
+  <vq-header current="onboarding"></vq-header>
+
+  <!-- Layout Principal de Iniciación Real -->
+  <main class="onboarding-page-main" role="main">
+    <section class="royal-parchment-sheet" aria-label="Pergamino de Iniciación Real de Lumiria">
+      
+      <!-- Encabezado Mágico del Pergamino -->
+      <header class="onboarding-header">
+        <div class="onboarding-badge-row">
+          <span class="onboarding-realm-pill">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+            <span>Reino de Lumiria</span>
+          </span>
+          <span class="onboarding-step-pill">Iniciación Real</span>
+        </div>
+        <div class="onboarding-emblem-wrap">
+          <svg class="onboarding-emblem-icon vq-anim-float" aria-hidden="true"><use href="#vq-emblem-valen"></use></svg>
+        </div>
+        <h1 class="onboarding-title">
+          ¡Tu Gran Pergamino de Aventurero!
+        </h1>
+        <p class="onboarding-subtitle">
+          El Cuarteto de la Armonía te da la bienvenida a Lumiria. Cuéntanos sobre ti para comenzar tu viaje.
+        </p>
+      </header>
+
+      <!-- Spotlight de Previsualización en Vivo de la Heroína -->
+      <div class="onboarding-live-preview" aria-live="polite" aria-atomic="true">
+        <div class="live-preview-avatar-box">
+          <svg id="preview-avatar-icon" class="vq-icon" aria-hidden="true"><use href="#vq-heroine-valen"></use></svg>
+        </div>
+        <div class="live-preview-content">
+          <span id="preview-heroine-tag" class="live-preview-name-tag">Valen • Prisma Real</span>
+          <p id="preview-dialogue-text" class="live-preview-speech-bubble">
+            ¡Hola, Valen! Estoy lista para explorar el reino contigo.
+          </p>
+        </div>
+        <button type="button" id="btn-preview-listen-speech" class="live-preview-listen-btn" aria-label="Escuchar bienvenida con voz mágica" title="Escuchar saludo">
+          <svg class="vq-icon vq-icon--sm" aria-hidden="true"><use href="#vq-icon-volume-high"></use></svg>
+        </button>
+      </div>
+
+      <!-- Formulario de la Iniciación Real -->
+      <form id="onboarding-form" class="onboarding-form" novalidate>
+        
+        <!-- Paso 1: Nombre o Apodo Mágico -->
+        <fieldset class="onboarding-group">
+          <legend>
+            <label for="onboarding-input-name" class="onboarding-label">
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-scroll"></use></svg>
+              <span>1. ¿Cómo te gusta que te llamen?</span>
+            </label>
+          </legend>
+          <div class="onboarding-input-wrapper">
+            <input
+              type="text"
+              id="onboarding-input-name"
+              class="onboarding-name-input"
+              placeholder="Escribe tu nombre o apodo..."
+              maxlength="20"
+              autocomplete="nickname"
+              spellcheck="false"
+              required
+            />
+            <button type="button" id="btn-onboarding-clear-name" class="onboarding-input-clear-btn" aria-label="Borrar nombre" hidden>
+              <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-close"></use></svg>
+            </button>
+          </div>
+          <!-- Sugerencias de apodos rápidos táctiles (≥ 48px) -->
+          <div class="onboarding-quick-names" aria-label="Sugerencias de nombres rápidos">
+            <span class="onboarding-quick-label">Sugerencias:</span>
+            <button type="button" class="onboarding-quick-btn" data-name="Valen">Valen</button>
+            <button type="button" class="onboarding-quick-btn" data-name="Leo">Leo</button>
+            <button type="button" class="onboarding-quick-btn" data-name="Sofi">Sofi</button>
+            <button type="button" class="onboarding-quick-btn" data-name="Estrella">Estrella</button>
+            <button type="button" class="onboarding-quick-btn" data-name="Rayo">Rayo</button>
+            <button type="button" class="onboarding-quick-btn" data-name="Camila">Camila</button>
+          </div>
+        </fieldset>
+
+        <!-- Paso 2: Tratamiento Gramatical / Identidad -->
+        <fieldset class="onboarding-group">
+          <legend class="onboarding-label" id="onboarding-gender-label">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+            <span>2. ¿Cómo quieres que te llamemos en el reino?</span>
+          </legend>
+          <div class="onboarding-gender-grid" role="radiogroup" aria-labelledby="onboarding-gender-label">
+            <button
+              type="button"
+              class="onboarding-gender-card"
+              role="radio"
+              aria-checked="false"
+              data-gender="boy"
+            >
+              <div class="gender-card-icon gender-card-icon--boy" aria-hidden="true">
+                <svg class="vq-icon"><use href="#vq-icon-shield"></use></svg>
+              </div>
+              <div class="gender-card-texts">
+                <span class="gender-card-title">Explorador</span>
+                <span class="gender-card-hint">Él • Bienvenido, Campeón</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="onboarding-gender-card"
+              role="radio"
+              aria-checked="false"
+              data-gender="girl"
+            >
+              <div class="gender-card-icon gender-card-icon--girl" aria-hidden="true">
+                <svg class="vq-icon"><use href="#vq-icon-crown"></use></svg>
+              </div>
+              <div class="gender-card-texts">
+                <span class="gender-card-title">Exploradora</span>
+                <span class="gender-card-hint">Ella • Bienvenida, Campeona</span>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              class="onboarding-gender-card active"
+              role="radio"
+              aria-checked="true"
+              data-gender="neutral"
+            >
+              <div class="gender-card-icon gender-card-icon--neutral" aria-hidden="true">
+                <svg class="vq-icon"><use href="#vq-icon-sparkles"></use></svg>
+              </div>
+              <div class="gender-card-texts">
+                <span class="gender-card-title">Aventurero</span>
+                <span class="gender-card-hint">Neutral • Gran Guía</span>
+              </div>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Paso 3: Selector de Edad -->
+        <fieldset class="onboarding-group">
+          <legend class="onboarding-label" id="onboarding-age-label">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-trophy"></use></svg>
+            <span>3. ¿Cuántos años tienes?</span>
+          </legend>
+          <div class="onboarding-age-bubbles" role="radiogroup" aria-labelledby="onboarding-age-label">
+            <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="5">
+              <span class="age-num">5</span>
+              <span class="age-sub">años</span>
+            </button>
+            <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="6">
+              <span class="age-num">6</span>
+              <span class="age-sub">años</span>
+            </button>
+            <button type="button" class="onboarding-age-bubble active" role="radio" aria-checked="true" data-age="7">
+              <span class="age-num">7</span>
+              <span class="age-sub">años</span>
+            </button>
+            <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="8">
+              <span class="age-num">8</span>
+              <span class="age-sub">años</span>
+            </button>
+            <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="9">
+              <span class="age-num">9</span>
+              <span class="age-sub">años</span>
+            </button>
+            <button type="button" class="onboarding-age-bubble" role="radio" aria-checked="false" data-age="10">
+              <span class="age-num">10+</span>
+              <span class="age-sub">años</span>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Paso 4: Princesa Guía Inicial -->
+        <fieldset class="onboarding-group">
+          <legend class="onboarding-label" id="onboarding-companion-label">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
+            <span>4. Elige a tu Princesa Guía para comenzar:</span>
+          </legend>
+          <div class="onboarding-companion-grid" role="radiogroup" aria-labelledby="onboarding-companion-label">
+            <button type="button" class="onboarding-companion-card active" role="radio" aria-checked="true" data-companion="valen">
+              <div class="onboarding-companion-avatar">
+                <svg class="vq-icon"><use href="#vq-heroine-valen"></use></svg>
+              </div>
+              <div class="onboarding-companion-meta">
+                <strong class="companion-name">Valen</strong>
+                <span class="companion-role">Prisma Real</span>
+              </div>
+            </button>
+
+            <button type="button" class="onboarding-companion-card" role="radio" aria-checked="false" data-companion="reni">
+              <div class="onboarding-companion-avatar">
+                <svg class="vq-icon"><use href="#vq-heroine-reni"></use></svg>
+              </div>
+              <div class="onboarding-companion-meta">
+                <strong class="companion-name">Reni</strong>
+                <span class="companion-role">Brisa Temporal</span>
+              </div>
+            </button>
+
+            <button type="button" class="onboarding-companion-card" role="radio" aria-checked="false" data-companion="zoe">
+              <div class="onboarding-companion-avatar">
+                <svg class="vq-icon"><use href="#vq-heroine-zoe"></use></svg>
+              </div>
+              <div class="onboarding-companion-meta">
+                <strong class="companion-name">Zoe</strong>
+                <span class="companion-role">Escudo Raíces</span>
+              </div>
+            </button>
+
+            <button type="button" class="onboarding-companion-card" role="radio" aria-checked="false" data-companion="lia">
+              <div class="onboarding-companion-avatar">
+                <svg class="vq-icon"><use href="#vq-heroine-lia"></use></svg>
+              </div>
+              <div class="onboarding-companion-meta">
+                <strong class="companion-name">Lía</strong>
+                <span class="companion-role">Foco Cristal</span>
+              </div>
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- Botón de Envío / Confirmación Mágica -->
+        <div class="onboarding-actions">
+          <button type="submit" id="btn-onboarding-submit" class="action-btn onboarding-submit-btn">
+            <span class="onboarding-submit-icon" aria-hidden="true">
+              <svg class="vq-icon"><use href="#vq-icon-sparkles"></use></svg>
+            </span>
+            <span id="onboarding-submit-text" class="onboarding-submit-text">¡Firmar Pergamino y Jugar!</span>
+            <span class="onboarding-submit-icon" aria-hidden="true">
+              <svg class="vq-icon"><use href="#vq-icon-rocket"></use></svg>
+            </span>
+          </button>
+          <span class="onboarding-privacy-hint">
+            <svg class="vq-icon vq-icon--xs" aria-hidden="true"><use href="#vq-icon-shield"></use></svg>
+            <span>100% privado y seguro: tus datos nunca salen de tu dispositivo.</span>
+          </span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Pie de Página Modular (Web Component: vq-footer) -->
+  <vq-footer></vq-footer>
+
+  <!-- Controlador Independiente de la Página de Iniciación Real -->
+  <script type="module" src="js/onboarding-page.js"></script>
+</body>
+</html>

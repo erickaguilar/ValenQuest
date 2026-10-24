@@ -14,6 +14,12 @@ function corePrecacheUrls() {
   return [...m[1].matchAll(/['"]([^'"]+)['"]/g)].map((x) => x[1]);
 }
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('vq-skip-onboarding', 'true');
+  });
+});
+
 test('CACHE_VERSION del SW == package.json', () => {
   const sw = fs.readFileSync(path.join(process.cwd(), 'www/sw.js'), 'utf8');
   expect(sw).toContain(`CACHE_VERSION = 'v${pkg.version}'`);

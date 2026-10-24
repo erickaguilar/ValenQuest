@@ -6,6 +6,12 @@ import { PAGES } from './pages.js';
 const AAA_MIN = 44;
 const ASPIRE = 48;
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('vq-skip-onboarding', 'true');
+  });
+});
+
 for (const { path, name } of PAGES) {
   test(`${name}: objetivos táctiles ≥ ${AAA_MIN}px`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'domcontentloaded' });

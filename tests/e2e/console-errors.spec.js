@@ -3,6 +3,12 @@
 import { test, expect } from '@playwright/test';
 import { PAGES, EXTRA_PAGES } from './pages.js';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('vq-skip-onboarding', 'true');
+  });
+});
+
 for (const { path, name } of [...PAGES, ...EXTRA_PAGES]) {
   test(`${name} (${path}) arranca sin errores`, async ({ page }) => {
     const errors = [];

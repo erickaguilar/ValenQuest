@@ -52,6 +52,12 @@ export class VqHeader extends HTMLElement {
           <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-unicorn"></use></svg>
           <span>Códice</span>
         </span>`;
+    } else if (currentSection === 'onboarding') {
+      sectionBadgeHtml = `
+        <span class="header-section-badge header-section-badge--story" title="Iniciación Real de Lumiria">
+          <svg class="vq-icon" aria-hidden="true"><use href="#vq-icon-sparkles"></use></svg>
+          <span>Iniciación</span>
+        </span>`;
     }
 
     this.innerHTML = `

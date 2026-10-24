@@ -6,6 +6,12 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { PAGES } from './pages.js';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('vq-skip-onboarding', 'true');
+  });
+});
+
 for (const { path, name } of PAGES) {
   test(`${name}: axe A+AA sin serious/critical`, async ({ page }) => {
     await page.goto(path, { waitUntil: 'domcontentloaded' });
